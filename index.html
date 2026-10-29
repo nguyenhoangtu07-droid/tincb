@@ -34,9 +34,9 @@
                         Khóa học Tin học <i class="fas fa-caret-down ml-2"></i>
                     </button>
                     <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-56 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
-                        <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học cơ bản</a>
-                        <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học nâng cao</a>
-                        <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700">Tin học văn phòng</a>
+                        <a href="javascript:void(0)" onclick="showArticle('cb')" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học cơ bản</a>
+                        <a href="javascript:void(0)" onclick="showArticle('nc')" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học nâng cao</a>
+                        <a href="javascript:void(0)" onclick="showArticle('vp')" class="block px-4 py-3 hover:bg-blue-700">Tin học văn phòng</a>
                     </div>
                 </div>
 
@@ -65,8 +65,8 @@
                         Tài khoản AI <i class="fas fa-caret-down ml-2"></i>
                     </button>
                     <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-48 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
-                        <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Gemini Pro</a>
-                        <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700">Chat GPT Plus</a>
+                        <a href="javascript:void(0)" onclick="showArticle('gemini')" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Gemini Pro</a>
+                        <a href="javascript:void(0)" onclick="showArticle('chatgpt')" class="block px-4 py-3 hover:bg-blue-700">Chat GPT Plus</a>
                     </div>
                 </div>
 
@@ -100,7 +100,6 @@
             <div class="w-full lg:w-3/4">
                 <h2 class="text-2xl font-bold mb-6 border-b-2 border-blue-600 inline-block pb-2">Bài viết nổi bật</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <!-- Bài 1 -->
                     <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg flex flex-col">
                         <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
@@ -111,7 +110,6 @@
                             <button onclick="showArticle(1)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
                     </div>
-                    <!-- Bài 2 -->
                     <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg flex flex-col">
                         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
@@ -122,7 +120,6 @@
                             <button onclick="showArticle(2)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
                     </div>
-                    <!-- Bài 3 -->
                     <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg flex flex-col">
                         <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
@@ -153,7 +150,6 @@
         </div>
 
         <!-- ================= CÁC VIEW PHỤ ================= -->
-        <!-- VIEW: BÀI VIẾT CHI TIẾT -->
         <div id="view-article" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
             <button onclick="navigate('home')" class="text-blue-600 font-semibold mb-6 hover:underline"><i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ</button>
             <img id="article-img" src="" class="w-full h-64 object-cover rounded-lg mb-6 shadow-sm">
@@ -161,7 +157,6 @@
             <div id="article-content" class="article-content text-gray-700 leading-relaxed text-lg"></div>
         </div>
 
-        <!-- VIEW VIDEO GIẢI ĐỀ -->
         <div id="view-videos" class="hidden-view space-y-6">
             <div class="bg-white p-6 rounded-xl shadow border-l-4 border-emerald-600 flex justify-between items-center flex-wrap gap-4">
                 <div>
@@ -189,13 +184,16 @@
             </div>
         </div>
 
-        <!-- VIEW ĐĂNG NHẬP / ĐĂNG KÝ -->
         <div id="view-login" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-blue-600">
-            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập Luyện Thi</h2>
             <div class="space-y-4">
-                <input type="text" id="username" placeholder="Tên đăng nhập" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                <input type="password" id="password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900">Đăng nhập</button>
+                <input type="text" id="username" placeholder="Tên đăng nhập (viết liền không dấu)" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="password" id="password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900 transition mt-4 shadow-md">Đăng nhập</button>
+                <div class="text-center pt-2">
+                    <span class="text-sm text-gray-500">Chưa có tài khoản? </span>
+                    <button onclick="navigate('register')" class="text-sm text-blue-600 font-semibold hover:underline">Đăng ký ngay</button>
+                </div>
             </div>
             <div id="login-error" class="text-red-500 text-sm mt-4 text-center hidden p-2 bg-red-50 rounded"></div>
         </div>
@@ -203,15 +201,19 @@
         <div id="view-register" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-emerald-600">
             <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Đăng Ký Tài Khoản</h2>
             <div class="space-y-3 mt-4">
-                <input type="text" id="reg-username" placeholder="Tên đăng nhập" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                <input type="text" id="reg-hoten" placeholder="Họ và tên đầy đủ" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                <select id="reg-loai" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                    <option value="cb">Tin học Cơ Bản</option>
-                    <option value="nc">Tin học Nâng Cao</option>
+                <input type="text" id="reg-username" placeholder="Tên đăng nhập (viết liền không dấu)" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <input type="text" id="reg-hoten" placeholder="Họ và tên đầy đủ" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <select id="reg-loai" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="cb">Tin học Cơ Bản (35 đề)</option>
+                    <option value="nc">Tin học Nâng Cao (10 đề)</option>
                     <option value="cbnc">Cả Cơ Bản & Nâng Cao</option>
                 </select>
-                <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-semibold py-3 rounded hover:bg-emerald-700">Đăng ký</button>
+                <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-semibold py-3 rounded hover:bg-emerald-700 transition mt-4 shadow-md">Gửi yêu cầu đăng ký</button>
+                <div class="text-center pt-2">
+                    <span class="text-sm text-gray-500">Đã có tài khoản? </span>
+                    <button onclick="navigate('login')" class="text-sm text-blue-600 font-semibold hover:underline">Đăng nhập</button>
+                </div>
             </div>
             <div id="reg-message" class="text-sm mt-4 text-center hidden p-2 rounded"></div>
         </div>
@@ -261,7 +263,7 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Quản lý Câu hỏi (Ngân hàng đề) -->
+            <!-- Tab 2: Quản lý Câu hỏi -->
             <div id="admin-questions-section" class="hidden space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow">
                     <h3 class="text-lg font-bold mb-4 border-b pb-2"><i class="fas fa-database text-purple-600 mr-2"></i> Truy Xuất Đề Thi</h3>
@@ -304,7 +306,7 @@
                 </div>
             </div>
 
-            <!-- Tab 3: Settings (Cấu hình) -->
+            <!-- Tab 3: Settings -->
             <div id="admin-settings-section" class="hidden space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow">
                     <h3 class="text-lg font-bold mb-4 border-b pb-2"><i class="fas fa-cogs text-gray-600 mr-2"></i> Cấu Hình Số Lượng Đề Thi</h3>
@@ -368,7 +370,7 @@
             </div>
         </div>
 
-        <!-- CÁC VIEW: CHỌN ĐỀ, THI, LỊCH SỬ... GIỮ NGUYÊN -->
+        <!-- ================= VIEW CHỌN ĐỀ ================= -->
         <div id="view-select" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto text-center mt-10">
             <h2 class="text-2xl font-bold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
             <div class="grid grid-cols-2 gap-4 mb-6">
@@ -433,7 +435,7 @@
         <p class="text-sm mt-2">Địa chỉ: 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Tỉnh Đồng Tháp</p>
     </footer>
 
-    <!-- SCRIPT CHÍNH (Đã khôi phục 100% Data và nâng cấp nút Admin) -->
+    <!-- SCRIPT CHÍNH ĐÃ FIX LỖI -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
@@ -477,6 +479,7 @@
                         <li>Soạn thảo văn bản hành chính chuyên nghiệp với Microsoft Word.</li>
                         <li>Xử lý dữ liệu, tính toán bảng biểu với Microsoft Excel.</li>
                         <li>Thiết kế bài thuyết trình sinh động với Microsoft PowerPoint.</li>
+                        <li>Sử dụng Internet, Email và các dịch vụ lưu trữ đám mây.</li>
                     </ul>
                     <h3>Nội dung khóa học Nâng Cao:</h3>
                     <ul>
@@ -484,26 +487,98 @@
                         <li>Hàm thống kê, dò tìm phức tạp, Pivot Table, Macro cơ bản trong Excel.</li>
                         <li>Thiết kế Slide chuyên sâu, Trigger, Animation nâng cao trong PowerPoint.</li>
                     </ul>
-                    <p><strong>Thời gian học:</strong> Linh hoạt, học viên được thực hành 100% trên máy tính dưới sự hướng dẫn tận tình của giáo viên.</p>
+                    <p><strong>Thời gian học:</strong> Linh hoạt, học viên được thực hành 100% trên máy tính dưới sự hướng dẫn tận tình của giáo viên. Cam kết hỗ trợ đến khi thi đậu.</p>
+                `
+            },
+            'cb': {
+                title: "Khóa Học Tin Học - Chứng Chỉ Ứng Dụng CNTT Cơ Bản",
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Chứng chỉ Ứng dụng CNTT Cơ bản là tiêu chuẩn thiết yếu để đánh giá kỹ năng tin học văn phòng hiện nay.</p>
+                    <h3>Nội dung khóa học:</h3>
+                    <ul>
+                        <li>Hiểu biết cơ bản về hệ thống máy tính và an toàn thông tin.</li>
+                        <li>Soạn thảo văn bản chuyên nghiệp với Microsoft Word.</li>
+                        <li>Xử lý bảng tính, hàm thống kê với Microsoft Excel.</li>
+                        <li>Thiết kế bài thuyết trình sinh động với Microsoft PowerPoint.</li>
+                    </ul>
+                    <p><strong>Thời gian học:</strong> Linh hoạt, thực hành 100% trên máy tính.</p>
+                `
+            },
+            'nc': {
+                title: "Khóa Học Tin Học - Chứng Chỉ Ứng Dụng CNTT Nâng Cao",
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Chứng chỉ Ứng dụng CNTT Nâng cao dành cho những học viên đã vững kiến thức cơ bản và muốn chuyên sâu hơn.</p>
+                    <h3>Nội dung khóa học:</h3>
+                    <ul>
+                        <li>Kỹ năng Word nâng cao: Trộn thư, mục lục tự động, quản lý Style.</li>
+                        <li>Kỹ năng Excel nâng cao: Các hàm dò tìm phức tạp, Pivot Table, Macro.</li>
+                        <li>Kỹ năng PowerPoint nâng cao: Thiết kế Slide chuyên nghiệp, Trigger, Animation.</li>
+                    </ul>
+                    <p><strong>Điều kiện:</strong> Cần có chứng chỉ CNTT Cơ bản trước khi thi nâng cao.</p>
+                `
+            },
+            'vp': {
+                title: "Đào Tạo Tin Học Văn Phòng Ứng Dụng",
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Khóa học kỹ năng thực chiến dành riêng cho người đi làm, sinh viên cần kỹ năng xử lý công việc nhanh chóng.</p>
+                    <h3>Nội dung khóa học:</h3>
+                    <ul>
+                        <li>Thực hành các mẫu văn bản hành chính thực tế.</li>
+                        <li>Xử lý bảng lương, dữ liệu khách hàng bằng Excel.</li>
+                        <li>Kỹ năng làm báo cáo, thuyết trình dự án.</li>
+                    </ul>
                 `
             },
             2: {
                 title: "Thông Tin Đăng Ký Bản Quyền Gemini Pro & ChatGPT Plus",
                 image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop",
                 content: `
-                    <p>Trí tuệ nhân tạo (AI) đang thay đổi hoàn toàn cách chúng ta làm việc và sáng tạo. Việc sở hữu một tài khoản AI bản quyền giúp bạn tiếp cận các tính năng mạnh mẽ nhất.</p>
+                    <p>Trí tuệ nhân tạo (AI) đang thay đổi hoàn toàn cách chúng ta làm việc và sáng tạo. Việc sở hữu một tài khoản AI bản quyền giúp bạn tiếp cận các tính năng mạnh mẽ nhất mà phiên bản miễn phí không có.</p>
                     <h3>Ưu điểm của ChatGPT Plus:</h3>
                     <ul>
                         <li>Sử dụng mô hình GPT-4/GPT-4o thông minh nhất, suy luận logic xuất sắc.</li>
                         <li>Hỗ trợ phân tích dữ liệu Data Analysis, đọc hiểu file Excel, PDF, CSV.</li>
                         <li>Tạo hình ảnh sắc nét từ văn bản với công cụ DALL-E 3.</li>
+                        <li>Tạo các Custom GPTs phục vụ riêng cho nghiệp vụ cá nhân.</li>
                     </ul>
                     <h3>Ưu điểm của Gemini Advanced (Gemini Pro):</h3>
                     <ul>
-                        <li>Tích hợp trực tiếp và hoàn hảo vào hệ sinh thái Google.</li>
-                        <li>Tốc độ truy xuất và thu thập thông tin thời gian thực vượt trội.</li>
+                        <li>Tích hợp trực tiếp và hoàn hảo vào hệ sinh thái Google (Docs, Sheets, Drive, Gmail).</li>
+                        <li>Tốc độ truy xuất và thu thập thông tin thời gian thực (Real-time Web Search) vượt trội.</li>
+                        <li>Hỗ trợ lưu trữ thêm 2TB dung lượng Google One.</li>
                     </ul>
-                    <p><strong>Dịch vụ của chúng tôi:</strong> Cung cấp tài khoản nâng cấp chính chủ trên chính email của khách hàng. Bảo hành toàn thời gian sử dụng.</p>
+                    <p><strong>Dịch vụ của chúng tôi:</strong> Cung cấp tài khoản nâng cấp chính chủ trên chính email của khách hàng. Bảo hành toàn thời gian sử dụng. Hỗ trợ khắc phục lỗi 24/7 và hướng dẫn sử dụng cơ bản.</p>
+                `
+            },
+            'gemini': {
+                title: "Đăng Ký Bản Quyền Gemini Advanced (Gemini Pro)",
+                image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Mở khóa sức mạnh của Google AI với gói Gemini Advanced.</p>
+                    <h3>Ưu điểm của Gemini Advanced:</h3>
+                    <ul>
+                        <li>Truy cập mô hình AI mạnh mẽ nhất của Google.</li>
+                        <li>Tích hợp mượt mà vào Google Docs, Sheets, Gmail.</li>
+                        <li>Lưu trữ 2TB Google One đi kèm.</li>
+                    </ul>
+                    <p><strong>Dịch vụ:</strong> Nâng cấp trên email chính chủ, bảo hành 100%.</p>
+                `
+            },
+            'chatgpt': {
+                title: "Đăng Ký Bản Quyền ChatGPT Plus",
+                image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Trải nghiệm AI hàng đầu thế giới với ChatGPT Plus.</p>
+                    <h3>Ưu điểm của ChatGPT Plus:</h3>
+                    <ul>
+                        <li>Truy cập GPT-4/GPT-4o thông minh, suy luận logic xuất sắc.</li>
+                        <li>Hỗ trợ Data Analysis (phân tích dữ liệu, đọc file Excel, PDF).</li>
+                        <li>Tạo hình ảnh sắc nét với DALL-E 3.</li>
+                    </ul>
+                    <p><strong>Dịch vụ:</strong> Tài khoản cá nhân bảo mật, hỗ trợ kỹ thuật 24/7.</p>
                 `
             },
             3: {
@@ -513,43 +588,64 @@
                     <p>Khóa học đặc biệt dành cho những người muốn đón đầu xu hướng công nghệ, ứng dụng AI để tăng gấp 10 lần hiệu suất làm việc văn phòng.</p>
                     <h3>Bạn sẽ học được gì?</h3>
                     <ul>
-                        <li><strong>Nghệ thuật Viết Prompt (Câu lệnh):</strong> Cách giao tiếp với AI để nhận được câu trả lời chính xác, đúng ngữ cảnh và văn phong.</li>
-                        <li><strong>Tự động hóa với Excel & AI:</strong> Sử dụng ChatGPT để viết hàm Excel phức tạp, giải thích công thức, hoặc viết mã VBA.</li>
-                        <li><strong>Tạo Content & Thuyết trình:</strong> Dùng AI để lên ý tưởng, viết kịch bản, và tự động tạo Slide PowerPoint hoàn chỉnh.</li>
+                        <li><strong>Nghệ thuật Viết Prompt (Câu lệnh):</strong> Cách giao tiếp với AI để nhận được câu trả lời chính xác, đúng ngữ cảnh và văn phong mong muốn.</li>
+                        <li><strong>Tự động hóa với Excel & AI:</strong> Sử dụng ChatGPT để viết hàm Excel phức tạp, giải thích công thức, hoặc viết mã VBA tự động hóa báo cáo.</li>
+                        <li><strong>Tạo Content & Thuyết trình:</strong> Dùng AI để lên ý tưởng, viết kịch bản, và tự động tạo Slide PowerPoint hoàn chỉnh chỉ trong vài phút.</li>
+                        <li><strong>Tích hợp API:</strong> Hướng dẫn cơ bản cách đưa AI vào Google Sheets để tự động dịch thuật, phân tích phản hồi khách hàng hàng loạt.</li>
                     </ul>
-                    <p>Khóa học không đòi hỏi kiến thức lập trình phức tạp. Áp dụng ngay vào công việc thực tế vào ngày hôm sau.</p>
+                    <p>Khóa học không đòi hỏi kiến thức lập trình phức tạp. Mọi thứ được thiết kế trực quan, dễ hiểu, áp dụng ngay vào công việc thực tế vào ngày hôm sau.</p>
                 `
             }
         };
 
         async function fetchSystemConfig() {
             try {
-                const res = await fetch(API_URL + "?action=get_config");
-                const data = await res.json();
+                const response = await fetch(API_URL + "?action=get_config");
+                const data = await response.json();
                 if (data && data.so_de_cb) {
                     systemConfig.so_de_cb = data.so_de_cb;
                     systemConfig.so_de_nc = data.so_de_nc;
-                    if (data.videos && (data.videos.cb.length > 0 || data.videos.nc.length > 0)) systemConfig.videos = data.videos;
+                    if (data.videos && (data.videos.cb.length > 0 || data.videos.nc.length > 0)) {
+                        systemConfig.videos = data.videos;
+                    }
                 }
-            } catch (e) {}
+            } catch (error) {
+                console.log("Sử dụng cấu hình mặc định.");
+            }
         }
         fetchSystemConfig();
 
         function navigate(viewName) {
-            const views = ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-videos'];
-            views.forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
-            const target = document.getElementById('view-' + viewName);
-            if (target) target.classList.remove('hidden-view');
+            const views = [
+                'view-home', 'view-login', 'view-register', 'view-admin', 
+                'view-select', 'view-loading', 'view-quiz', 'view-result', 
+                'view-review', 'view-history', 'view-article', 'view-videos'
+            ];
+            
+            views.forEach(function(v) { 
+                const el = document.getElementById(v); 
+                if (el) el.classList.add('hidden-view'); 
+            });
+            
+            const targetEl = document.getElementById('view-' + viewName);
+            if (targetEl) targetEl.classList.remove('hidden-view');
             window.scrollTo(0, 0);
 
-            if (viewName !== 'quiz' && timerInterval) clearInterval(timerInterval);
+            if (viewName !== 'quiz' && timerInterval) {
+                clearInterval(timerInterval);
+            }
 
             if (isLoggedIn) {
                 document.getElementById('nav-user-area')?.classList.remove('hidden');
-                document.getElementById('nav-username-display').innerText = studentInfo.name;
+                const nameDisplay = document.getElementById('nav-username-display');
+                if (nameDisplay) nameDisplay.innerText = studentInfo.name;
+                
                 document.getElementById('nav-reg-btn')?.classList.add('hidden');
                 document.getElementById('widget-reg-container')?.classList.add('hidden');
-                if(studentInfo.loai === 'admin') document.getElementById('nav-admin-btn')?.classList.remove('hidden');
+                
+                if(studentInfo.loai === 'admin') {
+                    document.getElementById('nav-admin-btn')?.classList.remove('hidden');
+                }
             } else {
                 document.getElementById('nav-user-area')?.classList.add('hidden');
                 document.getElementById('nav-admin-btn')?.classList.add('hidden');
@@ -561,150 +657,364 @@
         function showArticle(id) {
             const art = articles[id];
             if(art) {
-                document.getElementById('article-title').innerText = art.title;
-                document.getElementById('article-img').src = art.image;
-                document.getElementById('article-content').innerHTML = art.content;
+                const titleEl = document.getElementById('article-title');
+                const imgEl = document.getElementById('article-img');
+                const contentEl = document.getElementById('article-content');
+                
+                if (titleEl) titleEl.innerText = art.title;
+                if (imgEl) imgEl.src = art.image;
+                if (contentEl) contentEl.innerHTML = art.content;
+                
                 navigate('article');
             }
         }
 
         function logout() {
-            if(confirm("Xác nhận đăng xuất?")) { isLoggedIn = false; navigate('home'); }
+            if(confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
+                isLoggedIn = false;
+                studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' };
+                navigate('home');
+            }
         }
 
         function requireLoginForQuiz() {
             if (isLoggedIn) {
-                if (studentInfo.loai === 'admin') navigate('admin');
-                else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
-            } else navigate('login');
+                if (studentInfo.loai === 'admin') {
+                    navigate('admin');
+                } else {
+                    let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
+                    selectCategory(defaultCat);
+                    navigate('select');
+                }
+            } else {
+                navigate('login');
+            }
         }
 
         async function loginUser() {
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
+            const userEl = document.getElementById('username');
+            const passEl = document.getElementById('password');
             const errorEl = document.getElementById('login-error');
             const btn = document.getElementById('login-btn');
-            if (!u || !p) return errorEl.innerText = "Vui lòng nhập đủ!", errorEl.classList.remove('hidden'), void 0;
-            
-            btn.disabled = true; btn.innerText = 'Đang xác thực...'; errorEl.classList.add('hidden');
+
+            if (!userEl || !passEl || !errorEl || !btn) return;
+
+            const u = userEl.value.trim();
+            const p = passEl.value.trim();
+
+            if (!u || !p) {
+                errorEl.innerText = "Vui lòng nhập tài khoản và mật khẩu!";
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            errorEl.classList.add('hidden');
+            btn.disabled = true;
+            btn.innerText = 'Đang xác thực...';
+
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: u, password: p }) });
-                const r = await res.json();
-                if (r.status === "success") {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'login', username: u, password: p })
+                });
+                const result = await response.json();
+
+                if (result.status === "success") {
                     isLoggedIn = true;
-                    studentInfo = { username: u, name: r.hoten, loai: r.loai };
-                    document.getElementById('student-name-display').innerText = r.hoten;
-                    if (studentInfo.loai === 'admin') { loadAdminUsers(); navigate('admin'); }
-                    else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
+                    studentInfo = { username: u, name: result.hoten, loai: result.loai };
+
+                    const displayEl = document.getElementById('student-name-display');
+                    if(displayEl) displayEl.innerText = result.hoten;
+                    
+                    userEl.value = '';
+                    passEl.value = '';
+
+                    if (studentInfo.loai === 'admin') {
+                        loadAdminUsers();
+                        navigate('admin');
+                    } else {
+                        let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
+                        selectCategory(defaultCat);
+                        navigate('select');
+                    }
                 } else {
-                    errorEl.innerText = r.message || "Tài khoản / mật khẩu sai!"; errorEl.classList.remove('hidden');
+                    errorEl.innerText = result.message || "Tài khoản hoặc mật khẩu sai!";
+                    errorEl.classList.remove('hidden');
                 }
-            } catch (err) { errorEl.innerText = "Lỗi kết nối!"; errorEl.classList.remove('hidden'); }
-            btn.disabled = false; btn.innerText = "Đăng nhập";
+            } catch (error) {
+                errorEl.innerText = "Lỗi kết nối máy chủ!";
+                errorEl.classList.remove('hidden');
+            }
+            
+            btn.disabled = false;
+            btn.innerText = "Đăng nhập";
         }
 
         async function registerUser() {
-            const u = document.getElementById('reg-username').value.trim(), p = document.getElementById('reg-password').value.trim(), h = document.getElementById('reg-hoten').value.trim(), l = document.getElementById('reg-loai').value;
-            const msgEl = document.getElementById('reg-message'), btn = document.getElementById('reg-btn');
-            if (!u || !p || !h) return msgEl.innerText = "Nhập đủ thông tin!", msgEl.className = "text-sm mt-4 p-2 bg-red-100 text-red-700 block", void 0;
-            
-            btn.disabled = true; btn.innerText = 'Đang gửi...'; msgEl.classList.add('hidden');
+            const uEl = document.getElementById('reg-username');
+            const pEl = document.getElementById('reg-password');
+            const hEl = document.getElementById('reg-hoten');
+            const lEl = document.getElementById('reg-loai');
+            const msgEl = document.getElementById('reg-message');
+            const btn = document.getElementById('reg-btn');
+
+            if (!uEl || !pEl || !hEl || !lEl || !msgEl || !btn) return;
+
+            const u = uEl.value.trim();
+            const p = pEl.value.trim();
+            const h = hEl.value.trim();
+            const l = lEl.value;
+
+            if (!u || !p || !h) {
+                msgEl.innerText = "Vui lòng nhập đầy đủ thông tin!";
+                msgEl.className = "text-sm mt-4 text-center p-2 bg-red-100 text-red-700 rounded block";
+                msgEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'Đang gửi yêu cầu...';
+            msgEl.classList.add('hidden');
+
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l }) });
-                const r = await res.json();
-                msgEl.innerText = r.message;
-                msgEl.className = r.status === "success" ? "text-sm mt-4 p-3 bg-emerald-100 text-emerald-800 font-bold block" : "text-sm mt-4 p-2 bg-red-100 text-red-700 block";
-            } catch (e) { msgEl.innerText = "Lỗi mạng!"; msgEl.className = "text-sm mt-4 p-2 bg-red-100 text-red-700 block"; }
-            btn.disabled = false; btn.innerText = "Gửi yêu cầu đăng ký";
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l })
+                });
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    msgEl.innerText = result.message;
+                    msgEl.className = "text-sm mt-4 text-center p-3 bg-emerald-100 text-emerald-800 rounded font-bold block";
+                    msgEl.classList.remove('hidden');
+                    uEl.value = '';
+                    pEl.value = '';
+                    hEl.value = '';
+                } else {
+                    msgEl.innerText = result.message || "Đăng ký thất bại!";
+                    msgEl.className = "text-sm mt-4 text-center p-2 bg-red-100 text-red-700 rounded block";
+                    msgEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                msgEl.innerText = "Lỗi kết nối máy chủ!";
+                msgEl.className = "text-sm mt-4 text-center p-2 bg-red-100 text-red-700 rounded block";
+                msgEl.classList.remove('hidden');
+            }
+            
+            btn.disabled = false;
+            btn.innerText = "Gửi yêu cầu đăng ký";
         }
 
-        // ================= ADMIN =================
+        // ================= ADMIN PANEL =================
         function switchAdminTab(tab) {
-            ['users', 'questions', 'settings'].forEach(t => {
-                document.getElementById(`admin-${t}-section`).classList.add('hidden');
-                document.getElementById(`tab-${t}-btn`).className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
-            });
-            document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
+            const usersSec = document.getElementById('admin-users-section');
+            const questionsSec = document.getElementById('admin-questions-section');
+            const settingsSec = document.getElementById('admin-settings-section');
             
-            if(tab === 'users') loadAdminUsers();
-            if(tab === 'settings') renderAdminSettings();
+            const usersBtn = document.getElementById('tab-users-btn');
+            const questionsBtn = document.getElementById('tab-questions-btn');
+            const settingsBtn = document.getElementById('tab-settings-btn');
+            
+            if(!usersSec || !questionsSec || !settingsSec) return;
+
+            // Ẩn tất cả
+            usersSec.classList.add('hidden');
+            questionsSec.classList.add('hidden');
+            settingsSec.classList.add('hidden');
+            
+            usersBtn.className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
+            questionsBtn.className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
+            settingsBtn.className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
+
+            if(tab === 'users') {
+                usersSec.classList.remove('hidden');
+                usersBtn.className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
+                loadAdminUsers();
+            } else if (tab === 'questions') {
+                questionsSec.classList.remove('hidden');
+                questionsBtn.className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
+            } else {
+                settingsSec.classList.remove('hidden');
+                settingsBtn.className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
+                renderAdminSettings();
+            }
         }
 
         async function loadAdminUsers() {
             const tbody = document.getElementById('admin-users-table');
-            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>`;
+            if(!tbody) return;
+            
+            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải danh sách...</td></tr>`;
+            
             try {
                 const res = await fetch(API_URL + "?action=get_users");
                 const users = await res.json();
                 tbody.innerHTML = '';
-                users.forEach(u => {
-                    let stBadge = (u.trangthai === 'pending') ? `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-1 rounded text-xs">Chờ duyệt</span>` 
-                        : (u.trangthai === 'blocked' ? `<span class="bg-red-100 text-red-800 font-bold px-2 py-1 rounded text-xs">Đã Khóa</span>` : `<span class="bg-green-100 text-green-800 font-bold px-2 py-1 rounded text-xs">Hoạt động</span>`);
-                    
-                    let acts = '';
+                
+                if (users.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Chưa có dữ liệu.</td></tr>`;
+                    return;
+                }
+                
+                users.forEach(function(u) {
+                    let stBadge = '';
+                    let actionBtns = '';
+
                     if (u.trangthai === 'pending') {
-                        acts = `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-emerald-700"><i class="fas fa-check"></i> Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="fas fa-trash"></i> Từ chối</button>`;
+                        stBadge = `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-1 rounded text-xs">Chờ duyệt</span>`;
+                        actionBtns = `
+                            <button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-emerald-700"><i class="fas fa-check"></i> Duyệt</button>
+                            <button onclick="adminDeleteUser(${u.rowIndex})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="fas fa-trash"></i> Xóa</button>
+                        `;
                     } else {
+                        if (u.trangthai === 'blocked') {
+                            stBadge = `<span class="bg-red-100 text-red-800 font-bold px-2 py-1 rounded text-xs">Đã Khóa</span>`;
+                        } else {
+                            stBadge = `<span class="bg-green-100 text-green-800 font-bold px-2 py-1 rounded text-xs">Hoạt động</span>`;
+                        }
+                        
                         let nextStatus = (u.trangthai === 'active') ? 'blocked' : 'active';
-                        let statusBtn = (u.trangthai === 'active') ? '<i class="fas fa-lock"></i>' : '<i class="fas fa-unlock"></i>';
-                        let statusClass = (u.trangthai === 'active') ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-500 hover:bg-green-600';
-                        acts = `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border text-xs rounded p-1 mr-1"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>CB+NC</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${nextStatus}', '${u.loai}')" class="${statusClass} text-white px-2 py-1 rounded text-xs mr-1" title="Chuyển trạng thái">${statusBtn}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700" title="Xóa"><i class="fas fa-trash"></i></button>`;
+                        let statusBtnText = (u.trangthai === 'active') ? '<i class="fas fa-lock"></i> Khóa' : '<i class="fas fa-unlock"></i> Mở';
+                        let statusBtnClass = (u.trangthai === 'active') ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-500 hover:bg-green-600';
+                        
+                        actionBtns = `
+                            <select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border text-xs rounded p-1 mr-1">
+                                <option value="cb" ${u.loai==='cb'?'selected':''}>CB</option>
+                                <option value="nc" ${u.loai==='nc'?'selected':''}>NC</option>
+                                <option value="cbnc" ${u.loai==='cbnc'?'selected':''}>CB+NC</option>
+                                <option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option>
+                            </select>
+                            <button onclick="updateUserStatus(${u.rowIndex}, '${nextStatus}', '${u.loai}')" class="${statusBtnClass} text-white px-2 py-1 rounded text-xs mr-1" title="Chuyển trạng thái">${statusBtnText}</button>
+                            <button onclick="adminDeleteUser(${u.rowIndex})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700" title="Xóa tài khoản"><i class="fas fa-trash"></i> Xóa</button>
+                        `;
                     }
-                    tbody.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-semibold">${u.username}</td><td class="p-3 text-gray-500">${u.password}</td><td class="p-3">${u.hoten}</td><td class="p-3 uppercase text-xs font-bold text-blue-700">${u.loai}</td><td class="p-3">${stBadge}</td><td class="p-3 text-center whitespace-nowrap">${acts}</td></tr>`;
+
+                    const rowHtml = `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold">${u.username}</td>
+                            <td class="p-3 text-gray-500">${u.password}</td>
+                            <td class="p-3">${u.hoten}</td>
+                            <td class="p-3 uppercase text-xs font-bold text-blue-700">${u.loai}</td>
+                            <td class="p-3">${stBadge}</td>
+                            <td class="p-3 text-center whitespace-nowrap">${actionBtns}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += rowHtml;
                 });
-            } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-4">Lỗi tải dữ liệu</td></tr>`; }
+            } catch (err) { 
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-4">Lỗi tải dữ liệu</td></tr>`; 
+            }
         }
 
         async function updateUserStatus(rowIndex, status, loai) {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_user_status', rowIndex, trangthai: status, loai }) });
-            loadAdminUsers();
+            try {
+                await fetch(API_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'update_user_status', rowIndex: rowIndex, trangthai: status, loai: loai }) 
+                });
+                loadAdminUsers();
+            } catch (e) {
+                alert("Lỗi cập nhật trạng thái!");
+            }
         }
 
         async function adminDeleteUser(rowIndex) {
-            if(!confirm("Hành động này không thể hoàn tác. Xác nhận xóa?")) return;
+            if(!confirm("Hành động này KHÔNG THỂ HOÀN TÁC. Bạn có chắc chắn muốn xóa người dùng này?")) return;
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_user', rowIndex: rowIndex }) });
+                const res = await fetch(API_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'delete_user', rowIndex: rowIndex }) 
+                });
                 const r = await res.json();
-                if(r.status === 'success') loadAdminUsers();
-            } catch (e) { alert("Lỗi khi xóa người dùng!"); }
+                if(r.status === 'success') {
+                    loadAdminUsers();
+                }
+            } catch (e) { 
+                alert("Lỗi khi xóa người dùng!"); 
+            }
         }
 
         async function adminAddUser() {
-            const u = document.getElementById('admin-add-username').value.trim(), p = document.getElementById('admin-add-password').value.trim(), h = document.getElementById('admin-add-hoten').value.trim(), l = document.getElementById('admin-add-loai').value;
-            if (!u || !p || !h) return alert("Nhập đủ thông tin!");
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l }) });
-            document.getElementById('admin-add-username').value=''; document.getElementById('admin-add-password').value=''; document.getElementById('admin-add-hoten').value='';
-            loadAdminUsers();
+            const u = document.getElementById('admin-add-username').value.trim();
+            const p = document.getElementById('admin-add-password').value.trim();
+            const h = document.getElementById('admin-add-hoten').value.trim();
+            const l = document.getElementById('admin-add-loai').value;
+            
+            if (!u || !p || !h) {
+                alert("Vui lòng nhập đủ thông tin!");
+                return;
+            }
+            
+            try {
+                await fetch(API_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l }) 
+                });
+                document.getElementById('admin-add-username').value = ''; 
+                document.getElementById('admin-add-password').value = ''; 
+                document.getElementById('admin-add-hoten').value = '';
+                loadAdminUsers();
+            } catch (e) {
+                alert("Lỗi kết nối khi thêm người dùng!");
+            }
         }
 
+        // ================= ADMIN: NGÂN HÀNG CÂU HỎI =================
         async function adminLoadQuestions() {
             const cat = document.getElementById('admin-q-cat').value;
             const made = document.getElementById('admin-q-made').value.trim();
             const tbody = document.getElementById('admin-questions-table');
             const btn = document.getElementById('btn-load-qs');
-            if(!made) return alert("Vui lòng nhập Mã đề cần tải!");
-            btn.disabled = true; btn.innerText = "Đang tải...";
+            
+            if(!made) {
+                alert("Vui lòng nhập Mã đề cần tải!");
+                return;
+            }
+            
+            btn.disabled = true; 
+            btn.innerText = "Đang tải...";
             tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu câu hỏi...</td></tr>`;
+
             try {
-                const res = await fetch(`${API_URL}?made=${made}&cat=${cat}`);
+                const res = await fetch(API_URL + "?made=" + made + "&cat=" + cat);
                 adminQuestionsData = await res.json();
+                
                 tbody.innerHTML = '';
                 if(adminQuestionsData.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">Mã đề này chưa có câu hỏi nào. Bấm 'Thêm câu hỏi mới'.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">Mã đề này chưa có câu hỏi nào. Bấm 'Thêm câu hỏi mới' để bắt đầu tạo.</td></tr>`;
                     return;
                 }
-                adminQuestionsData.forEach((q, idx) => {
+                
+                adminQuestionsData.forEach(function(q, idx) {
                     const ans = String(q.DapAnDung || "").toUpperCase();
-                    tbody.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">${idx + 1}</td><td class="p-3">${q.NoiDung}</td><td class="p-3 font-mono font-bold text-blue-700">${ans}</td><td class="p-3 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-600 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-blue-700"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="fas fa-trash"></i></button></td></tr>`;
+                    tbody.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-bold">${idx + 1}</td>
+                            <td class="p-3">${q.NoiDung}</td>
+                            <td class="p-3 font-mono font-bold text-blue-700">${ans}</td>
+                            <td class="p-3 text-center whitespace-nowrap">
+                                <button onclick="editQuestion(${idx})" class="bg-blue-600 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-blue-700"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteQuestion(${idx})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
                 });
-            } catch(e) { tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">Lỗi tải câu hỏi!</td></tr>`; }
-            btn.disabled = false; btn.innerText = "Tải Danh Sách";
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">Lỗi khi tải câu hỏi!</td></tr>`;
+            }
+            btn.disabled = false; 
+            btn.innerText = "Tải Danh Sách";
         }
 
-        function openQuestionModal(qData = null) {
+        function openQuestionModal(qData) {
             document.getElementById('modal-question').classList.remove('hidden');
             const madeInput = document.getElementById('admin-q-made').value.trim();
+            
             if (qData) {
                 document.getElementById('modal-q-title').innerText = "Chỉnh Sửa Câu Hỏi";
                 document.getElementById('modal-q-rowindex').value = qData._rowIndex;
@@ -718,7 +1028,7 @@
             } else {
                 document.getElementById('modal-q-title').innerText = "Thêm Câu Hỏi Mới";
                 document.getElementById('modal-q-rowindex').value = "";
-                document.getElementById('modal-q-made').value = madeInput;
+                document.getElementById('modal-q-made').value = madeInput; 
                 document.getElementById('modal-q-noidung').value = "";
                 document.getElementById('modal-q-a').value = "";
                 document.getElementById('modal-q-b').value = "";
@@ -727,13 +1037,20 @@
                 document.getElementById('modal-q-dapandung').value = "";
             }
         }
-        function closeQuestionModal() { document.getElementById('modal-question').classList.add('hidden'); }
-        function editQuestion(index) { openQuestionModal(adminQuestionsData[index]); }
+
+        function closeQuestionModal() {
+            document.getElementById('modal-question').classList.add('hidden');
+        }
+
+        function editQuestion(index) {
+            openQuestionModal(adminQuestionsData[index]);
+        }
 
         async function adminSaveQuestion() {
             const btn = document.getElementById('modal-btn-save');
             const cat = document.getElementById('admin-q-cat').value;
             const rowIndex = document.getElementById('modal-q-rowindex').value;
+            
             const q = {
                 MaDe: document.getElementById('modal-q-made').value.trim(),
                 NoiDung: document.getElementById('modal-q-noidung').value.trim(),
@@ -743,155 +1060,450 @@
                 DapAnD: document.getElementById('modal-q-d').value.trim(),
                 DapAnDung: document.getElementById('modal-q-dapandung').value.trim().toUpperCase()
             };
-            if(!q.MaDe || !q.NoiDung || !q.DapAnDung) return alert("Vui lòng điền Mã đề, Nội dung và Đáp án đúng!");
-            btn.disabled = true; btn.innerText = "Đang lưu...";
+
+            if(!q.MaDe || !q.NoiDung || !q.DapAnDung) {
+                alert("Vui lòng điền Mã đề, Nội dung và Đáp án đúng!");
+                return;
+            }
+
+            btn.disabled = true; 
+            btn.innerText = "Đang lưu...";
+            
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_question', category: cat, rowIndex: rowIndex || null, question: q }) });
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'save_question', category: cat, rowIndex: rowIndex || null, question: q })
+                });
                 const r = await res.json();
-                if(r.status === 'success') { closeQuestionModal(); document.getElementById('admin-q-made').value = q.MaDe; adminLoadQuestions(); } 
-                else alert("Lỗi khi lưu!");
-            } catch(e) { alert("Lỗi kết nối!"); }
-            btn.disabled = false; btn.innerText = "Lưu Thay Đổi";
+                if(r.status === 'success') {
+                    closeQuestionModal();
+                    document.getElementById('admin-q-made').value = q.MaDe; 
+                    adminLoadQuestions(); 
+                } else {
+                    alert("Lỗi khi lưu câu hỏi!");
+                }
+            } catch(e) { 
+                alert("Lỗi kết nối máy chủ!"); 
+            }
+            
+            btn.disabled = false; 
+            btn.innerText = "Lưu Thay Đổi";
         }
 
         async function deleteQuestion(index) {
-            if(!confirm("Bạn chắc chắn muốn xóa câu hỏi này?")) return;
+            if(!confirm("Bạn chắc chắn muốn xóa câu hỏi này khỏi đề thi?")) return;
             const q = adminQuestionsData[index];
             const cat = document.getElementById('admin-q-cat').value;
+            
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_question', category: cat, rowIndex: q._rowIndex }) });
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'delete_question', category: cat, rowIndex: q._rowIndex })
+                });
                 const r = await res.json();
-                if(r.status === 'success') adminLoadQuestions();
-            } catch(e) { alert("Lỗi kết nối!"); }
+                if(r.status === 'success') {
+                    adminLoadQuestions();
+                }
+            } catch(e) { 
+                alert("Lỗi kết nối máy chủ!"); 
+            }
         }
 
+        // ================= ADMIN: CẤU HÌNH SỐ ĐỀ & VIDEO =================
         function renderAdminSettings() {
             document.getElementById('admin-so-de-cb').value = systemConfig.so_de_cb;
             document.getElementById('admin-so-de-nc').value = systemConfig.so_de_nc;
             document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb;
             document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
+            
             const container = document.getElementById('admin-video-list');
+            if(!container) return;
+            
             container.innerHTML = '';
-            ['cb', 'nc'].forEach(cat => {
-                let html = `<h4 class="font-bold text-gray-700 mb-2 mt-4 text-sm bg-gray-200 px-3 py-2 rounded">${cat==='cb'?'CƠ BẢN':'NÂNG CAO'}</h4>`;
-                systemConfig.videos[cat].forEach((v, idx) => {
-                    html += `<div class="flex justify-between p-3 border-b text-sm"><div><span class="font-bold text-blue-600 mr-2">${v.id}</span> ${v.title}</div><button onclick="adminDeleteVideo('${cat}', ${idx})" class="text-red-500 hover:text-red-700 bg-red-50 px-2 rounded">Xóa</button></div>`;
-                });
+            
+            ['cb', 'nc'].forEach(function(cat) {
+                const catName = (cat === 'cb') ? 'CHỨNG CHỈ CƠ BẢN' : 'CHỨNG CHỈ NÂNG CAO';
+                let html = `<h4 class="font-bold text-gray-700 mb-2 mt-4 text-sm bg-gray-200 px-3 py-2 rounded">${catName}</h4>`;
+                
+                if (systemConfig.videos[cat]) {
+                    systemConfig.videos[cat].forEach(function(v, idx) {
+                        html += `
+                            <div class="flex justify-between items-center p-3 border-b text-sm hover:bg-gray-50">
+                                <div><span class="font-bold text-blue-600 mr-2">${v.id}</span> ${v.title}</div>
+                                <button onclick="adminDeleteVideo('${cat}', ${idx})" class="text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded">Xóa</button>
+                            </div>
+                        `;
+                    });
+                }
                 container.innerHTML += html;
             });
         }
+
         async function saveSystemConfig() {
-            systemConfig.so_de_cb = parseInt(document.getElementById('admin-so-de-cb').value) || 35;
-            systemConfig.so_de_nc = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
-            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb;
-            document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
-            alert("Lưu thành công!");
-        }
-        function adminAddVideo() {
-            const c = document.getElementById('admin-vid-loai').value, id = document.getElementById('admin-vid-id').value.trim(), t = document.getElementById('admin-vid-title').value.trim();
-            if(!id || !t) return alert("Nhập đủ ID và Tiêu đề!");
-            systemConfig.videos[c].push({id, title: t});
-            document.getElementById('admin-vid-id').value=''; document.getElementById('admin-vid-title').value='';
-            renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
-        }
-        function adminDeleteVideo(c, idx) {
-            if(!confirm("Xóa video?")) return;
-            systemConfig.videos[c].splice(idx, 1);
-            renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
+            const numCB = parseInt(document.getElementById('admin-so-de-cb').value) || 35;
+            const numNC = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
+            
+            systemConfig.so_de_cb = numCB;
+            systemConfig.so_de_nc = numNC;
+            
+            document.getElementById('lbl-sode-cb').innerText = numCB;
+            document.getElementById('lbl-sode-nc').innerText = numNC;
+            
+            try {
+                await fetch(API_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'update_config', config: systemConfig }) 
+                });
+                alert("Đã lưu số lượng đề thi thành công!");
+            } catch (e) {
+                alert("Lỗi lưu cấu hình!");
+            }
         }
 
-        // ================= CÁC TÍNH NĂNG HỌC VIÊN =================
+        function adminAddVideo() {
+            const cat = document.getElementById('admin-vid-loai').value;
+            const id = document.getElementById('admin-vid-id').value.trim();
+            const title = document.getElementById('admin-vid-title').value.trim();
+            
+            if(!id || !title) {
+                alert("Vui lòng nhập ID và Tiêu đề video!");
+                return;
+            }
+            
+            systemConfig.videos[cat].push({id: id, title: title});
+            document.getElementById('admin-vid-id').value = '';
+            document.getElementById('admin-vid-title').value = '';
+            
+            renderAdminSettings();
+            fetch(API_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'update_config', config: systemConfig }) 
+            });
+        }
+
+        function adminDeleteVideo(cat, index) {
+            if(!confirm("Xác nhận xóa video này?")) return;
+            
+            systemConfig.videos[cat].splice(index, 1);
+            renderAdminSettings();
+            
+            fetch(API_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'update_config', config: systemConfig }) 
+            });
+        }
+
+        // ================= HỌC VIÊN: VIDEO GIẢI ĐỀ =================
         function openVideoSection(category) {
             navigate('videos');
             const list = systemConfig.videos[category] || [];
-            document.getElementById('video-section-title').innerHTML = `<i class="fas fa-video ${category==='cb'?'text-emerald-600':'text-yellow-600'} mr-2"></i> Video Giải Đề Thi`;
-            document.getElementById('video-count-badge').innerText = list.length + " video";
-            const container = document.getElementById('video-list-container'); container.innerHTML = '';
-            list.forEach((vid, i) => {
-                const div = document.createElement('div');
-                div.className = `p-3 border rounded-lg cursor-pointer flex gap-3 items-center video-item-btn ${i===0?'bg-blue-50 font-bold':'bg-gray-50'}`;
-                div.innerHTML = `<div class="w-8 h-8 rounded-full bg-red-600 text-white flex justify-center items-center"><i class="fas fa-play"></i></div><div class="text-sm">${vid.title}</div>`;
-                div.onclick = () => { document.querySelectorAll('.video-item-btn').forEach(b => b.className = "p-3 border rounded-lg cursor-pointer flex gap-3 items-center video-item-btn bg-gray-50"); div.className = "p-3 border rounded-lg cursor-pointer flex gap-3 items-center video-item-btn bg-blue-50 font-bold text-blue-900"; playVideo(vid.id, vid.title); };
-                container.appendChild(div);
-            });
-            if(list.length > 0) playVideo(list[0].id, list[0].title);
-        }
-        function playVideo(id, title) { document.getElementById('main-video-player').src = `https://www.youtube.com/embed/${id}?autoplay=1`; document.getElementById('current-video-title').innerText = title; }
+            const isCB = (category === 'cb');
 
+            const titleEl = document.getElementById('video-section-title');
+            if(titleEl) {
+                titleEl.innerHTML = isCB 
+                    ? `<i class="fas fa-video text-emerald-600 mr-2"></i> Video Giải Đề Thi - Cơ Bản`
+                    : `<i class="fas fa-video text-yellow-600 mr-2"></i> Video Giải Đề Thi - Nâng Cao`;
+            }
+
+            const btnCB = document.getElementById('btn-tab-video-cb');
+            const btnNC = document.getElementById('btn-tab-video-nc');
+            if (btnCB && btnNC) {
+                if(isCB) {
+                    btnCB.className = "px-4 py-2 rounded-lg font-bold text-sm bg-emerald-600 text-white shadow";
+                    btnNC.className = "px-4 py-2 rounded-lg font-bold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300";
+                } else {
+                    btnNC.className = "px-4 py-2 rounded-lg font-bold text-sm bg-yellow-600 text-white shadow";
+                    btnCB.className = "px-4 py-2 rounded-lg font-bold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300";
+                }
+            }
+
+            const badgeEl = document.getElementById('video-count-badge');
+            if(badgeEl) badgeEl.innerText = list.length + ' video';
+            
+            const container = document.getElementById('video-list-container');
+            if(container) {
+                container.innerHTML = '';
+                list.forEach(function(vid, index) {
+                    const item = document.createElement('div');
+                    item.className = "p-3 rounded-lg border cursor-pointer hover:bg-blue-50 transition flex items-center gap-3 video-item-btn ";
+                    item.className += (index === 0) ? "bg-blue-50 border-blue-400 font-bold text-blue-900" : "bg-gray-50 border-gray-200 text-gray-700";
+                    item.innerHTML = `<div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center flex-shrink-0 text-xs"><i class="fas fa-play"></i></div><div class="text-xs md:text-sm leading-snug line-clamp-2">${vid.title}</div>`;
+                    
+                    item.onclick = function() {
+                        document.querySelectorAll('.video-item-btn').forEach(function(b) {
+                            b.className = "p-3 rounded-lg border cursor-pointer hover:bg-blue-50 transition flex items-center gap-3 video-item-btn bg-gray-50 border-gray-200 text-gray-700";
+                        });
+                        item.className = "p-3 rounded-lg border cursor-pointer hover:bg-blue-50 transition flex items-center gap-3 video-item-btn bg-blue-50 border-blue-400 font-bold text-blue-900";
+                        playVideo(vid.id, vid.title);
+                    };
+                    container.appendChild(item);
+                });
+            }
+
+            if(list.length > 0) {
+                playVideo(list[0].id, list[0].title);
+            }
+        }
+
+        function playVideo(youtubeId, title) {
+            const playerEl = document.getElementById('main-video-player');
+            const titleEl = document.getElementById('current-video-title');
+            if(playerEl) playerEl.src = "https://www.youtube.com/embed/" + youtubeId + "?autoplay=1";
+            if(titleEl) titleEl.innerText = title;
+        }
+
+        // ================= HỌC VIÊN: LÀM BÀI THI =================
         function selectCategory(category) {
-            const grid = document.getElementById('quiz-buttons-grid'); grid.innerHTML = '';
+            const grid = document.getElementById('quiz-buttons-grid');
+            if(!grid) return;
+            
+            grid.innerHTML = '';
+            
             if (studentInfo.loai === 'cb' && category === 'nang-cao') category = 'co-ban';
             if (studentInfo.loai === 'nc' && category === 'co-ban') category = 'nang-cao';
-            if(category === 'co-ban') { for(let i = 1; i <= systemConfig.so_de_cb; i++) createQuizBtn(grid, `Đề ${i}`, i); } 
-            else { for(let i = 1; i <= systemConfig.so_de_nc; i++) createQuizBtn(grid, `NC ${i}`, `NC_de${i<10?'0'+i:i}`); }
+            
+            let totalCB = systemConfig.so_de_cb;
+            let totalNC = systemConfig.so_de_nc;
+
+            if(category === 'co-ban') {
+                for(let i = 1; i <= totalCB; i++) {
+                    createQuizButton(grid, "Đề " + i, i);
+                }
+            } else {
+                for(let i = 1; i <= totalNC; i++) {
+                    let ma = "NC_de" + (i < 10 ? '0' + i : i);
+                    createQuizButton(grid, "NC " + i, ma);
+                }
+            }
         }
-        function createQuizBtn(p, lbl, val) { const b = document.createElement('button'); b.className="bg-white hover:bg-blue-600 hover:text-white border font-bold py-2.5 rounded-lg shadow-sm text-sm"; b.innerText=lbl; b.onclick=()=>startQuiz(val); p.appendChild(b); }
+
+        function createQuizButton(parent, label, quizIdValue) {
+            const btn = document.createElement('button');
+            btn.className = "bg-white hover:bg-blue-600 hover:text-white border font-bold py-2.5 rounded-lg transition text-blue-900 text-sm shadow-sm";
+            btn.innerText = label;
+            btn.onclick = function() { startQuiz(quizIdValue); };
+            parent.appendChild(btn);
+        }
 
         async function startQuiz(quizId) {
-            studentInfo.quizId = quizId; navigate('loading');
+            studentInfo.quizId = quizId;
+            navigate('loading');
             
-            // BỔ SUNG LẠI: HIỂN THỊ TÊN VÀ MÃ ĐỀ LÊN GIAO DIỆN LÀM BÀI
-            document.getElementById('display-name').innerText = studentInfo.name;
-            document.getElementById('display-quiz').innerText = quizId;
+            const nameDisplay = document.getElementById('display-name');
+            const quizDisplay = document.getElementById('display-quiz');
+            if(nameDisplay) nameDisplay.innerText = studentInfo.name;
+            if(quizDisplay) quizDisplay.innerText = quizId;
 
             try {
-                const res = await fetch(`${API_URL}?made=${quizId}`);
+                const res = await fetch(API_URL + "?made=" + quizId);
                 quizData = await res.json();
-                if(quizData.length === 0) return alert(`Đề ${quizId} chưa có câu hỏi!`), navigate('select');
-                renderQuestions(); navigate('quiz'); startTimer();
-            } catch (e) { alert("Lỗi tải đề"); navigate('select'); }
+                
+                if(quizData.length === 0) {
+                    alert("Chưa có câu hỏi cho mã đề " + quizId);
+                    navigate('select');
+                    return;
+                }
+                
+                renderQuestions();
+                navigate('quiz');
+                startTimer();
+            } catch (error) { 
+                alert("Lỗi tải đề thi!"); 
+                navigate('select'); 
+            }
         }
 
         function startTimer() {
-            timeLeft = 30 * 60; if(timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                let m = Math.floor(timeLeft/60), s = timeLeft%60;
-                document.getElementById('timer-display').innerText = `${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-                if(timeLeft <= 0) { clearInterval(timerInterval); alert("Hết giờ!"); submitQuiz(true); }
+            timeLeft = 30 * 60;
+            const timerEl = document.getElementById('timer-display');
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(function() {
+                let m = Math.floor(timeLeft / 60); 
+                let s = timeLeft % 60;
+                
+                let minStr = (m < 10) ? '0' + m : m;
+                let secStr = (s < 10) ? '0' + s : s;
+                
+                if(timerEl) timerEl.innerText = minStr + ':' + secStr;
+                
+                if (timeLeft <= 0) { 
+                    clearInterval(timerInterval); 
+                    alert("Đã hết thời gian làm bài! Hệ thống tự động nộp bài.");
+                    submitQuiz(true); 
+                }
                 timeLeft--;
             }, 1000);
         }
 
         function renderQuestions() {
-            const c = document.getElementById('questions-container'); c.innerHTML = '';
-            quizData.forEach((q, i) => {
-                const ansStr = String(q.DapAnDung||""); const isM = ansStr.length>1 || ansStr.includes(',');
-                let opts = ['A','B','C','D'].map(o => q['DapAn'+o] ? `<label class="flex p-3 border rounded"><input type="${isM?'checkbox':'radio'}" name="q${i}" value="${o}" class="mt-1 mr-3 rounded"><span class="font-bold mr-2">${o}.</span>${q['DapAn'+o]}</label>` : '').join('');
-                c.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="font-bold mb-4"><span class="bg-blue-100 px-3 py-1 rounded mr-2">Câu ${i+1}</span>${q.NoiDung}</div><div class="space-y-2">${opts}</div></div>`;
+            const container = document.getElementById('questions-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            quizData.forEach(function(q, index) {
+                const c = String(q.DapAnDung || "").trim();
+                const isM = (c.length > 1 || c.includes(',') || /chọn các|những câu|tất cả các/i.test(q.NoiDung));
+                const inputType = isM ? 'checkbox' : 'radio';
+                
+                let optsHtml = '';
+                ['A','B','C','D'].forEach(function(opt) {
+                    const optVal = q['DapAn' + opt];
+                    if(optVal) {
+                        optsHtml += `
+                            <label class="flex items-start p-3 border rounded cursor-pointer hover:bg-blue-50 transition">
+                                <input type="${inputType}" name="q${index}" value="${opt}" class="mt-1 mr-3 rounded">
+                                <span class="font-bold mr-2">${opt}.</span> ${optVal}
+                            </label>
+                        `;
+                    }
+                });
+                
+                const noteText = isM ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-semibold">Nhiều đáp án</span>' : '';
+                
+                container.innerHTML += `
+                    <div class="bg-white p-6 rounded shadow border mb-4">
+                        <div class="font-bold mb-4 flex items-center flex-wrap">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 mr-2 rounded">Câu ${index+1}</span>
+                            ${q.NoiDung} ${noteText}
+                        </div>
+                        <div class="space-y-2">
+                            ${optsHtml}
+                        </div>
+                    </div>
+                `;
             });
         }
 
-        async function submitQuiz(timeout = false) {
+        async function submitQuiz(isTimeout) {
             if (timerInterval) clearInterval(timerInterval);
-            if (!timeout && !confirm("Nộp bài?")) { startTimer(); return; }
-            let chiTiet = {}, right = 0;
-            quizData.forEach((q, i) => {
-                let uArr = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(n=>n.value.toUpperCase());
-                chiTiet[i] = uArr;
-                let cStr = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('').sort().join('');
-                if(uArr.sort().join('') === cStr && cStr.length > 0) right++;
+            
+            if (!isTimeout) {
+                if (!confirm("Xác nhận nộp bài thi?")) { 
+                    startTimer(); 
+                    return; 
+                }
+            }
+            
+            let chiTietDapAn = {};
+            let correctAnswers = 0;
+            
+            quizData.forEach(function(q, index) {
+                const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
+                let sArr = [];
+                checkedNodes.forEach(function(n) { sArr.push(n.value.toUpperCase()); });
+                
+                chiTietDapAn[index] = sArr;
+                
+                let sStr = sArr.sort().join('');
+                let cStr = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '').split('').sort().join('');
+                
+                if(sStr === cStr && cStr.length > 0) {
+                    correctAnswers++;
+                }
             });
-            let score = (right / quizData.length) * 10;
-            document.getElementById('score-display').innerText = score.toFixed(1);
-            document.getElementById('correct-count').innerText = right;
-            document.getElementById('total-count').innerText = quizData.length;
+            
+            const score = (correctAnswers / quizData.length) * 10;
+            
+            const scoreEl = document.getElementById('score-display');
+            const correctEl = document.getElementById('correct-count');
+            const totalEl = document.getElementById('total-count');
+            
+            if(scoreEl) scoreEl.innerText = score.toFixed(1);
+            if(correctEl) correctEl.innerText = correctAnswers;
+            if(totalEl) totalEl.innerText = quizData.length;
+            
             navigate('result');
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'submit', hoc_vien: studentInfo.username, ma_de: studentInfo.quizId, diem_so: score.toFixed(1), so_cau_dung: right, chi_tiet_dap_an: chiTiet }) });
+            
+            let formattedScore = score.toFixed(1) + " Điểm";
+
+            try {
+                await fetch(API_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ 
+                        action: 'submit', 
+                        hoc_vien: studentInfo.username, 
+                        ma_de: studentInfo.quizId, 
+                        diem_so: formattedScore, 
+                        so_cau_dung: correctAnswers, 
+                        chi_tiet_dap_an: chiTietDapAn 
+                    }) 
+                });
+            } catch (err) {
+                console.log("Lỗi lưu điểm");
+            }
         }
 
-        function openReviewModal() {
-            const c = document.getElementById('review-container'); c.innerHTML = '';
-            let ch = {}; quizData.forEach((_,i) => ch[i] = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(n=>n.value.toUpperCase()));
-            quizData.forEach((q, i) => {
-                let uC = ch[i]||[], cC = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('');
-                let isOK = uC.length === cC.length && uC.every(v => cC.includes(v));
-                let opts = ['A','B','C','D'].map(o => {
-                    if(!q['DapAn'+o]) return '';
-                    let st = cC.includes(o) ? "bg-green-100 font-bold" : (uC.includes(o) ? "bg-red-100 font-bold" : "");
-                    return `<div class="p-3 border rounded mb-2 flex items-start ${st}"><span class="w-6 font-bold">${o}.</span><span>${q['DapAn'+o]}</span></div>`;
-                }).join('');
-                c.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="mb-4"><span class="bg-blue-100 px-3 py-1 rounded font-bold mr-2">Câu ${i+1}</span>${isOK?'<span class="text-green-600 font-bold">Đúng</span>':'<span class="text-red-600 font-bold">Sai</span>'}</div><div class="font-medium mb-4">${q.NoiDung}</div>${opts}</div>`;
+        function getSessionUserChoices() {
+            let ch = {}; 
+            quizData.forEach(function(_, i) {
+                let arr = [];
+                document.querySelectorAll(`input[name="q${i}"]:checked`).forEach(function(n) {
+                    arr.push(n.value.toUpperCase());
+                });
+                ch[i] = arr;
+            });
+            return ch;
+        }
+
+        function openReviewModal() { 
+            renderReviewContent(quizData, getSessionUserChoices()); 
+        }
+
+        function renderReviewContent(questions, userChoices) {
+            const container = document.getElementById('review-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            questions.forEach(function(q, i) {
+                let uC = userChoices[i] || [];
+                let cC = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '').split('');
+                
+                let isOK = false;
+                if(uC.length === cC.length) {
+                    isOK = uC.every(function(v) { return cC.includes(v); });
+                }
+                
+                let optsHtml = '';
+                ['A','B','C','D'].forEach(function(opt) {
+                    if(q['DapAn'+opt]) {
+                        let st = '';
+                        if(cC.includes(opt)) {
+                            st = "bg-green-100 border-green-400 font-bold";
+                        } else if (uC.includes(opt)) {
+                            st = "bg-red-100 border-red-400 font-bold";
+                        }
+                        
+                        optsHtml += `
+                            <div class="p-3 border rounded mb-2 flex items-start ${st}">
+                                <span class="w-6 font-bold">${opt}.</span> 
+                                <span>${q['DapAn'+opt]}</span>
+                            </div>
+                        `;
+                    }
+                });
+                
+                const statusHtml = isOK 
+                    ? '<span class="text-green-600 font-bold">Đúng</span>' 
+                    : '<span class="text-red-600 font-bold">Sai</span>';
+                    
+                container.innerHTML += `
+                    <div class="bg-white p-6 rounded shadow border mb-4">
+                        <div class="mb-4">
+                            <span class="bg-blue-100 px-3 py-1 rounded font-bold mr-2">Câu ${i+1}</span>
+                            ${statusHtml}
+                        </div>
+                        <div class="font-medium mb-4">${q.NoiDung}</div>
+                        ${optsHtml}
+                    </div>
+                `;
             });
             navigate('review');
         }
@@ -899,40 +1511,56 @@
         async function fetchQuizHistory() {
             navigate('loading');
             try {
-                const res = await fetch(`${API_URL}?action=history&username=${studentInfo.username}`);
+                const res = await fetch(API_URL + "?action=history&username=" + encodeURIComponent(studentInfo.username));
                 const hist = await res.json();
-                const c = document.getElementById('history-container'); c.innerHTML = '';
-                hist.reverse().forEach(item => {
-                    let d = new Date(item.thoigian).toLocaleString('vi-VN');
-                    let jsonStr = typeof item.chitiet === 'string' ? item.chitiet.replace(/"/g, '&quot;') : '{}';
-                    c.innerHTML += `<div class="bg-gray-50 border p-5 rounded-xl flex justify-between items-center mb-4"><div><div class="text-sm text-gray-500">${d}</div><div class="font-bold text-blue-900">Mã đề: ${item.made}</div></div><div class="text-right"><div class="text-2xl font-black text-blue-600">${item.diemso}</div><button onclick="viewHistDetail('${item.made}', '${jsonStr}')" class="bg-blue-600 text-white px-4 py-1 mt-2 rounded">Xem lại</button></div></div>`;
-                });
+                const container = document.getElementById('history-container');
+                if(!container) return;
+                
+                container.innerHTML = '';
+                if(hist.length === 0) {
+                    container.innerHTML = `<div class="text-center py-8 text-gray-500">Chưa có lịch sử làm bài.</div>`;
+                } else {
+                    hist.reverse().forEach(function(item) {
+                        let d = new Date(item.thoigian).toLocaleString('vi-VN');
+                        const jsonStr = typeof item.chitiet === 'string' ? item.chitiet.replace(/"/g, '&quot;') : '{}';
+                        container.innerHTML += `
+                            <div class="bg-gray-50 border p-5 rounded-xl flex justify-between items-center mb-4">
+                                <div>
+                                    <div class="text-sm text-gray-500">${d}</div>
+                                    <div class="font-bold text-blue-900">Mã đề: ${item.made}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-black text-blue-600">${item.diemso}</div>
+                                    <button onclick="viewHistoryDetail('${item.made}', '${jsonStr}')" class="bg-blue-600 text-white px-4 py-1 mt-2 rounded font-bold shadow">Xem lại</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
                 navigate('history');
-            } catch (e) { alert("Lỗi tải lịch sử"); navigate('select'); }
+            } catch (e) { 
+                alert("Lỗi tải lịch sử"); 
+                navigate('select'); 
+            }
         }
 
-        async function viewHistDetail(made, chitiet) {
+        async function viewHistoryDetail(made, chitietJsonStr) {
             navigate('loading');
             try {
-                const res = await fetch(`${API_URL}?made=${made}`);
-                quizData = await res.json();
-                let parsed = {}; try { parsed = JSON.parse(chitiet.replace(/&quot;/g, '"')); } catch(e){}
-                const c = document.getElementById('review-container'); c.innerHTML = '';
-                quizData.forEach((q, i) => {
-                    let uC = parsed[i]||[], cC = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('');
-                    let isOK = uC.length === cC.length && uC.every(v => cC.includes(v));
-                    let opts = ['A','B','C','D'].map(o => {
-                        if(!q['DapAn'+o]) return '';
-                        let st = cC.includes(o) ? "bg-green-100 font-bold" : (uC.includes(o) ? "bg-red-100 font-bold" : "");
-                        return `<div class="p-3 border rounded mb-2 flex items-start ${st}"><span class="w-6 font-bold">${o}.</span><span>${q['DapAn'+o]}</span></div>`;
-                    }).join('');
-                    c.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="mb-4"><span class="bg-blue-100 px-3 py-1 rounded font-bold mr-2">Câu ${i+1}</span>${isOK?'<span class="text-green-600 font-bold">Đúng</span>':'<span class="text-red-600 font-bold">Sai</span>'}</div><div class="font-medium mb-4">${q.NoiDung}</div>${opts}</div>`;
-                });
-                navigate('review');
-            } catch (e) { alert("Lỗi tải đề"); navigate('history'); }
+                const res = await fetch(API_URL + "?made=" + made);
+                const data = await res.json();
+                
+                let parsedChoices = {};
+                try {
+                    parsedChoices = JSON.parse(chitietJsonStr.replace(/&quot;/g, '"'));
+                } catch(err) {}
+                
+                renderReviewContent(data, parsedChoices);
+            } catch (e) { 
+                alert("Lỗi tải dữ liệu đề thi"); 
+                navigate('history'); 
+            }
         }
     </script>
-</body>
-</html>
 </body>
 </html>
