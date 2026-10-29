@@ -14,23 +14,17 @@
         .article-content p { margin-bottom: 1rem; line-height: 1.7; color: #4b5563; }
         .article-content h3 { font-size: 1.25rem; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #1f2937; }
         .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
-
-        @keyframes bounce-subtle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-7px); }
-        }
+        @keyframes bounce-subtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
         .btn-bounce { animation: bounce-subtle 1.2s infinite ease-in-out; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased relative">
 
-    <!-- Header Banner -->
     <header class="w-full bg-[#0a192f] flex justify-center border-b-4 border-blue-600">
         <img src="banner.jpg" alt="Banner Công Ty Thành Danh" class="w-full max-w-5xl max-h-[220px] object-cover mx-auto" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop';">
     </header>
 
-    <!-- Navigation Bar -->
-    <nav class="bg-[#0a192f] text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-[#0a192f] text-white shadow-lg sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center">
             <div class="flex flex-wrap items-center">
                 <button onclick="navigate('home')" class="py-4 px-4 hover:bg-blue-800 transition font-semibold">Trang chủ</button>
@@ -51,27 +45,18 @@
                         Đề thi Tin học Cơ bản <i class="fas fa-caret-down ml-2"></i>
                     </button>
                     <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-64 shadow-xl rounded-b-md border-t-2 border-cyan-400 z-50">
-                        <a href="https://drive.google.com/drive/folders/1ADvXMjDc_yyaIcK-pX4ZHbQYx-EyotND?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">
-                            <i class="fas fa-folder-open mr-2 text-yellow-400"></i> Kho tài liệu đề thi 01
-                        </a>
-                        <a href="https://drive.google.com/drive/folders/1tSlGlK89rD_WjJdNEv6ISLhjPR-hnBXl?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700">
-                            <i class="fas fa-folder-open mr-2 text-yellow-400"></i> Kho tài liệu đề thi 02
-                        </a>
+                        <a href="https://drive.google.com/drive/folders/1ADvXMjDc_yyaIcK-pX4ZHbQYx-EyotND?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Kho tài liệu đề thi 01</a>
+                        <a href="https://drive.google.com/drive/folders/1tSlGlK89rD_WjJdNEv6ISLhjPR-hnBXl?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700">Kho tài liệu đề thi 02</a>
                     </div>
                 </div>
 
-                <!-- MENU: Video giải đề -->
                 <div class="dropdown relative">
                     <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center text-emerald-300">
                         <i class="fas fa-play-circle mr-1"></i> Video giải đề <i class="fas fa-caret-down ml-2"></i>
                     </button>
                     <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-56 shadow-xl rounded-b-md border-t-2 border-emerald-400 z-50">
-                        <a href="javascript:void(0)" onclick="openVideoSection('cb')" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">
-                            <i class="fas fa-video mr-2 text-emerald-400"></i> Chứng chỉ cơ bản
-                        </a>
-                        <a href="javascript:void(0)" onclick="openVideoSection('nc')" class="block px-4 py-3 hover:bg-blue-700">
-                            <i class="fas fa-video mr-2 text-yellow-400"></i> Chứng chỉ nâng cao
-                        </a>
+                        <a href="javascript:void(0)" onclick="openVideoSection('cb')" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Chứng chỉ cơ bản</a>
+                        <a href="javascript:void(0)" onclick="openVideoSection('nc')" class="block px-4 py-3 hover:bg-blue-700">Chứng chỉ nâng cao</a>
                     </div>
                 </div>
 
@@ -90,7 +75,7 @@
                 </button>
 
                 <button id="nav-admin-btn" onclick="navigate('admin')" class="hidden py-4 px-4 hover:bg-red-800 transition font-semibold text-red-300">
-                    <i class="fas fa-user-shield mr-1"></i> Quản trị
+                    <i class="fas fa-cogs mr-1"></i> Quản trị
                 </button>
             </div>
 
@@ -108,59 +93,58 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT AREA -->
+    <!-- MAIN -->
     <main class="max-w-7xl mx-auto px-4 py-8 min-h-[60vh]">
-        
-        <!-- ================= VIEW 1: TRANG CHỦ ================= -->
+        <!-- VIEW: TRANG CHỦ -->
         <div id="view-home" class="flex flex-col lg:flex-row gap-8">
             <div class="w-full lg:w-3/4">
                 <h2 class="text-2xl font-bold mb-6 border-b-2 border-blue-600 inline-block pb-2">Bài viết nổi bật</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Bài 1 -->
                     <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg flex flex-col">
                         <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-bold text-lg mb-2 text-blue-300">Khóa học Tin học lấy chứng chỉ cơ bản, nâng cao</h3>
-                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Đào tạo các kỹ năng tin học văn phòng chuẩn quốc gia...</p>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Đào tạo các kỹ năng tin học văn phòng chuẩn quốc gia. Cam kết chuẩn đầu ra, thực hành 100% trên máy tính...</p>
                             </div>
                             <button onclick="showArticle(1)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
                     </div>
+                    <!-- Bài 2 -->
                     <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg flex flex-col">
                         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-bold text-lg mb-2 text-blue-300">Đăng ký bản quyền Gemini Pro / ChatGPT Plus</h3>
-                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Nâng cấp tài khoản AI chính chủ phục vụ công việc...</p>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Nâng cấp tài khoản AI chính chủ phục vụ công việc, nghiên cứu và học tập hiệu quả. Bảo hành trọn thời gian...</p>
                             </div>
                             <button onclick="showArticle(2)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
                     </div>
+                    <!-- Bài 3 -->
                     <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg flex flex-col">
                         <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-bold text-lg mb-2 text-blue-300">Đào tạo Tin học Ứng dụng Trí tuệ Nhân tạo</h3>
-                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Khóa học chuyên sâu hướng dẫn áp dụng AI...</p>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Khóa học chuyên sâu hướng dẫn áp dụng AI (ChatGPT, Gemini) vào tự động hóa công việc văn phòng...</p>
                             </div>
                             <button onclick="showArticle(3)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <!-- Cột Học Viên -->
             <div class="w-full lg:w-1/4">
                 <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden sticky top-24">
-                    <div class="bg-gray-100 p-4 border-b text-center font-bold text-lg text-[#0a192f]">
-                        Khu vực Học viên <i class="fas fa-laptop-code ml-1 text-blue-600"></i>
-                    </div>
+                    <div class="bg-gray-100 p-4 border-b text-center font-bold text-lg text-[#0a192f]">Khu vực Học viên</div>
                     <div class="p-5 text-center space-y-4">
-                        <p class="text-sm text-gray-600" id="widget-login-text">Kích hoạt tài khoản hoặc đăng ký mới để ôn luyện thi.</p>
-                        <button onclick="requireLoginForQuiz()" id="widget-login-btn" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-md hover:bg-blue-700 transition shadow">Đăng Nhập Luyện Thi</button>
-                        
-                        <div class="pt-2">
-                            <button onclick="navigate('register')" id="widget-reg-btn2" class="btn-bounce w-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white font-black py-3 rounded-xl shadow-xl uppercase tracking-wider text-sm flex items-center justify-center gap-2 border-2 border-yellow-300">
-                                <i class="fas fa-gift text-lg text-yellow-200"></i> Đăng Ký Tài Khoản Ngay!
+                        <p class="text-sm text-gray-600">Kích hoạt tài khoản hoặc đăng ký mới để ôn luyện thi.</p>
+                        <button onclick="requireLoginForQuiz()" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-md hover:bg-blue-700 shadow">Đăng Nhập Luyện Thi</button>
+                        <div class="pt-2" id="widget-reg-container">
+                            <button onclick="navigate('register')" class="btn-bounce w-full bg-gradient-to-r from-amber-500 to-red-500 text-white font-black py-3 rounded-xl shadow-xl uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                                <i class="fas fa-gift text-lg text-yellow-200"></i> Đăng Ký Ngay!
                             </button>
                         </div>
                     </div>
@@ -168,118 +152,108 @@
             </div>
         </div>
 
-        <!-- ================= VIEW: VIDEO GIẢI ĐỀ ================= -->
-        <div id="view-videos" class="hidden-view space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-emerald-600 flex justify-between items-center flex-wrap gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-800" id="video-section-title">Video Giải Đề Thi</h2>
-                    <p class="text-sm text-gray-500">Xem video bài giảng hướng dẫn chi tiết từng câu hỏi</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="openVideoSection('cb')" id="btn-tab-video-cb" class="px-4 py-2 rounded-lg font-bold text-sm bg-emerald-600 text-white shadow">Chứng chỉ cơ bản</button>
-                    <button onclick="openVideoSection('nc')" id="btn-tab-video-nc" class="px-4 py-2 rounded-lg font-bold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300">Chứng chỉ nâng cao</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-1 bg-white p-4 rounded-xl shadow-md max-h-[550px] overflow-y-auto">
-                    <h3 class="font-bold text-gray-700 mb-3 pb-2 border-b flex items-center justify-between">
-                        <span>Danh sách bài giảng</span>
-                        <span id="video-count-badge" class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold">0 video</span>
-                    </h3>
-                    <div id="video-list-container" class="space-y-2"></div>
-                </div>
-                <div class="lg:col-span-2 bg-white p-4 rounded-xl shadow-md flex flex-col">
-                    <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black shadow-inner">
-                        <iframe id="main-video-player" class="w-full h-full" src="" title="Video giải đề" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="mt-4 p-3 bg-gray-50 rounded-lg border">
-                        <h4 id="current-video-title" class="text-lg font-bold text-gray-900 leading-snug">Đang tải video...</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CHI TIẾT BÀI VIẾT -->
+        <!-- ================= CÁC VIEW PHỤ ================= -->
+        <!-- VIEW: BÀI VIẾT CHI TIẾT -->
         <div id="view-article" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
             <button onclick="navigate('home')" class="text-blue-600 font-semibold mb-6 hover:underline"><i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ</button>
             <img id="article-img" src="" class="w-full h-64 object-cover rounded-lg mb-6 shadow-sm">
             <h1 id="article-title" class="text-3xl font-bold text-gray-900 mb-4 leading-tight"></h1>
-            <div id="article-content" class="article-content"></div>
+            <div id="article-content" class="article-content text-gray-700 leading-relaxed text-lg"></div>
         </div>
 
-        <!-- VIEW ĐĂNG NHẬP -->
-        <div id="view-login" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-blue-600">
-            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập Luyện Thi</h2>
-            <div class="space-y-4">
-                <input type="text" id="username" placeholder="Tên đăng nhập" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <input type="password" id="password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900 transition mt-4 shadow-md">Đăng nhập</button>
-                <div class="text-center pt-2">
-                    <span class="text-sm text-gray-500">Chưa có tài khoản? </span>
-                    <button onclick="navigate('register')" class="text-sm text-blue-600 font-semibold hover:underline">Đăng ký ngay</button>
+        <!-- VIEW VIDEO GIẢI ĐỀ -->
+        <div id="view-videos" class="hidden-view space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-emerald-600 flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800" id="video-section-title">Video Giải Đề Thi</h2>
+                    <p class="text-sm text-gray-500">Xem video bài giảng hướng dẫn chi tiết</p>
                 </div>
+                <div class="flex gap-2">
+                    <button onclick="openVideoSection('cb')" id="btn-tab-video-cb" class="px-4 py-2 rounded-lg font-bold text-sm bg-emerald-600 text-white">Chứng chỉ cơ bản</button>
+                    <button onclick="openVideoSection('nc')" id="btn-tab-video-nc" class="px-4 py-2 rounded-lg font-bold text-sm bg-gray-200 text-gray-700">Chứng chỉ nâng cao</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 bg-white p-4 rounded-xl shadow-md max-h-[550px] overflow-y-auto">
+                    <h3 class="font-bold text-gray-700 mb-3 pb-2 border-b flex justify-between">Danh sách <span id="video-count-badge" class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold">0</span></h3>
+                    <div id="video-list-container" class="space-y-2"></div>
+                </div>
+                <div class="lg:col-span-2 bg-white p-4 rounded-xl shadow-md flex flex-col">
+                    <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black shadow-inner">
+                        <iframe id="main-video-player" class="w-full h-full" src="" title="Video giải đề" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="mt-4 p-3 bg-gray-50 rounded-lg border">
+                        <h4 id="current-video-title" class="text-lg font-bold text-gray-900 leading-snug">Đang tải...</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW ĐĂNG NHẬP / ĐĂNG KÝ -->
+        <div id="view-login" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-blue-600">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập</h2>
+            <div class="space-y-4">
+                <input type="text" id="username" placeholder="Tên đăng nhập" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
+                <input type="password" id="password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
+                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900">Đăng nhập</button>
             </div>
             <div id="login-error" class="text-red-500 text-sm mt-4 text-center hidden p-2 bg-red-50 rounded"></div>
         </div>
 
-        <!-- VIEW ĐĂNG KÝ -->
         <div id="view-register" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-emerald-600">
             <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Đăng Ký Tài Khoản</h2>
-            <div class="space-y-3">
-                <input type="text" id="reg-username" placeholder="Tên đăng nhập (viết liền không dấu)" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
+            <div class="space-y-3 mt-4">
+                <input type="text" id="reg-username" placeholder="Tên đăng nhập" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
                 <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
-                <input type="text" id="reg-hoten" placeholder="Họ và tên" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
+                <input type="text" id="reg-hoten" placeholder="Họ và tên đầy đủ" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
                 <select id="reg-loai" class="w-full border p-2.5 rounded bg-gray-50 focus:outline-none">
                     <option value="cb">Tin học Cơ Bản</option>
                     <option value="nc">Tin học Nâng Cao</option>
                     <option value="cbnc">Cả Cơ Bản & Nâng Cao</option>
                 </select>
-                <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-semibold py-3 rounded hover:bg-emerald-700 transition mt-4 shadow-md">Gửi yêu cầu đăng ký</button>
+                <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-semibold py-3 rounded hover:bg-emerald-700">Đăng ký</button>
             </div>
             <div id="reg-message" class="text-sm mt-4 text-center hidden p-2 rounded"></div>
         </div>
 
-        <!-- ================= VIEW 7: TRANG QUẢN TRỊ ADMIN ================= -->
-        <div id="view-admin" class="hidden-view max-w-6xl mx-auto space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-red-600 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-gray-800"><i class="fas fa-user-shield text-red-600 mr-2"></i> Bảng Quản Trị Admin</h2>
-                <div class="flex gap-2">
-                    <button onclick="switchAdminTab('users')" id="tab-users-btn" class="bg-blue-600 text-white px-4 py-2 rounded font-bold shadow">Quản lý Tài Khoản</button>
-                    <button onclick="switchAdminTab('settings')" id="tab-settings-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300">Cài đặt Đề & Video</button>
+        <!-- ================= VIEW TRANG QUẢN TRỊ ADMIN ================= -->
+        <div id="view-admin" class="hidden-view max-w-7xl mx-auto space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-red-600 flex justify-between items-center flex-wrap gap-4">
+                <h2 class="text-2xl font-bold text-gray-800"><i class="fas fa-user-shield text-red-600 mr-2"></i> Bảng Quản Trị Hệ Thống</h2>
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="switchAdminTab('users')" id="tab-users-btn" class="bg-blue-600 text-white px-4 py-2 rounded font-bold shadow">Quản lý Học viên</button>
+                    <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300">Ngân hàng Câu hỏi</button>
+                    <button onclick="switchAdminTab('settings')" id="tab-settings-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300">Cấu hình Đề & Video</button>
                 </div>
             </div>
 
             <!-- Tab 1: Users -->
             <div id="admin-users-section" class="space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2"><i class="fas fa-user-plus text-green-600 mr-2"></i> Thêm Tài Khoản Trực Tiếp</h3>
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2"><i class="fas fa-user-plus text-green-600 mr-2"></i> Thêm Tài Khoản Nhanh</h3>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <input type="text" id="admin-add-username" placeholder="Tên đăng nhập" class="border p-2.5 rounded">
                         <input type="text" id="admin-add-password" placeholder="Mật khẩu" class="border p-2.5 rounded">
                         <input type="text" id="admin-add-hoten" placeholder="Họ và tên" class="border p-2.5 rounded">
                         <select id="admin-add-loai" class="border p-2.5 rounded">
-                            <option value="cb">Cơ bản (cb)</option>
-                            <option value="nc">Nâng cao (nc)</option>
-                            <option value="cbnc">Cả hai (cbnc)</option>
-                            <option value="admin">Quản trị viên (admin)</option>
+                            <option value="cb">Cơ bản</option>
+                            <option value="nc">Nâng cao</option>
+                            <option value="cbnc">Cả hai</option>
+                            <option value="admin">Quản trị viên</option>
                         </select>
                     </div>
-                    <button onclick="adminAddUser()" id="admin-add-btn" class="mt-4 bg-green-600 text-white px-6 py-2.5 rounded font-semibold hover:bg-green-700">Thêm & Kích Hoạt Ngay</button>
-                    <div id="admin-add-msg" class="text-sm mt-2 hidden font-semibold"></div>
+                    <button onclick="adminAddUser()" id="admin-add-btn" class="mt-4 bg-green-600 text-white px-6 py-2.5 rounded font-semibold hover:bg-green-700">Kích Hoạt Ngay</button>
                 </div>
-
                 <div class="bg-white p-6 rounded-xl shadow overflow-x-auto">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2"><i class="fas fa-users text-blue-600 mr-2"></i> Danh Sách Tài Khoản & Phê Duyệt</h3>
+                    <div class="flex justify-between items-center border-b pb-2 mb-4">
+                        <h3 class="text-lg font-bold"><i class="fas fa-users text-blue-600 mr-2"></i> Danh Sách Tài Khoản</h3>
+                        <button onclick="loadAdminUsers()" class="text-blue-600 text-sm hover:underline"><i class="fas fa-sync-alt"></i> Tải lại</button>
+                    </div>
                     <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-gray-100 text-gray-700 border-b">
-                                <th class="p-3">Tài khoản</th>
-                                <th class="p-3">Mật khẩu</th>
-                                <th class="p-3">Họ tên</th>
-                                <th class="p-3">Quyền</th>
-                                <th class="p-3">Trạng thái</th>
-                                <th class="p-3 text-center">Hành động</th>
+                        <thead class="bg-gray-100 text-gray-700 border-b">
+                            <tr>
+                                <th class="p-3">Tài khoản</th><th class="p-3">Mật khẩu</th><th class="p-3">Họ tên</th>
+                                <th class="p-3">Quyền</th><th class="p-3">Trạng thái</th><th class="p-3 text-center">Hành động</th>
                             </tr>
                         </thead>
                         <tbody id="admin-users-table"></tbody>
@@ -287,11 +261,53 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Settings (Đề & Video) -->
-            <div id="admin-settings-section" class="hidden space-y-6">
-                <!-- Chỉnh số lượng đề -->
+            <!-- Tab 2: Quản lý Câu hỏi (Ngân hàng đề) -->
+            <div id="admin-questions-section" class="hidden space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2"><i class="fas fa-cogs text-gray-600 mr-2"></i> Cấu Hình Số Lượng Đề Thi</h3>
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2"><i class="fas fa-database text-purple-600 mr-2"></i> Truy Xuất Đề Thi</h3>
+                    <div class="flex items-end gap-4 flex-wrap">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Loại chứng chỉ</label>
+                            <select id="admin-q-cat" class="border p-2.5 rounded w-48 focus:outline-none">
+                                <option value="cb">Cơ bản</option>
+                                <option value="nc">Nâng cao</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Nhập Mã Đề</label>
+                            <input type="text" id="admin-q-made" placeholder="VD: 1 hoặc NC_de01" class="border p-2.5 rounded w-48 focus:outline-none">
+                        </div>
+                        <button onclick="adminLoadQuestions()" id="btn-load-qs" class="bg-purple-600 text-white px-6 py-2.5 rounded font-bold shadow hover:bg-purple-700">Tải Danh Sách</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <div class="flex justify-between items-center mb-4 border-b pb-2">
+                        <h3 class="text-lg font-bold"><i class="fas fa-list text-gray-700 mr-2"></i> Danh Sách Câu Hỏi</h3>
+                        <button onclick="openQuestionModal()" class="bg-green-600 text-white px-4 py-2 rounded text-sm font-bold shadow hover:bg-green-700"><i class="fas fa-plus mr-1"></i> Thêm câu hỏi mới</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead class="bg-gray-100 text-gray-700 border-b">
+                                <tr>
+                                    <th class="p-3 w-16">STT</th>
+                                    <th class="p-3">Nội dung câu hỏi</th>
+                                    <th class="p-3 w-32">Đáp án đúng</th>
+                                    <th class="p-3 w-32 text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-questions-table">
+                                <tr><td colspan="4" class="p-4 text-center text-gray-500">Vui lòng nhập mã đề và bấm Tải danh sách</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Settings (Cấu hình) -->
+            <div id="admin-settings-section" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2"><i class="fas fa-cogs text-gray-600 mr-2"></i> Cấu Hình Số Lượng Đề Thi</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Tổng số đề Cơ Bản (Hiện tại: <span id="lbl-sode-cb"></span>)</label>
@@ -304,105 +320,120 @@
                     </div>
                     <button onclick="saveSystemConfig()" class="mt-4 bg-blue-600 text-white px-6 py-2.5 rounded font-semibold hover:bg-blue-700 shadow">Lưu Cấu Hình Đề</button>
                 </div>
-
-                <!-- Chỉnh sửa video -->
                 <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2"><i class="fas fa-video text-emerald-600 mr-2"></i> Quản Lý Video Bài Giảng</h3>
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2"><i class="fas fa-video text-emerald-600 mr-2"></i> Quản Lý Video Bài Giảng</h3>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-gray-50 p-4 rounded border">
-                        <select id="admin-vid-loai" class="border p-2.5 rounded">
-                            <option value="cb">Chứng chỉ Cơ bản</option>
-                            <option value="nc">Chứng chỉ Nâng cao</option>
-                        </select>
-                        <input type="text" id="admin-vid-id" placeholder="YouTube ID (VD: g990JsanJUk)" class="border p-2.5 rounded font-mono">
-                        <input type="text" id="admin-vid-title" placeholder="Tiêu đề video (VD: Giải đề thi 01)" class="border p-2.5 rounded md:col-span-2">
-                        <button onclick="adminAddVideo()" class="bg-green-600 text-white px-6 py-2.5 rounded font-semibold hover:bg-green-700 transition md:col-span-4 shadow"><i class="fas fa-plus mr-1"></i> Thêm Video Mới</button>
+                        <select id="admin-vid-loai" class="border p-2.5 rounded"><option value="cb">Chứng chỉ Cơ bản</option><option value="nc">Chứng chỉ Nâng cao</option></select>
+                        <input type="text" id="admin-vid-id" placeholder="YouTube ID" class="border p-2.5 rounded font-mono">
+                        <input type="text" id="admin-vid-title" placeholder="Tiêu đề video" class="border p-2.5 rounded md:col-span-2">
+                        <button onclick="adminAddVideo()" class="bg-green-600 text-white px-6 py-2.5 rounded font-semibold md:col-span-4 shadow">Thêm Video</button>
                     </div>
                     <div id="admin-video-list" class="space-y-4"></div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW CHỌN ĐỀ -->
+        <!-- ================= MODAL SỬA/THÊM CÂU HỎI ================= -->
+        <div id="modal-question" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex justify-center items-center p-4">
+            <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto">
+                <div class="p-6 border-b flex justify-between items-center bg-gray-50 rounded-t-xl">
+                    <h3 class="text-xl font-bold text-gray-800" id="modal-q-title">Thêm / Chỉnh Sửa Câu Hỏi</h3>
+                    <button onclick="closeQuestionModal()" class="text-gray-500 hover:text-red-500 font-bold text-xl">&times;</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <input type="hidden" id="modal-q-rowindex">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Mã Đề *</label>
+                        <input type="text" id="modal-q-made" class="w-full border p-2.5 rounded focus:ring-2 focus:ring-blue-500 outline-none font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Nội dung câu hỏi *</label>
+                        <textarea id="modal-q-noidung" rows="3" class="w-full border p-2.5 rounded focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-semibold mb-1">Đáp án A</label><input type="text" id="modal-q-a" class="w-full border p-2.5 rounded"></div>
+                        <div><label class="block text-sm font-semibold mb-1">Đáp án B</label><input type="text" id="modal-q-b" class="w-full border p-2.5 rounded"></div>
+                        <div><label class="block text-sm font-semibold mb-1">Đáp án C</label><input type="text" id="modal-q-c" class="w-full border p-2.5 rounded"></div>
+                        <div><label class="block text-sm font-semibold mb-1">Đáp án D</label><input type="text" id="modal-q-d" class="w-full border p-2.5 rounded"></div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-blue-700 mb-1">Đáp án ĐÚNG * (VD: A, B, AB)</label>
+                        <input type="text" id="modal-q-dapandung" class="w-full border p-2.5 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-blue-50 font-bold uppercase">
+                    </div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 rounded-b-xl flex justify-end gap-3">
+                    <button onclick="closeQuestionModal()" class="px-5 py-2.5 rounded font-bold text-gray-600 bg-gray-200 hover:bg-gray-300">Hủy</button>
+                    <button onclick="adminSaveQuestion()" id="modal-btn-save" class="px-5 py-2.5 rounded font-bold text-white bg-blue-600 hover:bg-blue-700 shadow">Lưu Thay Đổi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÁC VIEW: CHỌN ĐỀ, THI, LỊCH SỬ... GIỮ NGUYÊN -->
         <div id="view-select" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto text-center mt-10">
             <h2 class="text-2xl font-bold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
-            <p class="text-gray-600 mb-6">Vui lòng chọn cấp độ ôn tập hoặc xem lịch sử thi:</p>
-            
             <div class="grid grid-cols-2 gap-4 mb-6">
-                <button onclick="selectCategory('co-ban')" id="btn-coban" class="p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition">Phần Cơ Bản</button>
-                <button onclick="selectCategory('nang-cao')" id="btn-nangcao" class="p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition">Phần Nâng Cao</button>
+                <button onclick="selectCategory('co-ban')" id="btn-coban" class="p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600">Phần Cơ Bản</button>
+                <button onclick="selectCategory('nang-cao')" id="btn-nangcao" class="p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700">Phần Nâng Cao</button>
             </div>
-
-            <button onclick="fetchQuizHistory()" class="w-full bg-purple-600 text-white font-bold py-3 rounded-xl mb-6 hover:bg-purple-700 transition shadow-md">
-                <i class="fas fa-history mr-2"></i> Xem lịch sử các lần làm bài
-            </button>
-
+            <button onclick="fetchQuizHistory()" class="w-full bg-purple-600 text-white font-bold py-3 rounded-xl mb-6 shadow-md">Xem lịch sử thi</button>
             <div class="mb-6 text-left">
-                <label class="block text-sm font-medium mb-2">Chọn Mã Đề Cụ Thể:</label>
                 <div id="quiz-buttons-grid" class="grid grid-cols-5 gap-2 max-h-64 overflow-y-auto p-2 border rounded-xl bg-gray-50"></div>
             </div>
         </div>
 
-        <!-- VIEW LỊCH SỬ LÀM BÀI -->
         <div id="view-history" class="hidden-view max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md">
             <div class="flex justify-between items-center mb-6 border-b pb-4">
-                <h2 class="text-2xl font-bold text-gray-800"><i class="fas fa-history text-purple-600 mr-2"></i> Lịch Sử Các Lần Làm Bài</h2>
-                <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200"><i class="fas fa-arrow-left mr-2"></i> Quay lại chọn đề</button>
+                <h2 class="text-2xl font-bold text-gray-800">Lịch Sử Làm Bài</h2>
+                <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700">Quay lại</button>
             </div>
             <div id="history-container" class="space-y-4"></div>
         </div>
 
-        <!-- VIEW LOADING -->
         <div id="view-loading" class="hidden-view flex flex-col items-center justify-center py-20">
             <div class="spinner mb-4"></div>
             <p class="text-gray-600 font-medium" id="loading-text">Đang tải dữ liệu...</p>
         </div>
 
-        <!-- VIEW LÀM BÀI THI (30 PHÚT) -->
         <div id="view-quiz" class="hidden-view">
-            <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-[72px] z-40 flex justify-between items-center border-b-4 border-blue-600">
-                <div class="font-semibold text-sm md:text-lg">Học viên: <span id="display-name" class="text-blue-600"></span> | Đề: <span id="display-quiz" class="text-blue-600 font-bold"></span></div>
-                <div class="font-bold text-sm md:text-lg bg-red-100 px-4 py-1.5 rounded-full text-red-700 border border-red-300">
+            <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-[72px] z-30 flex justify-between items-center border-b-4 border-blue-600">
+                <div class="font-semibold">Học viên: <span id="display-name" class="text-blue-600"></span> | Đề: <span id="display-quiz" class="text-blue-600 font-bold"></span></div>
+                <div class="font-bold bg-red-100 px-4 py-1.5 rounded-full text-red-700 border border-red-300">
                     <i class="fas fa-clock mr-1"></i> <span id="timer-display">30:00</span>
                 </div>
             </div>
             <div id="questions-container" class="space-y-6 mb-8"></div>
-            <button onclick="submitQuiz()" id="submit-btn" class="w-full md:w-1/3 bg-green-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-700 transition text-lg block mx-auto shadow-lg uppercase">Nộp Bài & Xem Điểm</button>
+            <button onclick="submitQuiz()" id="submit-btn" class="w-full md:w-1/3 bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg mx-auto shadow-lg uppercase block">Nộp Bài</button>
         </div>
 
-        <!-- VIEW KẾT QUẢ -->
         <div id="view-result" class="hidden-view bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto text-center mt-10 border-t-8 border-green-500">
             <h2 class="text-3xl font-bold text-gray-800 mb-2">Kết Quả Bài Thi</h2>
-            <p class="text-gray-600 mb-6">Đã ghi nhận kết quả của bạn lên hệ thống.</p>
             <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8 shadow-inner">
-                <div class="text-sm text-gray-500 uppercase font-semibold tracking-wider mb-2">Tổng điểm</div>
                 <div class="text-7xl font-black text-blue-600 mb-4"><span id="score-display">0</span></div>
-                <div class="text-lg bg-white inline-block px-6 py-2 rounded-full border border-gray-200 font-medium">
+                <div class="text-lg bg-white px-6 py-2 rounded-full border border-gray-200 font-medium inline-block">
                     Số câu đúng: <span id="correct-count" class="font-bold text-green-600 text-xl">0</span> / <span id="total-count" class="font-bold text-xl">0</span>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button onclick="openReviewModal()" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition shadow-md"><i class="fas fa-eye mr-2"></i> Xem lại bài làm</button>
-                <button onclick="navigate('select')" class="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition">Chọn đề khác</button>
+            <div class="flex justify-center gap-4">
+                <button onclick="openReviewModal()" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg">Xem chi tiết</button>
+                <button onclick="navigate('select')" class="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg">Thoát</button>
             </div>
         </div>
 
-        <!-- VIEW XEM LẠI CHI TIẾT -->
         <div id="view-review" class="hidden-view max-w-4xl mx-auto">
             <div class="bg-white p-6 rounded-xl shadow-md mb-6 flex justify-between items-center border-b">
                 <h2 class="text-2xl font-bold text-gray-800">Chi Tiết Bài Làm & Đáp Án</h2>
-                <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200"><i class="fas fa-arrow-left mr-2"></i> Quay lại chọn đề</button>
+                <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700">Quay lại</button>
             </div>
             <div id="review-container" class="space-y-6"></div>
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-[#0a192f] text-gray-400 py-8 text-center mt-12 border-t-4 border-blue-900">
         <p class="font-semibold text-gray-300">Công Ty TNHH Thành Danh - Chi Nhánh 13</p>
         <p class="text-sm mt-2">Địa chỉ: 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Tỉnh Đồng Tháp</p>
-        <p class="text-sm mt-1">Hotline: 0969 264305 - 0934 671006</p>
     </footer>
 
+    <!-- SCRIPT CHÍNH (Đã khôi phục 100% Data và nâng cấp nút Admin) -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
@@ -411,30 +442,86 @@
         let isLoggedIn = false;
         let timerInterval = null;
         let timeLeft = 30 * 60;
+        let adminQuestionsData = [];
 
-        // CẤU HÌNH HỆ THỐNG MẶC ĐỊNH
         let systemConfig = {
-            so_de_cb: 35,
-            so_de_nc: 10,
+            so_de_cb: 35, so_de_nc: 10,
             videos: {
                 cb: [
-                    { id: "g990JsanJUk", title: "Giải Đề Thi Cơ Bản - Đề 01" },
-                    { id: "_0Wr7hxJ37o", title: "Giải Đề Thi Cơ Bản - Đề 02" },
-                    { id: "tdi0qrSBD1E", title: "Giải Đề Thi Cơ Bản - Đề 03" },
-                    { id: "Src-GZweEZo", title: "Giải Đề Thi Cơ Bản - Đề 04" },
-                    { id: "O2LV6jKJQHA", title: "Giải Đề Thi Cơ Bản - Đề 05" },
-                    { id: "E_7klhuMs1g", title: "Giải Đề Thi Cơ Bản - Đề 06" },
-                    { id: "iwwgWIav1Qs", title: "Giải Đề Thi Cơ Bản - Đề 07" }
+                    { id: "g990JsanJUk", title: "Video 1: Giải Đề Thi Cơ Bản - Đề 01" },
+                    { id: "_0Wr7hxJ37o", title: "Video 2: Giải Đề Thi Cơ Bản - Đề 02" },
+                    { id: "tdi0qrSBD1E", title: "Video 3: Giải Đề Thi Cơ Bản - Đề 03" },
+                    { id: "Src-GZweEZo", title: "Video 4: Giải Đề Thi Cơ Bản - Đề 04" },
+                    { id: "O2LV6jKJQHA", title: "Video 5: Giải Đề Thi Cơ Bản - Đề 05" },
+                    { id: "E_7klhuMs1g", title: "Video 6: Giải Đề Thi Cơ Bản - Đề 06" },
+                    { id: "iwwgWIav1Qs", title: "Video 7: Giải Đề Thi Cơ Bản - Đề 07" }
                 ],
                 nc: [
-                    { id: "zbS_Y1yjE9o", title: "Giải Đề Nâng Cao - Phần 01" },
-                    { id: "sysG2e-5U44", title: "Giải Đề Nâng Cao - Phần 02" },
-                    { id: "gDFfI5RGg2c", title: "Giải Đề Nâng Cao - Phần 03" }
+                    { id: "zbS_Y1yjE9o", title: "Video 1: Giải Đề Nâng Cao - Phần 01" },
+                    { id: "sysG2e-5U44", title: "Video 2: Giải Đề Nâng Cao - Phần 02" },
+                    { id: "gDFfI5RGg2c", title: "Video 3: Giải Đề Nâng Cao - Phần 03" }
                 ]
             }
         };
 
-        // LOAD CẤU HÌNH TỪ SERVER KHI MỞ TRANG
+        const articles = {
+            1: {
+                title: "Khóa Học Tin Học Lấy Chứng Chỉ Ứng Dụng CNTT Cơ Bản & Nâng Cao",
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Chứng chỉ Ứng dụng Công nghệ thông tin (CNTT) là chứng chỉ quốc gia, có giá trị vô thời hạn, rất cần thiết đối với sinh viên xét tốt nghiệp, công chức, viên chức thi tuyển hoặc nâng ngạch.</p>
+                    <h3>Nội dung khóa học Cơ Bản:</h3>
+                    <ul>
+                        <li>Hiểu biết về CNTT cơ bản và an toàn thông tin.</li>
+                        <li>Sử dụng máy tính và quản lý tệp tin trên Windows.</li>
+                        <li>Soạn thảo văn bản hành chính chuyên nghiệp với Microsoft Word.</li>
+                        <li>Xử lý dữ liệu, tính toán bảng biểu với Microsoft Excel.</li>
+                        <li>Thiết kế bài thuyết trình sinh động với Microsoft PowerPoint.</li>
+                    </ul>
+                    <h3>Nội dung khóa học Nâng Cao:</h3>
+                    <ul>
+                        <li>Kỹ năng trộn thư, mục lục tự động, quản lý Style nâng cao trong Word.</li>
+                        <li>Hàm thống kê, dò tìm phức tạp, Pivot Table, Macro cơ bản trong Excel.</li>
+                        <li>Thiết kế Slide chuyên sâu, Trigger, Animation nâng cao trong PowerPoint.</li>
+                    </ul>
+                    <p><strong>Thời gian học:</strong> Linh hoạt, học viên được thực hành 100% trên máy tính dưới sự hướng dẫn tận tình của giáo viên.</p>
+                `
+            },
+            2: {
+                title: "Thông Tin Đăng Ký Bản Quyền Gemini Pro & ChatGPT Plus",
+                image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Trí tuệ nhân tạo (AI) đang thay đổi hoàn toàn cách chúng ta làm việc và sáng tạo. Việc sở hữu một tài khoản AI bản quyền giúp bạn tiếp cận các tính năng mạnh mẽ nhất.</p>
+                    <h3>Ưu điểm của ChatGPT Plus:</h3>
+                    <ul>
+                        <li>Sử dụng mô hình GPT-4/GPT-4o thông minh nhất, suy luận logic xuất sắc.</li>
+                        <li>Hỗ trợ phân tích dữ liệu Data Analysis, đọc hiểu file Excel, PDF, CSV.</li>
+                        <li>Tạo hình ảnh sắc nét từ văn bản với công cụ DALL-E 3.</li>
+                    </ul>
+                    <h3>Ưu điểm của Gemini Advanced (Gemini Pro):</h3>
+                    <ul>
+                        <li>Tích hợp trực tiếp và hoàn hảo vào hệ sinh thái Google.</li>
+                        <li>Tốc độ truy xuất và thu thập thông tin thời gian thực vượt trội.</li>
+                    </ul>
+                    <p><strong>Dịch vụ của chúng tôi:</strong> Cung cấp tài khoản nâng cấp chính chủ trên chính email của khách hàng. Bảo hành toàn thời gian sử dụng.</p>
+                `
+            },
+            3: {
+                title: "Đào Tạo Tin Học Ứng Dụng Trí Tuệ Nhân Tạo (AI)",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Khóa học đặc biệt dành cho những người muốn đón đầu xu hướng công nghệ, ứng dụng AI để tăng gấp 10 lần hiệu suất làm việc văn phòng.</p>
+                    <h3>Bạn sẽ học được gì?</h3>
+                    <ul>
+                        <li><strong>Nghệ thuật Viết Prompt (Câu lệnh):</strong> Cách giao tiếp với AI để nhận được câu trả lời chính xác, đúng ngữ cảnh và văn phong.</li>
+                        <li><strong>Tự động hóa với Excel & AI:</strong> Sử dụng ChatGPT để viết hàm Excel phức tạp, giải thích công thức, hoặc viết mã VBA.</li>
+                        <li><strong>Tạo Content & Thuyết trình:</strong> Dùng AI để lên ý tưởng, viết kịch bản, và tự động tạo Slide PowerPoint hoàn chỉnh.</li>
+                    </ul>
+                    <p>Khóa học không đòi hỏi kiến thức lập trình phức tạp. Áp dụng ngay vào công việc thực tế vào ngày hôm sau.</p>
+                `
+            }
+        };
+
         async function fetchSystemConfig() {
             try {
                 const res = await fetch(API_URL + "?action=get_config");
@@ -442,61 +529,240 @@
                 if (data && data.so_de_cb) {
                     systemConfig.so_de_cb = data.so_de_cb;
                     systemConfig.so_de_nc = data.so_de_nc;
-                    if (data.videos && Object.keys(data.videos).length > 0) {
-                        systemConfig.videos = data.videos;
-                    }
+                    if (data.videos && (data.videos.cb.length > 0 || data.videos.nc.length > 0)) systemConfig.videos = data.videos;
                 }
-            } catch (e) {
-                console.log("Lỗi tải cấu hình, sử dụng dữ liệu mặc định.");
-            }
+            } catch (e) {}
         }
         fetchSystemConfig();
-
-        const articles = {
-            1: {
-                title: "Khóa Học Tin Học Lấy Chứng Chỉ Cơ Bản & Nâng Cao",
-                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
-                content: `<p>Nội dung chi tiết đào tạo CNTT...</p>`
-            }
-        };
 
         function navigate(viewName) {
             const views = ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-videos'];
             views.forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
-            
-            const target = document.getElementById(`view-${viewName}`);
+            const target = document.getElementById('view-' + viewName);
             if (target) target.classList.remove('hidden-view');
             window.scrollTo(0, 0);
 
-            if (viewName !== 'view-quiz' && timerInterval) clearInterval(timerInterval);
+            if (viewName !== 'quiz' && timerInterval) clearInterval(timerInterval);
 
-            if(isLoggedIn) {
-                document.getElementById('nav-user-area').classList.remove('hidden');
+            if (isLoggedIn) {
+                document.getElementById('nav-user-area')?.classList.remove('hidden');
                 document.getElementById('nav-username-display').innerText = studentInfo.name;
-                document.getElementById('nav-reg-btn').classList.add('hidden'); // Ẩn nút đăng ký nhảy nhảy
-                if(studentInfo.loai === 'admin') document.getElementById('nav-admin-btn').classList.remove('hidden');
+                document.getElementById('nav-reg-btn')?.classList.add('hidden');
+                document.getElementById('widget-reg-container')?.classList.add('hidden');
+                if(studentInfo.loai === 'admin') document.getElementById('nav-admin-btn')?.classList.remove('hidden');
             } else {
-                document.getElementById('nav-user-area').classList.add('hidden');
-                document.getElementById('nav-admin-btn').classList.add('hidden');
-                document.getElementById('nav-reg-btn').classList.remove('hidden');
+                document.getElementById('nav-user-area')?.classList.add('hidden');
+                document.getElementById('nav-admin-btn')?.classList.add('hidden');
+                document.getElementById('nav-reg-btn')?.classList.remove('hidden');
+                document.getElementById('widget-reg-container')?.classList.remove('hidden');
             }
         }
 
-        // ================= XỬ LÝ ADMIN PANEL =================
-        function switchAdminTab(tab) {
-            if(tab === 'users') {
-                document.getElementById('admin-users-section').classList.remove('hidden');
-                document.getElementById('admin-settings-section').classList.add('hidden');
-                document.getElementById('tab-users-btn').className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
-                document.getElementById('tab-settings-btn').className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
-                loadAdminUsers();
-            } else {
-                document.getElementById('admin-users-section').classList.add('hidden');
-                document.getElementById('admin-settings-section').classList.remove('hidden');
-                document.getElementById('tab-settings-btn').className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
-                document.getElementById('tab-users-btn').className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
-                renderAdminSettings();
+        function showArticle(id) {
+            const art = articles[id];
+            if(art) {
+                document.getElementById('article-title').innerText = art.title;
+                document.getElementById('article-img').src = art.image;
+                document.getElementById('article-content').innerHTML = art.content;
+                navigate('article');
             }
+        }
+
+        function logout() {
+            if(confirm("Xác nhận đăng xuất?")) { isLoggedIn = false; navigate('home'); }
+        }
+
+        function requireLoginForQuiz() {
+            if (isLoggedIn) {
+                if (studentInfo.loai === 'admin') navigate('admin');
+                else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
+            } else navigate('login');
+        }
+
+        async function loginUser() {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const errorEl = document.getElementById('login-error');
+            const btn = document.getElementById('login-btn');
+            if (!u || !p) return errorEl.innerText = "Vui lòng nhập đủ!", errorEl.classList.remove('hidden'), void 0;
+            
+            btn.disabled = true; btn.innerText = 'Đang xác thực...'; errorEl.classList.add('hidden');
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: u, password: p }) });
+                const r = await res.json();
+                if (r.status === "success") {
+                    isLoggedIn = true;
+                    studentInfo = { username: u, name: r.hoten, loai: r.loai };
+                    document.getElementById('student-name-display').innerText = r.hoten;
+                    if (studentInfo.loai === 'admin') { loadAdminUsers(); navigate('admin'); }
+                    else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
+                } else {
+                    errorEl.innerText = r.message || "Tài khoản / mật khẩu sai!"; errorEl.classList.remove('hidden');
+                }
+            } catch (err) { errorEl.innerText = "Lỗi kết nối!"; errorEl.classList.remove('hidden'); }
+            btn.disabled = false; btn.innerText = "Đăng nhập";
+        }
+
+        async function registerUser() {
+            const u = document.getElementById('reg-username').value.trim(), p = document.getElementById('reg-password').value.trim(), h = document.getElementById('reg-hoten').value.trim(), l = document.getElementById('reg-loai').value;
+            const msgEl = document.getElementById('reg-message'), btn = document.getElementById('reg-btn');
+            if (!u || !p || !h) return msgEl.innerText = "Nhập đủ thông tin!", msgEl.className = "text-sm mt-4 p-2 bg-red-100 text-red-700 block", void 0;
+            
+            btn.disabled = true; btn.innerText = 'Đang gửi...'; msgEl.classList.add('hidden');
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l }) });
+                const r = await res.json();
+                msgEl.innerText = r.message;
+                msgEl.className = r.status === "success" ? "text-sm mt-4 p-3 bg-emerald-100 text-emerald-800 font-bold block" : "text-sm mt-4 p-2 bg-red-100 text-red-700 block";
+            } catch (e) { msgEl.innerText = "Lỗi mạng!"; msgEl.className = "text-sm mt-4 p-2 bg-red-100 text-red-700 block"; }
+            btn.disabled = false; btn.innerText = "Gửi yêu cầu đăng ký";
+        }
+
+        // ================= ADMIN =================
+        function switchAdminTab(tab) {
+            ['users', 'questions', 'settings'].forEach(t => {
+                document.getElementById(`admin-${t}-section`).classList.add('hidden');
+                document.getElementById(`tab-${t}-btn`).className = "bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300";
+            });
+            document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-4 py-2 rounded font-bold shadow";
+            
+            if(tab === 'users') loadAdminUsers();
+            if(tab === 'settings') renderAdminSettings();
+        }
+
+        async function loadAdminUsers() {
+            const tbody = document.getElementById('admin-users-table');
+            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>`;
+            try {
+                const res = await fetch(API_URL + "?action=get_users");
+                const users = await res.json();
+                tbody.innerHTML = '';
+                users.forEach(u => {
+                    let stBadge = (u.trangthai === 'pending') ? `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-1 rounded text-xs">Chờ duyệt</span>` 
+                        : (u.trangthai === 'blocked' ? `<span class="bg-red-100 text-red-800 font-bold px-2 py-1 rounded text-xs">Đã Khóa</span>` : `<span class="bg-green-100 text-green-800 font-bold px-2 py-1 rounded text-xs">Hoạt động</span>`);
+                    
+                    let acts = '';
+                    if (u.trangthai === 'pending') {
+                        acts = `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-emerald-700"><i class="fas fa-check"></i> Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="fas fa-trash"></i> Từ chối</button>`;
+                    } else {
+                        let nextStatus = (u.trangthai === 'active') ? 'blocked' : 'active';
+                        let statusBtn = (u.trangthai === 'active') ? '<i class="fas fa-lock"></i>' : '<i class="fas fa-unlock"></i>';
+                        let statusClass = (u.trangthai === 'active') ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-500 hover:bg-green-600';
+                        acts = `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border text-xs rounded p-1 mr-1"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>CB+NC</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${nextStatus}', '${u.loai}')" class="${statusClass} text-white px-2 py-1 rounded text-xs mr-1" title="Chuyển trạng thái">${statusBtn}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700" title="Xóa"><i class="fas fa-trash"></i></button>`;
+                    }
+                    tbody.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-semibold">${u.username}</td><td class="p-3 text-gray-500">${u.password}</td><td class="p-3">${u.hoten}</td><td class="p-3 uppercase text-xs font-bold text-blue-700">${u.loai}</td><td class="p-3">${stBadge}</td><td class="p-3 text-center whitespace-nowrap">${acts}</td></tr>`;
+                });
+            } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-4">Lỗi tải dữ liệu</td></tr>`; }
+        }
+
+        async function updateUserStatus(rowIndex, status, loai) {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_user_status', rowIndex, trangthai: status, loai }) });
+            loadAdminUsers();
+        }
+
+        async function adminDeleteUser(rowIndex) {
+            if(!confirm("Hành động này không thể hoàn tác. Xác nhận xóa?")) return;
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_user', rowIndex: rowIndex }) });
+                const r = await res.json();
+                if(r.status === 'success') loadAdminUsers();
+            } catch (e) { alert("Lỗi khi xóa người dùng!"); }
+        }
+
+        async function adminAddUser() {
+            const u = document.getElementById('admin-add-username').value.trim(), p = document.getElementById('admin-add-password').value.trim(), h = document.getElementById('admin-add-hoten').value.trim(), l = document.getElementById('admin-add-loai').value;
+            if (!u || !p || !h) return alert("Nhập đủ thông tin!");
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l }) });
+            document.getElementById('admin-add-username').value=''; document.getElementById('admin-add-password').value=''; document.getElementById('admin-add-hoten').value='';
+            loadAdminUsers();
+        }
+
+        async function adminLoadQuestions() {
+            const cat = document.getElementById('admin-q-cat').value;
+            const made = document.getElementById('admin-q-made').value.trim();
+            const tbody = document.getElementById('admin-questions-table');
+            const btn = document.getElementById('btn-load-qs');
+            if(!made) return alert("Vui lòng nhập Mã đề cần tải!");
+            btn.disabled = true; btn.innerText = "Đang tải...";
+            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu câu hỏi...</td></tr>`;
+            try {
+                const res = await fetch(`${API_URL}?made=${made}&cat=${cat}`);
+                adminQuestionsData = await res.json();
+                tbody.innerHTML = '';
+                if(adminQuestionsData.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">Mã đề này chưa có câu hỏi nào. Bấm 'Thêm câu hỏi mới'.</td></tr>`;
+                    return;
+                }
+                adminQuestionsData.forEach((q, idx) => {
+                    const ans = String(q.DapAnDung || "").toUpperCase();
+                    tbody.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">${idx + 1}</td><td class="p-3">${q.NoiDung}</td><td class="p-3 font-mono font-bold text-blue-700">${ans}</td><td class="p-3 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-600 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-blue-700"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="fas fa-trash"></i></button></td></tr>`;
+                });
+            } catch(e) { tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">Lỗi tải câu hỏi!</td></tr>`; }
+            btn.disabled = false; btn.innerText = "Tải Danh Sách";
+        }
+
+        function openQuestionModal(qData = null) {
+            document.getElementById('modal-question').classList.remove('hidden');
+            const madeInput = document.getElementById('admin-q-made').value.trim();
+            if (qData) {
+                document.getElementById('modal-q-title').innerText = "Chỉnh Sửa Câu Hỏi";
+                document.getElementById('modal-q-rowindex').value = qData._rowIndex;
+                document.getElementById('modal-q-made').value = qData.MaDe || "";
+                document.getElementById('modal-q-noidung').value = qData.NoiDung || "";
+                document.getElementById('modal-q-a').value = qData.DapAnA || "";
+                document.getElementById('modal-q-b').value = qData.DapAnB || "";
+                document.getElementById('modal-q-c').value = qData.DapAnC || "";
+                document.getElementById('modal-q-d').value = qData.DapAnD || "";
+                document.getElementById('modal-q-dapandung').value = qData.DapAnDung || "";
+            } else {
+                document.getElementById('modal-q-title').innerText = "Thêm Câu Hỏi Mới";
+                document.getElementById('modal-q-rowindex').value = "";
+                document.getElementById('modal-q-made').value = madeInput;
+                document.getElementById('modal-q-noidung').value = "";
+                document.getElementById('modal-q-a').value = "";
+                document.getElementById('modal-q-b').value = "";
+                document.getElementById('modal-q-c').value = "";
+                document.getElementById('modal-q-d').value = "";
+                document.getElementById('modal-q-dapandung').value = "";
+            }
+        }
+        function closeQuestionModal() { document.getElementById('modal-question').classList.add('hidden'); }
+        function editQuestion(index) { openQuestionModal(adminQuestionsData[index]); }
+
+        async function adminSaveQuestion() {
+            const btn = document.getElementById('modal-btn-save');
+            const cat = document.getElementById('admin-q-cat').value;
+            const rowIndex = document.getElementById('modal-q-rowindex').value;
+            const q = {
+                MaDe: document.getElementById('modal-q-made').value.trim(),
+                NoiDung: document.getElementById('modal-q-noidung').value.trim(),
+                DapAnA: document.getElementById('modal-q-a').value.trim(),
+                DapAnB: document.getElementById('modal-q-b').value.trim(),
+                DapAnC: document.getElementById('modal-q-c').value.trim(),
+                DapAnD: document.getElementById('modal-q-d').value.trim(),
+                DapAnDung: document.getElementById('modal-q-dapandung').value.trim().toUpperCase()
+            };
+            if(!q.MaDe || !q.NoiDung || !q.DapAnDung) return alert("Vui lòng điền Mã đề, Nội dung và Đáp án đúng!");
+            btn.disabled = true; btn.innerText = "Đang lưu...";
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_question', category: cat, rowIndex: rowIndex || null, question: q }) });
+                const r = await res.json();
+                if(r.status === 'success') { closeQuestionModal(); document.getElementById('admin-q-made').value = q.MaDe; adminLoadQuestions(); } 
+                else alert("Lỗi khi lưu!");
+            } catch(e) { alert("Lỗi kết nối!"); }
+            btn.disabled = false; btn.innerText = "Lưu Thay Đổi";
+        }
+
+        async function deleteQuestion(index) {
+            if(!confirm("Bạn chắc chắn muốn xóa câu hỏi này?")) return;
+            const q = adminQuestionsData[index];
+            const cat = document.getElementById('admin-q-cat').value;
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_question', category: cat, rowIndex: q._rowIndex }) });
+                const r = await res.json();
+                if(r.status === 'success') adminLoadQuestions();
+            } catch(e) { alert("Lỗi kết nối!"); }
         }
 
         function renderAdminSettings() {
@@ -504,299 +770,128 @@
             document.getElementById('admin-so-de-nc').value = systemConfig.so_de_nc;
             document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb;
             document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
-            
             const container = document.getElementById('admin-video-list');
             container.innerHTML = '';
-            
             ['cb', 'nc'].forEach(cat => {
-                const catName = cat === 'cb' ? 'CƠ BẢN' : 'NÂNG CAO';
-                let html = `<h4 class="font-bold text-gray-700 mb-2 mt-4 text-sm bg-gray-200 px-3 py-2 rounded">${catName}</h4>`;
-                
-                systemConfig.videos[cat].forEach((v, index) => {
-                    html += `
-                        <div class="flex justify-between items-center p-3 border-b text-sm hover:bg-gray-50">
-                            <div><span class="font-bold text-blue-600 mr-2">${v.id}</span> ${v.title}</div>
-                            <button onclick="adminDeleteVideo('${cat}', ${index})" class="text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded"><i class="fas fa-trash"></i> Xóa</button>
-                        </div>
-                    `;
+                let html = `<h4 class="font-bold text-gray-700 mb-2 mt-4 text-sm bg-gray-200 px-3 py-2 rounded">${cat==='cb'?'CƠ BẢN':'NÂNG CAO'}</h4>`;
+                systemConfig.videos[cat].forEach((v, idx) => {
+                    html += `<div class="flex justify-between p-3 border-b text-sm"><div><span class="font-bold text-blue-600 mr-2">${v.id}</span> ${v.title}</div><button onclick="adminDeleteVideo('${cat}', ${idx})" class="text-red-500 hover:text-red-700 bg-red-50 px-2 rounded">Xóa</button></div>`;
                 });
                 container.innerHTML += html;
             });
         }
-
         async function saveSystemConfig() {
-            let numCB = parseInt(document.getElementById('admin-so-de-cb').value) || 35;
-            let numNC = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
-            systemConfig.so_de_cb = numCB;
-            systemConfig.so_de_nc = numNC;
-            document.getElementById('lbl-sode-cb').innerText = numCB;
-            document.getElementById('lbl-sode-nc').innerText = numNC;
-            
-            await syncConfigToServer();
-            alert("Đã lưu số lượng đề thi thành công!");
+            systemConfig.so_de_cb = parseInt(document.getElementById('admin-so-de-cb').value) || 35;
+            systemConfig.so_de_nc = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
+            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb;
+            document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
+            alert("Lưu thành công!");
         }
-
         function adminAddVideo() {
-            const cat = document.getElementById('admin-vid-loai').value;
-            const id = document.getElementById('admin-vid-id').value.trim();
-            const title = document.getElementById('admin-vid-title').value.trim();
-            if(!id || !title) return alert("Vui lòng nhập ID và Tiêu đề video!");
-            
-            systemConfig.videos[cat].push({id, title});
-            document.getElementById('admin-vid-id').value = '';
-            document.getElementById('admin-vid-title').value = '';
-            
-            renderAdminSettings();
-            syncConfigToServer();
+            const c = document.getElementById('admin-vid-loai').value, id = document.getElementById('admin-vid-id').value.trim(), t = document.getElementById('admin-vid-title').value.trim();
+            if(!id || !t) return alert("Nhập đủ ID và Tiêu đề!");
+            systemConfig.videos[c].push({id, title: t});
+            document.getElementById('admin-vid-id').value=''; document.getElementById('admin-vid-title').value='';
+            renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
+        }
+        function adminDeleteVideo(c, idx) {
+            if(!confirm("Xóa video?")) return;
+            systemConfig.videos[c].splice(idx, 1);
+            renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
         }
 
-        function adminDeleteVideo(cat, index) {
-            if(confirm("Xác nhận xóa video này?")) {
-                systemConfig.videos[cat].splice(index, 1);
-                renderAdminSettings();
-                syncConfigToServer();
-            }
-        }
-
-        async function syncConfigToServer() {
-            try {
-                await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'update_config', config: systemConfig })
-                });
-            } catch (e) {
-                console.error("Lỗi cập nhật cấu hình", e);
-            }
-        }
-
-        // ================= XỬ LÝ KHU VỰC VIDEO GIẢI ĐỀ (HỌC VIÊN) =================
+        // ================= CÁC TÍNH NĂNG HỌC VIÊN =================
         function openVideoSection(category) {
             navigate('videos');
             const list = systemConfig.videos[category] || [];
-            const isCB = category === 'cb';
-
-            document.getElementById('video-section-title').innerHTML = isCB 
-                ? `<i class="fas fa-video text-emerald-600 mr-2"></i> Video Giải Đề Thi - Cơ Bản`
-                : `<i class="fas fa-video text-yellow-600 mr-2"></i> Video Giải Đề Thi - Nâng Cao`;
-
-            const btnCB = document.getElementById('btn-tab-video-cb');
-            const btnNC = document.getElementById('btn-tab-video-nc');
-            if(isCB) {
-                btnCB.className = "px-4 py-2 rounded-lg font-bold text-sm bg-emerald-600 text-white shadow";
-                btnNC.className = "px-4 py-2 rounded-lg font-bold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300";
-            } else {
-                btnNC.className = "px-4 py-2 rounded-lg font-bold text-sm bg-yellow-600 text-white shadow";
-                btnCB.className = "px-4 py-2 rounded-lg font-bold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300";
-            }
-
-            document.getElementById('video-count-badge').innerText = `${list.length} video`;
-            const container = document.getElementById('video-list-container');
-            container.innerHTML = '';
-
-            list.forEach((vid, index) => {
-                const item = document.createElement('div');
-                item.className = `p-3 rounded-lg border cursor-pointer hover:bg-blue-50 transition flex items-center gap-3 video-item-btn ${index === 0 ? 'bg-blue-50 border-blue-400 font-bold text-blue-900' : 'bg-gray-50 border-gray-200 text-gray-700'}`;
-                item.innerHTML = `<div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center flex-shrink-0 text-xs"><i class="fas fa-play"></i></div><div class="text-xs md:text-sm leading-snug line-clamp-2">${vid.title}</div>`;
-                item.onclick = () => {
-                    document.querySelectorAll('.video-item-btn').forEach(b => b.className = "p-3 rounded-lg border cursor-pointer hover:bg-blue-50 transition flex items-center gap-3 video-item-btn bg-gray-50 border-gray-200 text-gray-700");
-                    item.className = "p-3 rounded-lg border cursor-pointer hover:bg-blue-50 transition flex items-center gap-3 video-item-btn bg-blue-50 border-blue-400 font-bold text-blue-900";
-                    playVideo(vid.id, vid.title);
-                };
-                container.appendChild(item);
+            document.getElementById('video-section-title').innerHTML = `<i class="fas fa-video ${category==='cb'?'text-emerald-600':'text-yellow-600'} mr-2"></i> Video Giải Đề Thi`;
+            document.getElementById('video-count-badge').innerText = list.length + " video";
+            const container = document.getElementById('video-list-container'); container.innerHTML = '';
+            list.forEach((vid, i) => {
+                const div = document.createElement('div');
+                div.className = `p-3 border rounded-lg cursor-pointer flex gap-3 items-center video-item-btn ${i===0?'bg-blue-50 font-bold':'bg-gray-50'}`;
+                div.innerHTML = `<div class="w-8 h-8 rounded-full bg-red-600 text-white flex justify-center items-center"><i class="fas fa-play"></i></div><div class="text-sm">${vid.title}</div>`;
+                div.onclick = () => { document.querySelectorAll('.video-item-btn').forEach(b => b.className = "p-3 border rounded-lg cursor-pointer flex gap-3 items-center video-item-btn bg-gray-50"); div.className = "p-3 border rounded-lg cursor-pointer flex gap-3 items-center video-item-btn bg-blue-50 font-bold text-blue-900"; playVideo(vid.id, vid.title); };
+                container.appendChild(div);
             });
             if(list.length > 0) playVideo(list[0].id, list[0].title);
         }
-
-        function playVideo(youtubeId, title) {
-            document.getElementById('main-video-player').src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
-            document.getElementById('current-video-title').innerText = title;
-        }
-
-        // ================= CÁC HÀM CŨ ĐƯỢC GIỮ NGUYÊN (LOGIN, REG, LOAD ĐỀ, LỊCH SỬ) =================
-        async function loadAdminUsers() {
-            const tbody = document.getElementById('admin-users-table');
-            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải danh sách người dùng...</td></tr>`;
-            try {
-                const res = await fetch(`${API_URL}?action=get_users`);
-                const users = await res.json();
-                tbody.innerHTML = '';
-                if (users.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Chưa có người dùng nào.</td></tr>`;
-                    return;
-                }
-                users.forEach(u => {
-                    let statusBadge = u.trangthai === 'pending'
-                        ? `<span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full text-xs">Chờ duyệt</span>`
-                        : `<span class="bg-green-100 text-green-800 font-bold px-2.5 py-1 rounded-full text-xs">Đang hoạt động</span>`;
-                    let actionBtns = u.trangthai === 'pending'
-                        ? `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs mr-1">Duyệt</button><button onclick="updateUserStatus(${u.rowIndex}, 'blocked', '${u.loai}')" class="bg-red-600 text-white px-3 py-1 rounded text-xs">Từ chối</button>`
-                        : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border text-xs rounded p-1"><option value="cb" ${u.loai==='cb'?'selected':''}>Cơ bản</option><option value="nc" ${u.loai==='nc'?'selected':''}>Nâng cao</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>Cả hai</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select>`;
-                    tbody.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 font-semibold">${u.username}</td><td class="p-3 text-gray-500">${u.password}</td><td class="p-3">${u.hoten}</td><td class="p-3 uppercase font-mono text-xs text-blue-700">${u.loai}</td><td class="p-3">${statusBadge}</td><td class="p-3 text-center">${actionBtns}</td></tr>`;
-                });
-            } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Lỗi nạp danh sách!</td></tr>`; }
-        }
-
-        async function updateUserStatus(rowIndex, status, loai) {
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_user_status', rowIndex: rowIndex, trangthai: status, loai: loai }) });
-                const r = await res.json();
-                if(r.status === 'success') loadAdminUsers();
-            } catch (e) { alert("Lỗi kết nối khi cập nhật!"); }
-        }
-
-        async function adminAddUser() {
-            const u = document.getElementById('admin-add-username').value;
-            const p = document.getElementById('admin-add-password').value;
-            const h = document.getElementById('admin-add-hoten').value;
-            const l = document.getElementById('admin-add-loai').value;
-            if (!u || !p || !h) return alert("Nhập đủ thông tin");
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l }) });
-                const r = await res.json();
-                if (r.status === 'success') {
-                    alert("Thêm thành công!");
-                    document.getElementById('admin-add-username').value = '';
-                    loadAdminUsers();
-                } else alert(r.message);
-            } catch (e) { alert("Lỗi mạng!"); }
-        }
-
-        async function registerUser() {
-            const u = document.getElementById('reg-username').value.trim();
-            const p = document.getElementById('reg-password').value.trim();
-            const h = document.getElementById('reg-hoten').value.trim();
-            const l = document.getElementById('reg-loai').value;
-            if (!u || !p || !h) return alert("Vui lòng nhập đầy đủ");
-            document.getElementById('reg-btn').innerText = "Đang gửi...";
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l }) });
-                const r = await res.json();
-                alert(r.message);
-            } catch (err) { alert("Lỗi kết nối"); }
-            document.getElementById('reg-btn').innerText = "Gửi yêu cầu đăng ký";
-        }
-
-        async function loginUser() {
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
-            if (!u || !p) return alert("Nhập đủ thông tin!");
-            document.getElementById('login-btn').innerText = "Đang kiểm tra...";
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: u, password: p }) });
-                const r = await res.json();
-                if (r.status === "success") {
-                    isLoggedIn = true;
-                    studentInfo = { username: u, name: r.hoten, loai: r.loai };
-                    if (r.loai === 'admin') navigate('admin');
-                    else {
-                        selectCategory(r.loai === 'nc' ? 'nang-cao' : 'co-ban');
-                        navigate('select');
-                    }
-                } else alert(r.message);
-            } catch (e) { alert("Lỗi kết nối!"); }
-            document.getElementById('login-btn').innerText = "Đang nhập";
-        }
+        function playVideo(id, title) { document.getElementById('main-video-player').src = `https://www.youtube.com/embed/${id}?autoplay=1`; document.getElementById('current-video-title').innerText = title; }
 
         function selectCategory(category) {
-            const grid = document.getElementById('quiz-buttons-grid');
-            grid.innerHTML = '';
+            const grid = document.getElementById('quiz-buttons-grid'); grid.innerHTML = '';
             if (studentInfo.loai === 'cb' && category === 'nang-cao') category = 'co-ban';
             if (studentInfo.loai === 'nc' && category === 'co-ban') category = 'nang-cao';
-            
-            // Lấy số lượng đề từ cấu hình hệ thống
-            let totalCB = systemConfig.so_de_cb;
-            let totalNC = systemConfig.so_de_nc;
-
-            if(category === 'co-ban') {
-                for(let i = 1; i <= totalCB; i++) createQuizButton(grid, `Đề ${i}`, i);
-            } else {
-                for(let i = 1; i <= totalNC; i++) {
-                    let ma = `NC_de${i < 10 ? '0'+i : i}`;
-                    createQuizButton(grid, `NC ${i}`, ma);
-                }
-            }
+            if(category === 'co-ban') { for(let i = 1; i <= systemConfig.so_de_cb; i++) createQuizBtn(grid, `Đề ${i}`, i); } 
+            else { for(let i = 1; i <= systemConfig.so_de_nc; i++) createQuizBtn(grid, `NC ${i}`, `NC_de${i<10?'0'+i:i}`); }
         }
-
-        function createQuizButton(parent, label, quizIdValue) {
-            const btn = document.createElement('button');
-            btn.className = "bg-white hover:bg-blue-600 hover:text-white border font-bold py-2.5 rounded-lg transition text-blue-900 text-sm shadow-sm";
-            btn.innerText = label;
-            btn.onclick = () => startQuiz(quizIdValue);
-            parent.appendChild(btn);
-        }
+        function createQuizBtn(p, lbl, val) { const b = document.createElement('button'); b.className="bg-white hover:bg-blue-600 hover:text-white border font-bold py-2.5 rounded-lg shadow-sm text-sm"; b.innerText=lbl; b.onclick=()=>startQuiz(val); p.appendChild(b); }
 
         async function startQuiz(quizId) {
-            studentInfo.quizId = quizId;
-            navigate('loading');
+            studentInfo.quizId = quizId; navigate('loading');
+            
+            // BỔ SUNG LẠI: HIỂN THỊ TÊN VÀ MÃ ĐỀ LÊN GIAO DIỆN LÀM BÀI
+            document.getElementById('display-name').innerText = studentInfo.name;
+            document.getElementById('display-quiz').innerText = quizId;
+
             try {
                 const res = await fetch(`${API_URL}?made=${quizId}`);
                 quizData = await res.json();
-                if(quizData.length === 0) return alert(`Chưa có câu hỏi đề ${quizId}`);
-                renderQuestions();
-                navigate('quiz');
-                startTimer();
-            } catch (error) { alert("Lỗi tải đề"); navigate('select'); }
+                if(quizData.length === 0) return alert(`Đề ${quizId} chưa có câu hỏi!`), navigate('select');
+                renderQuestions(); navigate('quiz'); startTimer();
+            } catch (e) { alert("Lỗi tải đề"); navigate('select'); }
         }
 
         function startTimer() {
-            timeLeft = 30 * 60;
-            if (timerInterval) clearInterval(timerInterval);
+            timeLeft = 30 * 60; if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                let m = Math.floor(timeLeft / 60); let s = timeLeft % 60;
+                let m = Math.floor(timeLeft/60), s = timeLeft%60;
                 document.getElementById('timer-display').innerText = `${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-                if (timeLeft <= 0) { clearInterval(timerInterval); submitQuiz(true); }
+                if(timeLeft <= 0) { clearInterval(timerInterval); alert("Hết giờ!"); submitQuiz(true); }
                 timeLeft--;
             }, 1000);
         }
 
         function renderQuestions() {
-            const container = document.getElementById('questions-container');
-            container.innerHTML = '';
-            quizData.forEach((q, index) => {
-                const c = String(q.DapAnDung||"").trim();
-                const isM = c.length>1 || c.includes(',') || /chọn các|những câu|tất cả các/i.test(q.NoiDung);
-                let opts = ['A','B','C','D'].map(opt => q[`DapAn${opt}`] ? `<label class="flex items-start p-3 border rounded"><input type="${isM?'checkbox':'radio'}" name="q${index}" value="${opt}" class="mt-1 mr-3"><span class="font-bold mr-2">${opt}.</span>${q[`DapAn${opt}`]}</label>` : '').join('');
-                container.innerHTML += `<div class="bg-white p-6 rounded shadow-sm border mb-4"><div class="font-bold mb-4"><span class="bg-blue-100 text-blue-800 px-3 py-1 mr-2 rounded">Câu ${index+1}</span>${q.NoiDung}</div><div class="space-y-2">${opts}</div></div>`;
+            const c = document.getElementById('questions-container'); c.innerHTML = '';
+            quizData.forEach((q, i) => {
+                const ansStr = String(q.DapAnDung||""); const isM = ansStr.length>1 || ansStr.includes(',');
+                let opts = ['A','B','C','D'].map(o => q['DapAn'+o] ? `<label class="flex p-3 border rounded"><input type="${isM?'checkbox':'radio'}" name="q${i}" value="${o}" class="mt-1 mr-3 rounded"><span class="font-bold mr-2">${o}.</span>${q['DapAn'+o]}</label>` : '').join('');
+                c.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="font-bold mb-4"><span class="bg-blue-100 px-3 py-1 rounded mr-2">Câu ${i+1}</span>${q.NoiDung}</div><div class="space-y-2">${opts}</div></div>`;
             });
         }
 
-        async function submitQuiz(isTimeout = false) {
+        async function submitQuiz(timeout = false) {
             if (timerInterval) clearInterval(timerInterval);
-            if (!isTimeout && !confirm("Xác nhận nộp bài?")) { startTimer(); return; }
-            let chiTietDapAn = {}, correctAnswers = 0;
-            quizData.forEach((q, index) => {
-                let sArr = Array.from(document.querySelectorAll(`input[name="q${index}"]:checked`)).map(n=>n.value.toUpperCase());
-                chiTietDapAn[index] = sArr;
-                let cStr = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g, '').split('').sort().join('');
-                if(sArr.sort().join('') === cStr && cStr.length > 0) correctAnswers++;
+            if (!timeout && !confirm("Nộp bài?")) { startTimer(); return; }
+            let chiTiet = {}, right = 0;
+            quizData.forEach((q, i) => {
+                let uArr = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(n=>n.value.toUpperCase());
+                chiTiet[i] = uArr;
+                let cStr = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('').sort().join('');
+                if(uArr.sort().join('') === cStr && cStr.length > 0) right++;
             });
-            const score = (correctAnswers / quizData.length) * 10;
+            let score = (right / quizData.length) * 10;
             document.getElementById('score-display').innerText = score.toFixed(1);
-            document.getElementById('correct-count').innerText = correctAnswers;
+            document.getElementById('correct-count').innerText = right;
             document.getElementById('total-count').innerText = quizData.length;
             navigate('result');
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'submit', hoc_vien: studentInfo.username, ma_de: studentInfo.quizId, diem_so: score.toFixed(1), so_cau_dung: correctAnswers, chi_tiet_dap_an: chiTietDapAn }) });
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'submit', hoc_vien: studentInfo.username, ma_de: studentInfo.quizId, diem_so: score.toFixed(1), so_cau_dung: right, chi_tiet_dap_an: chiTiet }) });
         }
 
-        function openReviewModal() { renderReviewContent(quizData, getSessionUserChoices()); }
-        function getSessionUserChoices() {
-            let ch = {}; quizData.forEach((_, i) => ch[i] = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(n=>n.value.toUpperCase())); return ch;
-        }
-
-        function renderReviewContent(questions, userChoices) {
-            const container = document.getElementById('review-container');
-            container.innerHTML = '';
-            questions.forEach((q, i) => {
-                let uC = userChoices[i] || [];
-                let cC = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g, '').split('');
-                let isOK = uC.length===cC.length && uC.every(v=>cC.includes(v));
-                let opts = ['A','B','C','D'].map(opt => {
-                    if(!q[`DapAn${opt}`]) return '';
-                    let st = cC.includes(opt) ? "bg-green-100 border-green-400 font-bold" : (uC.includes(opt) ? "bg-red-100 border-red-400 font-bold" : "");
-                    return `<div class="p-3 border rounded mb-2 flex items-start ${st}"><span class="w-6 font-bold">${opt}.</span> <span>${q[`DapAn${opt}`]}</span></div>`;
+        function openReviewModal() {
+            const c = document.getElementById('review-container'); c.innerHTML = '';
+            let ch = {}; quizData.forEach((_,i) => ch[i] = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(n=>n.value.toUpperCase()));
+            quizData.forEach((q, i) => {
+                let uC = ch[i]||[], cC = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('');
+                let isOK = uC.length === cC.length && uC.every(v => cC.includes(v));
+                let opts = ['A','B','C','D'].map(o => {
+                    if(!q['DapAn'+o]) return '';
+                    let st = cC.includes(o) ? "bg-green-100 font-bold" : (uC.includes(o) ? "bg-red-100 font-bold" : "");
+                    return `<div class="p-3 border rounded mb-2 flex items-start ${st}"><span class="w-6 font-bold">${o}.</span><span>${q['DapAn'+o]}</span></div>`;
                 }).join('');
-                container.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="mb-4"><span class="bg-blue-100 px-3 py-1 rounded font-bold mr-2">Câu ${i+1}</span>${isOK?'<span class="text-green-600 font-bold">Đúng</span>':'<span class="text-red-600 font-bold">Sai</span>'}</div><div class="font-medium mb-4">${q.NoiDung}</div>${opts}</div>`;
+                c.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="mb-4"><span class="bg-blue-100 px-3 py-1 rounded font-bold mr-2">Câu ${i+1}</span>${isOK?'<span class="text-green-600 font-bold">Đúng</span>':'<span class="text-red-600 font-bold">Sai</span>'}</div><div class="font-medium mb-4">${q.NoiDung}</div>${opts}</div>`;
             });
             navigate('review');
         }
@@ -804,25 +899,40 @@
         async function fetchQuizHistory() {
             navigate('loading');
             try {
-                const res = await fetch(`${API_URL}?action=history&username=${encodeURIComponent(studentInfo.username)}`);
+                const res = await fetch(`${API_URL}?action=history&username=${studentInfo.username}`);
                 const hist = await res.json();
-                const container = document.getElementById('history-container');
-                container.innerHTML = '';
+                const c = document.getElementById('history-container'); c.innerHTML = '';
                 hist.reverse().forEach(item => {
                     let d = new Date(item.thoigian).toLocaleString('vi-VN');
-                    container.innerHTML += `<div class="bg-gray-50 border p-5 rounded-xl flex justify-between items-center mb-4"><div><div class="text-sm text-gray-500">${d}</div><div class="font-bold text-blue-900">Mã đề: ${item.made}</div></div><div class="text-right"><div class="text-2xl font-black text-blue-600">${item.diemso}</div><button onclick='viewHistoryDetail("${item.made}", ${JSON.stringify(item.chitiet)})' class="bg-blue-600 text-white px-4 py-1 mt-2 rounded">Xem lại</button></div></div>`;
+                    let jsonStr = typeof item.chitiet === 'string' ? item.chitiet.replace(/"/g, '&quot;') : '{}';
+                    c.innerHTML += `<div class="bg-gray-50 border p-5 rounded-xl flex justify-between items-center mb-4"><div><div class="text-sm text-gray-500">${d}</div><div class="font-bold text-blue-900">Mã đề: ${item.made}</div></div><div class="text-right"><div class="text-2xl font-black text-blue-600">${item.diemso}</div><button onclick="viewHistDetail('${item.made}', '${jsonStr}')" class="bg-blue-600 text-white px-4 py-1 mt-2 rounded">Xem lại</button></div></div>`;
                 });
                 navigate('history');
             } catch (e) { alert("Lỗi tải lịch sử"); navigate('select'); }
         }
 
-        async function viewHistoryDetail(made, chitietJsonStr) {
+        async function viewHistDetail(made, chitiet) {
             navigate('loading');
             try {
                 const res = await fetch(`${API_URL}?made=${made}`);
-                renderReviewContent(await res.json(), typeof chitietJsonStr==='string'?JSON.parse(chitietJsonStr):chitietJsonStr);
-            } catch (e) { alert("Lỗi tải dữ liệu"); navigate('history'); }
+                quizData = await res.json();
+                let parsed = {}; try { parsed = JSON.parse(chitiet.replace(/&quot;/g, '"')); } catch(e){}
+                const c = document.getElementById('review-container'); c.innerHTML = '';
+                quizData.forEach((q, i) => {
+                    let uC = parsed[i]||[], cC = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('');
+                    let isOK = uC.length === cC.length && uC.every(v => cC.includes(v));
+                    let opts = ['A','B','C','D'].map(o => {
+                        if(!q['DapAn'+o]) return '';
+                        let st = cC.includes(o) ? "bg-green-100 font-bold" : (uC.includes(o) ? "bg-red-100 font-bold" : "");
+                        return `<div class="p-3 border rounded mb-2 flex items-start ${st}"><span class="w-6 font-bold">${o}.</span><span>${q['DapAn'+o]}</span></div>`;
+                    }).join('');
+                    c.innerHTML += `<div class="bg-white p-6 rounded shadow border mb-4"><div class="mb-4"><span class="bg-blue-100 px-3 py-1 rounded font-bold mr-2">Câu ${i+1}</span>${isOK?'<span class="text-green-600 font-bold">Đúng</span>':'<span class="text-red-600 font-bold">Sai</span>'}</div><div class="font-medium mb-4">${q.NoiDung}</div>${opts}</div>`;
+                });
+                navigate('review');
+            } catch (e) { alert("Lỗi tải đề"); navigate('history'); }
         }
     </script>
+</body>
+</html>
 </body>
 </html>
