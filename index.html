@@ -29,7 +29,6 @@
             <div class="flex flex-wrap items-center">
                 <button onclick="navigate('home')" class="py-4 px-4 hover:bg-blue-800 transition font-semibold">Trang chủ</button>
 
-                <!-- Khóa học Tin học -->
                 <div class="dropdown relative">
                     <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
                         Khóa học Tin học <i class="fas fa-caret-down ml-2"></i>
@@ -41,7 +40,6 @@
                     </div>
                 </div>
 
-                <!-- Đề thi Drive -->
                 <div class="dropdown relative">
                     <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center text-cyan-300">
                         Đề thi Tin học Cơ bản <i class="fas fa-caret-down ml-2"></i>
@@ -56,7 +54,6 @@
                     </div>
                 </div>
 
-                <!-- Tài khoản AI -->
                 <div class="dropdown relative">
                     <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
                         Tài khoản AI <i class="fas fa-caret-down ml-2"></i>
@@ -67,13 +64,11 @@
                     </div>
                 </div>
 
-                <!-- Luyện thi -->
                 <button onclick="requireLoginForQuiz()" class="py-4 px-4 hover:bg-blue-800 transition font-semibold text-yellow-400">
                     Luyện thi trắc nghiệm <i class="fas fa-lock ml-1 text-sm"></i>
                 </button>
             </div>
 
-            <!-- Khu vực thông tin tài khoản & Đăng xuất trên Nav -->
             <div id="nav-user-area" class="hidden flex items-center space-x-3 py-2">
                 <span class="text-sm text-cyan-200 font-semibold"><i class="fas fa-user-circle mr-1"></i> <span id="nav-username-display"></span></span>
                 <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded transition font-semibold">
@@ -124,7 +119,6 @@
                 </div>
             </div>
 
-            <!-- Right Widget -->
             <div class="w-full lg:w-1/4">
                 <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden sticky top-24">
                     <div class="bg-gray-100 p-4 border-b text-center font-bold text-lg text-[#0a192f]">
@@ -163,7 +157,7 @@
             <div id="login-error" class="text-red-500 text-sm mt-4 text-center hidden p-2 bg-red-50 rounded"></div>
         </div>
 
-        <!-- VIEW CHỌN PHẦN VÀ MÃ ĐỀ -->
+        <!-- VIEW CHỌN ĐỀ -->
         <div id="view-select" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto text-center mt-10">
             <h2 class="text-2xl font-bold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
             <p class="text-gray-600 mb-6">Vui lòng chọn cấp độ ôn tập hoặc xem lịch sử thi:</p>
@@ -173,7 +167,6 @@
                 <button onclick="selectCategory('nang-cao')" id="btn-nangcao" class="p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition">Phần Nâng Cao<br><span class="text-xs font-normal text-gray-500">Đề NC 1 đến NC 10</span></button>
             </div>
 
-            <!-- Nút xem lịch sử thi -->
             <button onclick="fetchQuizHistory()" class="w-full bg-purple-600 text-white font-bold py-3 rounded-xl mb-6 hover:bg-purple-700 transition shadow-md">
                 <i class="fas fa-history mr-2"></i> Xem lịch sử các lần làm bài
             </button>
@@ -192,9 +185,7 @@
                 <h2 class="text-2xl font-bold text-gray-800"><i class="fas fa-history text-purple-600 mr-2"></i> Lịch Sử Các Lần Làm Bài</h2>
                 <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200"><i class="fas fa-arrow-left mr-2"></i> Quay lại chọn đề</button>
             </div>
-            <div id="history-container" class="space-y-4">
-                <!-- Javascript render danh sách lịch sử -->
-            </div>
+            <div id="history-container" class="space-y-4"></div>
         </div>
 
         <!-- VIEW LOADING -->
@@ -203,11 +194,13 @@
             <p class="text-gray-600 font-medium" id="loading-text">Đang tải dữ liệu...</p>
         </div>
 
-        <!-- VIEW LÀM BÀI THI -->
+        <!-- VIEW LÀM BÀI THI (CÓ ĐỒNG HỒ ĐẾM NGƯỢC 30 PHÚT) -->
         <div id="view-quiz" class="hidden-view">
             <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-[72px] z-40 flex justify-between items-center border-b-4 border-blue-600">
-                <div class="font-semibold text-sm md:text-lg">Học viên: <span id="display-name" class="text-blue-600"></span></div>
-                <div class="font-semibold text-sm md:text-lg bg-blue-100 px-4 py-1.5 rounded-full text-blue-800">Đề số: <span id="display-quiz" class="font-bold"></span></div>
+                <div class="font-semibold text-sm md:text-lg">Học viên: <span id="display-name" class="text-blue-600"></span> | Đề: <span id="display-quiz" class="text-blue-600 font-bold"></span></div>
+                <div class="font-bold text-sm md:text-lg bg-red-100 px-4 py-1.5 rounded-full text-red-700 border border-red-300">
+                    <i class="fas fa-clock mr-1"></i> Thời gian: <span id="timer-display">30:00</span>
+                </div>
             </div>
 
             <div id="questions-container" class="space-y-6 mb-8"></div>
@@ -215,7 +208,7 @@
             <button onclick="submitQuiz()" id="submit-btn" class="w-full md:w-1/3 bg-green-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-700 transition text-lg block mx-auto shadow-lg uppercase">Nộp Bài & Xem Điểm</button>
         </div>
 
-        <!-- VIEW KẾT QUẢ & XEM LẠI -->
+        <!-- VIEW KẾT QUẢ -->
         <div id="view-result" class="hidden-view bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto text-center mt-10 border-t-8 border-green-500">
             <h2 class="text-3xl font-bold text-gray-800 mb-2">Kết Quả Bài Thi</h2>
             <p class="text-gray-600 mb-6">Đã ghi nhận kết quả của bạn lên hệ thống.</p>
@@ -234,7 +227,7 @@
             </div>
         </div>
 
-        <!-- VIEW XEM LẠI CHI TIẾT BÀI LÀM -->
+        <!-- VIEW XEM LẠI -->
         <div id="view-review" class="hidden-view max-w-4xl mx-auto">
             <div class="bg-white p-6 rounded-xl shadow-md mb-6 flex justify-between items-center border-b">
                 <h2 class="text-2xl font-bold text-gray-800">Chi Tiết Bài Làm & Đáp Án</h2>
@@ -259,6 +252,8 @@
         let studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' };
         let isLoggedIn = false;
         let currentCategory = 'co-ban';
+        let timerInterval = null;
+        let timeLeft = 30 * 60; // 30 phút tính bằng giây
 
         const articles = {
             1: {
@@ -284,6 +279,11 @@
             document.getElementById(`view-${viewName}`).classList.remove('hidden-view');
             window.scrollTo(0, 0);
 
+            // Nếu rời khỏi màn hình quiz thì dừng đồng hồ đếm ngược
+            if (viewName !== 'view-quiz' && timerInterval) {
+                clearInterval(timerInterval);
+            }
+
             if(viewName === 'home') {
                 if(isLoggedIn) {
                     document.getElementById('widget-login-text').innerHTML = `Xin chào <b>${studentInfo.name}</b>!<br>Bạn đã sẵn sàng luyện thi.`;
@@ -298,7 +298,6 @@
             }
         }
 
-        // HÀM ĐĂNG XUẤT
         function logout() {
             if(confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
                 isLoggedIn = false;
@@ -456,10 +455,33 @@
 
                 renderQuestions();
                 navigate('quiz');
+                startTimer(); // Khởi động đồng hồ 30 phút
             } catch (error) {
                 alert("Lỗi tải đề thi.");
                 navigate('select');
             }
+        }
+
+        // ĐỒNG HỒ ĐẾM NGƯỢC 30 PHÚT
+        function startTimer() {
+            timeLeft = 30 * 60; // 30 phút
+            const timerEl = document.getElementById('timer-display');
+            
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+
+                timerEl.innerText = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Đã hết thời gian làm bài! Hệ thống sẽ tự động nộp bài.");
+                    submitQuiz(true); // Tự động nộp khi hết giờ
+                }
+                timeLeft--;
+            }, 1000);
         }
 
         function renderQuestions() {
@@ -499,26 +521,35 @@
             });
         }
 
-        async function submitQuiz() {
-            let answered = 0;
-            quizData.forEach((_, i) => { 
-                if(document.querySelectorAll(`input[name="q${i}"]:checked`).length > 0) answered++; 
-            });
-            
-            if(answered < quizData.length) {
-                if(!confirm(`Bạn mới làm ${answered}/${quizData.length} câu. Bạn có chắc chắn muốn nộp bài?`)) return;
-            } else {
-                if(!confirm("Xác nhận nộp bài thi?")) return;
+        async function submitQuiz(isTimeout = false) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            if (!isTimeout) {
+                let answered = 0;
+                quizData.forEach((_, i) => { 
+                    if(document.querySelectorAll(`input[name="q${i}"]:checked`).length > 0) answered++; 
+                });
+                
+                if(answered < quizData.length) {
+                    if(!confirm(`Bạn mới làm ${answered}/${quizData.length} câu. Bạn có chắc chắn muốn nộp bài?`)) {
+                        startTimer(); // Bật lại đồng hồ nếu hủy nộp
+                        return;
+                    }
+                } else {
+                    if(!confirm("Xác nhận nộp bài thi?")) {
+                        startTimer();
+                        return;
+                    }
+                }
             }
 
-            // Thu thập đáp án học viên đã chọn để lưu lại
             let chiTietDapAn = {};
             let correctAnswers = 0;
 
             quizData.forEach((q, index) => {
                 const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
                 let studentChoicesArr = Array.from(checkedNodes).map(node => node.value.toUpperCase());
-                chiTietDapAn[index] = studentChoicesArr; // Lưu mảng đáp án chọn của câu này
+                chiTietDapAn[index] = studentChoicesArr;
 
                 let studentChoicesStr = studentChoicesArr.sort().join('');
                 let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
@@ -555,7 +586,6 @@
             }
         }
 
-        // XEM LẠI CHI TIẾT BÀI LÀM HIỆN TẠI
         function openReviewModal() {
             renderReviewContent(quizData, getSessionUserChoices());
         }
@@ -624,7 +654,6 @@
             navigate('review');
         }
 
-        // TẢI VÀ HIỂN THỊ LỊCH SỬ CÁC LẦN LÀM BÀI TỪ GOOGLE SHEETS
         async function fetchQuizHistory() {
             navigate('loading');
             document.getElementById('loading-text').innerText = "Đang tải lịch sử làm bài...";
@@ -639,11 +668,9 @@
                 if(historyList.length === 0) {
                     container.innerHTML = `<div class="text-center py-8 text-gray-500">Bạn chưa có lịch sử làm bài nào trên hệ thống.</div>`;
                 } else {
-                    historyList.reverse().forEach((item, index) => {
+                    historyList.reverse().forEach((item) => {
                         let dateFormatted = new Date(item.thoigian).toLocaleString('vi-VN');
-                        let chitietObj = {};
-                        try { chitietObj = JSON.parse(item.chitiet); } catch(e) {}
-
+                        
                         let card = `
                             <div class="bg-gray-50 border border-gray-200 p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-blue-400 transition">
                                 <div>
@@ -671,7 +698,6 @@
             }
         }
 
-        // XEM CHI TIẾT MỘT LẦN THI TRONG LỊCH SỬ
         async function viewHistoryDetail(made, chitietJsonStr) {
             navigate('loading');
             document.getElementById('loading-text').innerText = `Đang tải lại dữ liệu đề ${made}...`;
@@ -679,7 +705,13 @@
             try {
                 const response = await fetch(`${API_URL}?made=${made}`);
                 const questions = await response.json();
-                let userChoices = JSON.parse(chitietJsonStr);
+                
+                let userChoices = {};
+                try {
+                    userChoices = typeof chitietJsonStr === 'string' ? JSON.parse(chitietJsonStr) : chitietJsonStr;
+                } catch(e) {
+                    userChoices = {};
+                }
 
                 renderReviewContent(questions, userChoices);
             } catch (error) {
@@ -688,3 +720,5 @@
             }
         }
     </script>
+</body>
+</html>
