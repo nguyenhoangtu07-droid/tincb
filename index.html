@@ -91,7 +91,7 @@
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-bold text-lg mb-2 text-blue-300">Khóa học Tin học lấy chứng chỉ cơ bản, nâng cao</h3>
-                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Đào tạo các kỹ năng tin học văn phòng chuẩn quốc gia...</p>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Đào tạo các kỹ năng tin học văn phòng chuẩn quốc gia. Cam kết chuẩn đầu ra, thực hành 100% trên máy tính...</p>
                             </div>
                             <button onclick="showArticle(1)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
@@ -101,7 +101,7 @@
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-bold text-lg mb-2 text-blue-300">Đăng ký bản quyền Gemini Pro / ChatGPT Plus</h3>
-                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Nâng cấp tài khoản AI chính chủ phục vụ công việc...</p>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Nâng cấp tài khoản AI chính chủ phục vụ công việc, nghiên cứu và học tập hiệu quả. Bảo hành trọn thời gian...</p>
                             </div>
                             <button onclick="showArticle(2)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="p-5 text-white flex-grow flex flex-col justify-between">
                             <div>
                                 <h3 class="font-bold text-lg mb-2 text-blue-300">Đào tạo Tin học Ứng dụng Trí tuệ Nhân tạo</h3>
-                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Khóa học chuyên sâu hướng dẫn áp dụng AI...</p>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Khóa học chuyên sâu hướng dẫn áp dụng AI (ChatGPT, Gemini) vào tự động hóa công việc văn phòng...</p>
                             </div>
                             <button onclick="showArticle(3)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
                         </div>
@@ -132,11 +132,15 @@
             </div>
         </div>
 
-        <!-- CHI TIẾT BÀI VIẾT -->
+        <!-- CHI TIẾT BÀI VIẾT ĐẦY ĐỦ -->
         <div id="view-article" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
             <button onclick="navigate('home')" class="text-blue-600 font-semibold mb-6 hover:underline"><i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ</button>
             <img id="article-img" src="" class="w-full h-64 object-cover rounded-lg mb-6 shadow-sm">
-            <h1 id="article-title" class="text-3xl font-bold text-gray-900 mb-4"></h1>
+            <h1 id="article-title" class="text-3xl font-bold text-gray-900 mb-4 leading-tight"></h1>
+            <div class="flex items-center text-sm text-gray-500 mb-8 border-b pb-4">
+                <i class="far fa-calendar-alt mr-2"></i> <span class="mr-4">Cập nhật: Hôm nay</span>
+                <i class="fas fa-user-edit mr-2"></i> <span>Tác giả: Admin - Thầy Tú</span>
+            </div>
             <div id="article-content" class="article-content"></div>
         </div>
 
@@ -194,7 +198,7 @@
             <p class="text-gray-600 font-medium" id="loading-text">Đang tải dữ liệu...</p>
         </div>
 
-        <!-- VIEW LÀM BÀI THI (CÓ ĐỒNG HỒ ĐẾM NGƯỢC 30 PHÚT) -->
+        <!-- VIEW LÀM BÀI THI -->
         <div id="view-quiz" class="hidden-view">
             <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-[72px] z-40 flex justify-between items-center border-b-4 border-blue-600">
                 <div class="font-semibold text-sm md:text-lg">Học viên: <span id="display-name" class="text-blue-600"></span> | Đề: <span id="display-quiz" class="text-blue-600 font-bold"></span></div>
@@ -253,23 +257,68 @@
         let isLoggedIn = false;
         let currentCategory = 'co-ban';
         let timerInterval = null;
-        let timeLeft = 30 * 60; // 30 phút tính bằng giây
+        let timeLeft = 30 * 60; // 30 phút
 
+        // NỘI DUNG CHI TIẾT ĐẦY ĐỦ CHO CÁC BÀI VIẾT MẪU
         const articles = {
             1: {
                 title: "Khóa Học Tin Học Lấy Chứng Chỉ Ứng Dụng CNTT Cơ Bản & Nâng Cao",
                 image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
-                content: `<p>Chứng chỉ CNTT quốc gia phục vụ xét tốt nghiệp, thi tuyển công chức.</p>`
+                content: `
+                    <p>Chứng chỉ Ứng dụng Công nghệ thông tin (CNTT) là chứng chỉ quốc gia, có giá trị vô thời hạn, rất cần thiết đối với sinh viên xét tốt nghiệp, công chức, viên chức thi tuyển hoặc nâng ngạch.</p>
+                    <h3>Nội dung khóa học Cơ Bản:</h3>
+                    <ul>
+                        <li>Hiểu biết về CNTT cơ bản và an toàn thông tin.</li>
+                        <li>Sử dụng máy tính và quản lý tệp tin trên Windows.</li>
+                        <li>Soạn thảo văn bản hành chính chuyên nghiệp với Microsoft Word.</li>
+                        <li>Xử lý dữ liệu, tính toán bảng biểu với Microsoft Excel.</li>
+                        <li>Thiết kế bài thuyết trình sinh động với Microsoft PowerPoint.</li>
+                        <li>Sử dụng Internet, Email và các dịch vụ lưu trữ đám mây.</li>
+                    </ul>
+                    <h3>Nội dung khóa học Nâng Cao:</h3>
+                    <ul>
+                        <li>Kỹ năng trộn thư, mục lục tự động, quản lý Style nâng cao trong Word.</li>
+                        <li>Hàm thống kê, dò tìm phức tạp, Pivot Table, Macro cơ bản trong Excel.</li>
+                        <li>Thiết kế Slide chuyên sâu, Trigger, Animation nâng cao trong PowerPoint.</li>
+                    </ul>
+                    <p><strong>Thời gian học:</strong> Linh hoạt, học viên được thực hành 100% trên máy tính dưới sự hướng dẫn tận tình của giáo viên. Cam kết hỗ trợ đến khi thi đậu.</p>
+                `
             },
             2: {
                 title: "Thông Tin Đăng Ký Bản Quyền Gemini Pro & ChatGPT Plus",
                 image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop",
-                content: `<p>Nâng cấp tài khoản AI chính chủ phục vụ nghiên cứu và học tập.</p>`
+                content: `
+                    <p>Trí tuệ nhân tạo (AI) đang thay đổi hoàn toàn cách chúng ta làm việc và sáng tạo. Việc sở hữu một tài khoản AI bản quyền giúp bạn tiếp cận các tính năng mạnh mẽ nhất mà phiên bản miễn phí không có.</p>
+                    <h3>Ưu điểm của ChatGPT Plus:</h3>
+                    <ul>
+                        <li>Sử dụng mô hình GPT-4/GPT-4o thông minh nhất, suy luận logic xuất sắc.</li>
+                        <li>Hỗ trợ phân tích dữ liệu Data Analysis, đọc hiểu file Excel, PDF, CSV.</li>
+                        <li>Tạo hình ảnh sắc nét từ văn bản với công cụ DALL-E 3.</li>
+                        <li>Tạo các Custom GPTs phục vụ riêng cho nghiệp vụ cá nhân.</li>
+                    </ul>
+                    <h3>Ưu điểm của Gemini Advanced (Gemini Pro):</h3>
+                    <ul>
+                        <li>Tích hợp trực tiếp và hoàn hảo vào hệ sinh thái Google (Docs, Sheets, Drive, Gmail).</li>
+                        <li>Tốc độ truy xuất và thu thập thông tin thời gian thực (Real-time Web Search) vượt trội.</li>
+                        <li>Hỗ trợ lưu trữ thêm 2TB dung lượng Google One.</li>
+                    </ul>
+                    <p><strong>Dịch vụ của chúng tôi:</strong> Cung cấp tài khoản nâng cấp chính chủ trên chính email của khách hàng. Bảo hành toàn thời gian sử dụng. Hỗ trợ khắc phục lỗi 24/7 và hướng dẫn sử dụng cơ bản.</p>
+                `
             },
             3: {
                 title: "Đào Tạo Tin Học Ứng Dụng Trí Tuệ Nhân Tạo (AI)",
                 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
-                content: `<p>Khóa học ứng dụng ChatGPT, Gemini vào công việc văn phòng.</p>`
+                content: `
+                    <p>Khóa học đặc biệt dành cho những người muốn đón đầu xu hướng công nghệ, ứng dụng AI để tăng gấp 10 lần hiệu suất làm việc văn phòng.</p>
+                    <h3>Bạn sẽ học được gì?</h3>
+                    <ul>
+                        <li><strong>Nghệ thuật Viết Prompt (Câu lệnh):</strong> Cách giao tiếp với AI để nhận được câu trả lời chính xác, đúng ngữ cảnh và văn phong mong muốn.</li>
+                        <li><strong>Tự động hóa với Excel & AI:</strong> Sử dụng ChatGPT để viết hàm Excel phức tạp, giải thích công thức, hoặc viết mã VBA tự động hóa báo cáo.</li>
+                        <li><strong>Tạo Content & Thuyết trình:</strong> Dùng AI để lên ý tưởng, viết kịch bản, và tự động tạo Slide PowerPoint hoàn chỉnh chỉ trong vài phút.</li>
+                        <li><strong>Tích hợp API:</strong> Hướng dẫn cơ bản cách đưa AI vào Google Sheets để tự động dịch thuật, phân tích phản hồi khách hàng hàng loạt.</li>
+                    </ul>
+                    <p>Khóa học không đòi hỏi kiến thức lập trình phức tạp. Mọi thứ được thiết kế trực quan, dễ hiểu, áp dụng ngay vào công việc thực tế vào ngày hôm sau.</p>
+                `
             }
         };
 
@@ -279,7 +328,6 @@
             document.getElementById(`view-${viewName}`).classList.remove('hidden-view');
             window.scrollTo(0, 0);
 
-            // Nếu rời khỏi màn hình quiz thì dừng đồng hồ đếm ngược
             if (viewName !== 'view-quiz' && timerInterval) {
                 clearInterval(timerInterval);
             }
@@ -455,16 +503,15 @@
 
                 renderQuestions();
                 navigate('quiz');
-                startTimer(); // Khởi động đồng hồ 30 phút
+                startTimer();
             } catch (error) {
                 alert("Lỗi tải đề thi.");
                 navigate('select');
             }
         }
 
-        // ĐỒNG HỒ ĐẾM NGƯỢC 30 PHÚT
         function startTimer() {
-            timeLeft = 30 * 60; // 30 phút
+            timeLeft = 30 * 60;
             const timerEl = document.getElementById('timer-display');
             
             if (timerInterval) clearInterval(timerInterval);
@@ -478,7 +525,7 @@
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     alert("Đã hết thời gian làm bài! Hệ thống sẽ tự động nộp bài.");
-                    submitQuiz(true); // Tự động nộp khi hết giờ
+                    submitQuiz(true);
                 }
                 timeLeft--;
             }, 1000);
@@ -532,7 +579,7 @@
                 
                 if(answered < quizData.length) {
                     if(!confirm(`Bạn mới làm ${answered}/${quizData.length} câu. Bạn có chắc chắn muốn nộp bài?`)) {
-                        startTimer(); // Bật lại đồng hồ nếu hủy nộp
+                        startTimer();
                         return;
                     }
                 } else {
