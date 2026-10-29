@@ -67,6 +67,10 @@
                 <button onclick="requireLoginForQuiz()" class="py-4 px-4 hover:bg-blue-800 transition font-semibold text-yellow-400">
                     Luyện thi trắc nghiệm <i class="fas fa-lock ml-1 text-sm"></i>
                 </button>
+
+                <button id="nav-admin-btn" onclick="navigate('admin')" class="hidden py-4 px-4 hover:bg-red-800 transition font-semibold text-red-300">
+                    <i class="fas fa-user-shield mr-1"></i> Quản trị (Admin)
+                </button>
             </div>
 
             <div id="nav-user-area" class="hidden flex items-center space-x-3 py-2">
@@ -81,7 +85,7 @@
     <!-- MAIN CONTENT AREA -->
     <main class="max-w-7xl mx-auto px-4 py-8 min-h-[60vh]">
         
-        <!-- TRANG CHỦ -->
+        <!-- ================= VIEW 1: TRANG CHỦ ================= -->
         <div id="view-home" class="flex flex-col lg:flex-row gap-8">
             <div class="w-full lg:w-3/4">
                 <h2 class="text-2xl font-bold mb-6 border-b-2 border-blue-600 inline-block pb-2">Bài viết nổi bật</h2>
@@ -122,17 +126,18 @@
             <div class="w-full lg:w-1/4">
                 <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden sticky top-24">
                     <div class="bg-gray-100 p-4 border-b text-center font-bold text-lg text-[#0a192f]">
-                        Khu vực Luyện thi <i class="fas fa-laptop-code ml-1 text-blue-600"></i>
+                        Khu vực Học viên <i class="fas fa-laptop-code ml-1 text-blue-600"></i>
                     </div>
-                    <div class="p-5 text-center">
-                        <p class="text-sm text-gray-600 mb-4" id="widget-login-text">Học viên kích hoạt tài khoản để làm đề thi trắc nghiệm.</p>
-                        <button onclick="requireLoginForQuiz()" id="widget-login-btn" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition">Đi tới Đăng nhập</button>
+                    <div class="p-5 text-center space-y-3">
+                        <p class="text-sm text-gray-600" id="widget-login-text">Kích hoạt hoặc đăng ký tài khoản mới để luyện thi.</p>
+                        <button onclick="requireLoginForQuiz()" id="widget-login-btn" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-md hover:bg-blue-700 transition shadow">Đăng Nhập Luyện Thi</button>
+                        <button onclick="navigate('register')" id="widget-reg-btn" class="w-full bg-emerald-600 text-white font-semibold py-2 rounded-md hover:bg-emerald-700 transition">Đăng Ký Tài Khoản</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CHI TIẾT BÀI VIẾT ĐẦY ĐỦ -->
+        <!-- CHI TIẾT BÀI VIẾT -->
         <div id="view-article" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
             <button onclick="navigate('home')" class="text-blue-600 font-semibold mb-6 hover:underline"><i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ</button>
             <img id="article-img" src="" class="w-full h-64 object-cover rounded-lg mb-6 shadow-sm">
@@ -144,24 +149,113 @@
             <div id="article-content" class="article-content"></div>
         </div>
 
-        <!-- VIEW ĐĂNG NHẬP -->
+        <!-- ================= VIEW 2: ĐĂNG NHẬP ================= -->
         <div id="view-login" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-blue-600">
             <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập Luyện Thi</h2>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Tài khoản (Mã học viên)</label>
+                    <label class="block text-sm font-medium mb-1">Tài khoản (Tên đăng nhập)</label>
                     <input type="text" id="username" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Mật khẩu</label>
                     <input type="password" id="password" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
-                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900 transition mt-4 shadow-md">Đăng nhập hệ thống</button>
+                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900 transition mt-4 shadow-md">Đăng nhập</button>
+                <div class="text-center pt-2">
+                    <span class="text-sm text-gray-500">Chưa có tài khoản? </span>
+                    <button onclick="navigate('register')" class="text-sm text-blue-600 font-semibold hover:underline">Đăng ký ngay</button>
+                </div>
             </div>
             <div id="login-error" class="text-red-500 text-sm mt-4 text-center hidden p-2 bg-red-50 rounded"></div>
         </div>
 
-        <!-- VIEW CHỌN ĐỀ -->
+        <!-- ================= VIEW 2.5: ĐĂNG KÝ ================= -->
+        <div id="view-register" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-emerald-600">
+            <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Đăng Ký Tài Khoản</h2>
+            <p class="text-xs text-gray-500 text-center mb-6">Tài khoản sẽ được gửi đến Admin duyệt trước khi làm bài</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Tên đăng nhập (viết liền, không dấu)</label>
+                    <input type="text" id="reg-username" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="vd: nguyen_van_a">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Mật khẩu</label>
+                    <input type="password" id="reg-password" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Họ và tên đầy đủ</label>
+                    <input type="text" id="reg-hoten" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="vd: Nguyễn Văn A">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Khóa học đăng ký ôn tập</label>
+                    <select id="reg-loai" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <option value="cb">Tin học Cơ Bản (35 đề)</option>
+                        <option value="nc">Tin học Nâng Cao (10 đề)</option>
+                        <option value="cbnc">Cả Cơ Bản & Nâng Cao</option>
+                    </select>
+                </div>
+                <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-semibold py-3 rounded hover:bg-emerald-700 transition mt-4 shadow-md">Gửi yêu cầu đăng ký</button>
+                <div class="text-center pt-2">
+                    <span class="text-sm text-gray-500">Đã có tài khoản? </span>
+                    <button onclick="navigate('login')" class="text-sm text-blue-600 font-semibold hover:underline">Đăng nhập</button>
+                </div>
+            </div>
+            <div id="reg-message" class="text-sm mt-4 text-center hidden p-2 rounded"></div>
+        </div>
+
+        <!-- ================= VIEW 7: TRANG QUẢN TRỊ ADMIN ================= -->
+        <div id="view-admin" class="hidden-view max-w-6xl mx-auto space-y-8">
+            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-red-600 flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800"><i class="fas fa-user-shield text-red-600 mr-2"></i> Bảng Quản Trị Hệ Thống</h2>
+                    <p class="text-sm text-gray-500">Quản lý duyệt tài khoản học viên và phân quyền đề thi</p>
+                </div>
+                <button onclick="loadAdminUsers()" class="bg-blue-600 text-white px-4 py-2 rounded font-semibold text-sm hover:bg-blue-700">
+                    <i class="fas fa-sync-alt mr-1"></i> Làm mới danh sách
+                </button>
+            </div>
+
+            <!-- Box 1: Thêm người dùng trực tiếp -->
+            <div class="bg-white p-6 rounded-xl shadow">
+                <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2"><i class="fas fa-user-plus text-green-600 mr-2"></i> Thêm Tài Khoản Học Viên Trực Tiếp</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <input type="text" id="admin-add-username" placeholder="Tên đăng nhập" class="border p-2.5 rounded">
+                    <input type="text" id="admin-add-password" placeholder="Mật khẩu" class="border p-2.5 rounded">
+                    <input type="text" id="admin-add-hoten" placeholder="Họ và tên" class="border p-2.5 rounded">
+                    <select id="admin-add-loai" class="border p-2.5 rounded">
+                        <option value="cb">Cơ bản (cb)</option>
+                        <option value="nc">Nâng cao (nc)</option>
+                        <option value="cbnc">Cả hai (cbnc)</option>
+                        <option value="admin">Quản trị viên (admin)</option>
+                    </select>
+                </div>
+                <button onclick="adminAddUser()" id="admin-add-btn" class="mt-4 bg-green-600 text-white px-6 py-2.5 rounded font-semibold hover:bg-green-700 transition">Thêm & Kích Hoạt Ngay</button>
+                <div id="admin-add-msg" class="text-sm mt-2 hidden font-semibold"></div>
+            </div>
+
+            <!-- Box 2: Danh sách người dùng & Duyệt -->
+            <div class="bg-white p-6 rounded-xl shadow overflow-x-auto">
+                <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2"><i class="fas fa-users text-blue-600 mr-2"></i> Danh Sách Tài Khoản & Phê Duyệt</h3>
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700 border-b">
+                            <th class="p-3">Tài khoản</th>
+                            <th class="p-3">Mật khẩu</th>
+                            <th class="p-3">Họ tên</th>
+                            <th class="p-3">Quyền</th>
+                            <th class="p-3">Trạng thái</th>
+                            <th class="p-3 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-users-table">
+                        <!-- Render qua JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 3: CHỌN ĐỀ ================= -->
         <div id="view-select" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto text-center mt-10">
             <h2 class="text-2xl font-bold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
             <p class="text-gray-600 mb-6">Vui lòng chọn cấp độ ôn tập hoặc xem lịch sử thi:</p>
@@ -257,9 +351,8 @@
         let isLoggedIn = false;
         let currentCategory = 'co-ban';
         let timerInterval = null;
-        let timeLeft = 30 * 60; // 30 phút
+        let timeLeft = 30 * 60;
 
-        // NỘI DUNG CHI TIẾT ĐẦY ĐỦ CHO CÁC BÀI VIẾT MẪU
         const articles = {
             1: {
                 title: "Khóa Học Tin Học Lấy Chứng Chỉ Ứng Dụng CNTT Cơ Bản & Nâng Cao",
@@ -323,26 +416,28 @@
         };
 
         function navigate(viewName) {
-            const views = ['view-home', 'view-login', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article'];
-            views.forEach(v => document.getElementById(v).classList.add('hidden-view'));
-            document.getElementById(`view-${viewName}`).classList.remove('hidden-view');
+            const views = ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article'];
+            views.forEach(v => {
+                const el = document.getElementById(v);
+                if (el) el.classList.add('hidden-view');
+            });
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) target.classList.remove('hidden-view');
             window.scrollTo(0, 0);
 
             if (viewName !== 'view-quiz' && timerInterval) {
                 clearInterval(timerInterval);
             }
 
-            if(viewName === 'home') {
-                if(isLoggedIn) {
-                    document.getElementById('widget-login-text').innerHTML = `Xin chào <b>${studentInfo.name}</b>!<br>Bạn đã sẵn sàng luyện thi.`;
-                    document.getElementById('widget-login-btn').innerText = "Vào chọn đề thi";
-                    document.getElementById('nav-user-area').classList.remove('hidden');
-                    document.getElementById('nav-username-display').innerText = studentInfo.name;
-                } else {
-                    document.getElementById('widget-login-text').innerText = "Học viên kích hoạt tài khoản để làm đề thi trắc nghiệm.";
-                    document.getElementById('widget-login-btn').innerText = "Đi tới Đăng nhập";
-                    document.getElementById('nav-user-area').classList.add('hidden');
+            if(isLoggedIn) {
+                document.getElementById('nav-user-area').classList.remove('hidden');
+                document.getElementById('nav-username-display').innerText = studentInfo.name;
+                if(studentInfo.loai === 'admin') {
+                    document.getElementById('nav-admin-btn').classList.remove('hidden');
                 }
+            } else {
+                document.getElementById('nav-user-area').classList.add('hidden');
+                document.getElementById('nav-admin-btn').classList.add('hidden');
             }
         }
 
@@ -366,14 +461,68 @@
 
         function requireLoginForQuiz() {
             if (isLoggedIn) {
-                let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
-                selectCategory(defaultCat);
-                navigate('select');
+                if (studentInfo.loai === 'admin') {
+                    navigate('admin');
+                } else {
+                    let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
+                    selectCategory(defaultCat);
+                    navigate('select');
+                }
             } else {
                 navigate('login');
             }
         }
 
+        // ================= XỬ LÝ ĐĂNG KÝ =================
+        async function registerUser() {
+            const u = document.getElementById('reg-username').value.trim();
+            const p = document.getElementById('reg-password').value.trim();
+            const h = document.getElementById('reg-hoten').value.trim();
+            const l = document.getElementById('reg-loai').value;
+            const msgEl = document.getElementById('reg-message');
+            const btn = document.getElementById('reg-btn');
+
+            if (!u || !p || !h) {
+                msgEl.innerText = "Vui lòng nhập đầy đủ tất cả các trường!";
+                msgEl.className = "text-sm mt-4 text-center p-2 bg-red-100 text-red-700 rounded";
+                msgEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi yêu cầu...';
+            msgEl.classList.add('hidden');
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l })
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    msgEl.innerText = result.message;
+                    msgEl.className = "text-sm mt-4 text-center p-3 bg-emerald-100 text-emerald-800 rounded font-semibold";
+                    msgEl.classList.remove('hidden');
+                    document.getElementById('reg-username').value = '';
+                    document.getElementById('reg-password').value = '';
+                    document.getElementById('reg-hoten').value = '';
+                } else {
+                    msgEl.innerText = result.message || "Đăng ký thất bại!";
+                    msgEl.className = "text-sm mt-4 text-center p-2 bg-red-100 text-red-700 rounded";
+                    msgEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                msgEl.innerText = "Lỗi kết nối máy chủ!";
+                msgEl.className = "text-sm mt-4 text-center p-2 bg-red-100 text-red-700 rounded";
+                msgEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Gửi yêu cầu đăng ký";
+            }
+        }
+
+        // ================= XỬ LÝ ĐĂNG NHẬP =================
         async function loginUser() {
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value.trim();
@@ -407,10 +556,15 @@
                     document.getElementById('student-name-display').innerText = result.hoten;
                     document.getElementById('username').value = '';
                     document.getElementById('password').value = '';
-                    
-                    let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
-                    selectCategory(defaultCat);
-                    navigate('select');
+
+                    if (studentInfo.loai === 'admin') {
+                        loadAdminUsers();
+                        navigate('admin');
+                    } else {
+                        let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
+                        selectCategory(defaultCat);
+                        navigate('select');
+                    }
                 } else {
                     errorEl.innerText = result.message || "Tài khoản hoặc mật khẩu sai!";
                     errorEl.classList.remove('hidden');
@@ -420,10 +574,131 @@
                 errorEl.classList.remove('hidden');
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Đăng nhập hệ thống";
+                btn.innerText = "Đăng nhập";
             }
         }
 
+        // ================= ADMIN PANEL LOGIC =================
+        async function loadAdminUsers() {
+            const tbody = document.getElementById('admin-users-table');
+            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải danh sách người dùng...</td></tr>`;
+
+            try {
+                const res = await fetch(`${API_URL}?action=get_users`);
+                const users = await res.json();
+                tbody.innerHTML = '';
+
+                if (users.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Chưa có người dùng nào.</td></tr>`;
+                    return;
+                }
+
+                users.forEach(u => {
+                    let statusBadge = u.trangthai === 'pending'
+                        ? `<span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full text-xs">Chờ duyệt</span>`
+                        : `<span class="bg-green-100 text-green-800 font-bold px-2.5 py-1 rounded-full text-xs">Đang hoạt động</span>`;
+
+                    let actionBtns = '';
+                    if (u.trangthai === 'pending') {
+                        actionBtns = `
+                            <button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-xs font-semibold mr-1">
+                                <i class="fas fa-check mr-1"></i> Duyệt
+                            </button>
+                            <button onclick="updateUserStatus(${u.rowIndex}, 'blocked', '${u.loai}')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                Từ chối
+                            </button>
+                        `;
+                    } else {
+                        actionBtns = `
+                            <select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border text-xs rounded p-1">
+                                <option value="cb" ${u.loai === 'cb' ? 'selected' : ''}>Cơ bản</option>
+                                <option value="nc" ${u.loai === 'nc' ? 'selected' : ''}>Nâng cao</option>
+                                <option value="cbnc" ${u.loai === 'cbnc' ? 'selected' : ''}>Cả hai</option>
+                                <option value="admin" ${u.loai === 'admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        `;
+                    }
+
+                    let row = `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-3 font-semibold text-gray-800">${u.username}</td>
+                            <td class="p-3 text-gray-500">${u.password}</td>
+                            <td class="p-3">${u.hoten}</td>
+                            <td class="p-3 uppercase font-mono text-xs font-bold text-blue-700">${u.loai}</td>
+                            <td class="p-3">${statusBadge}</td>
+                            <td class="p-3 text-center">${actionBtns}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Lỗi nạp danh sách tài khoản!</td></tr>`;
+            }
+        }
+
+        async function updateUserStatus(rowIndex, status, loai) {
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'update_user_status', rowIndex: rowIndex, trangthai: status, loai: loai })
+                });
+                const r = await res.json();
+                if(r.status === 'success') {
+                    loadAdminUsers();
+                } else {
+                    alert(r.message || "Lỗi cập nhật người dùng!");
+                }
+            } catch (e) {
+                alert("Lỗi kết nối khi cập nhật người dùng!");
+            }
+        }
+
+        async function adminAddUser() {
+            const u = document.getElementById('admin-add-username').value.trim();
+            const p = document.getElementById('admin-add-password').value.trim();
+            const h = document.getElementById('admin-add-hoten').value.trim();
+            const l = document.getElementById('admin-add-loai').value;
+            const msgEl = document.getElementById('admin-add-msg');
+            const btn = document.getElementById('admin-add-btn');
+
+            if (!u || !p || !h) {
+                msgEl.innerText = "Vui lòng nhập đủ thông tin!";
+                msgEl.className = "text-sm mt-2 text-red-600 block";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Đang thêm...";
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l })
+                });
+                const r = await res.json();
+                if (r.status === 'success') {
+                    msgEl.innerText = "Đã thêm tài khoản thành công!";
+                    msgEl.className = "text-sm mt-2 text-green-600 block";
+                    document.getElementById('admin-add-username').value = '';
+                    document.getElementById('admin-add-password').value = '';
+                    document.getElementById('admin-add-hoten').value = '';
+                    loadAdminUsers();
+                } else {
+                    msgEl.innerText = r.message || "Lỗi thêm tài khoản!";
+                    msgEl.className = "text-sm mt-2 text-red-600 block";
+                }
+            } catch (e) {
+                msgEl.innerText = "Lỗi kết nối máy chủ!";
+                msgEl.className = "text-sm mt-2 text-red-600 block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Thêm & Kích Hoạt Ngay";
+            }
+        }
+
+        // ================= THI & KẾT QUẢ =================
         function selectCategory(category) {
             const btnCB = document.getElementById('btn-coban');
             const btnNC = document.getElementById('btn-nangcao');
@@ -513,13 +788,11 @@
         function startTimer() {
             timeLeft = 30 * 60;
             const timerEl = document.getElementById('timer-display');
-            
             if (timerInterval) clearInterval(timerInterval);
 
             timerInterval = setInterval(() => {
                 let minutes = Math.floor(timeLeft / 60);
                 let seconds = timeLeft % 60;
-
                 timerEl.innerText = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
                 if (timeLeft <= 0) {
@@ -537,10 +810,7 @@
             
             quizData.forEach((q, index) => {
                 const correctStr = String(q.DapAnDung || "").trim();
-                const isMultiple = correctStr.length > 1 || 
-                                   correctStr.includes(',') || 
-                                   /chọn các|những câu|tất cả các/i.test(q.NoiDung);
-
+                const isMultiple = correctStr.length > 1 || correctStr.includes(',') || /chọn các|những câu|tất cả các/i.test(q.NoiDung);
                 const inputType = isMultiple ? 'checkbox' : 'radio';
                 const noteText = isMultiple ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-semibold"><i class="fas fa-check-square mr-1"></i>Câu hỏi nhiều đáp án đúng</span>' : '';
 
@@ -621,7 +891,7 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'submit',
-                        hoc_vien: studentInfo.name,
+                        hoc_vien: studentInfo.username, // Lưu theo username để chuẩn khớp khi lấy lịch sử
                         ma_de: studentInfo.quizId,
                         diem_so: finalScore,
                         so_cau_dung: correctAnswers,
