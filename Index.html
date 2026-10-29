@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Ôn Thi Trắc Nghiệm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #3b82f6; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- Header & Banner -->
+    <header class="bg-white shadow-md mb-6">
+        <!-- Thay link ảnh dưới đây bằng link ảnh banner thực tế của bạn -->
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" alt="Banner Khóa Học" class="w-full h-48 object-cover">
+        <div class="bg-blue-600 text-white py-3">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h1 class="text-xl font-bold">Hệ Thống Ôn Thi Trắc Nghiệm - Khoa CNTT</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-4">
+        
+        <!-- Màn hình 1: Đăng nhập -->
+        <div id="login-screen" class="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Tài khoản</label>
+                    <input type="text" id="username" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 focus:outline-none" placeholder="Nhập mã học viên...">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Mật khẩu</label>
+                    <input type="password" id="password" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 focus:outline-none" placeholder="Nhập mật khẩu...">
+                </div>
+                <button onclick="loginUser()" id="login-btn" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Đăng nhập hệ thống</button>
+                
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">Hoặc</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+                
+                <!-- Nút Gmail (Tạm thời là giao diện, sẽ cần API Key của Google để chạy thực tế) -->
+                <button class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-2 rounded hover:bg-gray-50 transition flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Đăng nhập bằng Google
+                </button>
+            </div>
+            <div id="login-error" class="text-red-500 text-sm mt-3 text-center hidden"></div>
+        </div>
+
+        <!-- Màn hình 2: Chọn đề (Sau khi đăng nhập) -->
+        <div id="select-screen" class="hidden bg-white p-8 rounded-lg shadow-md max-w-md mx-auto text-center">
+            <h2 class="text-xl font-semibold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
+            <p class="text-gray-600 mb-6">Vui lòng chọn mã đề để bắt đầu bài thi.</p>
+            
+            <div class="mb-6 text-left">
+                <label class="block text-sm font-medium mb-1">Mã đề thi (Từ 1 đến 20)</label>
+                <input type="number" id="quiz-id" min="1" max="20" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 focus:outline-none" placeholder="Nhập số đề...">
+            </div>
+            <button onclick="startQuiz()" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Bắt đầu làm bài</button>
+            <div id="start-error" class="text-red-500 text-sm mt-3 text-center hidden">Vui lòng nhập mã đề hợp lệ!</div>
+        </div>
+
+        <!-- Trạng thái Loading -->
+        <div id="loading-screen" class="hidden flex flex-col items-center justify-center py-12">
+            <div class="spinner mb-4"></div>
+            <p class="text-gray-600" id="loading-text">Đang xử lý...</p>
+        </div>
+
+        <!-- Màn hình 3: Giao diện làm bài -->
+        <div id="quiz-screen" class="hidden">
+            <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-0 z-10 flex justify-between items-center border-b-4 border-blue-600">
+                <div class="font-semibold md:text-lg text-sm">Học viên: <span id="display-name" class="text-blue-600"></span></div>
+                <div class="font-semibold md:text-lg text-sm">Mã đề: <span id="display-quiz" class="text-blue-600"></span></div>
+            </div>
+
+            <div id="questions-container" class="space-y-6 mb-8">
+                <!-- JS Render -->
+            </div>
+
+            <button onclick="submitQuiz()" id="submit-btn" class="w-full md:w-auto bg-green-600 text-white font-bold py-3 px-8 rounded hover:bg-green-700 transition text-lg block mx-auto">Nộp Bài & Xem Điểm</button>
+        </div>
+
+        <!-- Màn hình 4: Kết quả -->
+        <div id="result-screen" class="hidden bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Hoàn Thành!</h2>
+            <p class="text-gray-600 mb-6">Kết quả của bạn đã được lưu vào hệ thống.</p>
+            
+            <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 mb-6">
+                <div class="text-sm text-gray-500 uppercase font-semibold tracking-wider mb-1">Điểm số</div>
+                <div class="text-5xl font-extrabold text-blue-600 mb-4"><span id="score-display">0</span> / 10</div>
+                <div class="text-lg">Số câu đúng: <span id="correct-count" class="font-bold">0</span> / <span id="total-count" class="font-bold">0</span></div>
+            </div>
+
+            <button onclick="location.reload()" class="bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded hover:bg-gray-300 transition">Thoát</button>
+        </div>
+
+    </main>
+
+    <script>
+        // API URL CỦA BẠN
+        const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
+        
+        let quizData = [];
+        let studentInfo = { username: '', name: '', quizId: '' };
+
+        // 1. Xử lý đăng nhập
+        async function loginUser() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const errorEl = document.getElementById('login-error');
+            const btn = document.getElementById('login-btn');
+
+            if (!user || !pass) {
+                errorEl.innerText = "Vui lòng nhập đầy đủ tài khoản và mật khẩu!";
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            errorEl.classList.add('hidden');
+            btn.disabled = true;
+            btn.innerText = "Đang kiểm tra...";
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'login', username: user, password: pass })
+                });
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    studentInfo.username = user;
+                    studentInfo.name = result.hoten; // Lấy họ tên thực từ Google Sheets
+                    
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('student-name-display').innerText = result.hoten;
+                    document.getElementById('select-screen').classList.remove('hidden');
+                } else {
+                    errorEl.innerText = result.message || "Đăng nhập thất bại!";
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorEl.innerText = "Lỗi kết nối đến máy chủ!";
+                errorEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Đăng nhập hệ thống";
+            }
+        }
+
+        // 2. Tải đề thi
+        async function startQuiz() {
+            const quizId = document.getElementById('quiz-id').value.trim();
+            const errorEl = document.getElementById('start-error');
+
+            if (!quizId || quizId < 1 || quizId > 20) {
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            errorEl.classList.add('hidden');
+            studentInfo.quizId = quizId;
+            
+            document.getElementById('select-screen').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+            document.getElementById('loading-text').innerText = "Đang tải đề thi...";
+            document.getElementById('display-name').innerText = studentInfo.name;
+            document.getElementById('display-quiz').innerText = quizId;
+
+            try {
+                const response = await fetch(`${API_URL}?made=${quizId}`);
+                quizData = await response.json();
+
+                if(quizData.length === 0) {
+                    alert("Không tìm thấy câu hỏi nào cho mã đề này.");
+                    location.reload();
+                    return;
+                }
+
+                renderQuestions();
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('quiz-screen').classList.remove('hidden');
+
+            } catch (error) {
+                alert("Có lỗi xảy ra khi tải đề. Vui lòng kiểm tra lại mạng.");
+                location.reload();
+            }
+        }
+
+        // 3. Render giao diện câu hỏi (giữ nguyên)
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            quizData.forEach((q, index) => {
+                const questionHTML = `
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <div class="font-bold text-lg mb-3">Câu ${index + 1}: <span class="font-normal">${q.NoiDung}</span></div>
+                        <div class="space-y-2">
+                            ${['A', 'B', 'C', 'D'].map(option => {
+                                const optionContent = q[`DapAn${option}`];
+                                if(!optionContent) return '';
+                                return `
+                                <label class="flex items-start cursor-pointer hover:bg-gray-50 p-2 rounded transition">
+                                    <input type="radio" name="q${index}" value="${option}" class="mt-1 mr-3 w-4 h-4 text-blue-600 focus:ring-blue-500">
+                                    <span class="text-gray-700">${option}. ${optionContent}</span>
+                                </label>`;
+                            }).join('')}
+                        </div>
+                    </div>`;
+                container.innerHTML += questionHTML;
+            });
+        }
+
+        // 4. Lưu kết quả
+        async function submitQuiz() {
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Đang lưu kết quả...";
+
+            let correctAnswers = 0;
+            quizData.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && selected.value.toUpperCase() === String(q.DapAnDung).toUpperCase().trim()) {
+                    correctAnswers++;
+                }
+            });
+
+            const score = (correctAnswers / quizData.length) * 10;
+            const finalScore = parseFloat(score.toFixed(1));
+
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('score-display').innerText = finalScore;
+            document.getElementById('correct-count').innerText = correctAnswers;
+            document.getElementById('total-count').innerText = quizData.length;
+
+            const payload = {
+                action: 'submit', // Xác định đây là hành động nộp bài
+                hoc_vien: studentInfo.name,
+                ma_de: studentInfo.quizId,
+                diem_so: finalScore,
+                so_cau_dung: correctAnswers
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (error) {
+                console.error("Lỗi khi lưu kết quả:", error);
+            }
+        }
+    </script>
+</body>
+</html>
