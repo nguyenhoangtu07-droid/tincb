@@ -390,17 +390,23 @@
             }
         }
 
-        // TỰ ĐỘNG NHẬN DIỆN CÂU HỎI NHIỀU ĐÁP ÁN ĐỂ ĐỔI SANG CHECKBOX
+        // HÀM RENDER CÂU HỎI (HỖ TRỢ TỰ ĐỘNG CHUYỂN CHECKBOX KHI CÓ NHIỀU ĐÁP ÁN)
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
             
             quizData.forEach((q, index) => {
                 const correctStr = String(q.DapAnDung || "").trim();
-                // Nếu đáp án có từ 2 ký tự trở lên hoặc chứa dấu phẩy -> Dùng checkbox (chọn nhiều)
-                const isMultiple = correctStr.length > 1 || correctStr.includes(',');
+                
+                // Điều kiện nhận diện câu hỏi nhiều đáp án: 
+                // 1. Đáp án đúng dài hơn 1 ký tự hoặc có chứa dấu phẩy
+                // 2. Hoặc nội dung câu hỏi chứa các từ khóa gợi ý chọn nhiều đáp án
+                const isMultiple = correctStr.length > 1 || 
+                                   correctStr.includes(',') || 
+                                   /chọn các|những câu|tất cả các/i.test(q.NoiDung);
+
                 const inputType = isMultiple ? 'checkbox' : 'radio';
-                const noteText = isMultiple ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-normal">Câu hỏi nhiều đáp án đúng</span>' : '';
+                const noteText = isMultiple ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-normal font-semibold"><i class="fas fa-check-square mr-1"></i>Câu hỏi nhiều đáp án đúng</span>' : '';
 
                 const questionHTML = `
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -415,7 +421,7 @@
                                 if(!optionContent) return '';
                                 return `
                                 <label class="flex items-start cursor-pointer hover:bg-blue-50 p-3 border rounded-lg transition">
-                                    <input type="${inputType}" name="q${index}" value="${option}" class="mt-1 mr-3 w-4 h-4 text-blue-600">
+                                    <input type="${inputType}" name="q${index}" value="${option}" class="mt-1 mr-3 w-4 h-4 text-blue-600 rounded">
                                     <span class="font-bold mr-2">${option}.</span> 
                                     <span>${optionContent}</span>
                                 </label>`;
@@ -443,10 +449,10 @@
                 const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
                 let studentChoices = Array.from(checkedNodes).map(node => node.value.toUpperCase()).sort().join('');
                 
-                // Chuẩn hóa chuỗi đáp án đúng từ Google Sheets (bỏ dấu phẩy, khoảng trắng, sắp xếp alphabet để so sánh)
-                let correctChoiceRaw = String(q.DapAnDung).toUpperCase().replace(/[\s,]/g, '');
+                let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
                 let correctChoices = correctChoiceRaw.split('').sort().join('');
 
+                // Nếu trong sheet bạn chưa kịp gõ đủ nhiều đáp án mà vẫn để 1 ký tự, hệ thống vẫn chấm bình thường theo 1 ký tự đó
                 if (studentChoices === correctChoices && studentChoices.length > 0) {
                     correctAnswers++;
                 }
@@ -477,7 +483,6 @@
             }
         }
 
-        // XEM LẠI CHI TIẾT BÀI LÀM (HỖ TRỢ CẢ MULTIPLE CHOICE)
         function openReviewModal() {
             const container = document.getElementById('review-container');
             container.innerHTML = '';
@@ -486,10 +491,9 @@
                 const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
                 let studentChoicesArr = Array.from(checkedNodes).map(node => node.value.toUpperCase());
                 
-                let correctChoiceRaw = String(q.DapAnDung).toUpperCase().replace(/[\s,]/g, '');
+                let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
                 let correctChoicesArr = correctChoiceRaw.split('');
 
-                // Kiểm tra xem học viên có chọn đúng chính xác tập hợp đáp án không
                 let isCorrect = studentChoicesArr.length === correctChoicesArr.length && 
                                 studentChoicesArr.every(val => correctChoicesArr.includes(val));
 
