@@ -227,12 +227,11 @@
         <p class="text-sm mt-2">Địa chỉ: 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Tỉnh Đồng Tháp</p>
         <p class="text-sm mt-1">Hotline: 0969 264305 - 0934 671006</p>
     </footer>
-
-    <script>
+<script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
         let quizData = [];
-        let studentInfo = { username: '', name: '', quizId: '' };
+        let studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' };
         let isLoggedIn = false;
         let currentCategory = 'co-ban';
 
@@ -278,7 +277,9 @@
 
         function requireLoginForQuiz() {
             if (isLoggedIn) {
-                selectCategory('co-ban');
+                // Tự động chọn tab phù hợp với quyền của tài khoản
+                let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
+                selectCategory(defaultCat);
                 navigate('select');
             } else {
                 navigate('login');
@@ -313,10 +314,15 @@
                     isLoggedIn = true;
                     studentInfo.username = user;
                     studentInfo.name = result.hoten; 
+                    studentInfo.loai = result.loai; // Lưu lại loại quyền (cb, nc, cbnc)
+
                     document.getElementById('student-name-display').innerText = result.hoten;
                     document.getElementById('username').value = '';
                     document.getElementById('password').value = '';
-                    selectCategory('co-ban');
+                    
+                    // Chuyển hướng đến màn hình chọn đề với phân quyền hiển thị nút
+                    let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
+                    selectCategory(defaultCat);
                     navigate('select');
                 } else {
                     errorEl.innerText = result.message || "Tài khoản hoặc mật khẩu sai!";
@@ -331,22 +337,52 @@
             }
         }
 
+        // PHÂN QUYỀN HIỂN THỊ CẤP ĐỘ THEO TÀI KHOẢN
         function selectCategory(category) {
-            currentCategory = category;
             const btnCB = document.getElementById('btn-coban');
             const btnNC = document.getElementById('btn-nangcao');
             const grid = document.getElementById('quiz-buttons-grid');
             grid.innerHTML = '';
 
+            // Kiểm tra phân quyền tài khoản
+            if (studentInfo.loai === 'cb' && category === 'nang-cao') {
+                alert("Tài khoản của bạn chỉ có quyền làm đề Cơ Bản!");
+                category = 'co-ban';
+            }
+            if (studentInfo.loai === 'nc' && category === 'co-ban') {
+                alert("Tài khoản của bạn chỉ có quyền làm đề Nâng Cao!");
+                category = 'nang-cao';
+            }
+
+            currentCategory = category;
+
+            // Ẩn/Hiện nút lựa chọn cấp độ tùy theo loại tài khoản
+            if (studentInfo.loai === 'cb') {
+                btnCB.style.display = 'block';
+                btnNC.style.display = 'none';
+                btnCB.className = "w-full p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 bg-blue-50 transition";
+            } else if (studentInfo.loai === 'nc') {
+                btnCB.style.display = 'none';
+                btnNC.style.display = 'block';
+                btnNC.className = "w-full p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 bg-blue-50 transition";
+            } else {
+                // Cả hai loại (cbnc)
+                btnCB.style.display = 'block';
+                btnNC.style.display = 'block';
+                if(category === 'co-ban') {
+                    btnCB.className = "p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition";
+                    btnNC.className = "p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition";
+                } else {
+                    btnNC.className = "p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition";
+                    btnCB.className = "p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition";
+                }
+            }
+
             if(category === 'co-ban') {
-                btnCB.className = "p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition";
-                btnNC.className = "p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition";
                 for(let i = 1; i <= 35; i++) {
                     createQuizButton(grid, `Đề ${i}`, i);
                 }
             } else {
-                btnNC.className = "p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition";
-                btnCB.className = "p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition";
                 for(let i = 1; i <= 10; i++) {
                     let formattedNum = i < 10 ? `0${i}` : `${i}`;
                     let maDeCode = `NC_de${formattedNum}`;
@@ -390,17 +426,12 @@
             }
         }
 
-        // HÀM RENDER CÂU HỎI (HỖ TRỢ TỰ ĐỘNG CHUYỂN CHECKBOX KHI CÓ NHIỀU ĐÁP ÁN)
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
             
             quizData.forEach((q, index) => {
                 const correctStr = String(q.DapAnDung || "").trim();
-                
-                // Điều kiện nhận diện câu hỏi nhiều đáp án: 
-                // 1. Đáp án đúng dài hơn 1 ký tự hoặc có chứa dấu phẩy
-                // 2. Hoặc nội dung câu hỏi chứa các từ khóa gợi ý chọn nhiều đáp án
                 const isMultiple = correctStr.length > 1 || 
                                    correctStr.includes(',') || 
                                    /chọn các|những câu|tất cả các/i.test(q.NoiDung);
@@ -452,7 +483,6 @@
                 let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
                 let correctChoices = correctChoiceRaw.split('').sort().join('');
 
-                // Nếu trong sheet bạn chưa kịp gõ đủ nhiều đáp án mà vẫn để 1 ký tự, hệ thống vẫn chấm bình thường theo 1 ký tự đó
                 if (studentChoices === correctChoices && studentChoices.length > 0) {
                     correctAnswers++;
                 }
@@ -539,6 +569,6 @@
 
             navigate('review');
         }
-    </script>
+    </script>   
 </body>
 </html>
