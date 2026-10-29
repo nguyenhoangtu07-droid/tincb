@@ -3,115 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Ôn Thi Trắc Nghiệm</title>
+    <title>Hệ Thống Đào Tạo & Ôn Thi Tin Học</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .hidden { display: none !important; }
+        .hidden-view { display: none !important; }
+        .dropdown:hover .dropdown-menu { display: block; }
         .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #3b82f6; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Style cho nội dung bài viết */
+        .article-content p { margin-bottom: 1rem; line-height: 1.7; color: #4b5563; }
+        .article-content h3 { font-size: 1.25rem; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #1f2937; }
+        .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased">
 
-    <!-- Header & Banner -->
-    <header class="bg-white shadow-md mb-6">
-        <!-- Thay link ảnh dưới đây bằng link ảnh banner thực tế của bạn -->
-        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" alt="Banner Khóa Học" class="w-full h-48 object-cover">
-        <div class="bg-blue-600 text-white py-3">
-            <div class="max-w-4xl mx-auto px-4 text-center">
-                <h1 class="text-xl font-bold">Hệ Thống Ôn Thi Trắc Nghiệm - Khoa CNTT</h1>
-            </div>
-        </div>
+    <!-- Header Banner (Đã chỉnh nhỏ lại) -->
+    <header class="w-full bg-[#0a192f] flex justify-center border-b-4 border-blue-600">
+        <img src="banner.jpg" alt="Banner Công Ty Thành Danh" class="w-full max-w-5xl max-h-[220px] object-cover mx-auto" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop'; this.title='Không tìm thấy file banner.jpg cục bộ, đang dùng ảnh mạng thay thế';">
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-4">
+    <!-- Navigation Bar -->
+    <nav class="bg-[#0a192f] text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start relative">
+            
+            <button onclick="navigate('home')" class="py-4 px-4 hover:bg-blue-800 transition font-semibold">Trang chủ</button>
+
+            <!-- Khóa học Tin học -->
+            <div class="dropdown relative">
+                <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
+                    Khóa học Tin học <i class="fas fa-caret-down ml-2"></i>
+                </button>
+                <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-56 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
+                    <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học cơ bản</a>
+                    <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học nâng cao</a>
+                    <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700">Tin học văn phòng</a>
+                </div>
+            </div>
+
+            <!-- Tài khoản AI -->
+            <div class="dropdown relative">
+                <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
+                    Tài khoản AI <i class="fas fa-caret-down ml-2"></i>
+                </button>
+                <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-48 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
+                    <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Gemini Pro</a>
+                    <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700">Chat GPT Plus</a>
+                </div>
+            </div>
+
+            <!-- Luyện thi -->
+            <button onclick="requireLoginForQuiz()" class="py-4 px-4 hover:bg-blue-800 transition font-semibold text-yellow-400">
+                Luyện thi trắc nghiệm <i class="fas fa-lock ml-1 text-sm"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-7xl mx-auto px-4 py-8 min-h-[60vh]">
         
-        <!-- Màn hình 1: Đăng nhập -->
-        <div id="login-screen" class="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
-            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập</h2>
+        <!-- ================= VIEW 1: TRANG CHỦ ================= -->
+        <div id="view-home" class="flex flex-col lg:flex-row gap-8">
+            <!-- Left: Bài viết mẫu -->
+            <div class="w-full lg:w-3/4">
+                <h2 class="text-2xl font-bold mb-6 border-b-2 border-blue-600 inline-block pb-2">Bài viết nổi bật</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition duration-300 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
+                        <div class="p-5 text-white flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-blue-300">Khóa học Tin học lấy chứng chỉ cơ bản, nâng cao</h3>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Đào tạo các kỹ năng tin học văn phòng chuẩn quốc gia. Cam kết chuẩn đầu ra, thực hành 100% trên máy tính...</p>
+                            </div>
+                            <button onclick="showArticle(1)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition duration-300 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
+                        <div class="p-5 text-white flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-blue-300">Đăng ký bản quyền Gemini Pro / ChatGPT Plus</h3>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Nâng cấp tài khoản AI chính chủ phục vụ công việc, nghiên cứu và học tập hiệu quả. Bảo hành trọn thời gian...</p>
+                            </div>
+                            <button onclick="showArticle(2)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-[#0a192f] rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition duration-300 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover opacity-80">
+                        <div class="p-5 text-white flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-blue-300">Đào tạo Tin học Ứng dụng Trí tuệ Nhân tạo</h3>
+                                <p class="text-gray-300 text-sm mb-4 line-clamp-3">Khóa học chuyên sâu hướng dẫn áp dụng AI (ChatGPT, Gemini) vào tự động hóa công việc văn phòng...</p>
+                            </div>
+                            <button onclick="showArticle(3)" class="w-max bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-500">Xem chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Widget Login -->
+            <div class="w-full lg:w-1/4">
+                <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden sticky top-24">
+                    <div class="bg-gray-100 p-4 border-b border-gray-200 text-center font-bold text-lg text-[#0a192f]">
+                        Khu vực Luyện thi <i class="fas fa-laptop-code ml-1 text-blue-600"></i>
+                    </div>
+                    <div class="p-5 text-center">
+                        <p class="text-sm text-gray-600 mb-4" id="widget-login-text">Học viên kích hoạt tài khoản để làm đề thi trắc nghiệm.</p>
+                        <button onclick="requireLoginForQuiz()" id="widget-login-btn" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition">Đi tới Đăng nhập</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 1.5: CHI TIẾT BÀI VIẾT ================= -->
+        <div id="view-article" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
+            <button onclick="navigate('home')" class="text-blue-600 font-semibold mb-6 hover:underline"><i class="fas fa-arrow-left mr-1"></i> Quay lại trang chủ</button>
+            
+            <img id="article-img" src="" class="w-full h-64 object-cover rounded-lg mb-6 shadow-sm">
+            <h1 id="article-title" class="text-3xl font-bold text-gray-900 mb-4 leading-tight"></h1>
+            <div class="flex items-center text-sm text-gray-500 mb-8 border-b pb-4">
+                <i class="far fa-calendar-alt mr-2"></i> <span class="mr-4">Cập nhật: Hôm nay</span>
+                <i class="fas fa-user-edit mr-2"></i> <span>Tác giả: Admin - Thầy Tú</span>
+            </div>
+            
+            <div id="article-content" class="article-content">
+                <!-- Nội dung bài viết sẽ được chèn bằng JS -->
+            </div>
+        </div>
+
+        <!-- VIEW ĐĂNG NHẬP -->
+        <div id="view-login" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10 border-t-4 border-blue-600">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Đăng Nhập Luyện Thi</h2>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Tài khoản</label>
-                    <input type="text" id="username" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 focus:outline-none" placeholder="Nhập mã học viên...">
+                    <label class="block text-sm font-medium mb-1">Tài khoản (Mã học viên)</label>
+                    <input type="text" id="username" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Mật khẩu</label>
-                    <input type="password" id="password" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 focus:outline-none" placeholder="Nhập mật khẩu...">
+                    <input type="password" id="password" class="w-full border p-2.5 rounded bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                 </div>
-                <button onclick="loginUser()" id="login-btn" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Đăng nhập hệ thống</button>
-                
-                <div class="relative flex py-2 items-center">
-                    <div class="flex-grow border-t border-gray-300"></div>
-                    <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">Hoặc</span>
-                    <div class="flex-grow border-t border-gray-300"></div>
-                </div>
-                
-                <!-- Nút Gmail (Tạm thời là giao diện, sẽ cần API Key của Google để chạy thực tế) -->
-                <button class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-2 rounded hover:bg-gray-50 transition flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                    Đăng nhập bằng Google
-                </button>
+                <button onclick="loginUser()" id="login-btn" class="w-full bg-[#0a192f] text-white font-semibold py-3 rounded hover:bg-blue-900 transition mt-4 shadow-md">Đăng nhập hệ thống</button>
             </div>
-            <div id="login-error" class="text-red-500 text-sm mt-3 text-center hidden"></div>
+            <div id="login-error" class="text-red-500 text-sm mt-4 text-center hidden p-2 bg-red-50 rounded"></div>
         </div>
 
-        <!-- Màn hình 2: Chọn đề (Sau khi đăng nhập) -->
-        <div id="select-screen" class="hidden bg-white p-8 rounded-lg shadow-md max-w-md mx-auto text-center">
+        <!-- VIEW CHỌN ĐỀ -->
+        <div id="view-select" class="hidden-view bg-white p-8 rounded-lg shadow-md max-w-md mx-auto text-center mt-10">
+            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fas fa-check-circle"></i>
+            </div>
             <h2 class="text-xl font-semibold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
-            <p class="text-gray-600 mb-6">Vui lòng chọn mã đề để bắt đầu bài thi.</p>
+            <p class="text-gray-600 mb-6">Bạn đã sẵn sàng? Hãy chọn mã đề để bắt đầu.</p>
             
             <div class="mb-6 text-left">
                 <label class="block text-sm font-medium mb-1">Mã đề thi (Từ 1 đến 20)</label>
-                <input type="number" id="quiz-id" min="1" max="20" class="w-full border p-2 rounded focus:ring focus:ring-blue-200 focus:outline-none" placeholder="Nhập số đề...">
+                <input type="number" id="quiz-id" min="1" max="20" class="w-full border p-3 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none text-xl text-center font-bold bg-gray-50">
             </div>
-            <button onclick="startQuiz()" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Bắt đầu làm bài</button>
+            <button onclick="startQuiz()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded shadow-lg hover:bg-blue-700 transition">VÀO THI NGAY</button>
             <div id="start-error" class="text-red-500 text-sm mt-3 text-center hidden">Vui lòng nhập mã đề hợp lệ!</div>
         </div>
 
-        <!-- Trạng thái Loading -->
-        <div id="loading-screen" class="hidden flex flex-col items-center justify-center py-12">
+        <!-- VIEW LOADING -->
+        <div id="view-loading" class="hidden-view flex flex-col items-center justify-center py-20">
             <div class="spinner mb-4"></div>
-            <p class="text-gray-600" id="loading-text">Đang xử lý...</p>
+            <p class="text-gray-600 font-medium" id="loading-text">Đang kết nối cơ sở dữ liệu...</p>
         </div>
 
-        <!-- Màn hình 3: Giao diện làm bài -->
-        <div id="quiz-screen" class="hidden">
-            <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-0 z-10 flex justify-between items-center border-b-4 border-blue-600">
-                <div class="font-semibold md:text-lg text-sm">Học viên: <span id="display-name" class="text-blue-600"></span></div>
-                <div class="font-semibold md:text-lg text-sm">Mã đề: <span id="display-quiz" class="text-blue-600"></span></div>
+        <!-- VIEW LÀM BÀI THI -->
+        <div id="view-quiz" class="hidden-view">
+            <div class="bg-white p-4 rounded-lg shadow-md mb-6 sticky top-[72px] z-40 flex justify-between items-center border-b-4 border-blue-600">
+                <div class="font-semibold text-sm md:text-lg">Học viên: <span id="display-name" class="text-blue-600"></span></div>
+                <div class="font-semibold text-sm md:text-lg bg-blue-100 px-4 py-1.5 rounded-full text-blue-800">Mã Đề: <span id="display-quiz" class="font-bold"></span></div>
             </div>
 
             <div id="questions-container" class="space-y-6 mb-8">
-                <!-- JS Render -->
+                <!-- Javascript render câu hỏi tại đây -->
             </div>
 
-            <button onclick="submitQuiz()" id="submit-btn" class="w-full md:w-auto bg-green-600 text-white font-bold py-3 px-8 rounded hover:bg-green-700 transition text-lg block mx-auto">Nộp Bài & Xem Điểm</button>
+            <button onclick="submitQuiz()" id="submit-btn" class="w-full md:w-1/3 bg-green-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-700 transition text-lg block mx-auto shadow-lg uppercase tracking-wide">Nộp Bài & Xem Điểm</button>
         </div>
 
-        <!-- Màn hình 4: Kết quả -->
-        <div id="result-screen" class="hidden bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto text-center">
-            <h2 class="text-3xl font-bold text-gray-800 mb-2">Hoàn Thành!</h2>
-            <p class="text-gray-600 mb-6">Kết quả của bạn đã được lưu vào hệ thống.</p>
+        <!-- VIEW KẾT QUẢ -->
+        <div id="view-result" class="hidden-view bg-white p-8 rounded-xl shadow-lg max-w-lg mx-auto text-center mt-10 border-t-8 border-green-500">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Hoàn Thành Bài Thi!</h2>
+            <p class="text-gray-600 mb-6">Kết quả của bạn đã được ghi nhận vào hệ thống.</p>
             
-            <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 mb-6">
-                <div class="text-sm text-gray-500 uppercase font-semibold tracking-wider mb-1">Điểm số</div>
-                <div class="text-5xl font-extrabold text-blue-600 mb-4"><span id="score-display">0</span> / 10</div>
-                <div class="text-lg">Số câu đúng: <span id="correct-count" class="font-bold">0</span> / <span id="total-count" class="font-bold">0</span></div>
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8 shadow-inner">
+                <div class="text-sm text-gray-500 uppercase font-semibold tracking-wider mb-2">Tổng điểm hệ 10</div>
+                <div class="text-7xl font-black text-blue-600 mb-4 drop-shadow-sm"><span id="score-display">0</span></div>
+                <div class="text-lg bg-white inline-block px-6 py-2 rounded-full border border-gray-200 font-medium">
+                    Số câu đúng: <span id="correct-count" class="font-bold text-green-600 text-xl">0</span> / <span id="total-count" class="font-bold text-xl">0</span>
+                </div>
             </div>
 
-            <button onclick="location.reload()" class="bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded hover:bg-gray-300 transition">Thoát</button>
+            <button onclick="navigate('home')" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-blue-700 transition shadow-md">Về trang chủ</button>
         </div>
 
     </main>
 
+    <!-- FOOTER -->
+    <footer class="bg-[#0a192f] text-gray-400 py-8 text-center mt-12 border-t-4 border-blue-900">
+        <p class="font-semibold text-gray-300">Công Ty TNHH Thành Danh - Chi Nhánh 13</p>
+        <p class="text-sm mt-2">Địa chỉ: 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Tỉnh Đồng Tháp</p>
+        <p class="text-sm mt-1">Hotline: 0969 264305 - 0934 671006</p>
+    </footer>
+
     <script>
-        // API URL CỦA BẠN
+        // DÁN API URL GOOGLE APPS SCRIPT VÀO ĐÂY
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
         let quizData = [];
         let studentInfo = { username: '', name: '', quizId: '' };
+        let isLoggedIn = false;
 
-        // 1. Xử lý đăng nhập
+        // DỮ LIỆU CÁC BÀI VIẾT
+        const articles = {
+            1: {
+                title: "Khóa Học Tin Học Lấy Chứng Chỉ Ứng Dụng CNTT Cơ Bản & Nâng Cao",
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Chứng chỉ Ứng dụng Công nghệ thông tin (CNTT) là chứng chỉ quốc gia, có giá trị vô thời hạn, rất cần thiết đối với sinh viên xét tốt nghiệp, công chức, viên chức thi tuyển hoặc nâng ngạch.</p>
+                    <h3>Nội dung khóa học Cơ Bản:</h3>
+                    <ul>
+                        <li>Hiểu biết về CNTT cơ bản và an toàn thông tin.</li>
+                        <li>Sử dụng máy tính và quản lý tệp tin trên Windows.</li>
+                        <li>Soạn thảo văn bản hành chính chuyên nghiệp với Microsoft Word.</li>
+                        <li>Xử lý dữ liệu, tính toán bảng biểu với Microsoft Excel.</li>
+                        <li>Thiết kế bài thuyết trình sinh động với Microsoft PowerPoint.</li>
+                        <li>Sử dụng Internet, Email và các dịch vụ lưu trữ đám mây.</li>
+                    </ul>
+                    <h3>Nội dung khóa học Nâng Cao:</h3>
+                    <ul>
+                        <li>Kỹ năng trộn thư, mục lục tự động, quản lý Style nâng cao trong Word.</li>
+                        <li>Hàm thống kê, dò tìm phức tạp, Pivot Table, Macro cơ bản trong Excel.</li>
+                        <li>Thiết kế Slide chuyên sâu, Trigger, Animation nâng cao trong PowerPoint.</li>
+                    </ul>
+                    <p><strong>Thời gian học:</strong> Linh hoạt, học viên được thực hành 100% trên máy tính dưới sự hướng dẫn tận tình của giáo viên. Cam kết hỗ trợ đến khi thi đậu.</p>
+                `
+            },
+            2: {
+                title: "Thông Tin Đăng Ký Bản Quyền Gemini Pro & ChatGPT Plus",
+                image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Trí tuệ nhân tạo (AI) đang thay đổi hoàn toàn cách chúng ta làm việc và sáng tạo. Việc sở hữu một tài khoản AI bản quyền giúp bạn tiếp cận các tính năng mạnh mẽ nhất mà phiên bản miễn phí không có.</p>
+                    <h3>Ưu điểm của ChatGPT Plus:</h3>
+                    <ul>
+                        <li>Sử dụng mô hình GPT-4/GPT-4o thông minh nhất, suy luận logic xuất sắc.</li>
+                        <li>Hỗ trợ phân tích dữ liệu Data Analysis, đọc hiểu file Excel, PDF, CSV.</li>
+                        <li>Tạo hình ảnh sắc nét từ văn bản với công cụ DALL-E 3.</li>
+                        <li>Tạo các Custom GPTs phục vụ riêng cho nghiệp vụ cá nhân.</li>
+                    </ul>
+                    <h3>Ưu điểm của Gemini Advanced (Gemini Pro):</h3>
+                    <ul>
+                        <li>Tích hợp trực tiếp và hoàn hảo vào hệ sinh thái Google (Docs, Sheets, Drive, Gmail).</li>
+                        <li>Tốc độ truy xuất và thu thập thông tin thời gian thực (Real-time Web Search) vượt trội.</li>
+                        <li>Hỗ trợ lưu trữ thêm 2TB dung lượng Google One.</li>
+                    </ul>
+                    <p><strong>Dịch vụ của chúng tôi:</strong> Cung cấp tài khoản nâng cấp chính chủ trên chính email của khách hàng. Bảo hành toàn thời gian sử dụng. Hỗ trợ khắc phục lỗi 24/7 và hướng dẫn sử dụng cơ bản.</p>
+                `
+            },
+            3: {
+                title: "Đào Tạo Tin Học Ứng Dụng Trí Tuệ Nhân Tạo (AI)",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
+                content: `
+                    <p>Khóa học đặc biệt dành cho những người muốn đón đầu xu hướng công nghệ, ứng dụng AI để tăng gấp 10 lần hiệu suất làm việc văn phòng.</p>
+                    <h3>Bạn sẽ học được gì?</h3>
+                    <ul>
+                        <li><strong>Nghệ thuật Viết Prompt (Câu lệnh):</strong> Cách giao tiếp với AI để nhận được câu trả lời chính xác, đúng ngữ cảnh và văn phong mong muốn.</li>
+                        <li><strong>Tự động hóa với Excel & AI:</strong> Sử dụng ChatGPT để viết hàm Excel phức tạp, giải thích công thức, hoặc viết mã VBA tự động hóa báo cáo.</li>
+                        <li><strong>Tạo Content & Thuyết trình:</strong> Dùng AI để lên ý tưởng, viết kịch bản, và tự động tạo Slide PowerPoint hoàn chỉnh chỉ trong vài phút.</li>
+                        <li><strong>Tích hợp API:</strong> Hướng dẫn cơ bản cách đưa AI vào Google Sheets để tự động dịch thuật, phân tích phản hồi khách hàng hàng loạt.</li>
+                    </ul>
+                    <p>Khóa học không đòi hỏi kiến thức lập trình phức tạp. Mọi thứ được thiết kế trực quan, dễ hiểu, áp dụng ngay vào công việc thực tế vào ngày hôm sau.</p>
+                `
+            }
+        };
+
+        // HÀM ĐIỀU HƯỚNG VIEW
+        function navigate(viewName) {
+            const views = ['view-home', 'view-login', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-article'];
+            views.forEach(v => document.getElementById(v).classList.add('hidden-view'));
+            
+            document.getElementById(`view-${viewName}`).classList.remove('hidden-view');
+            window.scrollTo(0, 0);
+
+            // Cập nhật trạng thái widget bên phải
+            if(viewName === 'home') {
+                if(isLoggedIn) {
+                    document.getElementById('widget-login-text').innerHTML = `Xin chào <b>${studentInfo.name}</b>!<br>Bạn đã sẵn sàng làm bài thi.`;
+                    document.getElementById('widget-login-btn').innerText = "Vào chọn đề thi";
+                }
+            }
+        }
+
+        // HIỂN THỊ BÀI VIẾT CHI TIẾT
+        function showArticle(id) {
+            const article = articles[id];
+            if(article) {
+                document.getElementById('article-title').innerText = article.title;
+                document.getElementById('article-img').src = article.image;
+                document.getElementById('article-content').innerHTML = article.content;
+                navigate('article');
+            }
+        }
+
+        // KIỂM TRA ĐĂNG NHẬP KHI BẤM LUYỆN THI
+        function requireLoginForQuiz() {
+            if (isLoggedIn) {
+                navigate('select');
+            } else {
+                navigate('login');
+            }
+        }
+
+        // XỬ LÝ ĐĂNG NHẬP
         async function loginUser() {
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value.trim();
@@ -126,7 +339,7 @@
 
             errorEl.classList.add('hidden');
             btn.disabled = true;
-            btn.innerText = "Đang kiểm tra...";
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>Đang xác thực...';
 
             try {
                 const response = await fetch(API_URL, {
@@ -137,18 +350,20 @@
                 const result = await response.json();
 
                 if (result.status === "success") {
+                    isLoggedIn = true;
                     studentInfo.username = user;
-                    studentInfo.name = result.hoten; // Lấy họ tên thực từ Google Sheets
+                    studentInfo.name = result.hoten; 
                     
-                    document.getElementById('login-screen').classList.add('hidden');
                     document.getElementById('student-name-display').innerText = result.hoten;
-                    document.getElementById('select-screen').classList.remove('hidden');
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    navigate('select');
                 } else {
-                    errorEl.innerText = result.message || "Đăng nhập thất bại!";
+                    errorEl.innerText = result.message || "Tài khoản hoặc mật khẩu không chính xác!";
                     errorEl.classList.remove('hidden');
                 }
             } catch (error) {
-                errorEl.innerText = "Lỗi kết nối đến máy chủ!";
+                errorEl.innerText = "Lỗi kết nối đến máy chủ Google. Hãy thử lại!";
                 errorEl.classList.remove('hidden');
             } finally {
                 btn.disabled = false;
@@ -156,7 +371,7 @@
             }
         }
 
-        // 2. Tải đề thi
+        // TẢI ĐỀ THI
         async function startQuiz() {
             const quizId = document.getElementById('quiz-id').value.trim();
             const errorEl = document.getElementById('start-error');
@@ -169,9 +384,9 @@
             errorEl.classList.add('hidden');
             studentInfo.quizId = quizId;
             
-            document.getElementById('select-screen').classList.add('hidden');
-            document.getElementById('loading-screen').classList.remove('hidden');
-            document.getElementById('loading-text').innerText = "Đang tải đề thi...";
+            document.getElementById('loading-text').innerText = `Đang kết nối cơ sở dữ liệu tải Đề số ${quizId}...`;
+            navigate('loading');
+            
             document.getElementById('display-name').innerText = studentInfo.name;
             document.getElementById('display-quiz').innerText = quizId;
 
@@ -180,37 +395,41 @@
                 quizData = await response.json();
 
                 if(quizData.length === 0) {
-                    alert("Không tìm thấy câu hỏi nào cho mã đề này.");
-                    location.reload();
+                    alert(`Thành thật xin lỗi! Hiện chưa có dữ liệu câu hỏi cho mã đề ${quizId}.`);
+                    navigate('select');
                     return;
                 }
 
                 renderQuestions();
-                document.getElementById('loading-screen').classList.add('hidden');
-                document.getElementById('quiz-screen').classList.remove('hidden');
+                navigate('quiz');
 
             } catch (error) {
-                alert("Có lỗi xảy ra khi tải đề. Vui lòng kiểm tra lại mạng.");
-                location.reload();
+                alert("Lỗi tải đề thi. Vui lòng kiểm tra đường truyền mạng.");
+                navigate('select');
             }
         }
 
-        // 3. Render giao diện câu hỏi (giữ nguyên)
+        // RENDER CÂU HỎI
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
+            
             quizData.forEach((q, index) => {
                 const questionHTML = `
-                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-                        <div class="font-bold text-lg mb-3">Câu ${index + 1}: <span class="font-normal">${q.NoiDung}</span></div>
-                        <div class="space-y-2">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 transition duration-300">
+                        <div class="font-bold text-lg mb-4 text-gray-800 flex items-start">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm mr-3 mt-0.5 whitespace-nowrap">Câu ${index + 1}</span>
+                            <span class="font-medium leading-relaxed">${q.NoiDung}</span>
+                        </div>
+                        <div class="space-y-3 pl-2 md:pl-12">
                             ${['A', 'B', 'C', 'D'].map(option => {
                                 const optionContent = q[`DapAn${option}`];
                                 if(!optionContent) return '';
                                 return `
-                                <label class="flex items-start cursor-pointer hover:bg-gray-50 p-2 rounded transition">
+                                <label class="flex items-start cursor-pointer hover:bg-blue-50 p-3 border border-gray-100 rounded-lg transition duration-200">
                                     <input type="radio" name="q${index}" value="${option}" class="mt-1 mr-3 w-4 h-4 text-blue-600 focus:ring-blue-500">
-                                    <span class="text-gray-700">${option}. ${optionContent}</span>
+                                    <span class="text-gray-700 font-bold mr-2 w-5">${option}.</span> 
+                                    <span class="text-gray-600">${optionContent}</span>
                                 </label>`;
                             }).join('')}
                         </div>
@@ -219,11 +438,20 @@
             });
         }
 
-        // 4. Lưu kết quả
+        // LƯU KẾT QUẢ
         async function submitQuiz() {
+            let answered = 0;
+            quizData.forEach((_, i) => { if(document.querySelector(`input[name="q${i}"]:checked`)) answered++; });
+            
+            if(answered < quizData.length) {
+                if(!confirm(`Bạn mới làm ${answered}/${quizData.length} câu. Bạn có chắc chắn muốn nộp bài sớm không?`)) return;
+            } else {
+                if(!confirm("Xác nhận nộp bài? Kết quả sẽ được lưu vào hệ thống.")) return;
+            }
+
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
-            submitBtn.innerText = "Đang lưu kết quả...";
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Hệ thống đang chấm điểm...';
 
             let correctAnswers = 0;
             quizData.forEach((q, index) => {
@@ -233,17 +461,19 @@
                 }
             });
 
+            // Tính điểm hệ 10
             const score = (correctAnswers / quizData.length) * 10;
             const finalScore = parseFloat(score.toFixed(1));
 
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
+            // Hiển thị UI kết quả
             document.getElementById('score-display').innerText = finalScore;
             document.getElementById('correct-count').innerText = correctAnswers;
             document.getElementById('total-count').innerText = quizData.length;
+            navigate('result');
 
+            // Gửi kết quả về Sheets
             const payload = {
-                action: 'submit', // Xác định đây là hành động nộp bài
+                action: 'submit',
                 hoc_vien: studentInfo.name,
                 ma_de: studentInfo.quizId,
                 diem_so: finalScore,
@@ -258,6 +488,7 @@
                 });
             } catch (error) {
                 console.error("Lỗi khi lưu kết quả:", error);
+                alert("Lỗi lưu điểm! Vui lòng chụp lại màn hình điểm số và báo cho giáo viên.");
             }
         }
     </script>
