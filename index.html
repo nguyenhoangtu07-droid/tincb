@@ -25,51 +25,61 @@
 
     <!-- Navigation Bar -->
     <nav class="bg-[#0a192f] text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-start relative">
-            <button onclick="navigate('home')" class="py-4 px-4 hover:bg-blue-800 transition font-semibold">Trang chủ</button>
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center">
+            <div class="flex flex-wrap items-center">
+                <button onclick="navigate('home')" class="py-4 px-4 hover:bg-blue-800 transition font-semibold">Trang chủ</button>
 
-            <!-- Khóa học Tin học -->
-            <div class="dropdown relative">
-                <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
-                    Khóa học Tin học <i class="fas fa-caret-down ml-2"></i>
-                </button>
-                <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-56 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
-                    <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học cơ bản</a>
-                    <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học nâng cao</a>
-                    <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700">Tin học văn phòng</a>
+                <!-- Khóa học Tin học -->
+                <div class="dropdown relative">
+                    <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
+                        Khóa học Tin học <i class="fas fa-caret-down ml-2"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-56 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
+                        <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học cơ bản</a>
+                        <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Tin học nâng cao</a>
+                        <a href="#" onclick="showArticle(1)" class="block px-4 py-3 hover:bg-blue-700">Tin học văn phòng</a>
+                    </div>
                 </div>
+
+                <!-- Đề thi Drive -->
+                <div class="dropdown relative">
+                    <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center text-cyan-300">
+                        Đề thi Tin học Cơ bản <i class="fas fa-caret-down ml-2"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-64 shadow-xl rounded-b-md border-t-2 border-cyan-400 z-50">
+                        <a href="https://drive.google.com/drive/folders/1ADvXMjDc_yyaIcK-pX4ZHbQYx-EyotND?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">
+                            <i class="fas fa-folder-open mr-2 text-yellow-400"></i> Kho tài liệu đề thi 01
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1tSlGlK89rD_WjJdNEv6ISLhjPR-hnBXl?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700">
+                            <i class="fas fa-folder-open mr-2 text-yellow-400"></i> Kho tài liệu đề thi 02
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tài khoản AI -->
+                <div class="dropdown relative">
+                    <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
+                        Tài khoản AI <i class="fas fa-caret-down ml-2"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-48 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
+                        <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Gemini Pro</a>
+                        <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700">Chat GPT Plus</a>
+                    </div>
+                </div>
+
+                <!-- Luyện thi -->
+                <button onclick="requireLoginForQuiz()" class="py-4 px-4 hover:bg-blue-800 transition font-semibold text-yellow-400">
+                    Luyện thi trắc nghiệm <i class="fas fa-lock ml-1 text-sm"></i>
+                </button>
             </div>
 
-            <!-- Đề thi Drive -->
-            <div class="dropdown relative">
-                <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center text-cyan-300">
-                    Đề thi Tin học Cơ bản <i class="fas fa-caret-down ml-2"></i>
+            <!-- Khu vực thông tin tài khoản & Đăng xuất trên Nav -->
+            <div id="nav-user-area" class="hidden flex items-center space-x-3 py-2">
+                <span class="text-sm text-cyan-200 font-semibold"><i class="fas fa-user-circle mr-1"></i> <span id="nav-username-display"></span></span>
+                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded transition font-semibold">
+                    <i class="fas fa-sign-out-alt mr-1"></i> Đăng xuất
                 </button>
-                <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-64 shadow-xl rounded-b-md border-t-2 border-cyan-400 z-50">
-                    <a href="https://drive.google.com/drive/folders/1ADvXMjDc_yyaIcK-pX4ZHbQYx-EyotND?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">
-                        <i class="fas fa-folder-open mr-2 text-yellow-400"></i> Kho tài liệu đề thi 01
-                    </a>
-                    <a href="https://drive.google.com/drive/folders/1tSlGlK89rD_WjJdNEv6ISLhjPR-hnBXl?usp=sharing" target="_blank" class="block px-4 py-3 hover:bg-blue-700">
-                        <i class="fas fa-folder-open mr-2 text-yellow-400"></i> Kho tài liệu đề thi 02
-                    </a>
-                </div>
             </div>
-
-            <!-- Tài khoản AI -->
-            <div class="dropdown relative">
-                <button class="py-4 px-4 hover:bg-blue-800 transition font-semibold flex items-center">
-                    Tài khoản AI <i class="fas fa-caret-down ml-2"></i>
-                </button>
-                <div class="dropdown-menu absolute hidden bg-[#0a192f] text-white w-48 shadow-xl rounded-b-md border-t-2 border-blue-500 z-50">
-                    <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700 border-b border-gray-700">Gemini Pro</a>
-                    <a href="#" onclick="showArticle(2)" class="block px-4 py-3 hover:bg-blue-700">Chat GPT Plus</a>
-                </div>
-            </div>
-
-            <!-- Luyện thi -->
-            <button onclick="requireLoginForQuiz()" class="py-4 px-4 hover:bg-blue-800 transition font-semibold text-yellow-400">
-                Luyện thi trắc nghiệm <i class="fas fa-lock ml-1 text-sm"></i>
-            </button>
         </div>
     </nav>
 
@@ -153,30 +163,44 @@
             <div id="login-error" class="text-red-500 text-sm mt-4 text-center hidden p-2 bg-red-50 rounded"></div>
         </div>
 
-        <!-- VIEW CHỌN PHẦN VÀ MÃ ĐỀ (CƠ BẢN / NÂNG CAO) -->
+        <!-- VIEW CHỌN PHẦN VÀ MÃ ĐỀ -->
         <div id="view-select" class="hidden-view bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto text-center mt-10">
             <h2 class="text-2xl font-bold mb-2">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
-            <p class="text-gray-600 mb-6">Vui lòng chọn cấp độ ôn tập bên dưới:</p>
+            <p class="text-gray-600 mb-6">Vui lòng chọn cấp độ ôn tập hoặc xem lịch sử thi:</p>
             
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <button onclick="selectCategory('co-ban')" id="btn-coban" class="p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition">Phần Cơ Bản<br><span class="text-xs font-normal text-gray-500">Đề 1 đến Đề 35</span></button>
                 <button onclick="selectCategory('nang-cao')" id="btn-nangcao" class="p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition">Phần Nâng Cao<br><span class="text-xs font-normal text-gray-500">Đề NC 1 đến NC 10</span></button>
             </div>
 
+            <!-- Nút xem lịch sử thi -->
+            <button onclick="fetchQuizHistory()" class="w-full bg-purple-600 text-white font-bold py-3 rounded-xl mb-6 hover:bg-purple-700 transition shadow-md">
+                <i class="fas fa-history mr-2"></i> Xem lịch sử các lần làm bài
+            </button>
+
             <div class="mb-6 text-left">
                 <label class="block text-sm font-medium mb-2">Chọn Mã Đề Cụ Thể:</label>
-                <!-- Khung chứa danh sách đề có thanh cuộn dọc (max-h-96 overflow-y-auto) giúp hiển thị trọn vẹn 35 đề -->
-                <div id="quiz-buttons-grid" class="grid grid-cols-5 gap-2 max-h-96 overflow-y-auto p-2 border rounded-xl bg-gray-50">
-                    <!-- Buttons mã đề load tự động bằng JS -->
-                </div>
+                <div id="quiz-buttons-grid" class="grid grid-cols-5 gap-2 max-h-64 overflow-y-auto p-2 border rounded-xl bg-gray-50"></div>
             </div>
-            <button onclick="navigate('home')" class="text-gray-500 text-sm hover:underline">Thoát / Về trang chủ</button>
+            
+            <button onclick="logout()" class="text-red-600 text-sm font-semibold hover:underline"><i class="fas fa-sign-out-alt mr-1"></i> Đăng xuất tài khoản</button>
+        </div>
+
+        <!-- VIEW LỊCH SỬ LÀM BÀI -->
+        <div id="view-history" class="hidden-view max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h2 class="text-2xl font-bold text-gray-800"><i class="fas fa-history text-purple-600 mr-2"></i> Lịch Sử Các Lần Làm Bài</h2>
+                <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200"><i class="fas fa-arrow-left mr-2"></i> Quay lại chọn đề</button>
+            </div>
+            <div id="history-container" class="space-y-4">
+                <!-- Javascript render danh sách lịch sử -->
+            </div>
         </div>
 
         <!-- VIEW LOADING -->
         <div id="view-loading" class="hidden-view flex flex-col items-center justify-center py-20">
             <div class="spinner mb-4"></div>
-            <p class="text-gray-600 font-medium" id="loading-text">Đang tải câu hỏi...</p>
+            <p class="text-gray-600 font-medium" id="loading-text">Đang tải dữ liệu...</p>
         </div>
 
         <!-- VIEW LÀM BÀI THI -->
@@ -214,7 +238,7 @@
         <div id="view-review" class="hidden-view max-w-4xl mx-auto">
             <div class="bg-white p-6 rounded-xl shadow-md mb-6 flex justify-between items-center border-b">
                 <h2 class="text-2xl font-bold text-gray-800">Chi Tiết Bài Làm & Đáp Án</h2>
-                <button onclick="navigate('result')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200"><i class="fas fa-arrow-left mr-2"></i> Quay lại kết quả</button>
+                <button onclick="navigate('select')" class="bg-gray-100 px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-200"><i class="fas fa-arrow-left mr-2"></i> Quay lại chọn đề</button>
             </div>
             <div id="review-container" class="space-y-6"></div>
         </div>
@@ -227,7 +251,8 @@
         <p class="text-sm mt-2">Địa chỉ: 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Tỉnh Đồng Tháp</p>
         <p class="text-sm mt-1">Hotline: 0969 264305 - 0934 671006</p>
     </footer>
-<script>
+
+    <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
         let quizData = [];
@@ -254,14 +279,31 @@
         };
 
         function navigate(viewName) {
-            const views = ['view-home', 'view-login', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-article'];
+            const views = ['view-home', 'view-login', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article'];
             views.forEach(v => document.getElementById(v).classList.add('hidden-view'));
             document.getElementById(`view-${viewName}`).classList.remove('hidden-view');
             window.scrollTo(0, 0);
 
-            if(viewName === 'home' && isLoggedIn) {
-                document.getElementById('widget-login-text').innerHTML = `Xin chào <b>${studentInfo.name}</b>!<br>Bạn đã sẵn sàng luyện thi.`;
-                document.getElementById('widget-login-btn').innerText = "Vào chọn đề thi";
+            if(viewName === 'home') {
+                if(isLoggedIn) {
+                    document.getElementById('widget-login-text').innerHTML = `Xin chào <b>${studentInfo.name}</b>!<br>Bạn đã sẵn sàng luyện thi.`;
+                    document.getElementById('widget-login-btn').innerText = "Vào chọn đề thi";
+                    document.getElementById('nav-user-area').classList.remove('hidden');
+                    document.getElementById('nav-username-display').innerText = studentInfo.name;
+                } else {
+                    document.getElementById('widget-login-text').innerText = "Học viên kích hoạt tài khoản để làm đề thi trắc nghiệm.";
+                    document.getElementById('widget-login-btn').innerText = "Đi tới Đăng nhập";
+                    document.getElementById('nav-user-area').classList.add('hidden');
+                }
+            }
+        }
+
+        // HÀM ĐĂNG XUẤT
+        function logout() {
+            if(confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
+                isLoggedIn = false;
+                studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' };
+                navigate('home');
             }
         }
 
@@ -277,7 +319,6 @@
 
         function requireLoginForQuiz() {
             if (isLoggedIn) {
-                // Tự động chọn tab phù hợp với quyền của tài khoản
                 let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
                 selectCategory(defaultCat);
                 navigate('select');
@@ -314,13 +355,12 @@
                     isLoggedIn = true;
                     studentInfo.username = user;
                     studentInfo.name = result.hoten; 
-                    studentInfo.loai = result.loai; // Lưu lại loại quyền (cb, nc, cbnc)
+                    studentInfo.loai = result.loai;
 
                     document.getElementById('student-name-display').innerText = result.hoten;
                     document.getElementById('username').value = '';
                     document.getElementById('password').value = '';
                     
-                    // Chuyển hướng đến màn hình chọn đề với phân quyền hiển thị nút
                     let defaultCat = (studentInfo.loai === 'nc') ? 'nang-cao' : 'co-ban';
                     selectCategory(defaultCat);
                     navigate('select');
@@ -337,14 +377,12 @@
             }
         }
 
-        // PHÂN QUYỀN HIỂN THỊ CẤP ĐỘ THEO TÀI KHOẢN
         function selectCategory(category) {
             const btnCB = document.getElementById('btn-coban');
             const btnNC = document.getElementById('btn-nangcao');
             const grid = document.getElementById('quiz-buttons-grid');
             grid.innerHTML = '';
 
-            // Kiểm tra phân quyền tài khoản
             if (studentInfo.loai === 'cb' && category === 'nang-cao') {
                 alert("Tài khoản của bạn chỉ có quyền làm đề Cơ Bản!");
                 category = 'co-ban';
@@ -356,7 +394,6 @@
 
             currentCategory = category;
 
-            // Ẩn/Hiện nút lựa chọn cấp độ tùy theo loại tài khoản
             if (studentInfo.loai === 'cb') {
                 btnCB.style.display = 'block';
                 btnNC.style.display = 'none';
@@ -366,7 +403,6 @@
                 btnNC.style.display = 'block';
                 btnNC.className = "w-full p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 bg-blue-50 transition";
             } else {
-                // Cả hai loại (cbnc)
                 btnCB.style.display = 'block';
                 btnNC.style.display = 'block';
                 if(category === 'co-ban') {
@@ -437,7 +473,7 @@
                                    /chọn các|những câu|tất cả các/i.test(q.NoiDung);
 
                 const inputType = isMultiple ? 'checkbox' : 'radio';
-                const noteText = isMultiple ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-normal font-semibold"><i class="fas fa-check-square mr-1"></i>Câu hỏi nhiều đáp án đúng</span>' : '';
+                const noteText = isMultiple ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-semibold"><i class="fas fa-check-square mr-1"></i>Câu hỏi nhiều đáp án đúng</span>' : '';
 
                 const questionHTML = `
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -475,15 +511,20 @@
                 if(!confirm("Xác nhận nộp bài thi?")) return;
             }
 
+            // Thu thập đáp án học viên đã chọn để lưu lại
+            let chiTietDapAn = {};
             let correctAnswers = 0;
+
             quizData.forEach((q, index) => {
                 const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
-                let studentChoices = Array.from(checkedNodes).map(node => node.value.toUpperCase()).sort().join('');
-                
-                let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
-                let correctChoices = correctChoiceRaw.split('').sort().join('');
+                let studentChoicesArr = Array.from(checkedNodes).map(node => node.value.toUpperCase());
+                chiTietDapAn[index] = studentChoicesArr; // Lưu mảng đáp án chọn của câu này
 
-                if (studentChoices === correctChoices && studentChoices.length > 0) {
+                let studentChoicesStr = studentChoicesArr.sort().join('');
+                let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
+                let correctChoicesStr = correctChoiceRaw.split('').sort().join('');
+
+                if (studentChoicesStr === correctChoicesStr && studentChoicesStr.length > 0) {
                     correctAnswers++;
                 }
             });
@@ -505,7 +546,8 @@
                         hoc_vien: studentInfo.name,
                         ma_de: studentInfo.quizId,
                         diem_so: finalScore,
-                        so_cau_dung: correctAnswers
+                        so_cau_dung: correctAnswers,
+                        chi_tiet_dap_an: chiTietDapAn
                     })
                 });
             } catch (error) {
@@ -513,14 +555,26 @@
             }
         }
 
+        // XEM LẠI CHI TIẾT BÀI LÀM HIỆN TẠI
         function openReviewModal() {
+            renderReviewContent(quizData, getSessionUserChoices());
+        }
+
+        function getSessionUserChoices() {
+            let choices = {};
+            quizData.forEach((_, index) => {
+                const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
+                choices[index] = Array.from(checkedNodes).map(node => node.value.toUpperCase());
+            });
+            return choices;
+        }
+
+        function renderReviewContent(questions, userChoices) {
             const container = document.getElementById('review-container');
             container.innerHTML = '';
 
-            quizData.forEach((q, index) => {
-                const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
-                let studentChoicesArr = Array.from(checkedNodes).map(node => node.value.toUpperCase());
-                
+            questions.forEach((q, index) => {
+                let studentChoicesArr = userChoices[index] || [];
                 let correctChoiceRaw = String(q.DapAnDung || "").toUpperCase().replace(/[\s,]/g, '');
                 let correctChoicesArr = correctChoiceRaw.split('');
 
@@ -569,6 +623,68 @@
 
             navigate('review');
         }
-    </script>   
-</body>
-</html>
+
+        // TẢI VÀ HIỂN THỊ LỊCH SỬ CÁC LẦN LÀM BÀI TỪ GOOGLE SHEETS
+        async function fetchQuizHistory() {
+            navigate('loading');
+            document.getElementById('loading-text').innerText = "Đang tải lịch sử làm bài...";
+
+            try {
+                const response = await fetch(`${API_URL}?action=history&username=${encodeURIComponent(studentInfo.username)}`);
+                const historyList = await response.json();
+
+                const container = document.getElementById('history-container');
+                container.innerHTML = '';
+
+                if(historyList.length === 0) {
+                    container.innerHTML = `<div class="text-center py-8 text-gray-500">Bạn chưa có lịch sử làm bài nào trên hệ thống.</div>`;
+                } else {
+                    historyList.reverse().forEach((item, index) => {
+                        let dateFormatted = new Date(item.thoigian).toLocaleString('vi-VN');
+                        let chitietObj = {};
+                        try { chitietObj = JSON.parse(item.chitiet); } catch(e) {}
+
+                        let card = `
+                            <div class="bg-gray-50 border border-gray-200 p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-blue-400 transition">
+                                <div>
+                                    <div class="text-xs text-gray-500 mb-1"><i class="far fa-clock mr-1"></i> ${dateFormatted}</div>
+                                    <div class="text-lg font-bold text-blue-900">Mã đề: ${item.made}</div>
+                                    <div class="text-sm text-gray-700 mt-1">Số câu đúng: <span class="font-semibold text-green-600">${item.socaudung} câu</span></div>
+                                </div>
+                                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                                    <div class="text-right">
+                                        <div class="text-xs text-gray-400 uppercase font-semibold">Điểm số</div>
+                                        <div class="text-2xl font-black text-blue-600">${item.diemso}</div>
+                                    </div>
+                                    <button onclick='viewHistoryDetail("${item.made}", ${JSON.stringify(item.chitiet)})' class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm shadow">
+                                        <i class="fas fa-eye mr-1"></i> Xem lại
+                                    </button>
+                                </div>
+                            </div>`;
+                        container.innerHTML += card;
+                    });
+                }
+                navigate('history');
+            } catch (error) {
+                alert("Lỗi tải lịch sử làm bài!");
+                navigate('select');
+            }
+        }
+
+        // XEM CHI TIẾT MỘT LẦN THI TRONG LỊCH SỬ
+        async function viewHistoryDetail(made, chitietJsonStr) {
+            navigate('loading');
+            document.getElementById('loading-text').innerText = `Đang tải lại dữ liệu đề ${made}...`;
+
+            try {
+                const response = await fetch(`${API_URL}?made=${made}`);
+                const questions = await response.json();
+                let userChoices = JSON.parse(chitietJsonStr);
+
+                renderReviewContent(questions, userChoices);
+            } catch (error) {
+                alert("Không thể tải lại nội dung đề thi.");
+                navigate('history');
+            }
+        }
+    </script>
