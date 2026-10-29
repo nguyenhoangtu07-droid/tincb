@@ -331,7 +331,6 @@
             }
         }
 
-        // TẠO ĐẦY ĐỦ 35 ĐỀ CƠ BẢN VÀ 10 ĐỀ NÂNG CAO (NC_de01 - NC_de10)
         function selectCategory(category) {
             currentCategory = category;
             const btnCB = document.getElementById('btn-coban');
@@ -342,16 +341,12 @@
             if(category === 'co-ban') {
                 btnCB.className = "p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition";
                 btnNC.className = "p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition";
-                
-                // Tạo 35 nút đề cơ bản (1 đến 35)
                 for(let i = 1; i <= 35; i++) {
                     createQuizButton(grid, `Đề ${i}`, i);
                 }
             } else {
                 btnNC.className = "p-4 border-2 border-blue-600 rounded-xl font-bold text-blue-600 hover:bg-blue-50 transition";
                 btnCB.className = "p-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition";
-                
-                // Tạo 10 nút đề nâng cao (NC 1 đến NC 10) tương ứng mã `NC_de01` đến `NC_de10`
                 for(let i = 1; i <= 10; i++) {
                     let formattedNum = i < 10 ? `0${i}` : `${i}`;
                     let maDeCode = `NC_de${formattedNum}`;
@@ -395,16 +390,24 @@
             }
         }
 
+        // TỰ ĐỘNG NHẬN DIỆN CÂU HỎI NHIỀU ĐÁP ÁN ĐỂ ĐỔI SANG CHECKBOX
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
             
             quizData.forEach((q, index) => {
+                const correctStr = String(q.DapAnDung || "").trim();
+                // Nếu đáp án có từ 2 ký tự trở lên hoặc chứa dấu phẩy -> Dùng checkbox (chọn nhiều)
+                const isMultiple = correctStr.length > 1 || correctStr.includes(',');
+                const inputType = isMultiple ? 'checkbox' : 'radio';
+                const noteText = isMultiple ? '<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded ml-2 font-normal">Câu hỏi nhiều đáp án đúng</span>' : '';
+
                 const questionHTML = `
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="font-bold text-lg mb-4 text-gray-800 flex items-start">
+                        <div class="font-bold text-lg mb-4 text-gray-800 flex items-start flex-wrap">
                             <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm mr-3">Câu ${index + 1}</span>
                             <span>${q.NoiDung}</span>
+                            ${noteText}
                         </div>
                         <div class="space-y-3 pl-2 md:pl-12">
                             ${['A', 'B', 'C', 'D'].map(option => {
@@ -412,7 +415,7 @@
                                 if(!optionContent) return '';
                                 return `
                                 <label class="flex items-start cursor-pointer hover:bg-blue-50 p-3 border rounded-lg transition">
-                                    <input type="radio" name="q${index}" value="${option}" class="mt-1 mr-3 w-4 h-4 text-blue-600">
+                                    <input type="${inputType}" name="q${index}" value="${option}" class="mt-1 mr-3 w-4 h-4 text-blue-600">
                                     <span class="font-bold mr-2">${option}.</span> 
                                     <span>${optionContent}</span>
                                 </label>`;
@@ -425,7 +428,9 @@
 
         async function submitQuiz() {
             let answered = 0;
-            quizData.forEach((_, i) => { if(document.querySelector(`input[name="q${i}"]:checked`)) answered++; });
+            quizData.forEach((_, i) => { 
+                if(document.querySelectorAll(`input[name="q${i}"]:checked`).length > 0) answered++; 
+            });
             
             if(answered < quizData.length) {
                 if(!confirm(`Bạn mới làm ${answered}/${quizData.length} câu. Bạn có chắc chắn muốn nộp bài?`)) return;
@@ -435,8 +440,14 @@
 
             let correctAnswers = 0;
             quizData.forEach((q, index) => {
-                const selected = document.querySelector(`input[name="q${index}"]:checked`);
-                if (selected && selected.value.toUpperCase() === String(q.DapAnDung).toUpperCase().trim()) {
+                const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
+                let studentChoices = Array.from(checkedNodes).map(node => node.value.toUpperCase()).sort().join('');
+                
+                // Chuẩn hóa chuỗi đáp án đúng từ Google Sheets (bỏ dấu phẩy, khoảng trắng, sắp xếp alphabet để so sánh)
+                let correctChoiceRaw = String(q.DapAnDung).toUpperCase().replace(/[\s,]/g, '');
+                let correctChoices = correctChoiceRaw.split('').sort().join('');
+
+                if (studentChoices === correctChoices && studentChoices.length > 0) {
                     correctAnswers++;
                 }
             });
@@ -466,28 +477,37 @@
             }
         }
 
+        // XEM LẠI CHI TIẾT BÀI LÀM (HỖ TRỢ CẢ MULTIPLE CHOICE)
         function openReviewModal() {
             const container = document.getElementById('review-container');
             container.innerHTML = '';
 
             quizData.forEach((q, index) => {
-                const selected = document.querySelector(`input[name="q${index}"]:checked`);
-                const studentChoice = selected ? selected.value.toUpperCase() : '';
-                const correctChoice = String(q.DapAnDung).toUpperCase().trim();
-                const isCorrect = studentChoice === correctChoice;
+                const checkedNodes = document.querySelectorAll(`input[name="q${index}"]:checked`);
+                let studentChoicesArr = Array.from(checkedNodes).map(node => node.value.toUpperCase());
+                
+                let correctChoiceRaw = String(q.DapAnDung).toUpperCase().replace(/[\s,]/g, '');
+                let correctChoicesArr = correctChoiceRaw.split('');
+
+                // Kiểm tra xem học viên có chọn đúng chính xác tập hợp đáp án không
+                let isCorrect = studentChoicesArr.length === correctChoicesArr.length && 
+                                studentChoicesArr.every(val => correctChoicesArr.includes(val));
 
                 let optionsHTML = '';
                 ['A', 'B', 'C', 'D'].forEach(option => {
                     const content = q[`DapAn${option}`];
                     if(!content) return;
 
+                    const isThisCorrect = correctChoicesArr.includes(option);
+                    const isThisSelected = studentChoicesArr.includes(option);
+
                     let style = "p-3 border rounded-lg mb-2 flex items-start ";
                     let badge = "";
 
-                    if (option === correctChoice) {
+                    if (isThisCorrect) {
                         style += "bg-green-100 border-green-400 text-green-900 font-bold";
                         badge = " <span class='ml-auto text-xs bg-green-600 text-white px-2 py-1 rounded'>Đáp án đúng</span>";
-                    } else if (option === studentChoice && !isCorrect) {
+                    } else if (isThisSelected && !isThisCorrect) {
                         style += "bg-red-100 border-red-400 text-red-900 font-bold";
                         badge = " <span class='ml-auto text-xs bg-red-600 text-white px-2 py-1 rounded'>Bạn chọn sai</span>";
                     } else {
@@ -499,7 +519,7 @@
 
                 const statusBadge = isCorrect 
                     ? '<span class="bg-green-100 text-green-700 px-3 py-1 rounded text-sm font-bold"><i class="fas fa-check mr-1"></i> Đúng</span>'
-                    : '<span class="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-bold"><i class="fas fa-times mr-1"></i> Sai / Chưa làm</span>';
+                    : '<span class="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-bold"><i class="fas fa-times mr-1"></i> Sai / Chưa đủ</span>';
 
                 const card = `
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
