@@ -14,9 +14,10 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .spinner { border: 4px solid rgba(59, 130, 246, 0.2); width: 40px; height: 40px; border-radius: 50%; border-left-color: #3b82f6; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .article-content p { margin-bottom: 1rem; line-height: 1.8; color: #475569; font-size: 1.05rem; }
+        .article-content p { margin-bottom: 1.25rem; line-height: 1.8; color: #475569; font-size: 1.1rem; }
         .article-content h3 { font-size: 1.35rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; color: #1e293b; }
         .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #475569; line-height: 1.8; }
+        .article-content li { margin-bottom: 0.5rem; }
         @keyframes pulse-ring { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
         .btn-bounce { animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1); }
         .text-gradient { background: linear-gradient(to right, #2563eb, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -31,23 +32,25 @@
 <body class="text-slate-800 antialiased relative selection:bg-blue-200 selection:text-blue-900">
 
     <header class="w-full bg-white flex justify-center border-b border-gray-100 shadow-sm">
-        <img src="banner.jpg" alt="Banner Công Ty Thành Danh" class="w-full max-w-5xl max-h-[220px] object-cover mx-auto" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop';">
+        <img src="banner.jpg" alt="Banner" class="w-full max-w-5xl max-h-[220px] object-cover mx-auto" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop';">
     </header>
 
     <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white shadow-lg sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center">
             <div class="flex flex-wrap items-center">
-                <button onclick="navigate('home')" class="py-4 px-5 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1"><i class="fas fa-home mr-1"></i> Trang chủ</button>
+                <button onclick="navigate('home')" class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1"><i class="fas fa-home mr-1"></i> Trang chủ</button>
 
                 <div class="dropdown relative">
-                    <button class="py-4 px-5 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center">
+                    <button class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center">
                         <i class="fas fa-graduation-cap mr-1"></i> Khóa học <i class="fas fa-chevron-down ml-1 text-xs opacity-70"></i>
                     </button>
-                    <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-56 shadow-2xl rounded-2xl border border-gray-100 z-50 overflow-hidden mt-1" id="nav-courses"></div>
+                    <!-- Chứa danh sách Bài viết tự động load từ GG Sheets -->
+                    <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-64 shadow-2xl rounded-2xl border border-gray-100 z-50 overflow-hidden mt-1" id="nav-courses">
+                    </div>
                 </div>
 
                 <div class="dropdown relative">
-                    <button class="py-4 px-5 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-emerald-100">
+                    <button class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-emerald-100">
                         <i class="fas fa-play-circle mr-1"></i> Video giải đề <i class="fas fa-chevron-down ml-1 text-xs opacity-70"></i>
                     </button>
                     <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-56 shadow-2xl rounded-2xl border border-gray-100 z-50 overflow-hidden mt-1">
@@ -56,15 +59,15 @@
                     </div>
                 </div>
 
-                <button id="nav-upload-btn" onclick="requireLoginForUpload()" class="hidden py-4 px-5 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-teal-200">
+                <button id="nav-upload-btn" onclick="requireLoginForUpload()" class="hidden py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-teal-200">
                     <i class="fas fa-cloud-upload-alt mr-1"></i> Thực Hành
                 </button>
 
-                <button onclick="requireLoginForQuiz()" class="py-4 px-5 bg-white/20 hover:bg-white/30 transition font-bold text-sm uppercase tracking-wide rounded-xl my-1 mr-1 flex items-center text-yellow-300 shadow-inner">
-                    <i class="fas fa-laptop-code mr-2"></i> Luyện Trắc nghiệm
+                <button onclick="requireLoginForQuiz()" class="py-4 px-4 bg-white/20 hover:bg-white/30 transition font-bold text-sm uppercase tracking-wide rounded-xl my-1 mr-1 flex items-center text-yellow-300 shadow-inner">
+                    <i class="fas fa-laptop-code mr-2"></i> Luyện thi
                 </button>
 
-                <button id="nav-admin-btn" onclick="navigate('admin')" class="hidden py-4 px-5 hover:bg-red-500 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 bg-red-600 text-white shadow-md">
+                <button id="nav-admin-btn" onclick="navigate('admin')" class="hidden py-4 px-4 hover:bg-red-500 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 bg-red-600 text-white shadow-md">
                     <i class="fas fa-cogs mr-1"></i> Quản trị
                 </button>
             </div>
@@ -81,7 +84,7 @@
         </div>
     </nav>
 
-    <!-- CẢNH BÁO CHỐNG GIAN LẬN -->
+    <!-- MÀN HÌNH KHÓA (ANTI-CHEAT) -->
     <div id="fullscreen-warning" class="hidden fixed inset-0 bg-slate-900 bg-opacity-95 z-[9999] flex flex-col justify-center items-center text-center p-6 text-white backdrop-blur-sm">
         <i class="fas fa-exclamation-triangle text-7xl text-rose-500 mb-6 drop-shadow-lg pulse-ring"></i>
         <h2 class="text-5xl font-black mb-4 text-white tracking-tight">CẢNH BÁO GIÁM THỊ</h2>
@@ -89,12 +92,12 @@
         <p class="text-lg mb-8 text-rose-200 font-bold bg-rose-900/50 px-8 py-3 rounded-2xl border border-rose-500/30">
             Số lần vi phạm: <span id="violation-count" class="text-3xl text-rose-400 mx-2">1</span> / 3 lần
         </p>
-        <button onclick="enterFullscreen()" class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-4 px-12 rounded-2xl text-xl shadow-[0_0_40px_rgba(37,99,235,0.4)] transition hover:-translate-y-1">
+        <button onclick="enterFullscreen()" class="bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold py-4 px-12 rounded-2xl text-xl shadow-[0_0_40px_rgba(37,99,235,0.4)] transition hover:-translate-y-1">
             <i class="fas fa-expand mr-2"></i> Tiếp tục làm bài
         </button>
     </div>
 
-    <!-- MAIN -->
+    <!-- MAIN APP -->
     <main class="max-w-7xl mx-auto px-4 py-10 min-h-[65vh]">
         
         <!-- TRANG CHỦ -->
@@ -104,23 +107,29 @@
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight text-gradient">Khám Phá Khóa Học</h2>
                     <div class="h-1 w-20 bg-blue-500 rounded-full ml-4"></div>
                 </div>
+                <!-- Box render các thẻ bài viết tự động -->
                 <div id="home-articles-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
             </div>
             
             <div class="w-full lg:w-1/4">
                 <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden sticky top-24 transform transition hover:shadow-xl">
-                    <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-5 text-center font-black text-xl text-white tracking-wide">HỌC VIÊN <i class="fas fa-user-graduate ml-1 opacity-80"></i></div>
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-5 text-center font-black text-xl text-white tracking-wide">
+                        HỌC VIÊN <i class="fas fa-user-graduate ml-1 opacity-80"></i>
+                    </div>
                     <div class="p-8 text-center space-y-4">
                         <p class="text-sm text-slate-500 font-medium leading-relaxed mb-4">Đăng nhập để vào hệ thống Nộp bài và Luyện thi trực tuyến.</p>
+                        
                         <button onclick="requireLoginForUpload()" class="w-full bg-teal-500 text-white font-bold py-3.5 rounded-xl hover:bg-teal-600 shadow-md shadow-teal-200 transition-all hover:-translate-y-0.5 border border-teal-400">
-                            <i class="fas fa-cloud-upload-alt mr-1"></i> NỘP BÀI THỰC HÀNH
+                            <i class="fas fa-cloud-upload-alt mr-1"></i> NỘP THỰC HÀNH
                         </button>
+
                         <button onclick="requireLoginForQuiz()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 shadow-md shadow-blue-200 transition-all hover:-translate-y-0.5 mt-2">
                             <i class="fas fa-laptop-code mr-1"></i> LUYỆN TRẮC NGHIỆM
                         </button>
+                        
                         <div class="pt-4 border-t border-slate-100 mt-2" id="widget-reg-container">
                             <p class="text-xs text-slate-400 mb-3 font-semibold uppercase">Chưa có tài khoản?</p>
-                            <button onclick="navigate('register')" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black py-3 rounded-xl shadow-md uppercase text-sm">Đăng Ký Ngay</button>
+                            <button onclick="navigate('register')" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black py-3 rounded-xl shadow-md uppercase text-sm hover:scale-105 transition-transform">Đăng Ký Ngay</button>
                         </div>
                     </div>
                 </div>
@@ -129,17 +138,19 @@
 
         <!-- BÀI VIẾT CHI TIẾT -->
         <div id="view-article" class="hidden-view bg-white p-8 md:p-12 rounded-3xl shadow-lg max-w-4xl mx-auto border border-slate-100">
-            <button onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm"><i class="fas fa-arrow-left mr-2"></i> Quay lại trang chủ</button>
-            <div class="rounded-2xl overflow-hidden mb-8 shadow-sm"><img id="article-img" src="" class="w-full h-[400px] object-cover"></div>
+            <button onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm transition"><i class="fas fa-arrow-left mr-2"></i> Quay lại trang chủ</button>
+            <div class="rounded-2xl overflow-hidden mb-8 shadow-sm">
+                <img id="article-img" src="" class="w-full h-[400px] object-cover" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200'">
+            </div>
             <h1 id="article-title" class="text-3xl md:text-4xl font-black text-slate-800 mb-6 leading-tight tracking-tight"></h1>
             <div class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-500 mb-10 border-b border-slate-100 pb-6">
                 <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="far fa-calendar-alt mr-2 text-blue-500"></i> Cập nhật mới nhất</span>
-                <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Tin học</span></span>
+                <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Thông tin chung</span></span>
             </div>
             <div id="article-content" class="article-content text-slate-700 text-lg"></div>
         </div>
 
-        <!-- GIAO DIỆN NỘP BÀI THỰC HÀNH -->
+        <!-- NỘP BÀI THỰC HÀNH -->
         <div id="view-upload" class="hidden-view max-w-5xl mx-auto space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 text-center relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-teal-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
@@ -151,11 +162,13 @@
                     <h3 class="text-lg font-bold text-slate-700 mb-2">Chọn file từ máy tính của bạn</h3>
                     <p class="text-xs text-slate-500 mb-6 uppercase tracking-widest font-semibold">Chỉ hỗ trợ: DOCX, XLSX, PDF, ZIP (Tối đa 5MB)</p>
                     <input type="file" id="file-upload" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-teal-600 file:text-white hover:file:bg-teal-700 transition cursor-pointer bg-white rounded-full border border-slate-200 shadow-sm p-1">
-                    <button onclick="handleFileUpload()" id="btn-upload" class="mt-6 w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-black py-3.5 rounded-xl shadow-lg shadow-teal-200 hover:-translate-y-1 transition-all uppercase tracking-wider">Tải File Lên Hệ Thống</button>
+                    <button onclick="handleFileUpload()" id="btn-upload" class="mt-6 w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-black py-3.5 rounded-xl shadow-lg shadow-teal-200 hover:-translate-y-1 transition-all uppercase tracking-wider">
+                        Tải File Lên Hệ Thống
+                    </button>
                 </div>
             </div>
 
-            <!-- Bảng Lịch sử & Điểm số file đã nộp -->
+            <!-- Lịch sử nộp -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                     <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-folder-open text-blue-500 mr-2"></i> File Đã Nộp & Điểm Số</h3>
@@ -165,11 +178,7 @@
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-widest font-bold">
                             <tr>
-                                <th class="p-4 pl-8 w-1/3">Tên File</th>
-                                <th class="p-4">Ngày nộp</th>
-                                <th class="p-4 text-center">Điểm số</th>
-                                <th class="p-4">Lời phê / Nhận xét</th>
-                                <th class="p-4 pr-8 text-center">Xem</th>
+                                <th class="p-4 pl-8 w-1/3">Tên File</th><th class="p-4">Ngày nộp</th><th class="p-4 text-center">Điểm số</th><th class="p-4">Lời phê / Nhận xét</th><th class="p-4 pr-8 text-center">Xem</th>
                             </tr>
                         </thead>
                         <tbody id="upload-history-table" class="text-sm divide-y divide-slate-100 font-medium"></tbody>
@@ -183,25 +192,27 @@
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center flex-wrap gap-6">
                 <div>
                     <h2 class="text-3xl font-black text-slate-800 mb-2" id="video-section-title">Video Giải Đề Thi</h2>
+                    <p class="text-slate-500 font-medium">Tuyển tập video bài giảng hướng dẫn giải chi tiết</p>
                 </div>
                 <div class="flex gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
                     <button onclick="openVideoSection('cb')" id="btn-tab-video-cb" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition">Cơ bản</button>
                     <button onclick="openVideoSection('nc')" id="btn-tab-video-nc" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-200 transition">Nâng cao</button>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-1 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 max-h-[600px] flex flex-col">
-                    <h3 class="font-black text-slate-800 mb-4 pb-4 border-b border-slate-100 flex justify-between items-center text-lg">Danh sách bài <span id="video-count-badge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-black">0</span></h3>
+                    <h3 class="font-black text-slate-800 mb-4 pb-4 border-b border-slate-100 flex justify-between items-center text-lg">
+                        Danh sách bài giảng <span id="video-count-badge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-black">0</span>
+                    </h3>
                     <div id="video-list-container" class="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-grow"></div>
                 </div>
-                
                 <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col">
                     <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-900 shadow-inner">
-                        <iframe id="main-video-player" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+                        <iframe id="main-video-player" class="w-full h-full" src="" title="Video giải đề" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="mt-6 p-5 bg-slate-50 rounded-2xl border border-slate-100">
                         <h4 id="current-video-title" class="text-xl font-bold text-slate-800 leading-snug">Đang tải video...</h4>
+                        <p class="text-sm text-slate-500 mt-2 font-medium"><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Chọn bài học trong danh sách bên trái để phát.</p>
                     </div>
                 </div>
             </div>
@@ -218,7 +229,9 @@
                 <input type="text" id="username" placeholder="Mã học viên..." class="w-full border-2 border-slate-200 p-3.5 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none transition font-medium">
                 <input type="password" id="password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3.5 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none transition font-medium">
                 <button onclick="loginUser()" id="login-btn" class="w-full bg-blue-600 text-white font-black py-4 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200 mt-2">VÀO HỆ THỐNG</button>
-                <div class="text-center pt-4 border-t border-slate-100 mt-4"><button onclick="navigate('register')" class="text-sm text-blue-600 font-bold hover:text-blue-800 transition">Tạo tài khoản mới</button></div>
+                <div class="text-center pt-4 border-t border-slate-100 mt-4">
+                    <span class="text-sm text-slate-500 font-medium">Học viên mới? </span><button onclick="navigate('register')" class="text-sm text-blue-600 font-bold hover:text-blue-800 transition">Tạo tài khoản</button>
+                </div>
             </div>
             <div id="login-error" class="text-red-600 font-semibold text-sm mt-5 text-center hidden p-3 bg-red-50 border border-red-100 rounded-xl"></div>
         </div>
@@ -230,16 +243,16 @@
                 <h2 class="text-3xl font-black text-slate-800">Đăng Ký Mới</h2>
             </div>
             <div class="space-y-4">
-                <input type="text" id="reg-username" placeholder="Tên đăng nhập (Viết liền)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none font-medium">
-                <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none font-medium">
-                <input type="text" id="reg-hoten" placeholder="Họ tên đầy đủ" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none font-medium">
-                <select id="reg-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none font-bold text-slate-700 cursor-pointer">
+                <input type="text" id="reg-username" placeholder="Tên đăng nhập (Viết liền)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-medium">
+                <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-medium">
+                <input type="text" id="reg-hoten" placeholder="Họ tên đầy đủ" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-medium">
+                <select id="reg-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-bold text-slate-700 cursor-pointer">
                     <option value="cb">Tin học Cơ Bản</option><option value="nc">Tin học Nâng Cao</option><option value="cbnc">Combo</option>
                 </select>
                 <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 mt-4">GỬI YÊU CẦU</button>
                 <div class="text-center pt-4 border-t border-slate-100 mt-4"><button onclick="navigate('login')" class="text-sm text-slate-500 font-bold hover:text-slate-800 transition"><i class="fas fa-arrow-left mr-1"></i> Trở về Đăng nhập</button></div>
             </div>
-            <div id="reg-message" class="text-sm mt-5 text-center hidden"></div>
+            <div id="reg-message" class="text-sm mt-5 text-center hidden p-3 rounded-xl"></div>
         </div>
 
         <!-- ================= TRANG QUẢN TRỊ ADMIN ================= -->
@@ -248,7 +261,6 @@
                 <div><h2 class="text-3xl font-black text-slate-800 mb-2"><i class="fas fa-user-shield text-red-500 mr-2"></i> Hệ Thống Quản Trị</h2></div>
                 <div class="flex gap-2 flex-wrap bg-slate-50 p-2 rounded-2xl border border-slate-100">
                     <button onclick="switchAdminTab('users')" id="tab-users-btn" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md">Tài Khoản</button>
-                    <!-- TAB MỚI: CHẤM THỰC HÀNH -->
                     <button onclick="switchAdminTab('practical')" id="tab-practical-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Chấm Thực hành</button>
                     <button onclick="switchAdminTab('articles')" id="tab-articles-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Bài Viết</button>
                     <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Câu hỏi</button>
@@ -256,7 +268,7 @@
                 </div>
             </div>
 
-            <!-- Tab: Users -->
+            <!-- Admin: Users -->
             <div id="admin-users-section" class="space-y-6">
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Thêm Tài Khoản Nhanh</h3>
@@ -268,72 +280,61 @@
                             <option value="cb">Cơ bản</option><option value="nc">Nâng cao</option><option value="cbnc">Combo</option><option value="admin">Admin</option>
                         </select>
                     </div>
-                    <button onclick="adminAddUser()" class="mt-5 bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-md shadow-green-200 hover:bg-green-700 transition">Tạo & Kích Hoạt</button>
+                    <button onclick="adminAddUser()" id="admin-add-btn" class="mt-5 bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-md shadow-green-200 hover:bg-green-700 transition">Tạo & Kích Hoạt</button>
                 </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800">Quản Lý Người Dùng</h3>
-                        <button onclick="loadAdminUsers()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 transition"><i class="fas fa-sync-alt mr-1"></i> Làm mới</button>
+                        <button onclick="loadAdminUsers()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 transition">Tải lại</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead class="bg-slate-50 text-slate-600 text-sm uppercase tracking-wider"><tr><th class="p-4 font-bold">Tài khoản</th><th class="p-4 font-bold">Mật khẩu</th><th class="p-4 font-bold">Họ tên</th><th class="p-4 font-bold">Quyền</th><th class="p-4 font-bold text-center">Trạng thái</th><th class="p-4 font-bold text-center">Tác vụ</th></tr></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><tr><th class="p-4">Tài khoản</th><th class="p-4">Mật khẩu</th><th class="p-4">Họ tên</th><th class="p-4">Quyền</th><th class="p-4">Trạng thái</th><th class="p-4 text-center">Tác vụ</th></tr></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
                 </div>
             </div>
 
-            <!-- Tab: CHẤM THỰC HÀNH (MỚI) -->
+            <!-- Admin: Chấm thực hành -->
             <div id="admin-practical-section" class="hidden space-y-6">
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-check-double text-teal-500 mr-2"></i> Chấm Điểm Bài Thực Hành</h3>
-                        <button onclick="adminLoadPractical()" class="text-teal-600 bg-teal-50 px-4 py-2 rounded-lg font-bold hover:bg-teal-100 transition"><i class="fas fa-sync-alt mr-1"></i> Tải lại danh sách</button>
+                        <button onclick="adminLoadPractical()" class="text-teal-600 bg-teal-50 px-4 py-2 rounded-lg font-bold hover:bg-teal-100 transition">Tải lại danh sách</button>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider font-bold">
-                                <tr>
-                                    <th class="p-4">Học viên</th>
-                                    <th class="p-4">Tên file & Ngày nộp</th>
-                                    <th class="p-4 text-center w-24">Điểm số</th>
-                                    <th class="p-4">Nhận xét / Lời phê</th>
-                                    <th class="p-4 text-center w-32">Tác vụ</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-practical-table" class="text-sm divide-y divide-slate-100"></tbody>
-                        </table>
+                        <table class="w-full text-left border-collapse"><thead class="bg-slate-50 text-slate-600 text-xs uppercase font-bold"><tr><th class="p-4">Học viên</th><th class="p-4">Tên file & Ngày nộp</th><th class="p-4 text-center w-24">Điểm</th><th class="p-4">Nhận xét</th><th class="p-4 text-center w-32">Tác vụ</th></tr></thead><tbody id="admin-practical-table" class="text-sm divide-y divide-slate-100"></tbody></table>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab: Bài Viết -->
+            <!-- Admin: Bài Viết -->
             <div id="admin-articles-section" class="hidden space-y-6">
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-newspaper text-teal-500 mr-2"></i> Danh Sách Bài Học</h3>
-                        <button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-teal-200 hover:bg-teal-700 transition"><i class="fas fa-plus mr-2"></i> Soạn bài mới</button>
+                        <button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-teal-700 transition">Soạn bài mới</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider"><tr><th class="p-4">ID</th><th class="p-4">Tiêu đề</th><th class="p-4">Phân loại</th><th class="p-4 text-center">Tác vụ</th></tr></thead><tbody id="admin-articles-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><tr><th class="p-4">ID</th><th class="p-4">Tiêu đề</th><th class="p-4">Phân loại</th><th class="p-4 text-center">Tác vụ</th></tr></thead><tbody id="admin-articles-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
                 </div>
             </div>
 
-            <!-- Tab: Câu hỏi -->
+            <!-- Admin: Câu hỏi -->
             <div id="admin-questions-section" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Bộ Lọc Đề Thi</h3>
                     <div class="flex items-end gap-5 flex-wrap">
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại</label><select id="admin-q-cat" class="border-2 border-slate-200 p-3 rounded-xl w-48 font-semibold bg-slate-50 outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="admin-q-made" placeholder="VD: 1 hoặc NC_de01" class="border-2 border-slate-200 p-3 rounded-xl w-56 font-mono bg-slate-50 outline-none"></div>
-                        <button onclick="adminLoadQuestions()" id="btn-load-qs" class="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold shadow-md shadow-purple-200 hover:bg-purple-700 transition">Truy Xuất Dữ Liệu</button>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại</label><select id="admin-q-cat" class="border-2 border-slate-200 p-3 rounded-xl w-48 font-semibold outline-none bg-slate-50"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="admin-q-made" placeholder="VD: 1 hoặc NC_de01" class="border-2 border-slate-200 p-3 rounded-xl w-56 font-mono outline-none bg-slate-50"></div>
+                        <button onclick="adminLoadQuestions()" id="btn-load-qs" class="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-purple-700">Truy Xuất Dữ Liệu</button>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800">Chi Tiết Câu Hỏi</h3>
-                        <button onclick="openQuestionModal()" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-green-200 hover:bg-green-700 transition"><i class="fas fa-plus mr-2"></i> Thêm câu hỏi</button>
+                        <button onclick="openQuestionModal()" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-green-700 transition">Thêm câu hỏi</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider"><th class="p-4 w-16 text-center">Câu</th><th class="p-4">Nội dung</th><th class="p-4 w-32 text-center">Đáp án</th><th class="p-4 w-32 text-center">Tác vụ</th></thead><tbody id="admin-questions-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4 w-16 text-center">Câu</th><th class="p-4">Nội dung</th><th class="p-4 w-32 text-center">Đáp án</th><th class="p-4 w-32 text-center">Tác vụ</th></thead><tbody id="admin-questions-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
                 </div>
             </div>
 
-            <!-- Tab: Settings -->
+            <!-- Admin: Settings -->
             <div id="admin-settings-section" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Giới Hạn Mã Đề</h3>
@@ -341,48 +342,47 @@
                         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200"><label class="block text-sm font-bold text-slate-700 mb-2">Đề Cơ Bản (Hiện: <span id="lbl-sode-cb" class="text-blue-600"></span>)</label><input type="number" id="admin-so-de-cb" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold outline-none"></div>
                         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200"><label class="block text-sm font-bold text-slate-700 mb-2">Đề Nâng Cao (Hiện: <span id="lbl-sode-nc" class="text-purple-600"></span>)</label><input type="number" id="admin-so-de-nc" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold outline-none"></div>
                     </div>
-                    <button onclick="saveSystemConfig()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-md transition hover:bg-blue-700">Cập Nhật</button>
+                    <button onclick="saveSystemConfig()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-blue-700 transition">Cập Nhật</button>
                 </div>
-                
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Thư Viện Video Hướng Dẫn</h3>
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8 bg-slate-50 p-5 rounded-2xl border border-slate-200 items-end">
                         <div class="md:col-span-3"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Phân loại</label><select id="admin-vid-loai" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold text-slate-700 outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
                         <div class="md:col-span-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Link YouTube</label><input type="text" id="admin-vid-id" class="w-full border-2 border-slate-300 p-3 rounded-xl font-mono text-sm outline-none"></div>
                         <div class="md:col-span-3"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Tên bài giảng</label><input type="text" id="admin-vid-title" class="w-full border-2 border-slate-300 p-3 rounded-xl text-sm font-medium outline-none"></div>
-                        <div class="md:col-span-2"><button onclick="adminAddVideo()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold hover:bg-emerald-700 transition shadow-md">Thêm</button></div>
+                        <div class="md:col-span-2"><button onclick="adminAddVideo()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold hover:bg-emerald-700 shadow-md">Thêm</button></div>
                     </div>
                     <div id="admin-video-list" class="space-y-4"></div>
                 </div>
             </div>
         </div>
 
-        <!-- MODAL CÂU HỎI & BÀI VIẾT -->
+        <!-- ================= MODAL ADMIN (CÂU HỎI & BÀI VIẾT) ================= -->
         <div id="modal-question" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
                 <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                     <h3 class="text-2xl font-black text-slate-800" id="modal-q-title">Soạn Câu Hỏi</h3>
-                    <button onclick="closeQuestionModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button>
+                    <button onclick="closeQuestionModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button>
                 </div>
-                <div class="p-6 md:p-8 space-y-5 overflow-y-auto custom-scrollbar flex-grow">
+                <div class="p-6 md:p-8 space-y-5 overflow-y-auto custom-scrollbar flex-grow bg-white">
                     <input type="hidden" id="modal-q-rowindex">
                     <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="modal-q-made" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-mono font-bold bg-slate-50 text-blue-700"></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nội dung</label><textarea id="modal-q-noidung" rows="3" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-medium"></textarea></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nội dung</label><textarea id="modal-q-noidung" rows="3" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-medium leading-relaxed"></textarea></div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án A</label><input type="text" id="modal-q-a" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none focus:border-blue-400 font-medium"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án B</label><input type="text" id="modal-q-b" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none focus:border-blue-400 font-medium"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án C</label><input type="text" id="modal-q-c" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none focus:border-blue-400 font-medium"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án D</label><input type="text" id="modal-q-d" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none focus:border-blue-400 font-medium"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án A</label><input type="text" id="modal-q-a" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án B</label><input type="text" id="modal-q-b" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án C</label><input type="text" id="modal-q-c" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án D</label><input type="text" id="modal-q-d" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
                     </div>
                     <div><label class="block text-sm font-black text-emerald-600 mb-2">ĐÁP ÁN ĐÚNG</label><input type="text" id="modal-q-dapandung" class="w-full border-2 border-emerald-200 p-3.5 rounded-xl outline-none bg-emerald-50 text-emerald-700 font-black text-lg uppercase text-center shadow-inner"></div>
                 </div>
-                <div class="p-6 border-t bg-slate-50 flex justify-end gap-3"><button onclick="closeQuestionModal()" class="px-6 py-3 rounded-xl font-bold bg-white border shadow-sm">Đóng lại</button><button onclick="adminSaveQuestion()" id="modal-btn-save" class="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg">Lưu Hệ Thống</button></div>
+                <div class="p-6 border-t bg-slate-50 flex justify-end gap-3"><button onclick="closeQuestionModal()" class="px-6 py-3 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100 shadow-sm">Đóng lại</button><button onclick="adminSaveQuestion()" id="modal-btn-save" class="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg">Lưu Hệ Thống</button></div>
             </div>
         </div>
 
         <div id="modal-article" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] flex flex-col overflow-hidden">
-                <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50"><h3 class="text-2xl font-black text-slate-800" id="modal-a-title">Soạn Bài Viết</h3><button onclick="closeArticleModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button></div>
+                <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50"><h3 class="text-2xl font-black text-slate-800" id="modal-a-title">Soạn Bài Mới</h3><button onclick="closeArticleModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button></div>
                 <div class="p-6 md:p-8 space-y-5 overflow-y-auto custom-scrollbar flex-grow bg-white">
                     <input type="hidden" id="modal-a-rowindex">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5"><div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Bài (ID)</label><input type="text" id="modal-a-mabai" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-mono bg-slate-50 text-blue-700 font-bold"></div><div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại (cb / nc / vp)</label><input type="text" id="modal-a-phanloai" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-bold text-slate-600"></div></div>
@@ -395,11 +395,10 @@
             </div>
         </div>
 
-        <!-- ================= CHỌN ĐỀ & LÀM BÀI TRẮC NGHIỆM ================= -->
+        <!-- ================= CHỌN ĐỀ & THI TRẮC NGHIỆM ================= -->
         <div id="view-select" class="hidden-view bg-white p-8 md:p-12 rounded-3xl shadow-lg max-w-3xl mx-auto text-center border border-slate-100 mt-6">
             <div class="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto text-3xl mb-6 shadow-inner"><i class="fas fa-user-graduate"></i></div>
             <h2 class="text-3xl font-black mb-3 text-slate-800">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
-            <p class="text-slate-500 font-medium mb-8">Hãy chọn cấp độ và bộ đề để bắt đầu tính giờ thi ngay.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10 bg-slate-50 p-2 rounded-2xl">
                 <button onclick="selectCategory('co-ban')" id="btn-coban" class="w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-blue-600 text-white shadow-md">Đề Cơ Bản</button>
                 <button onclick="selectCategory('nang-cao')" id="btn-nangcao" class="w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-transparent text-slate-500 hover:bg-slate-200">Đề Nâng Cao</button>
@@ -436,7 +435,7 @@
             </div>
             <div id="questions-container" class="space-y-6 mb-10"></div>
             <div class="text-center pt-8 border-t-2 border-slate-100 border-dashed">
-                <button onclick="submitQuiz()" id="submit-btn" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-5 px-16 rounded-2xl text-xl shadow-xl shadow-emerald-200 hover:-translate-y-1 transition-all uppercase tracking-widest">Nộp Bài Lên Hệ Thống</button>
+                <button onclick="submitQuiz()" id="submit-btn" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-5 px-16 rounded-2xl text-xl shadow-xl hover:-translate-y-1 transition-all uppercase tracking-widest">Nộp Bài Lên Hệ Thống</button>
             </div>
         </div>
 
@@ -475,166 +474,223 @@
         </div>
     </footer>
 
-    <!-- SCRIPT LOGIC -->
+    <!-- SCRIPT CHÍNH (Đã khôi phục hoàn chỉnh - Không bị mất chữ) -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
-        // ADMIN JS CODE
-        async function adminLoadPractical() {
-            const tbody = document.getElementById('admin-practical-table');
-            if(!tbody) return;
-            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu thực hành...</td></tr>`;
+        let quizData = [];
+        let studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' };
+        let isLoggedIn = false;
+        let timerInterval = null;
+        let timeLeft = 30 * 60;
+        let adminQuestionsData = [];
+        let dbArticles = [];
+        
+        let isTakingQuiz = false;
+        let fullscreenViolations = 0;
+        let isFullscreenLocked = false;
+
+        let systemConfig = { so_de_cb: 35, so_de_nc: 10, videos: { cb: [], nc: [] } };
+        
+        const fallbackArticles = {
+            1: { title: "Tin Học Cơ Bản & Nâng Cao", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<p>Đào tạo chuẩn đầu ra, thực hành 100% trên máy tính.</p>", category: 'cb' },
+            2: { title: "Đăng Ký Tài Khoản AI Bản Quyền", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>Tăng cường hiệu suất bằng AI như ChatGPT và Gemini.</p>", category: 'gemini' },
+            3: { title: "Ứng Dụng AI Tự Động Hóa", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200", content: "<p>Học viết Prompt, tự động hóa Excel hiệu quả.</p>", category: 'vp' },
+            'cb': { title: "Chứng Chỉ Tin Học Cơ Bản", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<h3>Nội dung:</h3><ul><li>Word, Excel, PowerPoint cơ bản</li><li>Internet, Windows</li></ul>", category: 'cb' },
+            'nc': { title: "Chứng Chỉ Tin Học Nâng Cao", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<h3>Nội dung:</h3><ul><li>Word: Trộn thư, Style</li><li>Excel: Pivot Table, Macro</li></ul>", category: 'nc' },
+            'vp': { title: "Tin Học Văn Phòng Thực Chiến", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<p>Dành riêng cho người đi làm.</p>", category: 'vp' },
+            'gemini': { title: "Gemini Advanced", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>Tích hợp Google, bộ nhớ 2TB.</p>", category: 'gemini' },
+            'chatgpt': { title: "ChatGPT Plus", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>GPT-4o, DALL-E 3, Phân tích dữ liệu.</p>", category: 'chatgpt' }
+        };
+
+        function extractYouTubeID(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp); return (match && match[2].length === 11) ? match[2] : url.trim();
+        }
+
+        function getFileIcon(fn) { 
+            const ext = fn.split('.').pop().toLowerCase(); 
+            if(['doc','docx'].includes(ext)) return '<i class="fas fa-file-word text-blue-600 text-2xl"></i>'; 
+            if(['xls','xlsx'].includes(ext)) return '<i class="fas fa-file-excel text-emerald-600 text-2xl"></i>'; 
+            if(ext==='pdf') return '<i class="fas fa-file-pdf text-rose-600 text-2xl"></i>'; 
+            if(['zip','rar'].includes(ext)) return '<i class="fas fa-file-archive text-purple-600 text-2xl"></i>'; 
+            return '<i class="fas fa-file-alt text-gray-400 text-2xl"></i>'; 
+        }
+
+        // ================= KHỞI ĐỘNG HỆ THỐNG =================
+        async function initializeSystem() {
             try {
-                const res = await fetch(API_URL + "?action=admin_get_all_files");
-                const files = await res.json();
-                tbody.innerHTML = '';
-                if(files.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500">Chưa có bài thực hành nào được nộp.</td></tr>`;
-                    return;
+                const resConfig = await fetch(API_URL + "?action=get_config"); const configData = await resConfig.json();
+                if (configData && configData.so_de_cb) {
+                    systemConfig.so_de_cb = configData.so_de_cb; systemConfig.so_de_nc = configData.so_de_nc;
+                    if (configData.videos && configData.videos.cb) configData.videos.cb.forEach(v => v.id = extractYouTubeID(v.id));
+                    if (configData.videos && configData.videos.nc) configData.videos.nc.forEach(v => v.id = extractYouTubeID(v.id));
+                    if (configData.videos && (configData.videos.cb.length > 0 || configData.videos.nc.length > 0)) systemConfig.videos = configData.videos;
                 }
-                files.reverse().forEach(f => {
-                    const icon = getFileIcon(f.tenfile);
-                    const d = new Date(f.thoigian).toLocaleString('vi-VN');
-                    const badgeScore = f.diem ? `<span class="bg-teal-100 text-teal-700 font-black px-3 py-1.5 rounded-lg text-lg">${f.diem}</span>` : `<span class="bg-amber-100 text-amber-700 font-bold px-2 py-1 rounded text-xs">Chờ chấm</span>`;
-                    
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                            <td class="p-4">
-                                <div class="font-bold text-slate-700">${f.hoten}</div>
-                                <div class="text-xs font-mono text-slate-400 mt-1">${f.username}</div>
-                            </td>
-                            <td class="p-4 flex items-center gap-3">
-                                <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center">${icon}</div>
-                                <div>
-                                    <a href="${f.link}" target="_blank" class="font-bold text-blue-600 hover:underline line-clamp-1" title="Nhấn để tải / xem file">${f.tenfile}</a>
-                                    <div class="text-xs text-slate-400 mt-1"><i class="far fa-clock"></i> ${d}</div>
-                                </div>
-                            </td>
-                            <td class="p-4 text-center">
-                                <input type="number" id="grade-diem-${f.rowIndex}" value="${f.diem}" placeholder="Điểm" class="w-16 border-2 border-slate-200 p-2 rounded-lg text-center font-bold text-teal-600 focus:border-teal-500 outline-none">
-                            </td>
-                            <td class="p-4">
-                                <input type="text" id="grade-nhanxet-${f.rowIndex}" value="${f.nhanxet}" placeholder="Nhập lời phê..." class="w-full border-2 border-slate-200 p-2 rounded-lg text-sm font-medium focus:border-teal-500 outline-none">
-                            </td>
-                            <td class="p-4 text-center">
-                                <button onclick="savePracticalGrade(${f.rowIndex})" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-bold shadow-md shadow-teal-200 transition"><i class="fas fa-save"></i> Lưu</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (err) { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">Lỗi tải dữ liệu</td></tr>`; }
+                const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json();
+                renderHomeArticles(); renderNavArticles();
+            } catch (error) { renderFallbackHomeArticles(); }
+        }
+        initializeSystem();
+
+        // RENDER BÀI VIẾT
+        function renderHomeArticles() {
+            const container = document.getElementById('home-articles-container');
+            if(!dbArticles || dbArticles.length === 0) { renderFallbackHomeArticles(); return; }
+            container.innerHTML = '';
+            const displayArts = dbArticles.slice(0, 6);
+            displayArts.forEach(art => {
+                const catText = art.PhanLoai ? art.PhanLoai.toUpperCase() : 'KHÓA HỌC';
+                container.innerHTML += `<div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" onclick="showArticle('${art.MaBai}')"><div class="relative overflow-hidden aspect-[4/3]"><div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div><img src="${art.LinkAnh}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600'"><div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">${catText}</div></div><div class="p-6 flex-grow flex flex-col justify-between"><div><h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${art.TieuDe}</h3><p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">${art.TomTat || 'Xem nội dung chi tiết...'}</p></div><div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div></div></div>`;
+            });
+        }
+        function renderFallbackHomeArticles() {
+            const container = document.getElementById('home-articles-container'); if(!container) return; container.innerHTML = '';
+            [1, 2, 3].forEach(id => {
+                const art = fallbackArticles[id];
+                container.innerHTML += `<div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" onclick="showArticle('${id}')"><div class="relative overflow-hidden aspect-[4/3]"><div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div><img src="${art.image}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">NỔI BẬT</div></div><div class="p-6 flex-grow flex flex-col justify-between"><div><h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${art.title}</h3><p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">Đọc bài viết chi tiết tại đây...</p></div><div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div></div></div>`;
+            });
+        }
+        function renderNavArticles() {
+            const navMenu = document.getElementById('nav-courses');
+            if(navMenu && dbArticles && dbArticles.length > 0) {
+                navMenu.innerHTML = '';
+                dbArticles.forEach(art => { navMenu.innerHTML += `<a href="javascript:void(0)" onclick="showArticle('${art.MaBai}')" class="block px-5 py-3.5 hover:bg-blue-50 hover:text-blue-600 font-semibold border-b border-gray-50 transition line-clamp-1" title="${art.TieuDe}">${art.TieuDe}</a>`; });
+            }
+        }
+        function showArticle(id) {
+            let art = dbArticles.find(a => a.MaBai == id); if(!art) art = fallbackArticles[id];
+            if(art) { 
+                document.getElementById('article-title').innerText = art.TieuDe || art.title; 
+                document.getElementById('article-img').src = art.LinkAnh || art.image; 
+                document.getElementById('article-content').innerHTML = art.NoiDung || art.content; 
+                const catEl = document.getElementById('article-category'); if(catEl) catEl.innerText = (art.PhanLoai || art.category || "Thông tin").toUpperCase();
+                navigate('article'); 
+            }
         }
 
-        async function savePracticalGrade(rowIndex) {
-            const d = document.getElementById('grade-diem-' + rowIndex).value.trim();
-            const nx = document.getElementById('grade-nhanxet-' + rowIndex).value.trim();
-            if (!d) return alert("Vui lòng nhập điểm số!");
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'grade_file', rowIndex: rowIndex, diem: d, nhanxet: nx })
-                });
-                const r = await res.json();
-                if(r.status === 'success') alert("Đã lưu điểm thành công!");
-                else alert("Lỗi khi lưu điểm!");
-            } catch (e) { alert("Lỗi mạng!"); }
+        // ================= ANTI-CHEAT (FULLSCREEN) =================
+        function enterFullscreen() { const d = document.documentElement; if(d.requestFullscreen) d.requestFullscreen().catch(e=>{}); else if(d.webkitRequestFullscreen) d.webkitRequestFullscreen().catch(e=>{}); }
+        function exitFullscreen() { if(document.fullscreenElement || document.webkitFullscreenElement) { if(document.exitFullscreen) document.exitFullscreen().catch(e=>{}); else if(document.webkitExitFullscreen) document.webkitExitFullscreen().catch(e=>{}); } }
+        function checkFullscreen() {
+            const w = document.getElementById('fullscreen-warning');
+            if (isTakingQuiz) {
+                const isFull = document.fullscreenElement || document.webkitFullscreenElement;
+                if (!isFull && !isFullscreenLocked) {
+                    isFullscreenLocked = true; fullscreenViolations++; saveCurrentQuizState();
+                    if (fullscreenViolations >= 3) { alert("VI PHẠM 3 LẦN! Tự động nộp bài."); w.classList.add('hidden'); submitQuiz(true); } 
+                    else { document.getElementById('violation-count').innerText = fullscreenViolations; w.classList.remove('hidden'); }
+                } else if (isFull) { isFullscreenLocked = false; w.classList.add('hidden'); }
+            } else { w.classList.add('hidden'); }
         }
+        document.addEventListener("fullscreenchange", checkFullscreen); document.addEventListener("webkitfullscreenchange", checkFullscreen);
+        function saveCurrentQuizState() { if (!isTakingQuiz) return; localStorage.setItem('quizState_' + studentInfo.username, JSON.stringify({ quizId: studentInfo.quizId, timeLeft: timeLeft, violations: fullscreenViolations, answers: getSessionUserChoices() })); }
 
-        // HỌC VIÊN NỘP BÀI & XEM ĐIỂM
-        function getFileIcon(filename) {
-            const ext = filename.split('.').pop().toLowerCase();
-            if(['doc', 'docx'].includes(ext)) return '<i class="fas fa-file-word text-blue-500 text-2xl"></i>';
-            if(['xls', 'xlsx'].includes(ext)) return '<i class="fas fa-file-excel text-emerald-500 text-2xl"></i>';
-            if(ext === 'pdf') return '<i class="fas fa-file-pdf text-rose-500 text-2xl"></i>';
-            if(['zip', 'rar'].includes(ext)) return '<i class="fas fa-file-archive text-purple-500 text-2xl"></i>';
-            return '<i class="fas fa-file-alt text-gray-400 text-2xl"></i>';
-        }
-
-        async function handleFileUpload() {
-            const fileInput = document.getElementById('file-upload');
-            if(fileInput.files.length === 0) return alert("Vui lòng chọn file trước khi nộp!");
-            const file = fileInput.files[0];
+        // ================= NAVIGATION & AUTH =================
+        function navigate(vName) {
+            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
+            const target = document.getElementById('view-' + vName); if (target) target.classList.remove('hidden-view'); window.scrollTo(0, 0);
+            if (vName !== 'quiz' && vName !== 'loading') { if (timerInterval) clearInterval(timerInterval); isTakingQuiz = false; exitFullscreen(); }
             
-            if(file.size > 5 * 1024 * 1024) return alert("File quá lớn! Giới hạn tối đa là 5MB.");
-            const allowedExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'rar'];
-            const ext = file.name.split('.').pop().toLowerCase();
-            if(!allowedExts.includes(ext)) return alert("Chỉ hỗ trợ nộp file Word, Excel, PDF hoặc ZIP!");
+            if (isLoggedIn) {
+                document.getElementById('nav-user-area')?.classList.remove('hidden'); document.getElementById('nav-username-display').innerText = studentInfo.name; document.getElementById('nav-reg-btn')?.classList.add('hidden'); document.getElementById('widget-reg-container')?.classList.add('hidden'); document.getElementById('nav-upload-btn')?.classList.remove('hidden');
+                if(studentInfo.loai === 'admin') document.getElementById('nav-admin-btn')?.classList.remove('hidden');
+            } else {
+                document.getElementById('nav-user-area')?.classList.add('hidden'); document.getElementById('nav-admin-btn')?.classList.add('hidden'); document.getElementById('nav-upload-btn')?.classList.add('hidden'); document.getElementById('nav-reg-btn')?.classList.remove('hidden'); document.getElementById('widget-reg-container')?.classList.remove('hidden');
+            }
+        }
+        function requireLoginForQuiz() { if (isLoggedIn) { if (studentInfo.loai === 'admin') navigate('admin'); else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); } } else navigate('login'); }
+        function requireLoginForUpload() { if (isLoggedIn) { if (studentInfo.loai === 'admin') navigate('admin'); else { navigate('upload'); fetchUploadedFiles(); } } else navigate('login'); }
+        function logout() { if(confirm("Xác nhận đăng xuất?")) { isLoggedIn = false; studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' }; navigate('home'); } }
 
-            const btn = document.getElementById('btn-upload');
-            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang tải lên hệ thống...';
+        async function loginUser() {
+            const u = document.getElementById('username').value.trim(), p = document.getElementById('password').value.trim(), err = document.getElementById('login-error'), btn = document.getElementById('login-btn');
+            if (!u || !p) return err.innerText = "Vui lòng nhập đủ!", err.classList.remove('hidden'), void 0;
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xác thực...'; err.classList.add('hidden');
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: u, password: p }) }); const r = await res.json();
+                if (r.status === "success") {
+                    isLoggedIn = true; studentInfo = { username: u, name: r.hoten, loai: r.loai }; document.getElementById('student-name-display').innerText = r.hoten;
+                    if (studentInfo.loai === 'admin') { loadAdminUsers(); navigate('admin'); } else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
+                } else { err.innerText = r.message || "Sai thông tin!"; err.classList.remove('hidden'); }
+            } catch (e) { err.innerText = "Lỗi kết nối!"; err.classList.remove('hidden'); }
+            btn.disabled = false; btn.innerText = "VÀO HỆ THỐNG";
+        }
+        
+        async function registerUser() {
+            const u = document.getElementById('reg-username').value.trim(), p = document.getElementById('reg-password').value.trim(), h = document.getElementById('reg-hoten').value.trim(), l = document.getElementById('reg-loai').value, msg = document.getElementById('reg-message'), btn = document.getElementById('reg-btn');
+            if (!u || !p || !h) return msg.innerText = "Nhập đủ thông tin!", msg.className = "text-sm mt-4 p-3 bg-red-100 text-red-700 block rounded-xl font-bold", void 0;
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...'; msg.classList.add('hidden');
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l }) }); const r = await res.json();
+                msg.innerText = r.message; msg.className = r.status === "success" ? "text-sm mt-4 p-3 bg-emerald-100 text-emerald-800 font-bold block rounded-xl" : "text-sm mt-4 p-3 bg-red-100 text-red-700 block rounded-xl"; msg.classList.remove('hidden'); if (r.status === "success") { document.getElementById('reg-username').value=''; document.getElementById('reg-password').value=''; document.getElementById('reg-hoten').value=''; }
+            } catch (e) { msg.innerText = "Lỗi mạng!"; msg.className = "text-sm mt-4 p-3 bg-red-100 text-red-700 block rounded-xl"; msg.classList.remove('hidden'); }
+            btn.disabled = false; btn.innerText = "GỬI YÊU CẦU";
+        }
 
+        // ================= HỌC VIÊN NỘP BÀI THỰC HÀNH =================
+        async function handleFileUpload() {
+            const fileInput = document.getElementById('file-upload'); if(fileInput.files.length === 0) return alert("Vui lòng chọn file!");
+            const file = fileInput.files[0]; if(file.size > 5 * 1024 * 1024) return alert("File vượt quá 5MB.");
+            const allowedExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'rar']; const ext = file.name.split('.').pop().toLowerCase();
+            if(!allowedExts.includes(ext)) return alert("Chỉ hỗ trợ Word, Excel, PDF hoặc ZIP!");
+            const btn = document.getElementById('btn-upload'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang tải lên...';
             const reader = new FileReader();
             reader.onload = async function(e) {
                 const base64 = e.target.result.split(',')[1];
                 try {
-                    const res = await fetch(API_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({ action: 'upload_file', username: studentInfo.username, hoten: studentInfo.name, filename: file.name, mimeType: file.type || 'application/octet-stream', base64Data: base64 })
-                    });
-                    const r = await res.json();
-                    if(r.status === 'success') { alert("Đã nộp bài thành công!"); fileInput.value = ''; fetchUploadedFiles(); } 
-                    else { alert("Lỗi tải lên: " + r.message); }
-                } catch(err) { alert("Lỗi kết nối khi nộp bài!"); }
+                    const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'upload_file', username: studentInfo.username, hoten: studentInfo.name, filename: file.name, mimeType: file.type || 'application/octet-stream', base64Data: base64 }) });
+                    const r = await res.json(); if(r.status === 'success') { alert("Nộp bài thành công!"); fileInput.value = ''; fetchUploadedFiles(); } else { alert("Lỗi: " + r.message); }
+                } catch(err) { alert("Lỗi mạng!"); }
                 btn.disabled = false; btn.innerText = 'TẢI FILE LÊN HỆ THỐNG';
-            };
-            reader.readAsDataURL(file);
+            }; reader.readAsDataURL(file);
         }
-
+        
         async function fetchUploadedFiles() {
-            const tbody = document.getElementById('upload-history-table');
-            if(!tbody) return;
-            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu điểm...</td></tr>`;
+            const tbody = document.getElementById('upload-history-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu...</td></tr>`;
             try {
-                const res = await fetch(API_URL + "?action=get_uploaded_files&username=" + encodeURIComponent(studentInfo.username));
-                const files = await res.json();
-                tbody.innerHTML = '';
-                if(files.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500 font-medium">Bạn chưa nộp bài thực hành nào.</td></tr>`;
-                    return;
-                }
+                const res = await fetch(API_URL + "?action=get_uploaded_files&username=" + encodeURIComponent(studentInfo.username)); const files = await res.json(); tbody.innerHTML = '';
+                if(files.length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500 font-medium">Chưa có bài thực hành.</td></tr>`;
                 files.reverse().forEach(f => {
-                    const icon = getFileIcon(f.tenfile);
-                    const d = new Date(f.thoigian).toLocaleString('vi-VN');
-                    
-                    let diemHtml = `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ chấm</span>`;
-                    let nhanXetHtml = `<span class="text-slate-400 italic text-xs">Đang chờ Giảng viên chấm...</span>`;
-                    
-                    if(f.diem !== "") {
-                        diemHtml = `<span class="text-3xl font-black text-teal-600 drop-shadow-sm">${f.diem}</span>`;
-                        nhanXetHtml = `<span class="font-medium text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 block">${f.nhanxet || 'Đã hoàn thành tốt bài thi.'}</span>`;
-                    }
-
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                            <td class="p-4 pl-8 flex items-center gap-4">
-                                <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center shrink-0">${icon}</div>
-                                <span class="font-bold text-slate-700 break-all">${f.tenfile}</span>
-                            </td>
-                            <td class="p-4 font-mono text-xs text-slate-500 font-semibold"><i class="far fa-clock mr-1"></i> ${d}</td>
-                            <td class="p-4 text-center">${diemHtml}</td>
-                            <td class="p-4 w-1/3">${nhanXetHtml}</td>
-                            <td class="p-4 pr-8 text-center">
-                                <a href="${f.link}" target="_blank" class="inline-block bg-white text-blue-600 px-4 py-2 rounded-xl font-bold shadow-sm border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    `;
+                    const icon = getFileIcon(f.tenfile); const d = new Date(f.thoigian).toLocaleString('vi-VN');
+                    let diemHtml = `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ chấm</span>`, nhanXetHtml = `<span class="text-slate-400 italic text-xs">Đang chờ Giảng viên...</span>`;
+                    if(f.diem !== "") { diemHtml = `<span class="text-3xl font-black text-teal-600 drop-shadow-sm">${f.diem}</span>`; nhanXetHtml = `<span class="font-medium text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 block">${f.nhanxet || 'Hoàn thành tốt.'}</span>`; }
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 pl-8 flex items-center gap-4"><div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center shrink-0">${icon}</div><span class="font-bold text-slate-700 break-all">${f.tenfile}</span></td><td class="p-4 font-mono text-xs text-slate-500 font-semibold"><i class="far fa-clock mr-1"></i> ${d}</td><td class="p-4 text-center">${diemHtml}</td><td class="p-4 w-1/3">${nhanXetHtml}</td><td class="p-4 pr-8 text-center"><a href="${f.link}" target="_blank" class="inline-block bg-white text-blue-600 px-4 py-2 rounded-xl font-bold shadow-sm border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition"><i class="fas fa-eye"></i></a></td></tr>`;
                 });
             } catch (error) { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">Lỗi tải dữ liệu file</td></tr>`; }
         }
 
-        // CÁC ĐOẠN CODE CŨ (ĐĂNG NHẬP, LÀM BÀI, THÊM CÂU HỎI...) GIỮ NGUYÊN BÊN DƯỚI
+        // ================= HỌC VIÊN CHỌN ĐỀ & LÀM BÀI TRẮC NGHIỆM =================
+        function openVideoSection(category) {
+            navigate('videos'); const list = systemConfig.videos[category] || [];
+            document.getElementById('video-section-title').innerHTML = category==='cb'?'Luyện Video Cơ Bản':'Luyện Video Nâng Cao';
+            document.getElementById('btn-tab-video-cb').className = category==='cb'?"px-6 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition":"px-6 py-2.5 rounded-xl font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-200 transition";
+            document.getElementById('btn-tab-video-nc').className = category==='nc'?"px-6 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition":"px-6 py-2.5 rounded-xl font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-200 transition";
+            document.getElementById('video-count-badge').innerText = list.length + ' BÀI';
+            const container = document.getElementById('video-list-container'); container.innerHTML = '';
+            list.forEach((vid, i) => {
+                const div = document.createElement('div'); div.className = `p-4 rounded-2xl border-2 cursor-pointer flex gap-4 items-center video-item-btn transition-all ${i===0?'bg-blue-50 border-blue-200 shadow-sm text-blue-900':'bg-white border-slate-100 hover:border-blue-200 text-slate-600'}`;
+                div.innerHTML = `<div class="w-10 h-10 rounded-full ${i===0?'bg-blue-600':'bg-slate-200 text-slate-500'} text-white flex justify-center items-center shadow-inner shrink-0 transition-colors"><i class="fas fa-play ml-1"></i></div><div class="font-bold text-sm leading-snug line-clamp-2">${vid.title}</div>`;
+                div.onclick = () => { document.querySelectorAll('.video-item-btn').forEach(b => { b.className="p-4 rounded-2xl border-2 cursor-pointer flex gap-4 items-center video-item-btn transition-all bg-white border-slate-100 text-slate-600"; b.firstChild.className="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex justify-center items-center shadow-inner shrink-0 transition-colors"; }); div.className="p-4 rounded-2xl border-2 cursor-pointer flex gap-4 items-center video-item-btn transition-all bg-blue-50 border-blue-200 shadow-sm text-blue-900"; div.firstChild.className="w-10 h-10 rounded-full bg-blue-600 text-white flex justify-center items-center shadow-inner shrink-0 transition-colors"; playVideo(vid.id, vid.title); };
+                container.appendChild(div);
+            });
+            if(list.length > 0) playVideo(list[0].id, list[0].title);
+        }
+        function playVideo(rawId, title) { const id = extractYouTubeID(rawId); document.getElementById('main-video-player').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`; document.getElementById('current-video-title').innerText = title; }
+
         function selectCategory(category) {
             const grid = document.getElementById('quiz-buttons-grid'); if(!grid) return; grid.innerHTML = '';
             if (studentInfo.loai === 'cb' && category === 'nang-cao') category = 'co-ban';
             if (studentInfo.loai === 'nc' && category === 'co-ban') category = 'nang-cao';
+            
             document.getElementById('btn-coban').className = category==='co-ban'?"w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-blue-600 text-white shadow-md":"w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-transparent text-slate-500 hover:bg-slate-200";
             document.getElementById('btn-nangcao').className = category==='nang-cao'?"w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-blue-600 text-white shadow-md":"w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-transparent text-slate-500 hover:bg-slate-200";
+
             if(category === 'co-ban') { for(let i = 1; i <= systemConfig.so_de_cb; i++) createQuizBtn(grid, `Đề ${i}`, i); } 
             else { for(let i = 1; i <= systemConfig.so_de_nc; i++) createQuizBtn(grid, `NC ${i}`, `NC_de${i<10?'0'+i:i}`); }
         }
         function createQuizBtn(p, lbl, val) { const b = document.createElement('button'); b.className="bg-white hover:bg-blue-600 hover:text-white border-2 border-slate-100 hover:border-blue-600 font-black py-4 rounded-xl shadow-sm text-sm transition-all hover:-translate-y-1 text-slate-700"; b.innerText=lbl; b.onclick=()=>startQuiz(val); p.appendChild(b); }
+
         async function startQuiz(quizId) {
             studentInfo.quizId = quizId; let savedState = null;
             try { const stored = localStorage.getItem('quizState_' + studentInfo.username); if(stored) { const parsed = JSON.parse(stored); if(parsed.quizId == quizId) savedState = parsed; } } catch(e){}
@@ -651,6 +707,7 @@
                 navigate('quiz'); startTimer();
             } catch (e) { alert("Lỗi tải đề"); isTakingQuiz = false; exitFullscreen(); navigate('select'); }
         }
+
         function startTimer() {
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
@@ -661,15 +718,18 @@
                 timeLeft--;
             }, 1000);
         }
+
         function renderQuestions() {
             const c = document.getElementById('questions-container'); c.innerHTML = '';
             quizData.forEach((q, i) => {
-                const isM = String(q.DapAnDung||"").length>1 || String(q.DapAnDung||"").includes(',');
+                const ansStr = String(q.DapAnDung||""); const isM = ansStr.length>1 || ansStr.includes(',');
                 let opts = ['A','B','C','D'].map(o => q['DapAn'+o] ? `<label class="flex items-start p-4 border-2 border-slate-100 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50"><input type="${isM?'checkbox':'radio'}" name="q${i}" value="${o}" onchange="saveCurrentQuizState()" class="mt-1 mr-4 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"><span class="font-black mr-2 text-slate-800">${o}.</span><span class="text-slate-700 font-medium">${q['DapAn'+o]}</span></label>` : '').join('');
                 c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div><div class="font-bold text-lg mb-6 flex items-start text-slate-800"><span class="bg-blue-100 text-blue-700 px-4 py-1 mr-4 rounded-lg font-black shrink-0 shadow-sm border border-blue-200">Câu ${i+1}</span><span class="leading-relaxed mt-0.5">${q.NoiDung}</span></div><div class="space-y-3 pl-2">${opts}</div></div>`;
             });
         }
+
         function getSessionUserChoices() { let ch = {}; quizData.forEach((_, i) => { let arr = []; document.querySelectorAll(`input[name="q${i}"]:checked`).forEach(n => arr.push(n.value.toUpperCase())); ch[i] = arr; }); return ch; }
+
         async function submitQuiz(timeout = false) {
             if (timerInterval) clearInterval(timerInterval);
             if (!timeout && !confirm("ĐÃ CHẮC CHẮN NỘP BÀI?")) { startTimer(); return; }
@@ -684,6 +744,7 @@
             isTakingQuiz = false; exitFullscreen(); localStorage.removeItem('quizState_' + studentInfo.username); navigate('result');
             fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'submit', hoc_vien: studentInfo.username, ma_de: studentInfo.quizId, diem_so: score.toFixed(1) + " Điểm", so_cau_dung: right, chi_tiet_dap_an: chiTiet }) });
         }
+
         function openReviewModal() {
             const c = document.getElementById('review-container'); c.innerHTML = ''; let ch = getSessionUserChoices();
             quizData.forEach((q, i) => {
@@ -697,6 +758,7 @@
                 c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 ${isOK?'bg-emerald-500':'bg-rose-500'}"></div><div class="mb-6 flex items-center justify-between"><div class="flex items-center"><span class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-lg font-black mr-4 shadow-sm border border-slate-200">Câu ${i+1}</span>${isOK?'<span class="text-emerald-600 font-black bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200"><i class="fas fa-check-circle mr-1"></i> Chính xác</span>':'<span class="text-rose-600 font-black bg-rose-50 px-3 py-1 rounded-lg border border-rose-200"><i class="fas fa-times-circle mr-1"></i> Sai</span>'}</div></div><div class="font-bold text-slate-800 text-lg mb-6 leading-relaxed">${q.NoiDung}</div>${opts}</div>`;
             }); navigate('review');
         }
+
         async function fetchQuizHistory() {
             navigate('loading');
             try {
@@ -709,6 +771,7 @@
                 }); navigate('history');
             } catch (e) { alert("Lỗi tải lịch sử"); navigate('select'); }
         }
+
         async function viewHistDetail(made, chitiet) {
             navigate('loading');
             try {
@@ -720,12 +783,142 @@
                     let isOK = uC.length === cC.length && uC.every(v => cC.includes(v));
                     let opts = ['A','B','C','D'].map(o => {
                         if(!q['DapAn'+o]) return ''; let st = cC.includes(o) ? "bg-emerald-50 border-emerald-500 font-bold shadow-sm" : (uC.includes(o) ? "bg-rose-50 border-rose-400 font-bold text-rose-700 shadow-sm" : "border-slate-100 text-slate-600");
-                        return `<div class="p-4 border-2 rounded-xl mb-3 flex items-start transition-all ${st}"><span class="w-8 font-black">${o}.</span><span class="font-medium mr-4">${q['DapAn'+o]}</span></div>`;
+                        let icon = cC.includes(o) ? '<i class="fas fa-check text-emerald-600 ml-auto"></i>' : (uC.includes(o)?'<i class="fas fa-times text-rose-500 ml-auto"></i>':'');
+                        return `<div class="p-4 border-2 rounded-xl mb-3 flex items-start transition-all ${st}"><span class="w-8 font-black">${o}.</span><span class="font-medium mr-4">${q['DapAn'+o]}</span>${icon}</div>`;
                     });
                     c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 ${isOK?'bg-emerald-500':'bg-rose-500'}"></div><div class="mb-6 flex items-center justify-between"><div class="flex items-center"><span class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-lg font-black mr-4 shadow-sm border border-slate-200">Câu ${i+1}</span>${isOK?'<span class="text-emerald-600 font-black bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200"><i class="fas fa-check-circle mr-1"></i> Chính xác</span>':'<span class="text-rose-600 font-black bg-rose-50 px-3 py-1 rounded-lg border border-rose-200"><i class="fas fa-times-circle mr-1"></i> Sai</span>'}</div></div><div class="font-bold text-slate-800 text-lg mb-6 leading-relaxed">${q.NoiDung}</div>${opts}</div>`;
                 }); navigate('review');
             } catch (e) { alert("Lỗi tải đề"); navigate('history'); }
         }
+
+        // ================= ADMIN CÁC CHỨC NĂNG =================
+        function switchAdminTab(tab) {
+            ['users', 'practical', 'articles', 'questions', 'settings'].forEach(t => { 
+                document.getElementById(`admin-${t}-section`).classList.add('hidden'); 
+                document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition"; 
+            });
+            document.getElementById(`admin-${tab}-section`).classList.remove('hidden'); 
+            document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md";
+            if(tab === 'users') loadAdminUsers(); 
+            if(tab === 'settings') renderAdminSettings();
+            if(tab === 'articles') adminLoadArticles();
+            if(tab === 'practical') adminLoadPractical();
+        }
+
+        async function loadAdminUsers() {
+            const tbody = document.getElementById('admin-users-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>`;
+            try {
+                const res = await fetch(API_URL + "?action=get_users"); const users = await res.json(); tbody.innerHTML = '';
+                if(users.length === 0) return tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">Chưa có người dùng.</td></tr>`;
+                users.forEach(u => {
+                    let stBadge = u.trangthai==='pending' ? `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ duyệt</span>` : (u.trangthai==='blocked' ? `<span class="bg-rose-100 text-rose-700 font-bold px-3 py-1.5 rounded-lg text-xs">Đã Khóa</span>` : `<span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1.5 rounded-lg text-xs">Hoạt động</span>`);
+                    let acts = u.trangthai==='pending' ? `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:bg-emerald-600">Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-rose-600">Xóa</button>`
+                        : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border border-slate-200 text-xs font-bold rounded-lg p-1.5 mr-1 text-slate-600 outline-none"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>ALL</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${u.trangthai==='active'?'blocked':'active'}', '${u.loai}')" class="${u.trangthai==='active'?'bg-orange-500':'bg-emerald-500'} text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:opacity-90">${u.trangthai==='active'?'Khóa':'Mở'}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-rose-600"><i class="fas fa-trash"></i></button>`;
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-bold text-slate-700">${u.username}</td><td class="p-4 text-slate-400 font-mono text-xs">${u.password}</td><td class="p-4 font-semibold text-slate-700">${u.hoten}</td><td class="p-4 uppercase text-xs font-black text-blue-600">${u.loai}</td><td class="p-4 text-center">${stBadge}</td><td class="p-4 text-center whitespace-nowrap">${acts}</td></tr>`;
+                });
+            } catch (e) { tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-6 font-bold">Lỗi tải dữ liệu</td></tr>`; }
+        }
+        async function updateUserStatus(rowIndex, status, loai) { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_user_status', rowIndex, trangthai: status, loai }) }); loadAdminUsers(); }
+        async function adminDeleteUser(rowIndex) { if(!confirm("XÓA VĨNH VIỄN TÀI KHOẢN NÀY?")) return; await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_user', rowIndex: rowIndex }) }); loadAdminUsers(); }
+        async function adminAddUser() {
+            const u = document.getElementById('admin-add-username').value.trim(), p = document.getElementById('admin-add-password').value.trim(), h = document.getElementById('admin-add-hoten').value.trim(), l = document.getElementById('admin-add-loai').value;
+            if (!u || !p || !h) return alert("Nhập đủ thông tin!"); await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l }) });
+            document.getElementById('admin-add-username').value=''; document.getElementById('admin-add-password').value=''; document.getElementById('admin-add-hoten').value=''; loadAdminUsers();
+        }
+
+        async function adminLoadPractical() {
+            const tbody = document.getElementById('admin-practical-table'); if(!tbody) return;
+            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu thực hành...</td></tr>`;
+            try {
+                const res = await fetch(API_URL + "?action=admin_get_all_files"); const files = await res.json(); tbody.innerHTML = '';
+                if(files.length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500">Chưa có bài thực hành nào được nộp.</td></tr>`;
+                files.reverse().forEach(f => {
+                    const icon = getFileIcon(f.tenfile); const d = new Date(f.thoigian).toLocaleString('vi-VN');
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4"><div class="font-bold text-slate-700">${f.hoten}</div><div class="text-xs font-mono text-slate-400 mt-1">${f.username}</div></td><td class="p-4 flex items-center gap-3"><div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center">${icon}</div><div><a href="${f.link}" target="_blank" class="font-bold text-blue-600 hover:underline line-clamp-1" title="Tải file">${f.tenfile}</a><div class="text-xs text-slate-400 mt-1"><i class="far fa-clock"></i> ${d}</div></div></td><td class="p-4 text-center"><input type="number" id="grade-diem-${f.rowIndex}" value="${f.diem}" placeholder="Điểm" class="w-16 border-2 border-slate-200 p-2 rounded-lg text-center font-bold text-teal-600 focus:border-teal-500 outline-none"></td><td class="p-4"><input type="text" id="grade-nhanxet-${f.rowIndex}" value="${f.nhanxet}" placeholder="Nhập lời phê..." class="w-full border-2 border-slate-200 p-2 rounded-lg text-sm font-medium focus:border-teal-500 outline-none"></td><td class="p-4 text-center"><button onclick="savePracticalGrade(${f.rowIndex})" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-bold shadow-md shadow-teal-200 transition"><i class="fas fa-save"></i> Lưu</button></td></tr>`;
+                });
+            } catch (err) { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">Lỗi tải dữ liệu</td></tr>`; }
+        }
+        async function savePracticalGrade(rowIndex) {
+            const d = document.getElementById('grade-diem-' + rowIndex).value.trim(), nx = document.getElementById('grade-nhanxet-' + rowIndex).value.trim();
+            if (!d) return alert("Vui lòng nhập điểm số!");
+            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'grade_file', rowIndex: rowIndex, diem: d, nhanxet: nx }) }); alert("Đã lưu điểm thành công!"); } catch (e) { alert("Lỗi mạng!"); }
+        }
+
+        function adminLoadArticles() {
+            const tbody = document.getElementById('admin-articles-table'); tbody.innerHTML = '';
+            if(dbArticles.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trên hệ thống.</td></tr>`;
+            dbArticles.forEach((art, idx) => {
+                tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-mono font-bold text-blue-600 text-xs">${art.MaBai}</td><td class="p-4"><div class="flex items-center gap-3"><img src="${art.LinkAnh}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'"><span class="font-bold text-slate-700 leading-snug line-clamp-2">${art.TieuDe}</span></div></td><td class="p-4 uppercase text-xs font-black text-slate-400 tracking-wider">${art.PhanLoai}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button><button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button></td></tr>`;
+            });
+        }
+        function openArticleModal(artData = null) {
+            document.getElementById('modal-article').classList.remove('hidden');
+            if (artData) { document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-edit text-blue-500 mr-2'></i> Sửa Bài Viết"; document.getElementById('modal-a-rowindex').value = artData._rowIndex; document.getElementById('modal-a-mabai').value = artData.MaBai || ""; document.getElementById('modal-a-mabai').readOnly = true; document.getElementById('modal-a-tieude').value = artData.TieuDe || ""; document.getElementById('modal-a-linkanh').value = artData.LinkAnh || ""; document.getElementById('modal-a-tomtat').value = artData.TomTat || ""; document.getElementById('modal-a-noidung').value = artData.NoiDung || ""; document.getElementById('modal-a-phanloai').value = artData.PhanLoai || ""; } 
+            else { document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-plus-circle text-teal-500 mr-2'></i> Viết Bài Mới"; document.getElementById('modal-a-rowindex').value = ""; document.getElementById('modal-a-mabai').value = "ID_" + new Date().getTime(); document.getElementById('modal-a-mabai').readOnly = false; document.getElementById('modal-a-tieude').value = ""; document.getElementById('modal-a-linkanh').value = ""; document.getElementById('modal-a-tomtat').value = ""; document.getElementById('modal-a-noidung').value = ""; document.getElementById('modal-a-phanloai').value = "cb"; }
+        }
+        function closeArticleModal() { document.getElementById('modal-article').classList.add('hidden'); }
+        function editArticle(index) { openArticleModal(dbArticles[index]); }
+        async function adminSaveArticle() {
+            const btn = document.getElementById('modal-btn-save-art'), rowIndex = document.getElementById('modal-a-rowindex').value;
+            const a = { MaBai: document.getElementById('modal-a-mabai').value.trim(), TieuDe: document.getElementById('modal-a-tieude').value.trim(), LinkAnh: document.getElementById('modal-a-linkanh').value.trim(), TomTat: document.getElementById('modal-a-tomtat').value.trim(), NoiDung: document.getElementById('modal-a-noidung').value.trim(), PhanLoai: document.getElementById('modal-a-phanloai').value.trim() };
+            if(!a.MaBai || !a.TieuDe) return alert("Thiếu ID hoặc Tiêu đề!"); btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Đang lưu...";
+            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_article', rowIndex: rowIndex || null, article: a }) }); const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json(); closeArticleModal(); adminLoadArticles(); renderHomeArticles(); renderNavArticles(); } catch(e) { alert("Lỗi kết nối"); }
+            btn.disabled = false; btn.innerHTML = "Đăng Bài Viết";
+        }
+        async function adminDeleteArticle(index) { if(!confirm("Gỡ bài viết này?")) return; const art = dbArticles[index]; try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_article', rowIndex: art._rowIndex }) }); const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json(); adminLoadArticles(); renderHomeArticles(); renderNavArticles(); } catch(e) {} }
+
+        async function adminLoadQuestions() {
+            const cat = document.getElementById('admin-q-cat').value, made = document.getElementById('admin-q-made').value.trim(), tbody = document.getElementById('admin-questions-table'), btn = document.getElementById('btn-load-qs');
+            if(!made) return alert("Vui lòng nhập Mã đề!"); btn.disabled = true; btn.innerText = "Đang tải..."; tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center font-bold text-blue-500"><i class="fas fa-spinner fa-spin mr-2"></i> Tải câu hỏi...</td></tr>`;
+            try {
+                const res = await fetch(`${API_URL}?made=${made}&cat=${cat}`); adminQuestionsData = await res.json(); tbody.innerHTML = '';
+                if(adminQuestionsData.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-medium">Đề này trống.</td></tr>`, btn.disabled = false, btn.innerText = "Truy Xuất Dữ Liệu";
+                adminQuestionsData.forEach((q, idx) => {
+                    const ans = String(q.DapAnDung || "").toUpperCase();
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-black text-slate-400 text-center">${idx + 1}</td><td class="p-4 font-semibold text-slate-700 leading-snug">${q.NoiDung}</td><td class="p-4 font-black text-emerald-600 text-center text-lg tracking-widest">${ans}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition"><i class="fas fa-trash"></i></button></td></tr>`;
+                });
+            } catch(e) {} btn.disabled = false; btn.innerText = "Truy Xuất Dữ Liệu";
+        }
+        function openQuestionModal(qData) {
+            document.getElementById('modal-question').classList.remove('hidden'); const m = document.getElementById('admin-q-made').value.trim();
+            if (qData) { document.getElementById('modal-q-title').innerHTML = "Sửa Câu Hỏi"; document.getElementById('modal-q-rowindex').value = qData._rowIndex; document.getElementById('modal-q-made').value = qData.MaDe || ""; document.getElementById('modal-q-noidung').value = qData.NoiDung || ""; document.getElementById('modal-q-a').value = qData.DapAnA || ""; document.getElementById('modal-q-b').value = qData.DapAnB || ""; document.getElementById('modal-q-c').value = qData.DapAnC || ""; document.getElementById('modal-q-d').value = qData.DapAnD || ""; document.getElementById('modal-q-dapandung').value = qData.DapAnDung || ""; } 
+            else { document.getElementById('modal-q-title').innerHTML = "Thêm Mới"; document.getElementById('modal-q-rowindex').value = ""; document.getElementById('modal-q-made').value = m; document.getElementById('modal-q-noidung').value = ""; document.getElementById('modal-q-a').value = ""; document.getElementById('modal-q-b').value = ""; document.getElementById('modal-q-c').value = ""; document.getElementById('modal-q-d').value = ""; document.getElementById('modal-q-dapandung').value = ""; }
+        }
+        function closeQuestionModal() { document.getElementById('modal-question').classList.add('hidden'); }
+        function editQuestion(index) { openQuestionModal(adminQuestionsData[index]); }
+        async function adminSaveQuestion() {
+            const btn = document.getElementById('modal-btn-save'), cat = document.getElementById('admin-q-cat').value, rowIndex = document.getElementById('modal-q-rowindex').value;
+            const q = { MaDe: document.getElementById('modal-q-made').value.trim(), NoiDung: document.getElementById('modal-q-noidung').value.trim(), DapAnA: document.getElementById('modal-q-a').value.trim(), DapAnB: document.getElementById('modal-q-b').value.trim(), DapAnC: document.getElementById('modal-q-c').value.trim(), DapAnD: document.getElementById('modal-q-d').value.trim(), DapAnDung: document.getElementById('modal-q-dapandung').value.trim().toUpperCase() };
+            if(!q.MaDe || !q.NoiDung || !q.DapAnDung) return alert("Nhập Nội dung và Đáp án!"); btn.disabled = true; btn.innerHTML = "Đang lưu...";
+            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_question', category: cat, rowIndex: rowIndex || null, question: q }) }); closeQuestionModal(); document.getElementById('admin-q-made').value = q.MaDe; adminLoadQuestions(); } catch(e) {}
+            btn.disabled = false; btn.innerHTML = "Lưu Hệ Thống";
+        }
+        async function deleteQuestion(index) {
+            if(!confirm("Xóa câu hỏi?")) return; const q = adminQuestionsData[index], cat = document.getElementById('admin-q-cat').value;
+            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_question', category: cat, rowIndex: q._rowIndex }) }); adminLoadQuestions(); } catch(e) {}
+        }
+
+        function renderAdminSettings() {
+            document.getElementById('admin-so-de-cb').value = systemConfig.so_de_cb; document.getElementById('admin-so-de-nc').value = systemConfig.so_de_nc;
+            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb; document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
+            const container = document.getElementById('admin-video-list'); container.innerHTML = '';
+            ['cb', 'nc'].forEach(cat => {
+                let html = `<div class="mb-6"><h4 class="font-black text-slate-400 mb-3 text-xs tracking-widest bg-slate-100 inline-block px-3 py-1 rounded-full">${cat==='cb'?'CƠ BẢN':'NÂNG CAO'}</h4><div class="space-y-2">`;
+                if(systemConfig.videos[cat]) systemConfig.videos[cat].forEach((v, idx) => { html += `<div class="flex justify-between items-center p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 transition"><div><span class="font-mono text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded mr-3">${v.id}</span> <span class="font-bold text-slate-700">${v.title}</span></div><button onclick="adminDeleteVideo('${cat}', ${idx})" class="text-rose-500 bg-rose-50 hover:bg-rose-500 hover:text-white px-3 py-1.5 rounded-lg font-bold transition text-xs shadow-sm">Xóa</button></div>`; });
+                html += `</div></div>`; container.innerHTML += html;
+            });
+        }
+        async function saveSystemConfig() {
+            systemConfig.so_de_cb = parseInt(document.getElementById('admin-so-de-cb').value) || 35; systemConfig.so_de_nc = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
+            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb; document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) }); alert("Đã lưu giới hạn Đề!");
+        }
+        function adminAddVideo() {
+            const c = document.getElementById('admin-vid-loai').value, rawUrl = document.getElementById('admin-vid-id').value.trim(), t = document.getElementById('admin-vid-title').value.trim();
+            if(!rawUrl || !t) return alert("Nhập Link Youtube và Tên bài giảng!"); const id = extractYouTubeID(rawUrl); systemConfig.videos[c].push({id: id, title: t});
+            document.getElementById('admin-vid-id').value=''; document.getElementById('admin-vid-title').value=''; renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
+        }
+        function adminDeleteVideo(c, idx) { if(!confirm("Gỡ video?")) return; systemConfig.videos[c].splice(idx, 1); renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) }); }
     </script>
 </body>
 </html>
