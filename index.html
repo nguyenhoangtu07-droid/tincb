@@ -820,17 +820,7 @@
             const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
             const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
             navigate('article'); window.scrollTo({ top: 0 });
-           document.getElementById('article-content').innerHTML = renderArticleHtml(art.NoiDung) || '<p class="italic text-slate-400">Bài viết chưa có nội dung.</p>';
-            document.querySelectorAll('#article-content .cta-btn-adv, #article-content .cta-btn').forEach(btn => {
-        btn.onclick = function(e) {
-            e.preventDefault();
-            navigate('register');
-        };
-    });
-
-    const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
-    const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
-    navigate('article'); window.scrollTo({ top: 0 });
+           
             
         }
 
