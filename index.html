@@ -19,6 +19,15 @@
         
         .article-content p { margin-bottom: 1rem; line-height: 1.8; color: #475569; font-size: 1.05rem; }
         .article-content h3 { font-size: 1.35rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; color: #1e293b; }
+        .article-content h2 { font-size: 1.6rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1rem; color: #1e293b; }
+        .article-content ol { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #475569; line-height: 1.8; }
+        .article-content a { color: #2563eb; text-decoration: underline; }
+        .article-content img { max-width: 100%; height: auto; border-radius: 1rem; margin: 1rem 0; }
+        .article-content blockquote { border-left: 4px solid #a78bfa; background: #f5f3ff; padding: .75rem 1rem; border-radius: .5rem; margin: 1rem 0; color: #475569; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: .98rem; display: block; overflow-x: auto; }
+        .article-content th { background: #f1f5f9; color: #1e293b; text-align: left; padding: .7rem .9rem; border: 1px solid #e2e8f0; font-weight: 700; }
+        .article-content td { padding: .7rem .9rem; border: 1px solid #e2e8f0; color: #475569; }
+        .article-content .art-btn { display: inline-block; background: #4f46e5; color: #fff !important; text-decoration: none !important; font-weight: 800; padding: .75rem 1.5rem; border-radius: .9rem; box-shadow: 0 6px 14px rgba(79,70,229,.25); }
         .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #475569; line-height: 1.8; }
         
         @keyframes pulse-ring { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
@@ -62,6 +71,13 @@
                     </button>
                     <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-56 shadow-2xl rounded-2xl border border-gray-100 z-50 mt-1" id="nav-courses">
                         <!-- Render Động -->
+                    </div>
+                </div>
+
+                <div class="dropdown relative">
+                    <button onclick="openAiSection()" class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-amber-200"><i class="fas fa-robot mr-1"></i> Cung ứng tài khoản AI <i class="fas fa-chevron-down ml-1 text-xs opacity-70"></i></button>
+                    <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-72 shadow-2xl rounded-2xl border border-gray-100 z-50 mt-1 overflow-hidden" id="nav-ai">
+                        <a href="javascript:void(0)" onclick="openAiSection()" class="block px-5 py-3.5 hover:bg-violet-50 hover:text-violet-600 font-semibold transition"><i class="fas fa-robot mr-2 text-violet-500"></i> Xem tất cả dịch vụ</a>
                     </div>
                 </div>
 
@@ -121,6 +137,11 @@
         <!-- TRANG CHỦ -->
         <div id="view-home" class="flex flex-col lg:flex-row gap-8">
             <div class="w-full lg:w-3/4">
+                    <div onclick="openAiSection()" class="mb-8 cursor-pointer rounded-3xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 text-white p-5 md:p-6 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center text-3xl shrink-0"><i class="fas fa-robot"></i></div>
+                        <div class="flex-grow min-w-0"><div class="font-black text-lg md:text-xl leading-tight">Cung ứng tài khoản AI</div><div class="text-blue-100 text-sm font-medium">Xem dịch vụ, bảng giá và hướng dẫn sử dụng</div></div>
+                        <i class="fas fa-arrow-right text-xl opacity-80 shrink-0"></i>
+                    </div>
                 <div class="flex items-center mb-8">
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight text-gradient">Khám Phá Khóa Học</h2>
                     <div class="h-1 w-20 bg-blue-500 rounded-full ml-4"></div>
@@ -158,9 +179,30 @@
             </div>
         </div>
 
+        <!-- ================= MỤC CUNG ỨNG TÀI KHOẢN AI ================= -->
+        <div id="view-ai" class="hidden-view space-y-8">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 text-white p-8 md:p-12 shadow-xl">
+                <div class="absolute -right-12 -top-12 w-64 h-64 bg-white/10 rounded-full"></div><div class="absolute right-24 -bottom-16 w-40 h-40 bg-white/10 rounded-full"></div>
+                <div class="relative max-w-3xl">
+                    <div class="inline-flex items-center gap-2 bg-white/15 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4"><i class="fas fa-robot"></i> Dịch vụ</div>
+                    <h2 class="text-3xl md:text-4xl font-black leading-tight mb-3">Cung ứng tài khoản AI</h2>
+                    <p class="text-blue-100 text-lg font-medium leading-relaxed mb-6">Thông tin dịch vụ, bảng giá và hướng dẫn sử dụng các tài khoản AI. Liên hệ để được tư vấn gói phù hợp với nhu cầu của bạn.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="tel:0969264305" class="bg-white text-indigo-700 px-6 py-3 rounded-xl font-black shadow-md hover:bg-blue-50 transition"><i class="fas fa-phone mr-2"></i> 0969 264 305</a>
+                        <button onclick="openChat()" class="bg-white/15 border border-white/30 text-white px-6 py-3 rounded-xl font-bold hover:bg-white/25 transition"><i class="fas fa-comments mr-2"></i> Nhắn tin tư vấn</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <div class="flex items-center"><h3 class="text-2xl font-black text-slate-800">Dịch vụ &amp; bài viết</h3><div class="h-1 w-16 bg-violet-500 rounded-full ml-4"></div></div>
+                <button id="ai-write-btn" onclick="openArticleModal(null, 'ai')" class="hidden bg-violet-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-violet-200 hover:bg-violet-700 transition"><i class="fas fa-pen-nib mr-2"></i> Viết bài mới</button>
+            </div>
+            <div id="ai-articles-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
+        </div>
+
         <!-- ================= BÀI VIẾT CHI TIẾT ================= -->
         <div id="view-article" class="hidden-view bg-white p-8 md:p-12 rounded-3xl shadow-lg max-w-4xl mx-auto border border-slate-100">
-            <button onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm"><i class="fas fa-arrow-left mr-2"></i> Quay lại trang chủ</button>
+            <button id="article-back-btn" onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm"><i class="fas fa-arrow-left mr-2"></i> <span id="article-back-label">Quay lại trang chủ</span></button>
             <div class="rounded-2xl overflow-hidden mb-8 shadow-sm">
                 <img id="article-img" src="" class="w-full h-[400px] object-cover">
             </div>
@@ -170,6 +212,11 @@
                 <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Tin học</span></span>
             </div>
             <div id="article-content" class="article-content text-slate-700 text-lg"></div>
+            <div id="article-cta" class="hidden mt-10 p-6 md:p-8 rounded-3xl bg-gradient-to-br from-violet-50 to-indigo-50 border border-violet-100">
+                <div class="font-black text-xl text-slate-800 mb-1">Cần tư vấn hoặc đặt dịch vụ?</div>
+                <p class="text-slate-600 text-sm mb-4 font-medium">Liên hệ trực tiếp, chúng tôi phản hồi sớm nhất.</p>
+                <div class="flex flex-wrap gap-3"><a href="tel:0969264305" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black shadow-md hover:bg-indigo-700 transition"><i class="fas fa-phone mr-2"></i> 0969 264 305</a><button onclick="openChat()" class="bg-white border border-indigo-200 text-indigo-700 px-6 py-3 rounded-xl font-bold hover:bg-indigo-50 transition"><i class="fas fa-comments mr-2"></i> Nhắn tin tư vấn</button></div>
+            </div>
         </div>
 
         <!-- ================= GIAO DIỆN NỘP BÀI THỰC HÀNH ================= -->
@@ -387,9 +434,10 @@
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-newspaper text-teal-500 mr-2"></i> Danh Sách Bài Viết / Bài Học</h3>
-                        <button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-teal-200 hover:bg-teal-700 transition"><i class="fas fa-plus mr-2"></i> Soạn bài mới</button>
+                        <div class="flex gap-2 flex-wrap"><button onclick="openArticleModal(null, 'ai')" class="bg-violet-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-violet-200 hover:bg-violet-700 transition"><i class="fas fa-robot mr-2"></i> Viết bài Cung ứng AI</button><button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-teal-200 hover:bg-teal-700 transition"><i class="fas fa-plus mr-2"></i> Soạn bài khóa học</button></div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div id="admin-article-filter" class="px-6 md:px-8 py-4 flex gap-2 flex-wrap border-b border-slate-100"></div>
+            <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
                                 <tr><th class="p-4">ID</th><th class="p-4">Ảnh/Tiêu đề</th><th class="p-4">Phân loại</th><th class="p-4 text-center">Tác vụ</th></tr>
@@ -543,14 +591,13 @@
                     <input type="hidden" id="modal-a-rowindex">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Bài (ID duy nhất)</label><input type="text" id="modal-a-mabai" class="w-full border-2 p-3 rounded-xl outline-none font-mono bg-slate-50 text-blue-700 font-bold"></div>
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại (cb / nc / vp...)</label><input type="text" id="modal-a-phanloai" class="w-full border-2 p-3 rounded-xl outline-none font-bold text-slate-600"></div>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mục đăng bài</label><select id="modal-a-phanloai" class="w-full border-2 p-3 rounded-xl outline-none font-bold text-slate-600 bg-white"><option value="cb">Khóa học - Cơ bản (cb)</option><option value="nc">Khóa học - Nâng cao (nc)</option><option value="vp">Khóa học - Văn phòng (vp)</option><option value="ai">Cung ứng tài khoản AI (ai)</option></select></div>
                     </div>
                     <div><label class="block text-sm font-bold text-slate-700 mb-2">Tiêu đề Bài học</label><input type="text" id="modal-a-tieude" class="w-full border-2 p-3 rounded-xl outline-none font-black text-slate-800 text-lg"></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Link Ảnh Bìa (Thumnail)</label><input type="text" id="modal-a-linkanh" placeholder="https://..." class="w-full border-2 p-3 rounded-xl outline-none font-mono text-sm"></div>
+                    <div><div class="flex justify-between items-center mb-2"><label class="block text-sm font-bold text-slate-700">Link Ảnh Bìa (Thumbnail)</label><button type="button" onclick="pickArticleImage('cover')" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition"><i class="fas fa-image mr-1"></i> Tải ảnh lên</button></div><input type="text" id="modal-a-linkanh" placeholder="https://..." class="w-full border-2 p-3 rounded-xl outline-none font-mono text-sm"></div>
                     <div><label class="block text-sm font-bold text-slate-700 mb-2">Tóm tắt (Mô tả ngắn ở ngoài Card)</label><textarea id="modal-a-tomtat" rows="2" class="w-full border-2 p-3 rounded-xl outline-none font-medium text-slate-600"></textarea></div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Nội dung chi tiết (Hỗ trợ HTML: <code>&lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;...</code>)</label>
-                        <textarea id="modal-a-noidung" rows="8" class="w-full border-2 p-3 rounded-xl outline-none font-mono text-sm bg-slate-50 border-slate-300"></textarea>
+                        <div class="flex justify-between items-center mb-2 flex-wrap gap-2"><label class="block text-sm font-bold text-slate-700">Nội dung chi tiết <span class="font-normal text-slate-400">(HTML - dùng thanh công cụ bên dưới cho nhanh)</span></label><span id="a-img-status" class="text-xs font-bold"></span></div><div class="flex flex-wrap gap-1.5 p-2 bg-slate-100 rounded-t-xl border-2 border-b-0 border-slate-300"><button type="button" onclick="aFmt('h3')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-heading mr-1"></i>Tiêu đề</button><button type="button" onclick="aFmt('p')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-paragraph mr-1"></i>Đoạn văn</button><button type="button" onclick="aFmt('b')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-bold mr-1"></i>Đậm</button><button type="button" onclick="aFmt('ul')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-list-ul mr-1"></i>Danh sách</button><button type="button" onclick="aFmt('a')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-link mr-1"></i>Liên kết</button><button type="button" onclick="aFmt('table')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-table mr-1"></i>Bảng giá</button><button type="button" onclick="pickArticleImage('body')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-image mr-1"></i>Chèn ảnh</button><button type="button" onclick="aFmt('cta')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"><i class="fas fa-phone mr-1"></i>Nút liên hệ</button><span class="flex-grow"></span><button type="button" onclick="aFmt('tpl')" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition !text-violet-700 !border-violet-200"><i class="fas fa-wand-magic-sparkles mr-1"></i>Mẫu bài Cung ứng AI</button><button type="button" onclick="toggleArticlePreview()" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition !text-emerald-700 !border-emerald-200"><i class="fas fa-eye mr-1"></i>Xem trước</button></div><textarea id="modal-a-noidung" rows="10" class="w-full border-2 p-3 rounded-b-xl outline-none font-mono text-sm bg-slate-50 border-slate-300"></textarea><div id="modal-a-preview" class="hidden mt-3 p-5 rounded-2xl border-2 border-dashed border-emerald-300 bg-white"><div class="text-xs font-black text-emerald-600 uppercase tracking-wider mb-3"><i class="fas fa-eye mr-1"></i> Xem trước như người đọc thấy</div><div id="modal-a-preview-body" class="article-content text-slate-700"></div></div>
                     </div>
                 </div>
                 <div class="p-6 md:p-8 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
@@ -898,7 +945,7 @@
                 try { sessionStorage.setItem('articlesCache', JSON.stringify(dbArticles)); } catch (e) {}
             } finally { clearTimeout(timer); }
         }
-        function catLabel(c) { c = String(c || '').trim(); const m = { cb: 'CƠ BẢN', nc: 'NÂNG CAO', vp: 'VĂN PHÒNG', gemini: 'AI' }; return m[c.toLowerCase()] || (c ? c.toUpperCase() : 'KHÓA HỌC'); }
+        function catLabel(c) { c = String(c || '').trim(); const m = { cb: 'CƠ BẢN', nc: 'NÂNG CAO', vp: 'VĂN PHÒNG', ai: 'TÀI KHOẢN AI', gemini: 'AI' }; return m[c.toLowerCase()] || (c ? c.toUpperCase() : 'KHÓA HỌC'); }
         function fmtDate(d) { const t = Date.parse(d); return t ? new Date(t).toLocaleDateString('vi-VN') : ''; }
 
         // Làm sạch HTML bài viết: bỏ script/on*=/javascript:, chỉ cho nhúng iframe YouTube/Vimeo, giữ <style> của bài
@@ -938,8 +985,9 @@
         }
         function renderHomeArticles() {
             const container = document.getElementById('home-articles-container');
-            if (dbArticles.length === 0) { renderFallbackHomeArticles(); return; }
-            container.innerHTML = dbArticles.slice(0, 6).map(articleCard).join('');
+            const courses = courseArticles();
+            if (courses.length === 0) { renderFallbackHomeArticles(); return; }
+            container.innerHTML = courses.slice(0, 6).map(articleCard).join('');
         }
         function renderFallbackHomeArticles() {
             // Máy chủ lỗi / chưa có bài: hiện 3 bài mẫu để trang không bị trống
@@ -947,11 +995,25 @@
             container.innerHTML = Object.keys(fallbackArticles).map(k => { const f = fallbackArticles[k]; return articleCard({ MaBai: k, TieuDe: f.title, LinkAnh: f.image, TomTat: '', PhanLoai: f.category }); }).join('');
         }
         function renderNavArticles() {
-            const navMenu = document.getElementById('nav-courses');
-            if (navMenu && dbArticles.length > 0) {
-                navMenu.innerHTML = dbArticles.map(a => `<a href="javascript:void(0)" data-id="${esc(a.MaBai)}" onclick="showArticle(this.dataset.id)" class="block px-5 py-3.5 hover:bg-blue-50 hover:text-blue-600 font-semibold border-b border-gray-50 transition line-clamp-1" title="${esc(a.TieuDe)}">${esc(a.TieuDe)}</a>`).join('');
-            }
+            const link = (a, cls) => `<a href="javascript:void(0)" data-id="${esc(a.MaBai)}" onclick="showArticle(this.dataset.id)" class="block px-5 py-3.5 ${cls} font-semibold border-b border-gray-50 transition line-clamp-1" title="${esc(a.TieuDe)}">${esc(a.TieuDe)}</a>`;
+            const navMenu = document.getElementById('nav-courses'), courses = courseArticles();
+            if (navMenu && courses.length > 0) navMenu.innerHTML = courses.map(a => link(a, 'hover:bg-blue-50 hover:text-blue-600')).join('');
+            const navAi = document.getElementById('nav-ai');
+            if (navAi) navAi.innerHTML = '<a href="javascript:void(0)" onclick="openAiSection()" class="block px-5 py-3.5 hover:bg-violet-50 hover:text-violet-600 font-bold border-b border-gray-100 transition"><i class="fas fa-robot mr-2 text-violet-500"></i> Xem tất cả dịch vụ</a>' + aiArticles().map(a => link(a, 'hover:bg-violet-50 hover:text-violet-600')).join('');
+            renderAiSection();
         }
+        // ----- Mục "Cung ứng tài khoản AI": bài viết có Phân loại = ai -----
+        const AI_CAT = 'ai';
+        const isAiArticle = a => String(a && a.PhanLoai || '').trim().toLowerCase() === AI_CAT;
+        const courseArticles = () => dbArticles.filter(a => !isAiArticle(a));
+        const aiArticles = () => dbArticles.filter(isAiArticle);
+        function renderAiSection() {
+            const c = document.getElementById('ai-articles-container'); if (!c) return;
+            const list = aiArticles(), admin = isLoggedIn && studentInfo && studentInfo.loai === 'admin';
+            const wb = document.getElementById('ai-write-btn'); if (wb) wb.classList.toggle('hidden', !admin);
+            c.innerHTML = list.length ? list.map(articleCard).join('') : `<div class="col-span-full bg-white rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center"><div class="w-16 h-16 mx-auto rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center text-3xl mb-4"><i class="fas fa-robot"></i></div><div class="font-black text-slate-700 text-lg mb-1">Nội dung đang được cập nhật</div><p class="text-slate-500 text-sm font-medium">Vui lòng liên hệ hotline <a href="tel:0969264305" class="font-black text-indigo-600">0969 264 305</a> để được tư vấn trực tiếp.</p>${admin ? `<button onclick="openArticleModal(null, 'ai')" class="mt-5 bg-violet-600 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:bg-violet-700 transition"><i class="fas fa-pen-nib mr-2"></i> Viết bài đầu tiên</button>` : ''}</div>`;
+        }
+        function openAiSection() { renderAiSection(); navigate('ai'); }
         function showArticle(id) {
             let art = dbArticles.find(a => String(a.MaBai) === String(id));
             if (!art && fallbackArticles[id]) { const f = fallbackArticles[id]; art = { TieuDe: f.title, LinkAnh: f.image, NoiDung: f.content, PhanLoai: f.category, NgayTao: '' }; }
@@ -963,6 +1025,9 @@
             document.getElementById('article-content').innerHTML = renderArticleHtml(art.NoiDung) || '<p class="italic text-slate-400">Bài viết chưa có nội dung.</p>';
             const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
             const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
+            const ai = isAiArticle(art), back = document.getElementById('article-back-btn');
+            if (back) { back.onclick = ai ? openAiSection : () => navigate('home'); document.getElementById('article-back-label').textContent = ai ? 'Quay lại Cung ứng tài khoản AI' : 'Quay lại trang chủ'; }
+            const cta = document.getElementById('article-cta'); if (cta) cta.classList.toggle('hidden', !ai);
             navigate('article'); window.scrollTo({ top: 0 });
         }
 
@@ -986,7 +1051,7 @@
         // ================= ĐIỀU HƯỚNG CHÍNH =================
         function navigate(vName) {
             if (typeof setChatVisible === 'function') setChatVisible(vName !== 'quiz' && vName !== 'loading');
-            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
+            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-ai', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
             const target = document.getElementById('view-' + vName); if (target) target.classList.remove('hidden-view'); window.scrollTo(0, 0);
             if (vName !== 'quiz' && vName !== 'loading') { if (timerInterval) clearInterval(timerInterval); isTakingQuiz = false; exitFullscreen(); }
             
@@ -1386,31 +1451,30 @@ loadAdminUsers();
 }
 
 // TAB ADMIN: BÀI VIẾT (MỚI)
+        let adminArtFilter = 'all';
+        function setArtFilter(f) { adminArtFilter = f; adminLoadArticles(); }
         function adminLoadArticles() {
-            const tbody = document.getElementById('admin-articles-table');
+            const tbody = document.getElementById('admin-articles-table'), nAi = dbArticles.filter(isAiArticle).length;
+            document.getElementById('admin-article-filter').innerHTML = [['all', 'Tất cả', dbArticles.length], ['course', 'Khóa học', dbArticles.length - nAi], ['ai', 'Cung ứng AI', nAi]].map(([k, l, n]) => `<button onclick="setArtFilter('${k}')" class="px-4 py-2 rounded-full text-sm font-bold transition ${adminArtFilter === k ? (k === 'ai' ? 'bg-violet-600 text-white shadow-md' : 'bg-blue-600 text-white shadow-md') : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${l} <span class="opacity-70">(${n})</span></button>`).join('');
             tbody.innerHTML = '';
-            if(dbArticles.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trên hệ thống.</td></tr>`;
-                return;
-            }
+            if (dbArticles.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trên hệ thống.</td></tr>`; return; }
+            let shown = 0;
             dbArticles.forEach((art, idx) => {
+                const ai = isAiArticle(art);
+                if ((adminArtFilter === 'ai' && !ai) || (adminArtFilter === 'course' && ai)) return;
+                shown++;
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                        <td class="p-4 font-mono font-bold text-blue-600 text-xs">${esc(art.MaBai)}</td>
-                        <td class="p-4">
-                            <div class="flex items-center gap-3">
-                                <img src="${esc(art.LinkAnh || DEFAULT_COVER)}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'">
-                                <span class="font-bold text-slate-700 leading-snug line-clamp-2">${esc(art.TieuDe)}</span>
-                            </div>
-                        </td>
-                        <td class="p-4 uppercase text-xs font-black text-slate-400 tracking-wider">${esc(art.PhanLoai)}</td>
-                        <td class="p-4 text-center whitespace-nowrap">
-                            <button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button>
-                            <button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
+                <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                    <td class="p-4 font-mono font-bold text-blue-600 text-xs">${esc(art.MaBai)}</td>
+                    <td class="p-4"><div class="flex items-center gap-3"><img src="${esc(art.LinkAnh || DEFAULT_COVER)}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'"><span class="font-bold text-slate-700 leading-snug line-clamp-2">${esc(art.TieuDe)}</span></div></td>
+                    <td class="p-4">${ai ? '<span class="bg-violet-100 text-violet-700 text-xs font-black px-2.5 py-1 rounded-full whitespace-nowrap"><i class="fas fa-robot mr-1"></i>Cung ứng AI</span>' : `<span class="uppercase text-xs font-black text-slate-400 tracking-wider">${esc(art.PhanLoai)}</span>`}</td>
+                    <td class="p-4 text-center whitespace-nowrap">
+                        <button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button>
+                        <button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>`;
             });
+            if (!shown) tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trong mục này.</td></tr>`;
         }
         function openArticleModal(artData = null) {
             document.getElementById('modal-article').classList.remove('hidden');
@@ -2140,6 +2204,55 @@ loadAdminUsers();
             const n = Object.keys(impImages).length, c = document.getElementById('imp-img-count'); c.innerText = n + ' ảnh'; c.classList.toggle('hidden', !n);
             if (impRows.length) impRevalidate();
         }
+    
+        // ======================================================================
+        //  SOẠN BÀI VIẾT: chọn mục, thanh công cụ, xem trước, tải ảnh
+        // ======================================================================
+        const _openArticleModal = openArticleModal;
+        openArticleModal = function (artData, presetCat) {
+            _openArticleModal(artData);
+            const sel = document.getElementById('modal-a-phanloai'), val = artData ? String(artData.PhanLoai || '').trim() : (presetCat || 'cb');
+            if (val && !Array.from(sel.options).some(o => o.value === val)) { const o = document.createElement('option'); o.value = val; o.textContent = 'Khác (' + val + ')'; sel.appendChild(o); }
+            sel.value = val || 'cb';
+            if (!artData && presetCat === 'ai') document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-robot text-violet-500 mr-2'></i> Viết Bài - Cung ứng tài khoản AI";
+            document.getElementById('modal-a-preview').classList.add('hidden'); aImgStatus('');
+        };
+        const A_TEMPLATE = '<h3>Giới thiệu dịch vụ</h3>\n<p>Mô tả ngắn về dịch vụ / loại tài khoản AI mà bạn cung cấp.</p>\n<h3>Bảng giá</h3>\n<table>\n  <tr><th>Gói</th><th>Thời hạn</th><th>Giá</th></tr>\n  <tr><td>[Tên gói 1]</td><td>[Thời hạn]</td><td>[Giá]</td></tr>\n  <tr><td>[Tên gói 2]</td><td>[Thời hạn]</td><td>[Giá]</td></tr>\n</table>\n<h3>Quyền lợi khi sử dụng</h3>\n<ul>\n  <li>[Quyền lợi thứ nhất]</li>\n  <li>[Quyền lợi thứ hai]</li>\n</ul>\n<h3>Cách đặt mua</h3>\n<ul>\n  <li>Liên hệ hotline 0969264305 hoặc nhắn tin trong khung chat ở góc phải màn hình.</li>\n  <li>[Các bước thanh toán / bàn giao tài khoản]</li>\n</ul>\n<h3>Lưu ý</h3>\n<p>[Điều kiện sử dụng, chính sách bảo hành...]</p>\n';
+        const A_SNIPPETS = { h3: '<h3>Tiêu đề mục</h3>\n', p: '<p>Nội dung đoạn văn...</p>\n', ul: '<ul>\n  <li>Ý thứ nhất</li>\n  <li>Ý thứ hai</li>\n</ul>\n', a: '<a href="https://" target="_blank" rel="noopener">Văn bản liên kết</a>', table: '<table>\n  <tr><th>Gói</th><th>Thời hạn</th><th>Giá</th></tr>\n  <tr><td>[Tên gói]</td><td>[Thời hạn]</td><td>[Giá]</td></tr>\n</table>\n', cta: '<p><a class="art-btn" href="tel:0969264305">Gọi 0969 264 305 để đặt mua</a></p>\n' };
+        function aImgStatus(t, ok) { const e = document.getElementById('a-img-status'); if (!e) return; e.innerText = t || ''; e.className = 'text-xs font-bold ' + (ok ? 'text-emerald-600' : 'text-rose-600'); }
+        function aInsert(text, wrapTag) {
+            const el = document.getElementById('modal-a-noidung'), a = el.selectionStart === undefined ? el.value.length : el.selectionStart, b = el.selectionEnd === undefined ? a : el.selectionEnd;
+            const sel = el.value.slice(a, b), ins = wrapTag ? `<${wrapTag}>${sel || 'chữ in đậm'}</${wrapTag}>` : text;
+            el.value = el.value.slice(0, a) + ins + el.value.slice(b); const pos = a + ins.length; try { el.setSelectionRange(pos, pos); } catch (e) {} el.focus();
+            if (!document.getElementById('modal-a-preview').classList.contains('hidden')) renderArticlePreview();
+        }
+        function aFmt(kind) {
+            const el = document.getElementById('modal-a-noidung');
+            if (kind === 'b') return aInsert('', 'strong');
+            if (kind === 'tpl') { if (el.value.trim() && !confirm('Thay toàn bộ nội dung hiện tại bằng bài mẫu?')) return; el.value = A_TEMPLATE; renderArticlePreview(); document.getElementById('modal-a-preview').classList.remove('hidden'); return; }
+            aInsert(A_SNIPPETS[kind] || '');
+        }
+        function renderArticlePreview() { document.getElementById('modal-a-preview-body').innerHTML = renderArticleHtml(document.getElementById('modal-a-noidung').value) || '<p class="italic text-slate-400">Chưa có nội dung.</p>'; }
+        function toggleArticlePreview() { const p = document.getElementById('modal-a-preview'); p.classList.toggle('hidden'); if (!p.classList.contains('hidden')) renderArticlePreview(); }
+        function pickArticleImage(kind) {
+            let inp = document.getElementById('a-img-file');
+            if (!inp) { inp = document.createElement('input'); inp.type = 'file'; inp.id = 'a-img-file'; inp.accept = 'image/png,image/jpeg,image/webp,image/gif'; inp.className = 'hidden'; document.body.appendChild(inp); }
+            inp.value = ''; inp.onchange = () => { if (inp.files[0]) uploadArticleImage(inp.files[0], kind); }; inp.click();
+        }
+        async function uploadArticleImage(file, kind) {
+            aImgStatus('Đang tải ảnh lên...', true);
+            try {
+                const url = await uploadImageFile(file);
+                if (kind === 'cover') document.getElementById('modal-a-linkanh').value = url; else aInsert(`<img src="${url}" alt="Hình minh họa">\n`);
+                aImgStatus(kind === 'cover' ? 'Đã đặt ảnh bìa!' : 'Đã chèn ảnh!', true); setTimeout(() => aImgStatus(''), 3000);
+            } catch (e) { aImgStatus(e.message || 'Tải ảnh thất bại!', false); }
+        }
+        document.getElementById('modal-a-noidung').addEventListener('input', () => { if (!document.getElementById('modal-a-preview').classList.contains('hidden')) renderArticlePreview(); });
+        document.getElementById('modal-a-noidung').addEventListener('paste', e => {
+            const f = Array.from((e.clipboardData && e.clipboardData.files) || []).find(x => /^image\//.test(x.type));
+            if (f) { e.preventDefault(); uploadArticleImage(f, 'body'); }
+        });
+
         // Tự động lắng nghe sự kiện click trên toàn bộ khung xem bài viết
 document.getElementById('view-article')?.addEventListener('click', function (e) {
     // Tìm xem phần tử vừa click (hoặc thẻ cha của nó) có class nút đăng ký hoặc href chứa #register không
