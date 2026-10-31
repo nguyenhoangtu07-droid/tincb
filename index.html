@@ -2024,6 +2024,15 @@ loadAdminUsers();
             if (r && r.status === 'success') { chatActiveId = null; document.getElementById('chat-admin-reply').classList.add('hidden'); document.getElementById('chat-admin-msgs').innerHTML = ''; document.getElementById('chat-admin-head').className = 'p-4 border-b border-slate-100 bg-slate-50/50 text-slate-400 text-sm font-medium flex items-center'; document.getElementById('chat-admin-head').innerText = 'Chọn một hội thoại ở bên trái để xem và trả lời.'; loadChatThreads(); }
         }
         document.getElementById('chat-admin-input').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendAdminReply(); } });
+        // Tự động lắng nghe sự kiện click trên toàn bộ khung xem bài viết
+document.getElementById('view-article')?.addEventListener('click', function (e) {
+    // Tìm xem phần tử vừa click (hoặc thẻ cha của nó) có class nút đăng ký hoặc href chứa #register không
+    const btn = e.target.closest('.cta-btn-adv, .cta-btn, [href="#register"]');
+    if (btn) {
+        e.preventDefault(); // Chặn hành vi cuộn trang mặc định
+        navigate('register'); // Gọi hàm chuyển sang màn hình Đăng ký
+    }
+});
     </script>
 </body>
 </html>
