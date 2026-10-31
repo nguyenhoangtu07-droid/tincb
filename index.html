@@ -32,6 +32,15 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+        /* ===== Nút liên hệ nổi (nhảy nhảy) ===== */
+        @keyframes chatBounce { 0%,55%,100% { transform: translateY(0); } 10% { transform: translateY(-16px); } 20% { transform: translateY(0); } 30% { transform: translateY(-9px); } 40% { transform: translateY(0); } }
+        @keyframes chatRing { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.9); opacity: 0; } }
+        .chat-fab { animation: chatBounce 3s ease-in-out infinite; }
+        .chat-fab:hover, .chat-fab.open { animation: none; }
+        .chat-ring { animation: chatRing 1.8s ease-out infinite; }
+        .chat-fab.open .chat-ring { display: none; }
+        @media (prefers-reduced-motion: reduce) { .chat-fab, .chat-ring { animation: none; } }
     </style>
 </head>
 <body class="text-slate-800 antialiased relative selection:bg-blue-200 selection:text-blue-900">
@@ -261,6 +270,8 @@
                 <input type="text" id="reg-username" placeholder="Tên đăng nhập (Viết liền, không dấu)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
                 <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
                 <input type="text" id="reg-hoten" placeholder="Họ và tên đầy đủ" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
+                <input type="tel" id="reg-phone" inputmode="tel" autocomplete="tel" placeholder="Số điện thoại (VD: 0969264305)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
+                <input type="email" id="reg-email" autocomplete="email" placeholder="Email (để nhận kết quả điểm, thông báo)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
                 <select id="reg-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-bold text-slate-700">
                     <option value="cb">Tin học Cơ Bản</option><option value="nc">Tin học Nâng Cao</option><option value="cbnc">Gói Combo (Cơ bản + Nâng cao)</option>
                 </select>
@@ -275,10 +286,12 @@
                 <h2 class="text-3xl font-black text-slate-800"><i class="fas fa-user-shield text-red-500 mr-2"></i> Hệ Thống Quản Trị</h2>
                 <div class="flex gap-2 flex-wrap bg-slate-50 p-2 rounded-2xl border border-slate-100">
                     <button onclick="switchAdminTab('users')" id="tab-users-btn" class="bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold shadow-md">Tài Khoản <span id="users-badge" class="hidden ml-1 bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
+                    <button onclick="switchAdminTab('stats')" id="tab-stats-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Thống kê</button>
                     <button onclick="switchAdminTab('articles')" id="tab-articles-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Quản lý Bài viết</button>
                     <button onclick="switchAdminTab('grading')" id="tab-grading-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Chấm điểm bài nộp <span id="grading-badge" class="hidden ml-1 bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
                     <button onclick="switchAdminTab('exams')" id="tab-exams-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Kết quả thi</button>
                     <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Ngân hàng Câu hỏi</button>
+                    <button onclick="switchAdminTab('chat')" id="tab-chat-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Hỏi đáp <span id="chat-admin-badge" class="hidden ml-1 bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
                     <button onclick="switchAdminTab('settings')" id="tab-settings-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Cấu hình Hệ thống</button>
                 </div>
             </div>
@@ -294,6 +307,10 @@
                         <input type="text" id="admin-add-hoten" placeholder="Họ tên" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
                         <select id="admin-add-loai" class="border-2 p-3 rounded-xl font-bold outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option><option value="cbnc">Combo</option><option value="admin">Admin</option></select>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <input type="tel" id="admin-add-phone" placeholder="Số điện thoại (không bắt buộc)" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
+                        <input type="email" id="admin-add-email" placeholder="Email (không bắt buộc)" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
+                    </div>
                     <button onclick="adminAddUser()" class="mt-4 bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-green-700">Tạo Ngay</button>
                 </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -301,7 +318,7 @@
                         <h3 class="text-xl font-bold text-slate-800">Quản Lý Người Dùng</h3>
                         <button onclick="loadAdminUsers()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100">Tải lại</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4">Tài khoản</th><th class="p-4">Mật khẩu (đã mã hóa)</th><th class="p-4">Họ tên</th><th class="p-4">Quyền</th><th class="p-4">Trạng thái</th><th class="p-4 text-center">Tác vụ</th></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4">Tài khoản</th><th class="p-4">Mật khẩu (đã mã hóa)</th><th class="p-4">Họ tên</th><th class="p-4">Liên hệ</th><th class="p-4">Quyền</th><th class="p-4">Trạng thái</th><th class="p-4 text-center">Tác vụ</th></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
                 </div>
             </div>
 
@@ -319,6 +336,7 @@
                         <div class="flex gap-2 flex-wrap items-center">
                             <input type="text" id="ex-search" oninput="renderExamResults()" placeholder="Tìm tên / username / mã đề..." class="border-2 px-3 py-2 rounded-xl text-sm outline-none focus:border-blue-500 w-56">
                             <select id="ex-filter" onchange="renderExamResults()" class="border-2 px-3 py-2 rounded-xl text-sm font-bold outline-none"><option value="all">Tất cả</option><option value="pass">Đạt (≥ 5)</option><option value="fail">Chưa đạt (&lt; 5)</option></select>
+                            <button onclick="exportExamXLSX()" class="text-white bg-emerald-600 px-4 py-2 rounded-lg font-bold hover:bg-emerald-700 text-sm shadow-sm" title="Xuất theo bộ lọc đang hiển thị"><i class="fas fa-file-excel mr-1"></i> Xuất Excel</button>
                             <button onclick="exportExamCSV()" class="text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg font-bold hover:bg-emerald-100 text-sm"><i class="fas fa-file-csv mr-1"></i> Xuất CSV</button>
                             <button onclick="loadExamResults()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 text-sm"><i class="fas fa-sync-alt mr-1"></i> Tải lại</button>
                         </div>
@@ -348,6 +366,7 @@
                             <select id="gr-filter" onchange="renderSubmissions()" class="border-2 px-3 py-2 rounded-xl text-sm font-bold outline-none">
                                 <option value="all">Tất cả</option><option value="pending">Chưa chấm</option><option value="done">Đã chấm</option>
                             </select>
+                            <button onclick="exportGradesXLSX()" class="text-white bg-emerald-600 px-4 py-2 rounded-lg font-bold hover:bg-emerald-700 text-sm shadow-sm"><i class="fas fa-file-excel mr-1"></i> Xuất Excel</button>
                             <button onclick="exportGradesCSV()" class="text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg font-bold hover:bg-emerald-100 text-sm"><i class="fas fa-file-csv mr-1"></i> Xuất CSV</button>
                             <button onclick="loadSubmissions()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 text-sm"><i class="fas fa-sync-alt mr-1"></i> Tải lại</button>
                         </div>
@@ -394,9 +413,52 @@
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800">Chi Tiết Câu Hỏi</h3>
-                        <button onclick="openQuestionModal()" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-green-700">Thêm câu hỏi</button>
+                        <div class="flex gap-2 flex-wrap"><button onclick="openImportModal()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-emerald-700"><i class="fas fa-file-excel mr-1"></i> Nhập từ Excel</button><button onclick="openQuestionModal()" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-green-700">Thêm câu hỏi</button></div>
                     </div>
                     <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4 w-16 text-center">Câu</th><th class="p-4">Nội dung</th><th class="p-4 w-32 text-center">Đáp án</th><th class="p-4 w-32 text-center">Tác vụ</th></thead><tbody id="admin-questions-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- Tab: Thống kê -->
+            <div id="admin-stats-section" class="hidden space-y-6">
+                <div class="flex justify-between items-center flex-wrap gap-3">
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-chart-line text-blue-500 mr-2"></i> Thống kê tổng quan</h3>
+                    <div class="flex gap-2">
+                        <button onclick="exportStatsXLSX()" class="text-white bg-emerald-600 px-4 py-2 rounded-lg font-bold hover:bg-emerald-700 text-sm shadow-sm"><i class="fas fa-file-excel mr-1"></i> Xuất báo cáo Excel</button>
+                        <button onclick="loadStats()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 text-sm"><i class="fas fa-sync-alt mr-1"></i> Tải lại</button>
+                    </div>
+                </div>
+                <div id="stats-cards" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100"><h4 class="font-bold text-slate-800 mb-4">Lượt thi 14 ngày gần đây</h4><div id="stats-days"></div></div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100"><h4 class="font-bold text-slate-800 mb-4">Phân bố điểm</h4><div id="stats-hist" class="space-y-3"></div></div>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden"><div class="p-5 border-b border-slate-100 bg-slate-50/50 font-bold text-slate-800">Thống kê theo mã đề</div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 text-slate-500 text-xs uppercase"><tr><th class="p-3">Mã đề</th><th class="p-3 text-center">Lượt thi</th><th class="p-3 text-center">Điểm TB</th><th class="p-3">Tỷ lệ đạt</th></tr></thead><tbody id="stats-made" class="divide-y divide-slate-100"></tbody></table></div></div>
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden"><div class="p-5 border-b border-slate-100 bg-slate-50/50 font-bold text-slate-800">Học viên điểm trung bình cao nhất</div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 text-slate-500 text-xs uppercase"><tr><th class="p-3 w-10 text-center">#</th><th class="p-3">Học viên</th><th class="p-3 text-center">Lượt</th><th class="p-3 text-center">TB</th><th class="p-3 text-center">Cao nhất</th></tr></thead><tbody id="stats-top" class="divide-y divide-slate-100"></tbody></table></div></div>
+                </div>
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden"><div class="p-5 border-b border-slate-100 bg-slate-50/50 font-bold text-slate-800">Câu hỏi sai nhiều nhất <span class="text-xs font-medium text-slate-400 ml-2">(từ 400 lượt thi gần nhất, tối thiểu 3 lượt làm)</span></div><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 text-slate-500 text-xs uppercase"><tr><th class="p-3">Nội dung câu hỏi</th><th class="p-3 text-center">Mã đề</th><th class="p-3 text-center">Đáp án</th><th class="p-3 text-center">Số lượt</th><th class="p-3 w-48">Tỷ lệ sai</th></tr></thead><tbody id="stats-hard" class="divide-y divide-slate-100"></tbody></table></div></div>
+            </div>
+
+            <!-- Tab: Hỏi đáp -->
+            <div id="admin-chat-section" class="hidden space-y-4">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden grid md:grid-cols-3" style="min-height:30rem">
+                    <div class="md:col-span-1 border-r border-slate-100 flex flex-col">
+                        <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center"><h3 class="font-bold text-slate-800"><i class="fas fa-comments text-blue-500 mr-2"></i> Hội thoại</h3><button onclick="loadChatThreads()" class="text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg font-bold text-xs hover:bg-blue-100"><i class="fas fa-sync-alt"></i></button></div>
+                        <div id="chat-thread-list" class="overflow-y-auto divide-y divide-slate-100" style="max-height:32rem"></div>
+                    </div>
+                    <div class="md:col-span-2 flex flex-col">
+                        <div id="chat-admin-head" class="p-4 border-b border-slate-100 bg-slate-50/50 text-slate-400 text-sm font-medium flex items-center" style="min-height:4.5rem">Chọn một hội thoại ở bên trái để xem và trả lời.</div>
+                        <div id="chat-admin-msgs" class="flex-grow overflow-y-auto p-4 space-y-3 bg-slate-50/40" style="max-height:24rem"></div>
+                        <div id="chat-admin-reply" class="hidden p-4 border-t border-slate-100 space-y-3">
+                            <textarea id="chat-admin-input" rows="3" maxlength="1500" placeholder="Nhập nội dung trả lời... (Ctrl+Enter để gửi)" class="w-full border-2 p-3 rounded-xl outline-none focus:border-blue-500 text-sm"></textarea>
+                            <div class="flex justify-between items-center flex-wrap gap-3">
+                                <label id="chat-admin-email-wrap" class="flex items-center gap-2 text-sm font-semibold text-slate-600 cursor-pointer"><input type="checkbox" id="chat-admin-email" class="w-4 h-4 accent-emerald-600" checked> Gửi kèm email cho người hỏi</label>
+                                <div class="flex gap-2"><button onclick="deleteChatThread()" class="px-4 py-2.5 rounded-xl font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 text-sm"><i class="fas fa-trash mr-1"></i> Xóa</button><button onclick="sendAdminReply()" id="chat-admin-send" class="px-6 py-2.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md text-sm"><i class="fas fa-paper-plane mr-1"></i> Gửi trả lời</button></div>
+                            </div>
+                            <div id="chat-admin-msg" class="hidden text-sm font-bold p-2 rounded-lg"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -553,6 +615,7 @@
                             <button type="button" onclick="addQuickComment('Không mở được file hoặc sai file, vui lòng nộp lại.')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold hover:bg-rose-100">+ Nộp lại</button>
                         </div>
                     </div>
+                    <label class="flex items-center gap-3 bg-emerald-50 border border-emerald-100 rounded-xl p-3 cursor-pointer"><input type="checkbox" id="gm-email" class="w-5 h-5 accent-emerald-600"><span class="text-sm font-bold text-emerald-800"><i class="fas fa-envelope mr-1"></i> Gửi email kết quả cho học viên <span id="gm-email-addr" class="font-mono font-normal text-xs text-emerald-600 ml-1"></span></span></label>
                     <div id="gm-msg" class="hidden text-sm font-bold p-3 rounded-xl"></div>
                 </div>
                 <div class="p-5 border-t border-slate-100 bg-slate-50 flex justify-between items-center gap-3 flex-wrap">
@@ -648,12 +711,91 @@
         </div>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-10 mt-12 border-t-4 border-blue-600">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h4 class="font-black text-white text-xl tracking-wider mb-2">CÔNG TY TNHH THÀNH DANH</h4>
-            <p class="text-sm font-medium mb-1"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Chi Nhánh 13 - 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Đồng Tháp</p>
+    <!-- ===== MODAL: SỬA LIÊN HỆ TÀI KHOẢN ===== -->
+    <div id="modal-contact" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div class="p-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center"><h3 class="text-lg font-black text-slate-800"><i class="fas fa-address-card text-blue-500 mr-2"></i> Thông tin liên hệ</h3><button onclick="closeContactModal()" class="w-9 h-9 bg-white rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 font-bold text-xl shadow-sm">&times;</button></div>
+            <div class="p-6 space-y-4">
+                <div id="ct-user" class="font-black text-slate-700"></div>
+                <input type="tel" id="ct-phone" placeholder="Số điện thoại" class="w-full border-2 p-3 rounded-xl outline-none focus:border-blue-500">
+                <input type="email" id="ct-email" placeholder="Email" class="w-full border-2 p-3 rounded-xl outline-none focus:border-blue-500">
+                <div id="ct-msg" class="hidden text-sm font-bold p-3 rounded-xl"></div>
+            </div>
+            <div class="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-2"><button onclick="closeContactModal()" class="px-5 py-2.5 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100">Hủy</button><button onclick="saveContact()" id="ct-save" class="px-6 py-2.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md">Lưu</button></div>
         </div>
+    </div>
+
+    <!-- ===== MODAL: NHẬP CÂU HỎI TỪ EXCEL ===== -->
+    <div id="modal-import" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] flex flex-col overflow-hidden">
+            <div class="p-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center"><h3 class="text-xl font-black text-slate-800"><i class="fas fa-file-excel text-emerald-600 mr-2"></i> Nhập câu hỏi hàng loạt từ Excel</h3><button onclick="closeImportModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 font-bold text-xl shadow-sm">&times;</button></div>
+            <div class="p-6 space-y-5 overflow-y-auto flex-grow">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nhập vào</label><select id="imp-cat" class="w-full border-2 p-3 rounded-xl font-semibold outline-none"><option value="cb">Ngân hàng Cơ bản</option><option value="nc">Ngân hàng Nâng cao</option></select></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã đề mặc định <span class="font-normal text-slate-400">(nếu file không có cột Mã đề)</span></label><input type="text" id="imp-made" placeholder="VD: 12 hoặc NC_de02" class="w-full border-2 p-3 rounded-xl font-mono outline-none" oninput="if(impRows.length)impRevalidate()"></div>
+                    <div class="flex items-end"><button onclick="downloadImportTemplate()" class="w-full bg-slate-100 text-slate-700 px-4 py-3 rounded-xl font-bold hover:bg-slate-200"><i class="fas fa-download mr-1"></i> Tải file mẫu</button></div>
+                </div>
+                <label class="block border-2 border-dashed border-emerald-300 bg-emerald-50/50 rounded-2xl p-6 text-center cursor-pointer hover:bg-emerald-50 transition"><i class="fas fa-cloud-arrow-up text-3xl text-emerald-500 mb-2"></i><div class="font-bold text-slate-700">Chọn file Excel (.xlsx, .xls) hoặc .csv</div><div class="text-xs text-slate-500 mt-1">Cột cần có: <b>NoiDung, DapAnA, DapAnB, DapAnC, DapAnD, DapAnDung</b> và (tùy chọn) <b>MaDe</b>. Đáp án đúng nhiều đáp án viết dạng A,C</div><input type="file" id="imp-file" accept=".xlsx,.xls,.csv" class="hidden" onchange="impHandleFile(this)"></label>
+                <div id="imp-status" class="hidden text-sm font-bold p-3 rounded-xl"></div>
+                <div id="imp-preview" class="hidden space-y-3">
+                    <div id="imp-summary" class="flex gap-3 flex-wrap"></div>
+                    <div class="border border-slate-200 rounded-2xl overflow-hidden"><div class="overflow-auto" style="max-height:20rem"><table class="w-full text-left text-xs"><thead class="bg-slate-50 text-slate-500 uppercase sticky top-0"><tr><th class="p-2 w-12 text-center">Dòng</th><th class="p-2">Mã đề</th><th class="p-2">Nội dung</th><th class="p-2">A</th><th class="p-2">B</th><th class="p-2">C</th><th class="p-2">D</th><th class="p-2 text-center">Đúng</th><th class="p-2">Kiểm tra</th></tr></thead><tbody id="imp-table" class="divide-y divide-slate-100"></tbody></table></div></div>
+                </div>
+            </div>
+            <div class="p-5 border-t border-slate-100 bg-slate-50 flex justify-between items-center gap-3 flex-wrap"><div class="text-xs text-slate-500">Câu trùng (cùng mã đề + nội dung) sẽ tự động được bỏ qua.</div><div class="flex gap-2"><button onclick="closeImportModal()" class="px-5 py-2.5 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100">Đóng</button><button id="imp-go" onclick="impRun()" disabled class="px-6 py-2.5 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md disabled:opacity-40 disabled:cursor-not-allowed">Nhập vào hệ thống</button></div></div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-slate-900 text-slate-400 pt-12 pb-24 mt-12 border-t-4 border-blue-600">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-start">
+            <div class="space-y-4 text-center md:text-left">
+                <h4 class="font-black text-white text-2xl tracking-wider">CÔNG TY TNHH THÀNH DANH</h4>
+                <p class="text-sm font-medium"><i class="fas fa-map-marker-alt text-blue-500 mr-2 w-4"></i> Chi Nhánh 13 - 37/4/10 Hồ Văn Nhánh, Phường Đạo Thạnh, Đồng Tháp</p>
+                <p class="text-sm font-medium"><i class="fas fa-phone-volume text-blue-500 mr-2 w-4"></i> Hotline: <a href="tel:0969264305" class="text-white font-black text-lg hover:text-blue-400 transition">0969 264 305</a></p>
+                <div class="flex gap-3 flex-wrap justify-center md:justify-start pt-2">
+                    <a href="tel:0969264305" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-blue-500 transition text-sm"><i class="fas fa-phone mr-2"></i> Gọi ngay</a>
+                    <button onclick="openChat()" class="bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-slate-700 transition text-sm border border-slate-700"><i class="fas fa-comments mr-2"></i> Gửi câu hỏi</button>
+                    <a href="https://maps.app.goo.gl/9qdrd1w4oPDoYLEn8" target="_blank" rel="noopener" class="bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-slate-700 transition text-sm border border-slate-700"><i class="fas fa-location-arrow mr-2"></i> Chỉ đường</a>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden border border-slate-700 shadow-lg">
+                <iframe title="Bản đồ Trung tâm Tin học Thầy Tú" src="https://maps.google.com/maps?q=10.3691574,106.3436148&hl=vi&z=17&output=embed" width="100%" height="240" style="border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mt-10 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">&copy; 2026 CÔNG TY TNHH THÀNH DANH. Mọi quyền được bảo lưu.</div>
     </footer>
+
+    <!-- ===== NÚT LIÊN HỆ NỔI + KHUNG HỎI ĐÁP ===== -->
+    <div id="chat-widget" class="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
+        <div id="chat-panel" class="hidden w-[calc(100vw-2.5rem)] sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col" style="height:min(34rem,calc(100vh - 7.5rem))">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0"><i class="fas fa-headset"></i></div>
+                <div class="flex-grow min-w-0"><div class="font-black leading-tight">Hỗ trợ trực tuyến</div><div class="text-xs text-blue-100">Gửi câu hỏi, chúng tôi trả lời tại đây</div></div>
+                <a href="tel:0969264305" title="Gọi hotline 0969 264 305" class="w-9 h-9 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition"><i class="fas fa-phone text-sm"></i></a>
+                <button onclick="closeChat()" aria-label="Đóng" class="w-9 h-9 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition text-lg">&times;</button>
+            </div>
+            <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-3 bg-slate-50"></div>
+            <div class="p-3 border-t border-slate-100 bg-white space-y-2">
+                <div id="chat-guest-fields" class="space-y-2">
+                    <input type="text" id="chat-name" maxlength="100" placeholder="Họ và tên *" class="w-full border-2 border-slate-200 px-3 py-2 rounded-xl text-sm outline-none focus:border-blue-500">
+                    <div class="grid grid-cols-2 gap-2"><input type="tel" id="chat-phone" placeholder="Số điện thoại" class="w-full border-2 border-slate-200 px-3 py-2 rounded-xl text-sm outline-none focus:border-blue-500"><input type="email" id="chat-email" placeholder="Email" class="w-full border-2 border-slate-200 px-3 py-2 rounded-xl text-sm outline-none focus:border-blue-500"></div>
+                    <div class="text-[11px] text-slate-400">Vui lòng để lại số điện thoại <b>hoặc</b> email để chúng tôi liên hệ lại.</div>
+                </div>
+                <input type="text" id="chat-website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+                <div id="chat-error" class="hidden text-xs font-bold text-rose-600 bg-rose-50 p-2 rounded-lg"></div>
+                <div class="flex items-end gap-2"><textarea id="chat-input" rows="2" maxlength="1000" placeholder="Nhập câu hỏi của bạn..." class="flex-grow border-2 border-slate-200 px-3 py-2 rounded-xl text-sm outline-none focus:border-blue-500 resize-none"></textarea><button onclick="chatSend()" id="chat-send" aria-label="Gửi" class="w-11 h-11 shrink-0 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-md transition flex items-center justify-center"><i class="fas fa-paper-plane"></i></button></div>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div id="chat-hint" class="hidden sm:block bg-white text-slate-700 text-sm font-bold px-4 py-2 rounded-full shadow-lg border border-slate-100 cursor-pointer" onclick="openChat()">Bạn cần hỗ trợ? Chat với chúng tôi</div>
+            <button id="chat-fab" onclick="toggleChat()" aria-label="Mở khung hỏi đáp" class="chat-fab relative w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-xl shadow-blue-300/60 flex items-center justify-center text-2xl">
+                <span class="chat-ring absolute inset-0 rounded-full bg-blue-500 pointer-events-none"></span>
+                <i class="fas fa-comments relative"></i>
+                <span id="chat-badge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-black min-w-[1.5rem] h-6 px-1 rounded-full flex items-center justify-center border-2 border-white">1</span>
+            </button>
+        </div>
+    </div>
 
     <!-- ============================================== SCRIPT CHÍNH ============================================== -->
     <script>
@@ -820,8 +962,6 @@
             const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
             const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
             navigate('article'); window.scrollTo({ top: 0 });
-           
-            
         }
 
         // ================= CƠ CHẾ KHÓA TOÀN MÀN HÌNH =================
@@ -843,6 +983,7 @@
 
         // ================= ĐIỀU HƯỚNG CHÍNH =================
         function navigate(vName) {
+            if (typeof setChatVisible === 'function') setChatVisible(vName !== 'quiz' && vName !== 'loading');
             ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
             const target = document.getElementById('view-' + vName); if (target) target.classList.remove('hidden-view'); window.scrollTo(0, 0);
             if (vName !== 'quiz' && vName !== 'loading') { if (timerInterval) clearInterval(timerInterval); isTakingQuiz = false; exitFullscreen(); }
@@ -887,20 +1028,26 @@
                 const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: u, password: p }) }); const r = await res.json();
                 if (r.status === "success") {
                     isLoggedIn = true; studentInfo = { username: u, name: r.hoten, loai: r.loai }; userCred = { username: u, password: p, token: r.token }; document.getElementById('student-name-display').innerText = r.hoten;
-                    if (studentInfo.loai === 'admin') { loadAdminUsers(); navigate('admin'); } else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
+                    if (studentInfo.loai === 'admin') { loadAdminUsers(); startAdminPolling(); navigate('admin'); } else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
                 } else { err.innerText = r.message || "Sai thông tin!"; err.classList.remove('hidden'); }
             } catch (e) { err.innerText = "Lỗi kết nối!"; err.classList.remove('hidden'); }
             btn.disabled = false; btn.innerText = "VÀO HỆ THỐNG";
         }
         
         async function registerUser() {
-            const u = document.getElementById('reg-username').value.trim(), p = document.getElementById('reg-password').value.trim(), h = document.getElementById('reg-hoten').value.trim(), l = document.getElementById('reg-loai').value, msg = document.getElementById('reg-message'), btn = document.getElementById('reg-btn');
-            if (!u || !p || !h) return msg.innerText = "Nhập đủ thông tin!", msg.className = "text-sm mt-4 p-3 bg-red-100 text-red-700 block rounded-xl font-bold", void 0;
+            const g = id => document.getElementById(id), msg = g('reg-message'), btn = g('reg-btn');
+            const u = g('reg-username').value.trim(), p = g('reg-password').value.trim(), h = g('reg-hoten').value.trim(), l = g('reg-loai').value;
+            const phone = g('reg-phone').value.replace(/[\s.\-()]/g, ''), email = g('reg-email').value.trim();
+            const show = (t, ok) => { msg.innerText = t; msg.className = ok ? "text-sm mt-4 p-3 bg-emerald-100 text-emerald-800 font-bold block rounded-xl" : "text-sm mt-4 p-3 bg-red-100 text-red-700 font-bold block rounded-xl"; msg.classList.remove('hidden'); };
+            if (!u || !p || !h || !phone || !email) return show("Vui lòng nhập đầy đủ thông tin (kể cả số điện thoại và email)!", false);
+            if (!/^(0|\+?84)\d{9,10}$/.test(phone)) return show("Số điện thoại không hợp lệ! (VD: 0969264305)", false);
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return show("Email không hợp lệ!", false);
             btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...'; msg.classList.add('hidden');
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l }) }); const r = await res.json();
-                msg.innerText = r.message; msg.className = r.status === "success" ? "text-sm mt-4 p-3 bg-emerald-100 text-emerald-800 font-bold block rounded-xl" : "text-sm mt-4 p-3 bg-red-100 text-red-700 block rounded-xl"; msg.classList.remove('hidden'); if (r.status === "success") { document.getElementById('reg-username').value=''; document.getElementById('reg-password').value=''; document.getElementById('reg-hoten').value=''; }
-            } catch (e) { msg.innerText = "Lỗi mạng!"; msg.className = "text-sm mt-4 p-3 bg-red-100 text-red-700 block rounded-xl"; msg.classList.remove('hidden'); }
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l, sodienthoai: phone, email: email }) }); const r = await res.json();
+                show(r.message || 'Có lỗi xảy ra!', r.status === "success");
+                if (r.status === "success") ['reg-username', 'reg-password', 'reg-hoten', 'reg-phone', 'reg-email'].forEach(id => g(id).value = '');
+            } catch (e) { show("Lỗi mạng!", false); }
             btn.disabled = false; btn.innerText = "GỬI YÊU CẦU";
         }
 
@@ -975,19 +1122,23 @@
         }
 
         // ================= TÍNH NĂNG ADMIN MỞ RỘNG =================
-        function switchAdminTab(tab) {
-            ['users', 'articles', 'grading', 'exams', 'questions', 'settings'].forEach(t => { 
-                document.getElementById(`admin-${t}-section`).classList.add('hidden'); 
-                document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition"; 
-            });
-            document.getElementById(`admin-${tab}-section`).classList.remove('hidden'); 
-            document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold shadow-md";
-            if(tab === 'users') loadAdminUsers(); 
-            if(tab === 'settings') renderAdminSettings();
-            if(tab === 'articles') adminLoadArticles();
-            if(tab === 'grading') loadSubmissions();
-            if(tab === 'exams') loadExamResults();
-        }
+        let chatAdminTimer = null;
+function switchAdminTab(tab) {
+['users', 'stats', 'articles', 'grading', 'exams', 'questions', 'chat', 'settings'].forEach(t => {
+document.getElementById(`admin-${t}-section`).classList.add('hidden');
+document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition";
+});
+document.getElementById(`admin-${tab}-section`).classList.remove('hidden');
+document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold shadow-md";
+if (chatAdminTimer) { clearInterval(chatAdminTimer); chatAdminTimer = null; }
+if(tab === 'users') loadAdminUsers();
+if(tab === 'stats') loadStats();
+if(tab === 'settings') renderAdminSettings();
+if(tab === 'articles') adminLoadArticles();
+if(tab === 'grading') loadSubmissions();
+if(tab === 'exams') loadExamResults();
+if(tab === 'chat') { loadChatThreads(); chatAdminTimer = setInterval(() => { if (!document.hidden) loadChatThreads(true); }, 30000); }
+}
 
 
 
@@ -1101,6 +1252,8 @@
             document.getElementById('gm-file').innerText = s.tenfile;
             document.getElementById('gm-link').href = s.link;
             document.getElementById('gm-diem').value = hasScore(s.diem) ? parseFloat(s.diem) : '';
+const gmE = document.getElementById('gm-email'); gmE.disabled = !s.email; gmE.checked = !!s.email && !hasScore(s.diem);
+document.getElementById('gm-email-addr').innerText = s.email ? '(' + s.email + ')' : '(học viên chưa có email)';
             document.getElementById('gm-nhanxet').value = s.nhanxet || '';
             const msg = document.getElementById('gm-msg'); msg.classList.add('hidden');
             document.getElementById('modal-grade').classList.remove('hidden');
@@ -1125,9 +1278,9 @@
             const b1 = document.getElementById('gm-save'), b2 = document.getElementById('gm-save-next');
             b1.disabled = b2.disabled = true; const t1 = b1.innerHTML; b1.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             try {
-                const r = await postAdmin({ action: 'grade_submission', rowIndex: s.rowIndex, link: s.link, diem: raw, nhanxet });
+                const r = await postAdmin({ action: 'grade_submission', rowIndex: s.rowIndex, link: s.link, diem: raw, nhanxet, sendEmail: document.getElementById('gm-email').checked });
                 if (r.status === 'success') {
-                    s.diem = r.diem; s.nhanxet = r.nhanxet; s.thoigiancham = new Date().toISOString();
+                    const emailNote = r.emailed ? ' Đã gửi email cho học viên.' : (r.emailNote ? ' (' + r.emailNote + ')' : ''); s.diem = r.diem; s.nhanxet = r.nhanxet; s.thoigiancham = new Date().toISOString();
                     const idxBefore = gradeList.findIndex(x => x.rowIndex === s.rowIndex);
                     renderSubmissions();
                     if (goNext) {
@@ -1135,7 +1288,7 @@
                         const nextPending = adminSubs.filter(x => !hasScore(x.diem)).sort((a, b) => new Date(b.thoigian) - new Date(a.thoigian))[0];
                         const nxt = gradeList.slice(idxBefore + 1).find(x => !hasScore(x.diem)) || nextPending;
                         if (nxt) openGradeModal(nxt.rowIndex); else { closeGradeModal(); alert('Đã chấm xong tất cả bài nộp!'); }
-                    } else showMsg('Đã lưu điểm!', true);
+                    } else showMsg('Đã lưu điểm!' + emailNote, true);
                 } else showMsg(r.message || 'Lưu thất bại!', false);
             } catch (e) { showMsg('Lỗi kết nối, vui lòng thử lại!', false); }
             b1.disabled = b2.disabled = false; b1.innerHTML = t1;
@@ -1185,7 +1338,7 @@
                 <td class="p-4 text-center">${x.diem !== null ? `<span class="inline-block ${scoreColor(x.diem)} font-black px-3 py-1.5 rounded-lg">${fmtScore(x.diem)}</span>` : esc(x.diemso)}</td>
                 <td class="p-4 text-center font-bold text-slate-600">${esc(x.dung)}</td>
                 <td class="p-4 text-xs font-bold text-rose-500">${esc(x.ghichu)}</td>
-                <td class="p-4 text-center"><button onclick="viewHistDetail(${x.rowIndex})" class="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-600 hover:text-white transition"><i class="fas fa-eye mr-1"></i> Xem bài</button></td>
+                <td class="p-4 text-center"><button onclick="viewHistDetail(${x.rowIndex})" class="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-600 hover:text-white transition"><i class="fas fa-eye mr-1"></i> Xem bài</button>${x.email ? `<button onclick="emailExamResult(${x.rowIndex}, this)" title="Gửi email kết quả cho học viên" class="ml-1 bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-600 hover:text-white transition"><i class="fas fa-envelope"></i></button>` : ''}</td>
             </tr>`).join('');
         }
         function exportExamCSV() {
@@ -1198,18 +1351,19 @@
         }
 
         // TAB ADMIN: NGƯỜI DÙNG
-        async function loadAdminUsers() {
-            const tbody = document.getElementById('admin-users-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>`;
+        let adminUsersCache = [];
+async function loadAdminUsers() {
+            const tbody = document.getElementById('admin-users-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>`;
             try {
-                const resU = await api({ action: 'get_users' }); if (resU.status !== 'success') return tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-red-500 font-bold">${esc(resU.message || 'Lỗi tải dữ liệu')}</td></tr>`; const users = resU.data; tbody.innerHTML = ''; { const pd = users.filter(x => x.trangthai === 'pending').length, bd = document.getElementById('users-badge'); if (pd > 0) { bd.innerText = pd + ' chờ duyệt'; bd.classList.remove('hidden'); } else bd.classList.add('hidden'); }
-                if(users.length === 0) return tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">Chưa có người dùng.</td></tr>`;
+                const resU = await api({ action: 'get_users' }); if (resU.status !== 'success') return tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-red-500 font-bold">${esc(resU.message || 'Lỗi tải dữ liệu')}</td></tr>`; const users = resU.data; adminUsersCache = users; tbody.innerHTML = ''; { const pd = users.filter(x => x.trangthai === 'pending').length, bd = document.getElementById('users-badge'); if (pd > 0) { bd.innerText = pd + ' chờ duyệt'; bd.classList.remove('hidden'); } else bd.classList.add('hidden'); }
+                if(users.length === 0) return tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-500">Chưa có người dùng.</td></tr>`;
                 users.forEach(u => {
                     let stBadge = u.trangthai==='pending' ? `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ duyệt</span>` : (u.trangthai==='blocked' ? `<span class="bg-rose-100 text-rose-700 font-bold px-3 py-1.5 rounded-lg text-xs">Đã Khóa</span>` : `<span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1.5 rounded-lg text-xs">Hoạt động</span>`);
                     let acts = u.trangthai==='pending' ? `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:bg-emerald-600">Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-rose-600">Xóa</button>`
                         : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border border-slate-200 text-xs font-bold rounded-lg p-1.5 mr-1 text-slate-600 outline-none"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>ALL</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${u.trangthai==='active'?'blocked':'active'}', '${u.loai}')" class="${u.trangthai==='active'?'bg-orange-500':'bg-emerald-500'} text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:opacity-90">${u.trangthai==='active'?'Khóa':'Mở'}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-rose-600"><i class="fas fa-trash"></i></button>`;
-                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition"><td class="p-4 font-bold text-slate-700">${esc(u.username)}</td><td class="p-4"><button data-u="${esc(u.username)}" onclick="adminResetPassword(${u.rowIndex}, this.dataset.u)" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-100"><i class="fas fa-key mr-1"></i> Đặt lại</button></td><td class="p-4 font-semibold text-slate-700">${esc(u.hoten)}</td><td class="p-4 uppercase text-xs font-black text-blue-600">${u.loai}</td><td class="p-4 text-center">${stBadge}</td><td class="p-4 text-center whitespace-nowrap">${acts}</td></tr>`;
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition"><td class="p-4 font-bold text-slate-700">${esc(u.username)}</td><td class="p-4"><button data-u="${esc(u.username)}" onclick="adminResetPassword(${u.rowIndex}, this.dataset.u)" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-100"><i class="fas fa-key mr-1"></i> Đặt lại</button></td><td class="p-4 font-semibold text-slate-700">${esc(u.hoten)}</td><td class="p-4 text-xs text-slate-600 whitespace-nowrap"><div>${u.sodienthoai ? '<i class="fas fa-phone text-slate-400 mr-1"></i>' + esc(u.sodienthoai) : '<span class="text-slate-300">Chưa có SĐT</span>'}</div><div>${u.email ? '<i class="fas fa-envelope text-slate-400 mr-1"></i>' + esc(u.email) : '<span class="text-slate-300">Chưa có email</span>'}</div><button onclick="openContactModal(${u.rowIndex})" class="mt-1 text-blue-600 font-bold hover:underline"><i class="fas fa-pen mr-1"></i>Sửa</button></td><td class="p-4 uppercase text-xs font-black text-blue-600">${u.loai}</td><td class="p-4 text-center">${stBadge}</td><td class="p-4 text-center whitespace-nowrap">${acts}</td></tr>`;
                 });
-            } catch (e) { tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-6 font-bold">Lỗi tải dữ liệu</td></tr>`; }
+            } catch (e) { tbody.innerHTML = `<tr><td colspan="7" class="text-center text-red-500 p-6 font-bold">Lỗi tải dữ liệu</td></tr>`; }
         }
         async function updateUserStatus(rowIndex, status, loai) { await apiCheck({ action: 'update_user_status', rowIndex, trangthai: status, loai }); loadAdminUsers(); }
         async function adminResetPassword(rowIndex, username) {
@@ -1220,12 +1374,16 @@
         }
         async function adminDeleteUser(rowIndex) { if(!confirm("XÓA VĨNH VIỄN TÀI KHOẢN NÀY?")) return; await apiCheck({ action: 'delete_user', rowIndex: rowIndex }); loadAdminUsers(); }
         async function adminAddUser() {
-            const u = document.getElementById('admin-add-username').value.trim(), p = document.getElementById('admin-add-password').value.trim(), h = document.getElementById('admin-add-hoten').value.trim(), l = document.getElementById('admin-add-loai').value;
-            if (!u || !p || !h) return alert("Nhập đủ thông tin!"); await apiCheck({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l });
-            document.getElementById('admin-add-username').value=''; document.getElementById('admin-add-password').value=''; document.getElementById('admin-add-hoten').value=''; loadAdminUsers();
-        }
+const g = id => document.getElementById(id);
+const u = g('admin-add-username').value.trim(), p = g('admin-add-password').value.trim(), h = g('admin-add-hoten').value.trim(), l = g('admin-add-loai').value;
+const phone = g('admin-add-phone').value.trim(), email = g('admin-add-email').value.trim();
+if (!u || !p || !h) return alert("Nhập đủ thông tin!");
+const r = await apiCheck({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l, sodienthoai: phone, email: email });
+if (r && r.status === 'success') ['admin-add-username', 'admin-add-password', 'admin-add-hoten', 'admin-add-phone', 'admin-add-email'].forEach(id => g(id).value = '');
+loadAdminUsers();
+}
 
-        // TAB ADMIN: BÀI VIẾT (MỚI)
+// TAB ADMIN: BÀI VIẾT (MỚI)
         function adminLoadArticles() {
             const tbody = document.getElementById('admin-articles-table');
             tbody.innerHTML = '';
@@ -1521,6 +1679,351 @@
                 renderReviewCards(r.data.items);
             } catch (e) { alert("Lỗi tải bài làm"); navigate('history'); }
         }
+    
+        // ======================================================================
+        //  CÁC TÍNH NĂNG MỚI: EXCEL, THỐNG KÊ, NHẬP CÂU HỎI, EMAIL, HỎI ĐÁP
+        // ======================================================================
+        const fmtDT = d => { const t = new Date(d); return isNaN(t) ? '' : t.toLocaleString('vi-VN'); };
+        const fmtHM = d => { const t = new Date(d); return isNaN(t) ? '' : t.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + t.toLocaleDateString('vi-VN'); };
+        function flashMsg(el, text, ok) { el.innerText = text; el.className = 'text-sm font-bold p-3 rounded-xl ' + (ok ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'); el.classList.remove('hidden'); }
+
+        // ---------- Thư viện Excel (chỉ tải khi cần) ----------
+        let _xlsxPromise = null;
+        function loadXLSX() {
+            if (window.XLSX) return Promise.resolve();
+            if (!_xlsxPromise) _xlsxPromise = new Promise((res, rej) => {
+                const sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+                sc.onload = res; sc.onerror = () => { _xlsxPromise = null; rej(new Error('Không tải được thư viện Excel, vui lòng kiểm tra mạng!')); };
+                document.head.appendChild(sc);
+            });
+            return _xlsxPromise;
+        }
+        function makeSheet(rows, widths) { const ws = XLSX.utils.aoa_to_sheet(rows); ws['!cols'] = widths.map(w => ({ wch: w })); return ws; }
+        async function saveWorkbook(sheets, filename) {
+            try { await loadXLSX(); } catch (e) { return alert(e.message); }
+            const wb = XLSX.utils.book_new();
+            sheets.forEach(([name, rows, widths]) => XLSX.utils.book_append_sheet(wb, makeSheet(rows, widths), name));
+            XLSX.writeFile(wb, filename);
+        }
+        const rankOf = n => n >= 8 ? 'Giỏi' : (n >= 6.5 ? 'Khá' : (n >= 5 ? 'Trung bình' : 'Chưa đạt'));
+        const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`; };
+
+        // ---------- Xuất bảng điểm ra Excel ----------
+        async function exportExamXLSX() {
+            const list = examList.length ? examList : adminExams;
+            if (list.length === 0) return alert('Chưa có dữ liệu để xuất!');
+            const detail = [['STT', 'Họ tên', 'Username', 'Mã đề', 'Thời gian thi', 'Điểm', 'Xếp loại', 'Số câu đúng', 'Ghi chú']];
+            list.forEach((x, i) => detail.push([i + 1, x.hoten, x.username, x.made, fmtDT(x.thoigian), x.diem !== null ? x.diem : '', x.diem !== null ? rankOf(x.diem) : '', Number(x.dung) || 0, x.ghichu]));
+            const byStu = {}, byMade = {};
+            list.forEach(x => {
+                if (x.diem === null) return;
+                const a = byStu[x.username] || (byStu[x.username] = { hoten: x.hoten, n: 0, sum: 0, max: -1, min: 11, last: 0 });
+                a.n++; a.sum += x.diem; a.max = Math.max(a.max, x.diem); a.min = Math.min(a.min, x.diem); a.last = Math.max(a.last, new Date(x.thoigian).getTime() || 0);
+                const m = byMade[x.made] || (byMade[x.made] = { n: 0, sum: 0, pass: 0 }); m.n++; m.sum += x.diem; if (x.diem >= 5) m.pass++;
+            });
+            const stu = [['Họ tên', 'Username', 'Số lượt thi', 'Điểm trung bình', 'Cao nhất', 'Thấp nhất', 'Xếp loại (TB)', 'Lần thi gần nhất']];
+            Object.keys(byStu).sort((a, b) => String(byStu[a].hoten).localeCompare(String(byStu[b].hoten), 'vi')).forEach(u => { const a = byStu[u], avg = Math.round(a.sum / a.n * 100) / 100; stu.push([a.hoten, u, a.n, avg, a.max, a.min, rankOf(avg), fmtDT(a.last)]); });
+            const made = [['Mã đề', 'Số lượt', 'Điểm trung bình', 'Tỷ lệ đạt (%)']];
+            Object.keys(byMade).sort().forEach(k => { const m = byMade[k]; made.push([k, m.n, Math.round(m.sum / m.n * 100) / 100, Math.round(m.pass * 1000 / m.n) / 10]); });
+            await saveWorkbook([['Kết quả chi tiết', detail, [6, 26, 16, 14, 20, 8, 12, 12, 16]], ['Tổng hợp học viên', stu, [26, 16, 12, 16, 10, 10, 14, 20]], ['Thống kê theo đề', made, [14, 10, 16, 14]]], `ket_qua_thi_${stamp()}.xlsx`);
+        }
+        async function exportGradesXLSX() {
+            if (adminSubs.length === 0) return alert('Chưa có dữ liệu để xuất!');
+            const rows = [['STT', 'Họ tên', 'Username', 'Email', 'Tên file', 'Thời gian nộp', 'Điểm', 'Nhận xét', 'Thời gian chấm', 'Link file']];
+            [...adminSubs].sort((a, b) => String(a.hoten).localeCompare(String(b.hoten), 'vi')).forEach((x, i) => rows.push([i + 1, x.hoten, x.username, x.email || '', x.tenfile, fmtDT(x.thoigian), hasScore(x.diem) ? parseFloat(x.diem) : '', x.nhanxet, x.thoigiancham ? fmtDT(x.thoigiancham) : '', x.link]));
+            await saveWorkbook([['Điểm bài thực hành', rows, [6, 26, 16, 26, 30, 20, 8, 40, 20, 50]]], `diem_bai_thuc_hanh_${stamp()}.xlsx`);
+        }
+
+        // ---------- Gửi email kết quả thi cho 1 học viên ----------
+        async function emailExamResult(rowIndex, btn) {
+            if (!confirm('Gửi email kết quả thi này cho học viên?')) return;
+            const old = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            try { const r = await api({ action: 'email_exam_result', rowIndex }); alert(r.status === 'success' ? 'Đã gửi email cho học viên!' : (r.message || 'Gửi email thất bại!')); }
+            catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false; btn.innerHTML = old;
+        }
+
+        // ---------- Sửa SĐT / Email tài khoản ----------
+        let contactRow = null;
+        function openContactModal(rowIndex) {
+            const u = adminUsersCache.find(x => x.rowIndex === rowIndex); if (!u) return;
+            contactRow = rowIndex; document.getElementById('ct-user').innerText = `${u.hoten} (${u.username})`;
+            document.getElementById('ct-phone').value = u.sodienthoai || ''; document.getElementById('ct-email').value = u.email || '';
+            document.getElementById('ct-msg').classList.add('hidden'); document.getElementById('modal-contact').classList.remove('hidden');
+        }
+        function closeContactModal() { document.getElementById('modal-contact').classList.add('hidden'); contactRow = null; }
+        async function saveContact() {
+            const phone = document.getElementById('ct-phone').value.trim(), email = document.getElementById('ct-email').value.trim(), msg = document.getElementById('ct-msg');
+            if (phone && !/^(0|\+?84)\d{9,10}$/.test(phone.replace(/[\s.\-()]/g, ''))) return flashMsg(msg, 'Số điện thoại không hợp lệ!', false);
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return flashMsg(msg, 'Email không hợp lệ!', false);
+            const btn = document.getElementById('ct-save'); btn.disabled = true;
+            try { const r = await api({ action: 'update_user_contact', rowIndex: contactRow, sodienthoai: phone, email }); if (r.status === 'success') { closeContactModal(); loadAdminUsers(); } else flashMsg(msg, r.message || 'Lưu thất bại!', false); }
+            catch (e) { flashMsg(msg, 'Lỗi kết nối!', false); }
+            btn.disabled = false;
+        }
+
+        // ---------- THỐNG KÊ ----------
+        let adminStats = null;
+        async function loadStats() {
+            const cards = document.getElementById('stats-cards');
+            cards.innerHTML = '<div class="col-span-full p-8 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tổng hợp số liệu...</div>';
+            try {
+                const r = await api({ action: 'get_stats' });
+                if (r.status !== 'success') { cards.innerHTML = `<div class="col-span-full p-8 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải thống kê')}</div>`; return; }
+                adminStats = r.data; renderStats();
+            } catch (e) { cards.innerHTML = `<div class="col-span-full p-8 text-center text-red-500 font-bold">${esc(e.message || 'Lỗi kết nối')}</div>`; }
+        }
+        function statCard(label, value, color, sub, tab) {
+            return `<div ${tab ? `onclick="switchAdminTab('${tab}')"` : ''} class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm ${tab ? 'cursor-pointer hover:border-blue-300 hover:shadow-md transition' : ''}"><div class="text-xs font-bold text-slate-400 uppercase">${label}</div><div class="text-3xl font-black ${color} mt-1">${value}</div>${sub ? `<div class="text-xs text-slate-500 mt-1 font-medium">${sub}</div>` : ''}</div>`;
+        }
+        function renderStats() {
+            const st = adminStats; if (!st) return;
+            const fx = v => v === null || v === undefined ? '-' : String(v).replace('.', ',');
+            document.getElementById('stats-cards').innerHTML =
+                statCard('Tài khoản', st.users.total, 'text-slate-800', `${st.users.active || 0} hoạt động · ${st.users.pending || 0} chờ duyệt · ${st.users.blocked || 0} khóa`, 'users') +
+                statCard('Lượt thi', st.exams.total, 'text-blue-600', `${st.exams.students} học viên đã thi · ${st.exams.late} nộp quá giờ`, 'exams') +
+                statCard('Điểm trung bình', fx(st.exams.avg), 'text-teal-600', 'Thang điểm 10') +
+                statCard('Tỷ lệ đạt (≥ 5)', st.exams.passRate === null ? '-' : fx(st.exams.passRate) + '%', 'text-emerald-600') +
+                statCard('Chưa thi lần nào', st.exams.inactive, 'text-amber-600', 'Học viên đang hoạt động') +
+                statCard('Bài thực hành chờ chấm', st.submissions.pending, st.submissions.pending ? 'text-rose-500' : 'text-slate-800', `${st.submissions.graded}/${st.submissions.total} bài đã chấm` + (st.submissions.avg !== null ? ` · TB ${fx(st.submissions.avg)}` : ''), 'grading') +
+                statCard('Hỏi đáp chờ trả lời', st.chat.needReply, st.chat.needReply ? 'text-rose-500' : 'text-slate-800', `${st.chat.threads} hội thoại`, 'chat') +
+                statCard('Số mã đề đã được thi', st.byMade.length, 'text-indigo-600');
+            const maxD = Math.max(1, ...st.byDay.map(d => d.count));
+            document.getElementById('stats-days').innerHTML = `<div class="flex items-end gap-1.5" style="height:11rem">${st.byDay.map(d => `<div class="flex-1 flex flex-col items-center justify-end h-full" title="${esc(d.date)}: ${d.count} lượt${d.avg !== null ? ', điểm TB ' + d.avg : ''}"><span class="text-[10px] font-bold text-slate-500">${d.count || ''}</span><div class="w-full rounded-t-md ${d.count ? 'bg-blue-500' : 'bg-slate-100'}" style="height:${Math.max(d.count ? 4 : 2, d.count * 100 / maxD * 0.8)}%"></div><span class="text-[10px] text-slate-400 mt-1">${esc(d.date.slice(8) + '/' + d.date.slice(5, 7))}</span></div>`).join('')}</div>`;
+            const labels = ['0 - 2', '2 - 4', '4 - 6', '6 - 8', '8 - 10'], cols = ['bg-rose-500', 'bg-orange-400', 'bg-amber-400', 'bg-teal-500', 'bg-emerald-500'];
+            const tot = st.hist.reduce((a, b) => a + b, 0) || 1;
+            document.getElementById('stats-hist').innerHTML = st.hist.map((n, i) => `<div><div class="flex justify-between text-xs font-bold text-slate-600 mb-1"><span>${labels[i]} điểm</span><span>${n} (${Math.round(n * 100 / tot)}%)</span></div><div class="h-3 bg-slate-100 rounded-full overflow-hidden"><div class="${cols[i]} h-full rounded-full" style="width:${n * 100 / tot}%"></div></div></div>`).join('');
+            const bar = (p, c) => `<div class="flex items-center gap-2"><div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden"><div class="${c} h-full" style="width:${p}%"></div></div><span class="text-xs font-bold text-slate-600 w-12 text-right">${fx(p)}%</span></div>`;
+            document.getElementById('stats-made').innerHTML = st.byMade.length ? st.byMade.map(m => `<tr><td class="p-3 font-bold text-blue-600">${esc(m.made)}</td><td class="p-3 text-center font-bold">${m.count}</td><td class="p-3 text-center"><span class="inline-block ${scoreColor(m.avg)} font-black px-2.5 py-1 rounded-lg">${fx(m.avg)}</span></td><td class="p-3 w-44">${bar(m.passRate, 'bg-emerald-500')}</td></tr>`).join('') : '<tr><td colspan="4" class="p-6 text-center text-slate-400">Chưa có dữ liệu</td></tr>';
+            document.getElementById('stats-top').innerHTML = st.topStudents.length ? st.topStudents.map((x, i) => `<tr><td class="p-3 text-center font-black ${i < 3 ? 'text-amber-500' : 'text-slate-400'}">${i + 1}</td><td class="p-3"><div class="font-bold text-slate-700">${esc(x.hoten) || '(đã xóa)'}</div><div class="text-xs text-slate-400 font-mono">${esc(x.username)}</div></td><td class="p-3 text-center">${x.count}</td><td class="p-3 text-center font-black text-teal-600">${fx(x.avg)}</td><td class="p-3 text-center font-bold">${fx(x.best)}</td></tr>`).join('') : '<tr><td colspan="5" class="p-6 text-center text-slate-400">Chưa có dữ liệu</td></tr>';
+            document.getElementById('stats-hard').innerHTML = st.hardQuestions.length ? st.hardQuestions.map(q => `<tr><td class="p-3 font-medium text-slate-700">${esc(q.noidung)}</td><td class="p-3 text-center font-bold text-blue-600">${esc(q.made)}</td><td class="p-3 text-center font-black text-emerald-600">${esc(q.dapan.split('').join(', '))}</td><td class="p-3 text-center">${q.wrong}/${q.attempts}</td><td class="p-3">${bar(q.rate, 'bg-rose-500')}</td></tr>`).join('') : '<tr><td colspan="5" class="p-6 text-center text-slate-400">Chưa đủ dữ liệu (cần ít nhất 3 lượt làm mỗi câu)</td></tr>';
+        }
+        async function exportStatsXLSX() {
+            const st = adminStats; if (!st) return alert('Chưa có số liệu, vui lòng đợi tải xong!');
+            const ov = [['Chỉ tiêu', 'Giá trị'], ['Tổng tài khoản', st.users.total], ['Đang hoạt động', st.users.active || 0], ['Chờ duyệt', st.users.pending || 0], ['Bị khóa', st.users.blocked || 0], ['Tổng lượt thi', st.exams.total], ['Số học viên đã thi', st.exams.students], ['Học viên chưa thi lần nào', st.exams.inactive], ['Điểm trung bình', st.exams.avg === null ? '' : st.exams.avg], ['Tỷ lệ đạt (%)', st.exams.passRate === null ? '' : st.exams.passRate], ['Lượt nộp quá giờ', st.exams.late], ['Bài thực hành đã nộp', st.submissions.total], ['Bài thực hành đã chấm', st.submissions.graded], ['Bài thực hành chờ chấm', st.submissions.pending], ['Hỏi đáp chờ trả lời', st.chat.needReply]];
+            const made = [['Mã đề', 'Số lượt', 'Điểm trung bình', 'Tỷ lệ đạt (%)']].concat(st.byMade.map(m => [m.made, m.count, m.avg, m.passRate]));
+            const top = [['Hạng', 'Họ tên', 'Username', 'Số lượt', 'Điểm TB', 'Cao nhất']].concat(st.topStudents.map((x, i) => [i + 1, x.hoten, x.username, x.count, x.avg, x.best]));
+            const hard = [['Nội dung câu hỏi', 'Mã đề', 'Đáp án đúng', 'Số lượt', 'Số lượt sai', 'Tỷ lệ sai (%)']].concat(st.hardQuestions.map(q => [q.noidung, q.made, q.dapan, q.attempts, q.wrong, q.rate]));
+            const days = [['Ngày', 'Số lượt thi', 'Điểm TB']].concat(st.byDay.map(d => [d.date, d.count, d.avg === null ? '' : d.avg]));
+            await saveWorkbook([['Tổng quan', ov, [30, 14]], ['Theo mã đề', made, [14, 10, 16, 14]], ['Top học viên', top, [8, 26, 16, 10, 10, 10]], ['Câu sai nhiều', hard, [70, 10, 12, 10, 12, 14]], ['14 ngày gần đây', days, [14, 14, 12]]], `bao_cao_thong_ke_${stamp()}.xlsx`);
+        }
+
+        // ---------- NHẬP CÂU HỎI TỪ EXCEL ----------
+        let impRows = [];
+        const IMP_COLS = { MaDe: ['made', 'madethi', 'dethi'], NoiDung: ['noidung', 'cauhoi', 'noidungcauhoi', 'question'], DapAnA: ['dapana', 'a', 'phuongana', 'luachona'], DapAnB: ['dapanb', 'b', 'phuonganb', 'luachonb'], DapAnC: ['dapanc', 'c', 'phuonganc', 'luachonc'], DapAnD: ['dapand', 'd', 'phuongand', 'luachond'], DapAnDung: ['dapandung', 'dapan', 'dapandungnhat', 'dapanchinhxac', 'correct', 'ketqua'], ID_CauHoi: ['idcauhoi', 'id', 'macauhoi'] };
+        const normHeader = h => String(h || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const impLetters = v => Array.from(new Set(String(v === null || v === undefined ? '' : v).toUpperCase().replace(/[^A-D]/g, '').split(''))).sort();
+        function openImportModal() { impRows = []; document.getElementById('imp-file').value = ''; document.getElementById('imp-preview').classList.add('hidden'); document.getElementById('imp-status').classList.add('hidden'); document.getElementById('imp-go').disabled = true; document.getElementById('imp-cat').value = (document.getElementById('admin-q-cat') || {}).value || 'cb'; document.getElementById('modal-import').classList.remove('hidden'); }
+        function closeImportModal() { document.getElementById('modal-import').classList.add('hidden'); }
+        function impCheck(q) {
+            if (!q.MaDe) return 'Thiếu mã đề';
+            if (!q.NoiDung) return 'Thiếu nội dung';
+            const opts = ['A', 'B', 'C', 'D'].filter(k => q['DapAn' + k]);
+            if (opts.length < 2) return 'Cần ≥ 2 đáp án';
+            const c = impLetters(q.DapAnDung);
+            if (!c.length) return 'Đáp án đúng phải là A-D';
+            if (c.some(k => !q['DapAn' + k])) return 'Đáp án đúng trỏ vào ô trống';
+            return '';
+        }
+        function impRevalidate() {
+            const def = document.getElementById('imp-made').value.trim();
+            impRows.forEach(r => { r.q.MaDe = r.rawMade || def; r.err = impCheck(r.q); });
+            impRender();
+        }
+        async function impHandleFile(input) {
+            const f = input.files[0]; if (!f) return;
+            const st = document.getElementById('imp-status'); flashMsg(st, 'Đang đọc file...', true);
+            try {
+                await loadXLSX();
+                const wb = XLSX.read(await f.arrayBuffer(), { type: 'array' });
+                const aoa = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, defval: '', raw: false });
+                let hi = -1; for (let i = 0; i < Math.min(aoa.length, 10); i++) if (aoa[i].some(c => IMP_COLS.NoiDung.indexOf(normHeader(c)) >= 0)) { hi = i; break; }
+                if (hi < 0) throw new Error('Không tìm thấy hàng tiêu đề. Hãy dùng đúng tên cột: NoiDung, DapAnA, DapAnB, DapAnC, DapAnD, DapAnDung (tải file mẫu để xem).');
+                const idx = {}; aoa[hi].forEach((c, i) => { const n = normHeader(c); Object.keys(IMP_COLS).forEach(k => { if (idx[k] === undefined && IMP_COLS[k].indexOf(n) >= 0) idx[k] = i; }); });
+                const miss = ['NoiDung', 'DapAnA', 'DapAnB', 'DapAnDung'].filter(k => idx[k] === undefined);
+                if (miss.length) throw new Error('File thiếu cột: ' + miss.join(', '));
+                const def = document.getElementById('imp-made').value.trim(); impRows = [];
+                for (let i = hi + 1; i < aoa.length; i++) {
+                    const row = aoa[i]; if (row.every(c => String(c).trim() === '')) continue;
+                    const get = k => idx[k] === undefined ? '' : String(row[idx[k]] === undefined ? '' : row[idx[k]]).trim();
+                    const q = { _row: i + 1, ID_CauHoi: get('ID_CauHoi'), NoiDung: get('NoiDung'), DapAnA: get('DapAnA'), DapAnB: get('DapAnB'), DapAnC: get('DapAnC'), DapAnD: get('DapAnD'), DapAnDung: get('DapAnDung') };
+                    const rawMade = get('MaDe'); q.MaDe = rawMade || def; impRows.push({ q, rawMade, err: impCheck(q) });
+                }
+                if (!impRows.length) throw new Error('File không có dòng dữ liệu nào.');
+                st.classList.add('hidden'); impRender();
+            } catch (e) { flashMsg(st, e.message || 'Không đọc được file!', false); document.getElementById('imp-preview').classList.add('hidden'); document.getElementById('imp-go').disabled = true; }
+        }
+        function impRender() {
+            const ok = impRows.filter(r => !r.err).length, bad = impRows.length - ok, cut = (v, n) => esc(String(v).length > n ? String(v).slice(0, n) + '…' : v);
+            document.getElementById('imp-summary').innerHTML = `<span class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">Tổng: ${impRows.length} dòng</span><span class="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-xl text-sm">Hợp lệ: ${ok}</span><span class="${bad ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-400'} font-bold px-4 py-2 rounded-xl text-sm">Lỗi: ${bad}</span>`;
+            document.getElementById('imp-table').innerHTML = impRows.slice(0, 300).map(r => `<tr class="${r.err ? 'bg-rose-50' : ''}"><td class="p-2 text-center text-slate-400 font-mono">${r.q._row}</td><td class="p-2 font-bold text-blue-600">${esc(r.q.MaDe)}</td><td class="p-2">${cut(r.q.NoiDung, 70)}</td><td class="p-2">${cut(r.q.DapAnA, 18)}</td><td class="p-2">${cut(r.q.DapAnB, 18)}</td><td class="p-2">${cut(r.q.DapAnC, 18)}</td><td class="p-2">${cut(r.q.DapAnD, 18)}</td><td class="p-2 text-center font-black text-emerald-600">${esc(impLetters(r.q.DapAnDung).join(','))}</td><td class="p-2 font-bold ${r.err ? 'text-rose-600' : 'text-emerald-600'}">${r.err ? esc(r.err) : 'OK'}</td></tr>`).join('') + (impRows.length > 300 ? `<tr><td colspan="9" class="p-2 text-center text-slate-400">... và ${impRows.length - 300} dòng nữa</td></tr>` : '');
+            document.getElementById('imp-preview').classList.remove('hidden');
+            const go = document.getElementById('imp-go'); go.disabled = ok === 0; go.innerText = ok ? `Nhập ${ok} câu hợp lệ` : 'Nhập vào hệ thống';
+        }
+        async function impRun() {
+            const valid = impRows.filter(r => !r.err).map(r => Object.assign({}, r.q, { DapAnDung: impLetters(r.q.DapAnDung).join(',') }));
+            if (!valid.length) return;
+            const cat = document.getElementById('imp-cat').value, go = document.getElementById('imp-go'), st = document.getElementById('imp-status');
+            if (!confirm(`Nhập ${valid.length} câu hỏi vào ngân hàng ${cat === 'nc' ? 'NÂNG CAO' : 'CƠ BẢN'}?`)) return;
+            go.disabled = true; let added = 0, skipped = 0; const errs = [];
+            try {
+                for (let i = 0; i < valid.length; i += 200) {
+                    flashMsg(st, `Đang nhập... ${Math.min(i + 200, valid.length)}/${valid.length}`, true);
+                    const r = await api({ action: 'import_questions', category: cat, questions: valid.slice(i, i + 200) });
+                    if (r.status !== 'success') throw new Error(r.message || 'Nhập thất bại!');
+                    added += r.added; skipped += r.skipped; (r.errors || []).forEach(e => errs.push(`Dòng ${e.row}: ${e.message}`));
+                }
+                flashMsg(st, `Hoàn tất: đã thêm ${added} câu, bỏ qua ${skipped} câu trùng` + (errs.length ? `, ${errs.length} câu bị máy chủ từ chối (${errs.slice(0, 3).join('; ')})` : '') + '.', true);
+                impRows = []; document.getElementById('imp-preview').classList.add('hidden'); document.getElementById('imp-file').value = '';
+                if (document.getElementById('admin-q-made').value.trim()) adminLoadQuestions();
+            } catch (e) { flashMsg(st, (added ? `Đã thêm ${added} câu trước khi lỗi: ` : '') + (e.message || 'Lỗi kết nối!'), false); go.disabled = false; }
+        }
+        async function downloadImportTemplate() {
+            const rows = [['MaDe', 'NoiDung', 'DapAnA', 'DapAnB', 'DapAnC', 'DapAnD', 'DapAnDung'], ['12', 'Phím tắt để sao chép trong Windows là gì?', 'Ctrl + C', 'Ctrl + V', 'Ctrl + X', 'Ctrl + Z', 'A'], ['12', 'Chọn các hàm thống kê trong Excel (chọn 2 đáp án)', '=SUM()', '=IF()', '=AVERAGE()', '=VLOOKUP()', 'A,C']];
+            const guide = [['HƯỚNG DẪN'], ['1. Mỗi dòng là một câu hỏi, giữ nguyên hàng tiêu đề ở sheet đầu tiên.'], ['2. MaDe: mã đề (VD 12, hoặc NC_de02 cho ngân hàng Nâng cao). Có thể bỏ cột này và nhập "Mã đề mặc định" trên màn hình.'], ['3. DapAnDung: A, B, C hoặc D. Nhiều đáp án đúng viết dạng A,C.'], ['4. Cần tối thiểu 2 đáp án; ô đáp án để trống nếu không dùng.'], ['5. Tối đa 300 câu mỗi lượt gửi (hệ thống tự chia nhỏ).']];
+            await saveWorkbook([['Cau hoi', rows, [8, 60, 22, 22, 22, 22, 12]], ['Huong dan', guide, [110]]], 'mau_nhap_cau_hoi.xlsx');
+        }
+
+        // ======================================================================
+        //  HỎI ĐÁP TRỰC TUYẾN - PHÍA KHÁCH / HỌC VIÊN
+        // ======================================================================
+        let chatThreadId = null, chatMsgs = [], chatSending = false, chatPollTimer = null;
+        const chatKey = () => 'chatThread_' + (isLoggedIn ? studentInfo.username : 'guest');
+        const chatSeenKey = id => 'chatSeen_' + id;
+        const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+        const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+        async function chatApi(payload) {
+            const body = Object.assign({}, payload); if (isLoggedIn && userCred) body.token = userCred.token;
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(body) }); return res.json();
+        }
+        const chatIsOpen = () => !document.getElementById('chat-panel').classList.contains('hidden');
+        function setChatVisible(v) { const w = document.getElementById('chat-widget'); if (!w) return; w.classList.toggle('hidden', !v); if (!v && chatIsOpen()) closeChat(); }
+        function toggleChat() { chatIsOpen() ? closeChat() : openChat(); }
+        function setChatBadge(n) { const b = document.getElementById('chat-badge'); if (!b) return; b.innerText = n > 9 ? '9+' : n; b.classList.toggle('hidden', !n); }
+        function chatShowError(t) { const e = document.getElementById('chat-error'); e.innerText = t || ''; e.classList.toggle('hidden', !t); }
+        function chatUpdateFields() {
+            const has = !!chatThreadId;
+            document.getElementById('chat-guest-fields').classList.toggle('hidden', has || isLoggedIn);
+            if (!has) { const pr = lsGet('chatProfile'); if (pr && !isLoggedIn) { try { const p = JSON.parse(pr); ['name', 'phone', 'email'].forEach(k => { const el = document.getElementById('chat-' + k); if (el && !el.value) el.value = p[k] || ''; }); } catch (e) {} } }
+        }
+        function openChat() {
+            chatThreadId = lsGet(chatKey()) || null;
+            document.getElementById('chat-panel').classList.remove('hidden'); document.getElementById('chat-fab').classList.add('open'); document.getElementById('chat-hint').classList.add('hidden'); lsSet('chatHintSeen', '1');
+            chatShowError(''); chatUpdateFields(); renderChat(true); setChatBadge(0);
+            if (chatThreadId) chatFetch(); startChatPolling();
+            setTimeout(() => { const el = document.getElementById(chatThreadId || isLoggedIn ? 'chat-input' : 'chat-name'); if (el) el.focus(); }, 80);
+        }
+        function closeChat() { document.getElementById('chat-panel').classList.add('hidden'); document.getElementById('chat-fab').classList.remove('open'); startChatPolling(); }
+        function chatBubble(m) {
+            const mine = m.tu !== 'admin';
+            return `<div class="flex ${mine ? 'justify-end' : 'justify-start'}"><div class="max-w-[85%]"><div class="${mine ? 'bg-blue-600 text-white rounded-2xl rounded-br-md' : 'bg-white border border-slate-200 text-slate-700 rounded-2xl rounded-bl-md'} px-4 py-2.5 text-sm whitespace-pre-wrap break-words shadow-sm">${mine ? '' : '<div class="text-[11px] font-black text-blue-600 mb-0.5">Tư vấn viên</div>'}${esc(m.noidung)}</div><div class="text-[10px] text-slate-400 mt-1 ${mine ? 'text-right' : ''}">${esc(fmtHM(m.thoigian))}</div></div></div>`;
+        }
+        function renderChat(force) {
+            const box = document.getElementById('chat-messages'), near = force || box.scrollHeight - box.scrollTop - box.clientHeight < 90;
+            box.innerHTML = `<div class="bg-white border border-slate-200 rounded-2xl rounded-bl-md px-4 py-3 text-sm text-slate-600 shadow-sm"><b class="text-blue-600">Xin chào!</b> ${chatThreadId ? 'Tin nhắn của bạn đã được gửi. Tư vấn viên sẽ trả lời ngay tại đây.' : 'Hãy để lại câu hỏi, chúng tôi sẽ phản hồi sớm nhất. Cần gấp? Gọi hotline <a class="font-black text-blue-600" href="tel:0969264305">0969 264 305</a>.'}</div>` + chatMsgs.map(chatBubble).join('');
+            if (near) box.scrollTop = box.scrollHeight;
+        }
+        async function chatFetch() {
+            chatThreadId = lsGet(chatKey()) || null; if (!chatThreadId) { chatMsgs = []; setChatBadge(0); return; }
+            try {
+                const r = await chatApi({ action: 'get_thread', threadId: chatThreadId }); if (r.status !== 'success') return;
+                chatMsgs = r.data || [];
+                if (chatMsgs.length === 0) { lsSet(chatKey(), ''); chatThreadId = null; chatUpdateFields(); }   // hội thoại đã bị xóa
+                const key = chatSeenKey(chatThreadId || '');
+                if (chatIsOpen()) { if (chatThreadId) lsSet(key, String(chatMsgs.length)); renderChat(); setChatBadge(0); }
+                else { const seen = parseInt(lsGet(key) || '0') || 0; setChatBadge(chatMsgs.slice(seen).filter(m => m.tu === 'admin').length); }
+            } catch (e) {}
+        }
+        function startChatPolling() {
+            if (chatPollTimer) clearInterval(chatPollTimer);
+            chatPollTimer = setInterval(() => { if (!document.hidden && lsGet(chatKey())) chatFetch(); }, chatIsOpen() ? 12000 : 60000);
+        }
+        async function chatSend() {
+            if (chatSending) return;
+            const ta = document.getElementById('chat-input'), text = ta.value.trim(); if (!text) return;
+            const payload = { action: 'send_message', noidung: text, threadId: chatThreadId || '', website: document.getElementById('chat-website').value };
+            if (!chatThreadId && !isLoggedIn) {
+                const name = document.getElementById('chat-name').value.trim(), phone = document.getElementById('chat-phone').value.replace(/[\s.\-()]/g, ''), email = document.getElementById('chat-email').value.trim();
+                if (!name) return chatShowError('Vui lòng nhập họ và tên!');
+                if (!phone && !email) return chatShowError('Vui lòng để lại số điện thoại hoặc email!');
+                if (phone && !/^(0|\+?84)\d{9,10}$/.test(phone)) return chatShowError('Số điện thoại không hợp lệ!');
+                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return chatShowError('Email không hợp lệ!');
+                Object.assign(payload, { hoten: name, sodienthoai: phone, email: email }); lsSet('chatProfile', JSON.stringify({ name, phone, email }));
+            }
+            chatShowError(''); chatSending = true; const btn = document.getElementById('chat-send'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            try {
+                const r = await chatApi(payload);
+                if (r.status === 'success') {
+                    if (r.threadId) { chatThreadId = r.threadId; lsSet(chatKey(), r.threadId); }
+                    ta.value = ''; chatMsgs.push({ tu: 'user', noidung: text, thoigian: new Date().toISOString() }); chatUpdateFields(); renderChat(true); chatFetch();
+                } else chatShowError(r.message || 'Gửi thất bại, vui lòng thử lại!');
+            } catch (e) { chatShowError('Lỗi kết nối, vui lòng thử lại!'); }
+            chatSending = false; btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        }
+        document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); chatSend(); } });
+        document.addEventListener('visibilitychange', () => { if (!document.hidden && lsGet(chatKey())) chatFetch(); });
+        if (!lsGet('chatHintSeen')) setTimeout(() => { if (!chatIsOpen()) document.getElementById('chat-hint').classList.remove('hidden'); }, 4000);
+        setTimeout(() => { if (lsGet(chatKey())) chatFetch(); startChatPolling(); }, 3000);
+
+        // ======================================================================
+        //  HỎI ĐÁP TRỰC TUYẾN - PHÍA ADMIN
+        // ======================================================================
+        let chatThreads = [], chatActiveId = null, adminPollTimer = null;
+        function setAdminChatBadge(n) { const b = document.getElementById('chat-admin-badge'); if (!b) return; b.innerText = n; b.classList.toggle('hidden', !n); }
+        async function refreshChatBadge() {
+            if (!isLoggedIn || studentInfo.loai !== 'admin') return;
+            try { const r = await api({ action: 'get_threads' }); if (r.status === 'success') { chatThreads = r.data; setAdminChatBadge(chatThreads.filter(t => t.needReply).length); } } catch (e) {}
+        }
+        function startAdminPolling() { refreshChatBadge(); if (adminPollTimer) clearInterval(adminPollTimer); adminPollTimer = setInterval(() => { if (!document.hidden) refreshChatBadge(); }, 90000); }
+        async function loadChatThreads(silent) {
+            const list = document.getElementById('chat-thread-list');
+            if (!silent) list.innerHTML = '<div class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</div>';
+            try {
+                const r = await api({ action: 'get_threads' });
+                if (r.status !== 'success') { if (!silent) list.innerHTML = `<div class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</div>`; return; }
+                chatThreads = r.data; setAdminChatBadge(chatThreads.filter(t => t.needReply).length); renderChatThreads();
+                if (silent && chatActiveId) { const t = chatThreads.find(x => x.id === chatActiveId); if (t && !document.getElementById('chat-admin-input').value) openChatThread(chatActiveId, true); }
+            } catch (e) { if (!silent) list.innerHTML = '<div class="p-6 text-center text-red-500 font-bold">Lỗi kết nối</div>'; }
+        }
+        function renderChatThreads() {
+            const list = document.getElementById('chat-thread-list');
+            if (!chatThreads.length) { list.innerHTML = '<div class="p-8 text-center text-slate-400 font-medium">Chưa có câu hỏi nào.</div>'; return; }
+            list.innerHTML = chatThreads.map(t => `<div data-id="${esc(t.id)}" onclick="openChatThread(this.dataset.id)" class="p-4 cursor-pointer hover:bg-blue-50 transition ${t.id === chatActiveId ? 'bg-blue-50' : ''}"><div class="flex justify-between items-start gap-2"><div class="font-bold text-slate-800 truncate">${esc(t.hoten)}${t.username ? ' <span class="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-bold">HV</span>' : ''}</div>${t.needReply ? '<span class="shrink-0 text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full font-bold">Chờ trả lời</span>' : '<span class="shrink-0 text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Đã trả lời</span>'}</div><div class="text-xs text-slate-500 mt-1 truncate">${t.last.tu === 'admin' ? 'Bạn: ' : ''}${esc(t.last.noidung)}</div><div class="text-[10px] text-slate-400 mt-1">${esc(fmtHM(t.last.thoigian))} · ${t.count} tin</div></div>`).join('');
+        }
+        async function openChatThread(id, silent) {
+            chatActiveId = id; renderChatThreads();
+            const head = document.getElementById('chat-admin-head'), box = document.getElementById('chat-admin-msgs');
+            if (!silent) box.innerHTML = '<div class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin"></i></div>';
+            try {
+                const r = await api({ action: 'get_thread_admin', threadId: id });
+                if (r.status !== 'success') { box.innerHTML = `<div class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi')}</div>`; return; }
+                const i = r.info;
+                head.className = 'p-4 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center gap-x-5 gap-y-1';
+                head.innerHTML = `<div class="font-black text-slate-800 text-lg">${esc(i.hoten)}</div>${i.sdt ? `<a href="tel:${esc(i.sdt)}" class="text-sm font-bold text-blue-600 hover:underline"><i class="fas fa-phone mr-1"></i>${esc(i.sdt)}</a>` : ''}${i.email ? `<a href="mailto:${esc(i.email)}" class="text-sm font-bold text-blue-600 hover:underline"><i class="fas fa-envelope mr-1"></i>${esc(i.email)}</a>` : ''}${i.username ? `<span class="text-xs font-mono text-slate-400">tài khoản: ${esc(i.username)}</span>` : ''}`;
+                const near = !silent || box.scrollHeight - box.scrollTop - box.clientHeight < 90;
+                box.innerHTML = r.data.map(m => { const mine = m.tu === 'admin'; return `<div class="flex ${mine ? 'justify-end' : 'justify-start'}"><div class="max-w-[80%]"><div class="${mine ? 'bg-blue-600 text-white rounded-2xl rounded-br-md' : 'bg-white border border-slate-200 text-slate-700 rounded-2xl rounded-bl-md'} px-4 py-2.5 text-sm whitespace-pre-wrap break-words shadow-sm">${esc(m.noidung)}</div><div class="text-[10px] text-slate-400 mt-1 ${mine ? 'text-right' : ''}">${mine ? 'Bạn · ' : ''}${esc(fmtHM(m.thoigian))}</div></div></div>`; }).join('');
+                if (near) box.scrollTop = box.scrollHeight;
+                document.getElementById('chat-admin-reply').classList.remove('hidden');
+                const cb = document.getElementById('chat-admin-email'); cb.disabled = !i.email; if (!silent) cb.checked = !!i.email;
+                document.getElementById('chat-admin-email-wrap').classList.toggle('opacity-50', !i.email);
+            } catch (e) { box.innerHTML = '<div class="p-6 text-center text-red-500 font-bold">Lỗi kết nối</div>'; }
+        }
+        async function sendAdminReply() {
+            const ta = document.getElementById('chat-admin-input'), text = ta.value.trim(), msg = document.getElementById('chat-admin-msg'); if (!text || !chatActiveId) return;
+            const btn = document.getElementById('chat-admin-send'); btn.disabled = true;
+            try {
+                const r = await api({ action: 'reply_thread', threadId: chatActiveId, noidung: text, sendEmail: document.getElementById('chat-admin-email').checked });
+                if (r.status === 'success') { ta.value = ''; flashMsg(msg, r.emailed ? 'Đã gửi trả lời và email cho người hỏi.' : ('Đã gửi trả lời.' + (r.emailNote ? ' ' + r.emailNote : '')), true); await openChatThread(chatActiveId, true); loadChatThreads(true); }
+                else flashMsg(msg, r.message || 'Gửi thất bại!', false);
+            } catch (e) { flashMsg(msg, 'Lỗi kết nối!', false); }
+            btn.disabled = false; setTimeout(() => msg.classList.add('hidden'), 6000);
+        }
+        async function deleteChatThread() {
+            if (!chatActiveId || !confirm('Xóa vĩnh viễn hội thoại này?')) return;
+            const r = await apiCheck({ action: 'delete_thread', threadId: chatActiveId });
+            if (r && r.status === 'success') { chatActiveId = null; document.getElementById('chat-admin-reply').classList.add('hidden'); document.getElementById('chat-admin-msgs').innerHTML = ''; document.getElementById('chat-admin-head').className = 'p-4 border-b border-slate-100 bg-slate-50/50 text-slate-400 text-sm font-medium flex items-center'; document.getElementById('chat-admin-head').innerText = 'Chọn một hội thoại ở bên trái để xem và trả lời.'; loadChatThreads(); }
+        }
+        document.getElementById('chat-admin-input').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendAdminReply(); } });
     </script>
 </body>
 </html>
