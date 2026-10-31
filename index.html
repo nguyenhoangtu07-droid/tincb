@@ -157,7 +157,7 @@
             </div>
             <h1 id="article-title" class="text-3xl md:text-4xl font-black text-slate-800 mb-6 leading-tight tracking-tight"></h1>
             <div class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-500 mb-10 border-b border-slate-100 pb-6">
-                <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="far fa-calendar-alt mr-2 text-blue-500"></i> Cập nhật mới nhất</span>
+                <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="far fa-calendar-alt mr-2 text-blue-500"></i> <span id="article-date">Cập nhật mới nhất</span></span>
                 <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Tin học</span></span>
             </div>
             <div id="article-content" class="article-content text-slate-700 text-lg"></div>
@@ -690,78 +690,136 @@
 
         // ================= KHỞI ĐỘNG HỆ THỐNG (FETCH CONFIG & ARTICLES) =================
         async function initializeSystem() {
+            // 1. Tải cấu hình (lỗi ở đây KHÔNG được làm hỏng phần bài viết)
             try {
-                // 1. Tải Cấu hình
                 const resConfig = await fetch(API_URL + "?action=get_config");
                 const configData = await resConfig.json();
                 if (configData && configData.so_de_cb) {
                     systemConfig.so_de_cb = configData.so_de_cb; systemConfig.so_de_nc = configData.so_de_nc; ['thoi_gian','tron_cau','tron_dap','hien_dap'].forEach(k => { if (configData[k] !== undefined) systemConfig[k] = configData[k]; });
                     if (configData.videos && configData.videos.cb) configData.videos.cb.forEach(v => v.id = extractYouTubeID(v.id));
                     if (configData.videos && configData.videos.nc) configData.videos.nc.forEach(v => v.id = extractYouTubeID(v.id));
-                    if (configData.videos && (configData.videos.cb.length > 0 || configData.videos.nc.length > 0)) systemConfig.videos = configData.videos;
+                    if (configData.videos && ((configData.videos.cb || []).length > 0 || (configData.videos.nc || []).length > 0)) systemConfig.videos = configData.videos;
                 }
-                
-                // 2. Tải Bài Học từ CSDL
-                const resArt = await fetch(API_URL + "?action=get_articles");
-                dbArticles = await resArt.json();
-                renderHomeArticles(); // Render ra Trang chủ
-                renderNavArticles();  // Render ra Menu thả xuống
-            } catch (error) {
-                renderFallbackHomeArticles(); // Nếu lỗi thì nạp bài mẫu
-            }
-        }
-        initializeSystem(); // Chạy ngay khi mở web
+            } catch (error) { console.warn('Không tải được cấu hình:', error); }
 
-        // ================= XỬ LÝ RENDER BÀI HỌC =================
+            // 2. Tải bài học: hiện ngay bản lưu tạm (nếu có) rồi cập nhật từ máy chủ
+            renderArticleSkeleton();
+            try {
+                const cached = JSON.parse(sessionStorage.getItem('articlesCache') || 'null');
+                if (Array.isArray(cached) && cached.length) { dbArticles = cached; renderHomeArticles(); renderNavArticles(); }
+            } catch (e) {}
+            try { await loadArticles(); renderHomeArticles(); renderNavArticles(); }
+            catch (error) { console.warn('Không tải được bài viết:', error); if (dbArticles.length === 0) renderFallbackHomeArticles(); }
+        }
+        setTimeout(initializeSystem, 0); // Chạy sau khi toàn bộ script đã nạp xong
+
+        // ================= XỬ LÝ BÀI HỌC =================
+        const DEFAULT_COVER = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200';
+        // Tên cột trong Google Sheet có thể bị viết khác (có dấu, có khoảng trắng...) -> quy về 1 tên chuẩn
+        const ARTICLE_ALIASES = { mabai:'MaBai', ma:'MaBai', id:'MaBai', tieude:'TieuDe', title:'TieuDe', linkanh:'LinkAnh', linkanhbia:'LinkAnh', anhbia:'LinkAnh', image:'LinkAnh', tomtat:'TomTat', mota:'TomTat', noidung:'NoiDung', noidunghtml:'NoiDung', content:'NoiDung', phanloai:'PhanLoai', category:'PhanLoai', ngaytao:'NgayTao', date:'NgayTao' };
+        function articleKey(h) {
+            const k = String(h || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/\(.*$/, '').replace(/[^a-z0-9]/g, '');
+            return ARTICLE_ALIASES[k] || null;
+        }
+        // Đổi link chia sẻ Google Drive thành link ảnh hiển thị được
+        function fixImageUrl(u) {
+            u = String(u || '').trim();
+            const m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/);
+            return m ? 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1200' : u;
+        }
+        // Chuẩn hóa 1 dòng bài viết: luôn trả về đủ trường, KHÔNG BAO GIỜ có giá trị undefined
+        function normalizeArticle(raw) {
+            const out = { _rowIndex: raw._rowIndex, MaBai: '', TieuDe: '', LinkAnh: '', TomTat: '', NoiDung: '', PhanLoai: '', NgayTao: '' };
+            Object.keys(raw).forEach(h => {
+                if (h === '_rowIndex') return;
+                const k = Object.prototype.hasOwnProperty.call(out, h) ? h : articleKey(h);
+                if (k && raw[h] !== undefined && raw[h] !== null && raw[h] !== '') out[k] = String(raw[h]);
+            });
+            // Tự sửa trường hợp hàng tiêu đề thiếu cột "Tóm tắt" (cột Nội dung chứa tóm tắt, cột Phân loại chứa HTML)
+            if (out.PhanLoai.length > 40 && /<[a-z!]/i.test(out.PhanLoai) && !/<[a-z!]/i.test(out.NoiDung)) {
+                out.TomTat = out.NoiDung; out.NoiDung = out.PhanLoai; out.PhanLoai = '';
+            }
+            out.MaBai = out.MaBai.trim(); out.TieuDe = out.TieuDe.trim(); out.LinkAnh = fixImageUrl(out.LinkAnh);
+            if (!out.MaBai) out.MaBai = 'row' + out._rowIndex;
+            return out;
+        }
+        async function loadArticles() {
+            const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 15000);
+            try {
+                const res = await fetch(API_URL + "?action=get_articles", { signal: ctrl.signal });
+                const raw = await res.json();
+                if (!Array.isArray(raw)) throw new Error((raw && raw.message) || 'Dữ liệu bài viết không hợp lệ');
+                dbArticles = raw.map(normalizeArticle).filter(a => a.TieuDe)
+                    .sort((a, b) => (Date.parse(b.NgayTao) || 0) - (Date.parse(a.NgayTao) || 0) || b._rowIndex - a._rowIndex); // mới nhất lên đầu
+                try { sessionStorage.setItem('articlesCache', JSON.stringify(dbArticles)); } catch (e) {}
+            } finally { clearTimeout(timer); }
+        }
+        function catLabel(c) { c = String(c || '').trim(); const m = { cb: 'CƠ BẢN', nc: 'NÂNG CAO', vp: 'VĂN PHÒNG', gemini: 'AI' }; return m[c.toLowerCase()] || (c ? c.toUpperCase() : 'KHÓA HỌC'); }
+        function fmtDate(d) { const t = Date.parse(d); return t ? new Date(t).toLocaleDateString('vi-VN') : ''; }
+
+        // Làm sạch HTML bài viết: bỏ script/on*=/javascript:, chỉ cho nhúng iframe YouTube/Vimeo, giữ <style> của bài
+        function renderArticleHtml(raw) {
+            if (!raw) return '';
+            const doc = new DOMParser().parseFromString(String(raw), 'text/html');
+            doc.querySelectorAll('script,object,embed,link,meta,title,base,form').forEach(n => n.remove());
+            doc.querySelectorAll('iframe').forEach(n => { if (!/^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com)\//i.test(n.getAttribute('src') || '')) n.remove(); });
+            doc.querySelectorAll('*').forEach(el => Array.from(el.attributes).forEach(at => {
+                const n = at.name.toLowerCase(), v = at.value.trim().toLowerCase();
+                if (n.startsWith('on') || (['href', 'src', 'xlink:href', 'action', 'formaction'].indexOf(n) >= 0 && v.startsWith('javascript:'))) el.removeAttribute(at.name);
+            }));
+            const styles = Array.from(doc.head.querySelectorAll('style')).map(x => x.outerHTML).join('');
+            return styles + doc.body.innerHTML;
+        }
+
+        function articleCard(a) {
+            return `
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" data-id="${esc(a.MaBai)}" onclick="showArticle(this.dataset.id)">
+                    <div class="relative overflow-hidden aspect-[4/3]">
+                        <div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div>
+                        <img src="${esc(a.LinkAnh || DEFAULT_COVER)}" loading="lazy" alt="${esc(a.TieuDe)}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" onerror="this.onerror=null;this.src='${DEFAULT_COVER}'">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">${esc(catLabel(a.PhanLoai))}</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${esc(a.TieuDe)}</h3>
+                            <p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">${esc(a.TomTat || 'Xem nội dung chi tiết bài học...')}</p>
+                        </div>
+                        <div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div>
+                    </div>
+                </div>`;
+        }
+        function renderArticleSkeleton() {
+            const c = document.getElementById('home-articles-container'); if (!c || c.children.length) return;
+            c.innerHTML = Array(3).fill('<div class="bg-white rounded-3xl overflow-hidden border border-slate-100 animate-pulse"><div class="aspect-[4/3] bg-slate-200"></div><div class="p-6 space-y-3"><div class="h-5 bg-slate-200 rounded w-3/4"></div><div class="h-3 bg-slate-100 rounded"></div><div class="h-3 bg-slate-100 rounded w-5/6"></div></div></div>').join('');
+        }
         function renderHomeArticles() {
             const container = document.getElementById('home-articles-container');
-            if(dbArticles.length === 0) { renderFallbackHomeArticles(); return; }
-            container.innerHTML = '';
-            // Render 3 bài mới nhất (hoặc tất cả)
-            const displayArts = dbArticles.slice(0, 6);
-            displayArts.forEach(art => {
-                const catText = art.PhanLoai ? art.PhanLoai.toUpperCase() : 'KHÓA HỌC';
-                container.innerHTML += `
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" onclick="showArticle('${art.MaBai}')">
-                        <div class="relative overflow-hidden aspect-[4/3]">
-                            <div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div>
-                            <img src="${art.LinkAnh}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600'">
-                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">${catText}</div>
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${art.TieuDe}</h3>
-                                <p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">${art.TomTat || 'Xem nội dung chi tiết bài học...'}</p>
-                            </div>
-                            <div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div>
-                        </div>
-                    </div>
-                `;
-            });
+            if (dbArticles.length === 0) { renderFallbackHomeArticles(); return; }
+            container.innerHTML = dbArticles.slice(0, 6).map(articleCard).join('');
         }
         function renderFallbackHomeArticles() {
-            // Đã có sẵn trong HTML tĩnh, bỏ qua nếu lỗi
+            // Máy chủ lỗi / chưa có bài: hiện 3 bài mẫu để trang không bị trống
+            const container = document.getElementById('home-articles-container'); if (!container) return;
+            container.innerHTML = Object.keys(fallbackArticles).map(k => { const f = fallbackArticles[k]; return articleCard({ MaBai: k, TieuDe: f.title, LinkAnh: f.image, TomTat: '', PhanLoai: f.category }); }).join('');
         }
         function renderNavArticles() {
             const navMenu = document.getElementById('nav-courses');
-            if(navMenu && dbArticles.length > 0) {
-                navMenu.innerHTML = '';
-                dbArticles.forEach(art => {
-                    navMenu.innerHTML += `<a href="javascript:void(0)" onclick="showArticle('${art.MaBai}')" class="block px-5 py-3.5 hover:bg-blue-50 hover:text-blue-600 font-semibold border-b border-gray-50 transition line-clamp-1" title="${art.TieuDe}">${art.TieuDe}</a>`;
-                });
+            if (navMenu && dbArticles.length > 0) {
+                navMenu.innerHTML = dbArticles.map(a => `<a href="javascript:void(0)" data-id="${esc(a.MaBai)}" onclick="showArticle(this.dataset.id)" class="block px-5 py-3.5 hover:bg-blue-50 hover:text-blue-600 font-semibold border-b border-gray-50 transition line-clamp-1" title="${esc(a.TieuDe)}">${esc(a.TieuDe)}</a>`).join('');
             }
         }
         function showArticle(id) {
-            let art = dbArticles.find(a => a.MaBai == id);
-            if(!art) art = fallbackArticles[id]; // Lấy fallback nếu ID cứng
-            if(art) { 
-                document.getElementById('article-title').innerText = art.TieuDe || art.title; 
-                document.getElementById('article-img').src = art.LinkAnh || art.image; 
-                document.getElementById('article-content').innerHTML = art.NoiDung || art.content; 
-                const catEl = document.getElementById('article-category');
-                if(catEl) catEl.innerText = (art.PhanLoai || "Khóa học").toUpperCase();
-                navigate('article'); 
-            }
+            let art = dbArticles.find(a => String(a.MaBai) === String(id));
+            if (!art && fallbackArticles[id]) { const f = fallbackArticles[id]; art = { TieuDe: f.title, LinkAnh: f.image, NoiDung: f.content, PhanLoai: f.category, NgayTao: '' }; }
+            if (!art) return;
+            document.getElementById('article-title').textContent = art.TieuDe || 'Bài viết';
+            const img = document.getElementById('article-img');
+            img.onerror = function () { this.onerror = null; this.src = DEFAULT_COVER; };
+            img.src = art.LinkAnh || DEFAULT_COVER;
+            document.getElementById('article-content').innerHTML = renderArticleHtml(art.NoiDung) || '<p class="italic text-slate-400">Bài viết chưa có nội dung.</p>';
+            const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
+            const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
+            navigate('article'); window.scrollTo({ top: 0 });
         }
 
         // ================= CƠ CHẾ KHÓA TOÀN MÀN HÌNH =================
@@ -1176,14 +1234,14 @@
             dbArticles.forEach((art, idx) => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                        <td class="p-4 font-mono font-bold text-blue-600 text-xs">${art.MaBai}</td>
+                        <td class="p-4 font-mono font-bold text-blue-600 text-xs">${esc(art.MaBai)}</td>
                         <td class="p-4">
                             <div class="flex items-center gap-3">
-                                <img src="${art.LinkAnh}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'">
-                                <span class="font-bold text-slate-700 leading-snug line-clamp-2">${art.TieuDe}</span>
+                                <img src="${esc(art.LinkAnh || DEFAULT_COVER)}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'">
+                                <span class="font-bold text-slate-700 leading-snug line-clamp-2">${esc(art.TieuDe)}</span>
                             </div>
                         </td>
-                        <td class="p-4 uppercase text-xs font-black text-slate-400 tracking-wider">${art.PhanLoai}</td>
+                        <td class="p-4 uppercase text-xs font-black text-slate-400 tracking-wider">${esc(art.PhanLoai)}</td>
                         <td class="p-4 text-center whitespace-nowrap">
                             <button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button>
                             <button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button>
@@ -1229,9 +1287,10 @@
             btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Đang tải lên...";
             try { 
                 const res = await apiCheck({ action: 'save_article', rowIndex: rowIndex || null, article: a }); 
-                // Cập nhật lại Database cục bộ
-                const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json();
-                closeArticleModal(); adminLoadArticles(); renderHomeArticles(); renderNavArticles();
+                if (res && res.status === 'success') {
+                    await loadArticles(); // Cập nhật lại dữ liệu cục bộ
+                    closeArticleModal(); adminLoadArticles(); renderHomeArticles(); renderNavArticles();
+                }
             } catch(e) { alert("Lỗi kết nối"); }
             btn.disabled = false; btn.innerHTML = "<i class='fas fa-cloud-upload-alt mr-2'></i> Đăng Bài Viết";
         }
@@ -1241,7 +1300,7 @@
             const art = dbArticles[index];
             try {
                 await apiCheck({ action: 'delete_article', rowIndex: art._rowIndex });
-                const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json();
+                await loadArticles();
                 adminLoadArticles(); renderHomeArticles(); renderNavArticles();
             } catch(e) {}
         }
