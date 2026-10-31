@@ -10,19 +10,24 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .hidden-view { display: none !important; }
+        
         .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
         .spinner { border: 4px solid rgba(59, 130, 246, 0.2); width: 40px; height: 40px; border-radius: 50%; border-left-color: #3b82f6; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .article-content p { margin-bottom: 1.25rem; line-height: 1.8; color: #475569; font-size: 1.1rem; }
+        
+        .article-content p { margin-bottom: 1rem; line-height: 1.8; color: #475569; font-size: 1.05rem; }
         .article-content h3 { font-size: 1.35rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; color: #1e293b; }
         .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #475569; line-height: 1.8; }
-        .article-content li { margin-bottom: 0.5rem; }
+        
         @keyframes pulse-ring { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
         .btn-bounce { animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1); }
         .text-gradient { background: linear-gradient(to right, #2563eb, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .card-hover { transition: all 0.3s ease; }
         .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
+        /* Custom Scrollbar cho bảng/div */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -31,10 +36,12 @@
 </head>
 <body class="text-slate-800 antialiased relative selection:bg-blue-200 selection:text-blue-900">
 
+    <!-- Header Banner -->
     <header class="w-full bg-white flex justify-center border-b border-gray-100 shadow-sm">
-        <img src="banner.jpg" alt="Banner" class="w-full max-w-5xl max-h-[220px] object-cover mx-auto" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop';">
+        <img src="banner.jpg" alt="Banner Công Ty Thành Danh" class="w-full max-w-5xl max-h-[220px] object-cover mx-auto" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop';">
     </header>
 
+    <!-- Navigation Bar -->
     <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white shadow-lg sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center">
             <div class="flex flex-wrap items-center">
@@ -44,8 +51,8 @@
                     <button class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center">
                         <i class="fas fa-graduation-cap mr-1"></i> Khóa học <i class="fas fa-chevron-down ml-1 text-xs opacity-70"></i>
                     </button>
-                    <!-- Chứa danh sách Bài viết tự động load từ GG Sheets -->
-                    <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-64 shadow-2xl rounded-2xl border border-gray-100 z-50 overflow-hidden mt-1" id="nav-courses">
+                    <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-56 shadow-2xl rounded-2xl border border-gray-100 z-50 mt-1" id="nav-courses">
+                        <!-- Render Động -->
                     </div>
                 </div>
 
@@ -59,12 +66,13 @@
                     </div>
                 </div>
 
+                <!-- Nút Nộp Bài (Chỉ hiện khi Đăng nhập) -->
                 <button id="nav-upload-btn" onclick="requireLoginForUpload()" class="hidden py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-teal-200">
-                    <i class="fas fa-cloud-upload-alt mr-1"></i> Thực Hành
+                    <i class="fas fa-cloud-upload-alt mr-1"></i> Nộp Thực Hành
                 </button>
 
                 <button onclick="requireLoginForQuiz()" class="py-4 px-4 bg-white/20 hover:bg-white/30 transition font-bold text-sm uppercase tracking-wide rounded-xl my-1 mr-1 flex items-center text-yellow-300 shadow-inner">
-                    <i class="fas fa-laptop-code mr-2"></i> Luyện thi
+                    <i class="fas fa-laptop-code mr-2"></i> Luyện thi trắc nghiệm
                 </button>
 
                 <button id="nav-admin-btn" onclick="navigate('admin')" class="hidden py-4 px-4 hover:bg-red-500 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 bg-red-600 text-white shadow-md">
@@ -84,7 +92,7 @@
         </div>
     </nav>
 
-    <!-- MÀN HÌNH KHÓA (ANTI-CHEAT) -->
+    <!-- MÀN HÌNH KHÓA CHỐNG GIAN LẬN THI -->
     <div id="fullscreen-warning" class="hidden fixed inset-0 bg-slate-900 bg-opacity-95 z-[9999] flex flex-col justify-center items-center text-center p-6 text-white backdrop-blur-sm">
         <i class="fas fa-exclamation-triangle text-7xl text-rose-500 mb-6 drop-shadow-lg pulse-ring"></i>
         <h2 class="text-5xl font-black mb-4 text-white tracking-tight">CẢNH BÁO GIÁM THỊ</h2>
@@ -92,12 +100,12 @@
         <p class="text-lg mb-8 text-rose-200 font-bold bg-rose-900/50 px-8 py-3 rounded-2xl border border-rose-500/30">
             Số lần vi phạm: <span id="violation-count" class="text-3xl text-rose-400 mx-2">1</span> / 3 lần
         </p>
-        <button onclick="enterFullscreen()" class="bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold py-4 px-12 rounded-2xl text-xl shadow-[0_0_40px_rgba(37,99,235,0.4)] transition hover:-translate-y-1">
+        <button onclick="enterFullscreen()" class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 text-white font-bold py-4 px-12 rounded-2xl text-xl shadow-[0_0_40px_rgba(37,99,235,0.4)] transition hover:-translate-y-1">
             <i class="fas fa-expand mr-2"></i> Tiếp tục làm bài
         </button>
     </div>
 
-    <!-- MAIN APP -->
+    <!-- ================= MAIN CONTENT ================= -->
     <main class="max-w-7xl mx-auto px-4 py-10 min-h-[65vh]">
         
         <!-- TRANG CHỦ -->
@@ -107,10 +115,14 @@
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight text-gradient">Khám Phá Khóa Học</h2>
                     <div class="h-1 w-20 bg-blue-500 rounded-full ml-4"></div>
                 </div>
-                <!-- Box render các thẻ bài viết tự động -->
-                <div id="home-articles-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
+                
+                <!-- Hiển thị Bài viết Động -->
+                <div id="home-articles-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                    <!-- Sẽ được render qua JS -->
+                </div>
             </div>
             
+            <!-- Cột Học Viên Sidebar -->
             <div class="w-full lg:w-1/4">
                 <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden sticky top-24 transform transition hover:shadow-xl">
                     <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-5 text-center font-black text-xl text-white tracking-wide">
@@ -120,37 +132,37 @@
                         <p class="text-sm text-slate-500 font-medium leading-relaxed mb-4">Đăng nhập để vào hệ thống Nộp bài và Luyện thi trực tuyến.</p>
                         
                         <button onclick="requireLoginForUpload()" class="w-full bg-teal-500 text-white font-bold py-3.5 rounded-xl hover:bg-teal-600 shadow-md shadow-teal-200 transition-all hover:-translate-y-0.5 border border-teal-400">
-                            <i class="fas fa-cloud-upload-alt mr-1"></i> NỘP THỰC HÀNH
+                            <i class="fas fa-cloud-upload-alt mr-1"></i> NỘP BÀI THỰC HÀNH
                         </button>
 
                         <button onclick="requireLoginForQuiz()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 shadow-md shadow-blue-200 transition-all hover:-translate-y-0.5 mt-2">
-                            <i class="fas fa-laptop-code mr-1"></i> LUYỆN TRẮC NGHIỆM
+                            <i class="fas fa-laptop-code mr-1"></i> LUYỆN THI TRẮC NGHIỆM
                         </button>
                         
                         <div class="pt-4 border-t border-slate-100 mt-2" id="widget-reg-container">
                             <p class="text-xs text-slate-400 mb-3 font-semibold uppercase">Chưa có tài khoản?</p>
-                            <button onclick="navigate('register')" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black py-3 rounded-xl shadow-md uppercase text-sm hover:scale-105 transition-transform">Đăng Ký Ngay</button>
+                            <button onclick="navigate('register')" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black py-3 rounded-xl shadow-md uppercase text-sm">Đăng Ký Ngay</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- BÀI VIẾT CHI TIẾT -->
+        <!-- ================= BÀI VIẾT CHI TIẾT ================= -->
         <div id="view-article" class="hidden-view bg-white p-8 md:p-12 rounded-3xl shadow-lg max-w-4xl mx-auto border border-slate-100">
-            <button onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm transition"><i class="fas fa-arrow-left mr-2"></i> Quay lại trang chủ</button>
+            <button onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm"><i class="fas fa-arrow-left mr-2"></i> Quay lại trang chủ</button>
             <div class="rounded-2xl overflow-hidden mb-8 shadow-sm">
-                <img id="article-img" src="" class="w-full h-[400px] object-cover" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200'">
+                <img id="article-img" src="" class="w-full h-[400px] object-cover">
             </div>
             <h1 id="article-title" class="text-3xl md:text-4xl font-black text-slate-800 mb-6 leading-tight tracking-tight"></h1>
             <div class="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-500 mb-10 border-b border-slate-100 pb-6">
                 <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="far fa-calendar-alt mr-2 text-blue-500"></i> Cập nhật mới nhất</span>
-                <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Thông tin chung</span></span>
+                <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Tin học</span></span>
             </div>
             <div id="article-content" class="article-content text-slate-700 text-lg"></div>
         </div>
 
-        <!-- NỘP BÀI THỰC HÀNH -->
+        <!-- ================= GIAO DIỆN NỘP BÀI THỰC HÀNH ================= -->
         <div id="view-upload" class="hidden-view max-w-5xl mx-auto space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 text-center relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-teal-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
@@ -161,33 +173,41 @@
                     <i class="fas fa-file-upload text-5xl text-teal-400 mb-4 drop-shadow-sm"></i>
                     <h3 class="text-lg font-bold text-slate-700 mb-2">Chọn file từ máy tính của bạn</h3>
                     <p class="text-xs text-slate-500 mb-6 uppercase tracking-widest font-semibold">Chỉ hỗ trợ: DOCX, XLSX, PDF, ZIP (Tối đa 5MB)</p>
+                    
                     <input type="file" id="file-upload" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-teal-600 file:text-white hover:file:bg-teal-700 transition cursor-pointer bg-white rounded-full border border-slate-200 shadow-sm p-1">
+                    
                     <button onclick="handleFileUpload()" id="btn-upload" class="mt-6 w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-black py-3.5 rounded-xl shadow-lg shadow-teal-200 hover:-translate-y-1 transition-all uppercase tracking-wider">
                         Tải File Lên Hệ Thống
                     </button>
                 </div>
             </div>
 
-            <!-- Lịch sử nộp -->
+            <!-- Bảng Lịch sử file đã nộp -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
-                    <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-folder-open text-blue-500 mr-2"></i> File Đã Nộp & Điểm Số</h3>
+                    <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-folder-open text-blue-500 mr-2"></i> File Đã Nộp Của Bạn</h3>
                     <button onclick="fetchUploadedFiles()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 transition"><i class="fas fa-sync-alt mr-1"></i> Làm mới</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-widest font-bold">
                             <tr>
-                                <th class="p-4 pl-8 w-1/3">Tên File</th><th class="p-4">Ngày nộp</th><th class="p-4 text-center">Điểm số</th><th class="p-4">Lời phê / Nhận xét</th><th class="p-4 pr-8 text-center">Xem</th>
+                                <th class="p-4 pl-8">Tên File (Đã mã hóa an toàn)</th>
+                                <th class="p-4">Ngày nộp</th>
+                                <th class="p-4 text-center">Điểm</th>
+                                <th class="p-4">Nhận xét của giảng viên</th>
+                                <th class="p-4 pr-8 text-center">Hành động</th>
                             </tr>
                         </thead>
-                        <tbody id="upload-history-table" class="text-sm divide-y divide-slate-100 font-medium"></tbody>
+                        <tbody id="upload-history-table" class="text-sm divide-y divide-slate-100 font-medium">
+                            <!-- Dữ liệu render qua JS -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- VIDEO GIẢI ĐỀ -->
+        <!-- ================= VIDEO GIẢI ĐỀ ================= -->
         <div id="view-videos" class="hidden-view space-y-8">
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center flex-wrap gap-6">
                 <div>
@@ -195,30 +215,27 @@
                     <p class="text-slate-500 font-medium">Tuyển tập video bài giảng hướng dẫn giải chi tiết</p>
                 </div>
                 <div class="flex gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
-                    <button onclick="openVideoSection('cb')" id="btn-tab-video-cb" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition">Cơ bản</button>
-                    <button onclick="openVideoSection('nc')" id="btn-tab-video-nc" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-200 transition">Nâng cao</button>
+                    <button onclick="openVideoSection('cb')" id="btn-tab-video-cb" class="px-6 py-2.5 rounded-xl font-bold text-sm transition">Cơ bản</button>
+                    <button onclick="openVideoSection('nc')" id="btn-tab-video-nc" class="px-6 py-2.5 rounded-xl font-bold text-sm transition">Nâng cao</button>
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-1 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 max-h-[600px] flex flex-col">
-                    <h3 class="font-black text-slate-800 mb-4 pb-4 border-b border-slate-100 flex justify-between items-center text-lg">
-                        Danh sách bài giảng <span id="video-count-badge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-black">0</span>
-                    </h3>
+                    <h3 class="font-black text-slate-800 mb-4 pb-4 border-b border-slate-100 flex justify-between items-center text-lg">Danh sách bài giảng <span id="video-count-badge" class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-black">0</span></h3>
                     <div id="video-list-container" class="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-grow"></div>
                 </div>
                 <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col">
                     <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-900 shadow-inner">
-                        <iframe id="main-video-player" class="w-full h-full" src="" title="Video giải đề" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe id="main-video-player" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <div class="mt-6 p-5 bg-slate-50 rounded-2xl border border-slate-100">
                         <h4 id="current-video-title" class="text-xl font-bold text-slate-800 leading-snug">Đang tải video...</h4>
-                        <p class="text-sm text-slate-500 mt-2 font-medium"><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Chọn bài học trong danh sách bên trái để phát.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ĐĂNG NHẬP / ĐĂNG KÝ -->
+        <!-- ================= ĐĂNG NHẬP / ĐĂNG KÝ ================= -->
         <div id="view-login" class="hidden-view bg-white p-10 rounded-3xl shadow-xl max-w-md mx-auto mt-10 border border-slate-100 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
             <div class="text-center mb-8">
@@ -226,12 +243,9 @@
                 <h2 class="text-3xl font-black text-slate-800">Đăng Nhập</h2>
             </div>
             <div class="space-y-5">
-                <input type="text" id="username" placeholder="Mã học viên..." class="w-full border-2 border-slate-200 p-3.5 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none transition font-medium">
+                <input type="text" id="username" placeholder="Mã học viên (Tên đăng nhập)..." class="w-full border-2 border-slate-200 p-3.5 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none transition font-medium">
                 <input type="password" id="password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3.5 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none transition font-medium">
                 <button onclick="loginUser()" id="login-btn" class="w-full bg-blue-600 text-white font-black py-4 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200 mt-2">VÀO HỆ THỐNG</button>
-                <div class="text-center pt-4 border-t border-slate-100 mt-4">
-                    <span class="text-sm text-slate-500 font-medium">Học viên mới? </span><button onclick="navigate('register')" class="text-sm text-blue-600 font-bold hover:text-blue-800 transition">Tạo tài khoản</button>
-                </div>
             </div>
             <div id="login-error" class="text-red-600 font-semibold text-sm mt-5 text-center hidden p-3 bg-red-50 border border-red-100 rounded-xl"></div>
         </div>
@@ -239,117 +253,142 @@
         <div id="view-register" class="hidden-view bg-white p-10 rounded-3xl shadow-xl max-w-md mx-auto mt-10 border border-slate-100 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
             <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-emerald-600 text-2xl shadow-sm"><i class="fas fa-user-plus"></i></div>
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-emerald-600 text-2xl"><i class="fas fa-user-plus"></i></div>
                 <h2 class="text-3xl font-black text-slate-800">Đăng Ký Mới</h2>
             </div>
             <div class="space-y-4">
-                <input type="text" id="reg-username" placeholder="Tên đăng nhập (Viết liền)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-medium">
-                <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-medium">
-                <input type="text" id="reg-hoten" placeholder="Họ tên đầy đủ" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-medium">
-                <select id="reg-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-emerald-500 outline-none transition font-bold text-slate-700 cursor-pointer">
-                    <option value="cb">Tin học Cơ Bản</option><option value="nc">Tin học Nâng Cao</option><option value="cbnc">Combo</option>
+                <input type="text" id="reg-username" placeholder="Tên đăng nhập (Viết liền, không dấu)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
+                <input type="password" id="reg-password" placeholder="Mật khẩu" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
+                <input type="text" id="reg-hoten" placeholder="Họ và tên đầy đủ" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
+                <select id="reg-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-bold text-slate-700">
+                    <option value="cb">Tin học Cơ Bản</option><option value="nc">Tin học Nâng Cao</option><option value="cbnc">Gói Combo (Cơ bản + Nâng cao)</option>
                 </select>
                 <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 mt-4">GỬI YÊU CẦU</button>
-                <div class="text-center pt-4 border-t border-slate-100 mt-4"><button onclick="navigate('login')" class="text-sm text-slate-500 font-bold hover:text-slate-800 transition"><i class="fas fa-arrow-left mr-1"></i> Trở về Đăng nhập</button></div>
             </div>
             <div id="reg-message" class="text-sm mt-5 text-center hidden p-3 rounded-xl"></div>
         </div>
 
-        <!-- ================= TRANG QUẢN TRỊ ADMIN ================= -->
+        <!-- ================= ADMIN PANEL (Thêm Tab Bài Học) ================= -->
         <div id="view-admin" class="hidden-view max-w-7xl mx-auto space-y-6">
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center flex-wrap gap-6">
-                <div><h2 class="text-3xl font-black text-slate-800 mb-2"><i class="fas fa-user-shield text-red-500 mr-2"></i> Hệ Thống Quản Trị</h2></div>
+                <h2 class="text-3xl font-black text-slate-800"><i class="fas fa-user-shield text-red-500 mr-2"></i> Hệ Thống Quản Trị</h2>
                 <div class="flex gap-2 flex-wrap bg-slate-50 p-2 rounded-2xl border border-slate-100">
-                    <button onclick="switchAdminTab('users')" id="tab-users-btn" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md">Tài Khoản</button>
-                    <button onclick="switchAdminTab('practical')" id="tab-practical-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Chấm Thực hành</button>
-                    <button onclick="switchAdminTab('articles')" id="tab-articles-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Bài Viết</button>
-                    <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Câu hỏi</button>
-                    <button onclick="switchAdminTab('settings')" id="tab-settings-btn" class="bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Hệ thống</button>
+                    <button onclick="switchAdminTab('users')" id="tab-users-btn" class="bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold shadow-md">Tài Khoản</button>
+                    <button onclick="switchAdminTab('articles')" id="tab-articles-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Quản lý Bài viết</button>
+                    <button onclick="switchAdminTab('grading')" id="tab-grading-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Chấm điểm bài nộp <span id="grading-badge" class="hidden ml-1 bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
+                    <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Ngân hàng Câu hỏi</button>
+                    <button onclick="switchAdminTab('settings')" id="tab-settings-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Cấu hình Hệ thống</button>
                 </div>
             </div>
 
-            <!-- Admin: Users -->
+            <!-- Tab: Users -->
             <div id="admin-users-section" class="space-y-6">
+                <!-- Nội dung giống như bản trước -->
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Thêm Tài Khoản Nhanh</h3>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <input type="text" id="admin-add-username" placeholder="Username" class="border-2 border-slate-200 p-3 rounded-xl focus:border-blue-500 outline-none font-medium bg-slate-50">
-                        <input type="text" id="admin-add-password" placeholder="Password" class="border-2 border-slate-200 p-3 rounded-xl focus:border-blue-500 outline-none font-medium bg-slate-50">
-                        <input type="text" id="admin-add-hoten" placeholder="Họ tên" class="border-2 border-slate-200 p-3 rounded-xl focus:border-blue-500 outline-none font-medium bg-slate-50">
-                        <select id="admin-add-loai" class="border-2 border-slate-200 p-3 rounded-xl focus:border-blue-500 outline-none font-bold text-slate-700 bg-slate-50 cursor-pointer">
-                            <option value="cb">Cơ bản</option><option value="nc">Nâng cao</option><option value="cbnc">Combo</option><option value="admin">Admin</option>
-                        </select>
+                        <input type="text" id="admin-add-username" placeholder="Username" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
+                        <input type="text" id="admin-add-password" placeholder="Password" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
+                        <input type="text" id="admin-add-hoten" placeholder="Họ tên" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
+                        <select id="admin-add-loai" class="border-2 p-3 rounded-xl font-bold outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option><option value="cbnc">Combo</option><option value="admin">Admin</option></select>
                     </div>
-                    <button onclick="adminAddUser()" id="admin-add-btn" class="mt-5 bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-md shadow-green-200 hover:bg-green-700 transition">Tạo & Kích Hoạt</button>
+                    <button onclick="adminAddUser()" class="mt-4 bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-green-700">Tạo Ngay</button>
                 </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800">Quản Lý Người Dùng</h3>
-                        <button onclick="loadAdminUsers()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 transition">Tải lại</button>
+                        <button onclick="loadAdminUsers()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100">Tải lại</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><tr><th class="p-4">Tài khoản</th><th class="p-4">Mật khẩu</th><th class="p-4">Họ tên</th><th class="p-4">Quyền</th><th class="p-4">Trạng thái</th><th class="p-4 text-center">Tác vụ</th></tr></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4">Tài khoản</th><th class="p-4">Mật khẩu</th><th class="p-4">Họ tên</th><th class="p-4">Quyền</th><th class="p-4">Trạng thái</th><th class="p-4 text-center">Tác vụ</th></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
                 </div>
             </div>
 
-            <!-- Admin: Chấm thực hành -->
-            <div id="admin-practical-section" class="hidden space-y-6">
+            <!-- Tab: Chấm điểm bài nộp (MỚI) -->
+            <div id="admin-grading-section" class="hidden space-y-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs font-bold text-slate-400 uppercase">Tổng bài nộp</div><div id="gr-stat-total" class="text-3xl font-black text-slate-800">0</div></div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs font-bold text-slate-400 uppercase">Chưa chấm</div><div id="gr-stat-pending" class="text-3xl font-black text-rose-500">0</div></div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs font-bold text-slate-400 uppercase">Đã chấm</div><div id="gr-stat-done" class="text-3xl font-black text-emerald-600">0</div></div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs font-bold text-slate-400 uppercase">Điểm trung bình</div><div id="gr-stat-avg" class="text-3xl font-black text-blue-600">-</div></div>
+                </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
-                        <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-check-double text-teal-500 mr-2"></i> Chấm Điểm Bài Thực Hành</h3>
-                        <button onclick="adminLoadPractical()" class="text-teal-600 bg-teal-50 px-4 py-2 rounded-lg font-bold hover:bg-teal-100 transition">Tải lại danh sách</button>
+                    <div class="p-6 md:p-8 flex justify-between items-center flex-wrap gap-4 border-b border-slate-100 bg-slate-50/50">
+                        <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-clipboard-check text-teal-500 mr-2"></i> Bài Thực Hành Của Học Viên</h3>
+                        <div class="flex gap-2 flex-wrap items-center">
+                            <input type="text" id="gr-search" oninput="renderSubmissions()" placeholder="Tìm tên / username / tên file..." class="border-2 px-3 py-2 rounded-xl text-sm outline-none focus:border-blue-500 w-56">
+                            <select id="gr-filter" onchange="renderSubmissions()" class="border-2 px-3 py-2 rounded-xl text-sm font-bold outline-none">
+                                <option value="all">Tất cả</option><option value="pending">Chưa chấm</option><option value="done">Đã chấm</option>
+                            </select>
+                            <button onclick="exportGradesCSV()" class="text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg font-bold hover:bg-emerald-100 text-sm"><i class="fas fa-file-csv mr-1"></i> Xuất CSV</button>
+                            <button onclick="loadSubmissions()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100 text-sm"><i class="fas fa-sync-alt mr-1"></i> Tải lại</button>
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse"><thead class="bg-slate-50 text-slate-600 text-xs uppercase font-bold"><tr><th class="p-4">Học viên</th><th class="p-4">Tên file & Ngày nộp</th><th class="p-4 text-center w-24">Điểm</th><th class="p-4">Nhận xét</th><th class="p-4 text-center w-32">Tác vụ</th></tr></thead><tbody id="admin-practical-table" class="text-sm divide-y divide-slate-100"></tbody></table>
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
+                                <tr><th class="p-4 w-12 text-center">#</th><th class="p-4">Học viên</th><th class="p-4">File nộp</th><th class="p-4">Ngày nộp</th><th class="p-4 text-center">Điểm</th><th class="p-4">Nhận xét</th><th class="p-4 text-center">Tác vụ</th></tr>
+                            </thead>
+                            <tbody id="admin-grading-table" class="text-sm divide-y divide-slate-100"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Admin: Bài Viết -->
+            <!-- Tab: Bài Viết (MỚI) -->
             <div id="admin-articles-section" class="hidden space-y-6">
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
-                        <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-newspaper text-teal-500 mr-2"></i> Danh Sách Bài Học</h3>
-                        <button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-teal-700 transition">Soạn bài mới</button>
+                        <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-newspaper text-teal-500 mr-2"></i> Danh Sách Bài Viết / Bài Học</h3>
+                        <button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-teal-200 hover:bg-teal-700 transition"><i class="fas fa-plus mr-2"></i> Soạn bài mới</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><tr><th class="p-4">ID</th><th class="p-4">Tiêu đề</th><th class="p-4">Phân loại</th><th class="p-4 text-center">Tác vụ</th></tr></thead><tbody id="admin-articles-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
+                                <tr><th class="p-4">ID</th><th class="p-4">Ảnh/Tiêu đề</th><th class="p-4">Phân loại</th><th class="p-4 text-center">Tác vụ</th></tr>
+                            </thead>
+                            <tbody id="admin-articles-table" class="text-sm divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Admin: Câu hỏi -->
+            <!-- Tab: Câu hỏi -->
             <div id="admin-questions-section" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Bộ Lọc Đề Thi</h3>
                     <div class="flex items-end gap-5 flex-wrap">
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại</label><select id="admin-q-cat" class="border-2 border-slate-200 p-3 rounded-xl w-48 font-semibold outline-none bg-slate-50"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="admin-q-made" placeholder="VD: 1 hoặc NC_de01" class="border-2 border-slate-200 p-3 rounded-xl w-56 font-mono outline-none bg-slate-50"></div>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại</label><select id="admin-q-cat" class="border-2 p-3 rounded-xl w-48 font-semibold outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="admin-q-made" placeholder="VD: 1 hoặc NC_de01" class="border-2 p-3 rounded-xl w-56 font-mono outline-none"></div>
                         <button onclick="adminLoadQuestions()" id="btn-load-qs" class="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-purple-700">Truy Xuất Dữ Liệu</button>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800">Chi Tiết Câu Hỏi</h3>
-                        <button onclick="openQuestionModal()" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-green-700 transition">Thêm câu hỏi</button>
+                        <button onclick="openQuestionModal()" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-green-700">Thêm câu hỏi</button>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4 w-16 text-center">Câu</th><th class="p-4">Nội dung</th><th class="p-4 w-32 text-center">Đáp án</th><th class="p-4 w-32 text-center">Tác vụ</th></thead><tbody id="admin-questions-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4 w-16 text-center">Câu</th><th class="p-4">Nội dung</th><th class="p-4 w-32 text-center">Đáp án</th><th class="p-4 w-32 text-center">Tác vụ</th></thead><tbody id="admin-questions-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
                 </div>
             </div>
 
-            <!-- Admin: Settings -->
+            <!-- Tab: Cấu hình -->
             <div id="admin-settings-section" class="hidden space-y-6">
+                <!-- Cấu hình Đề -->
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Giới Hạn Mã Đề</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200"><label class="block text-sm font-bold text-slate-700 mb-2">Đề Cơ Bản (Hiện: <span id="lbl-sode-cb" class="text-blue-600"></span>)</label><input type="number" id="admin-so-de-cb" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold outline-none"></div>
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200"><label class="block text-sm font-bold text-slate-700 mb-2">Đề Nâng Cao (Hiện: <span id="lbl-sode-nc" class="text-purple-600"></span>)</label><input type="number" id="admin-so-de-nc" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold outline-none"></div>
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200"><label class="block text-sm font-bold text-slate-700 mb-2">Đề Cơ Bản (Hiện: <span id="lbl-sode-cb" class="text-blue-600"></span>)</label><input type="number" id="admin-so-de-cb" class="w-full border-2 p-3 rounded-xl font-bold outline-none"></div>
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200"><label class="block text-sm font-bold text-slate-700 mb-2">Đề Nâng Cao (Hiện: <span id="lbl-sode-nc" class="text-purple-600"></span>)</label><input type="number" id="admin-so-de-nc" class="w-full border-2 p-3 rounded-xl font-bold outline-none"></div>
                     </div>
-                    <button onclick="saveSystemConfig()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-blue-700 transition">Cập Nhật</button>
+                    <button onclick="saveSystemConfig()" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-md">Cập Nhật Giới Hạn</button>
                 </div>
+                <!-- Video Hướng dẫn -->
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold mb-6 text-slate-800">Thư Viện Video Hướng Dẫn</h3>
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8 bg-slate-50 p-5 rounded-2xl border border-slate-200 items-end">
-                        <div class="md:col-span-3"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Phân loại</label><select id="admin-vid-loai" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold text-slate-700 outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
-                        <div class="md:col-span-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Link YouTube</label><input type="text" id="admin-vid-id" class="w-full border-2 border-slate-300 p-3 rounded-xl font-mono text-sm outline-none"></div>
-                        <div class="md:col-span-3"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Tên bài giảng</label><input type="text" id="admin-vid-title" class="w-full border-2 border-slate-300 p-3 rounded-xl text-sm font-medium outline-none"></div>
+                        <div class="md:col-span-3"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Phân loại</label><select id="admin-vid-loai" class="w-full border-2 p-3 rounded-xl font-bold outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option></select></div>
+                        <div class="md:col-span-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Link YouTube</label><input type="text" id="admin-vid-id" class="w-full border-2 p-3 rounded-xl font-mono text-sm outline-none"></div>
+                        <div class="md:col-span-3"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Tên bài giảng</label><input type="text" id="admin-vid-title" class="w-full border-2 p-3 rounded-xl text-sm font-medium outline-none"></div>
                         <div class="md:col-span-2"><button onclick="adminAddVideo()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold hover:bg-emerald-700 shadow-md">Thêm</button></div>
                     </div>
                     <div id="admin-video-list" class="space-y-4"></div>
@@ -358,6 +397,7 @@
         </div>
 
         <!-- ================= MODAL ADMIN (CÂU HỎI & BÀI VIẾT) ================= -->
+        <!-- Modal Câu Hỏi -->
         <div id="modal-question" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
                 <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -366,54 +406,130 @@
                 </div>
                 <div class="p-6 md:p-8 space-y-5 overflow-y-auto custom-scrollbar flex-grow bg-white">
                     <input type="hidden" id="modal-q-rowindex">
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="modal-q-made" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-mono font-bold bg-slate-50 text-blue-700"></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nội dung</label><textarea id="modal-q-noidung" rows="3" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-medium leading-relaxed"></textarea></div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án A</label><input type="text" id="modal-q-a" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án B</label><input type="text" id="modal-q-b" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án C</label><input type="text" id="modal-q-c" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án D</label><input type="text" id="modal-q-d" class="w-full border-2 border-slate-200 p-2.5 rounded-lg outline-none font-medium"></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="modal-q-made" class="w-full border-2 p-3 rounded-xl outline-none font-mono font-bold bg-slate-50"></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nội dung câu hỏi</label><textarea id="modal-q-noidung" rows="3" class="w-full border-2 p-3 rounded-xl outline-none font-medium"></textarea></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 bg-slate-50 rounded-2xl border">
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án A</label><input type="text" id="modal-q-a" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án B</label><input type="text" id="modal-q-b" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án C</label><input type="text" id="modal-q-c" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án D</label><input type="text" id="modal-q-d" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
                     </div>
-                    <div><label class="block text-sm font-black text-emerald-600 mb-2">ĐÁP ÁN ĐÚNG</label><input type="text" id="modal-q-dapandung" class="w-full border-2 border-emerald-200 p-3.5 rounded-xl outline-none bg-emerald-50 text-emerald-700 font-black text-lg uppercase text-center shadow-inner"></div>
+                    <div><label class="block text-sm font-black text-emerald-600 mb-2">ĐÁP ÁN ĐÚNG</label><input type="text" id="modal-q-dapandung" class="w-full border-2 p-3.5 rounded-xl outline-none bg-emerald-50 text-emerald-700 font-black text-lg uppercase text-center shadow-inner"></div>
                 </div>
-                <div class="p-6 border-t bg-slate-50 flex justify-end gap-3"><button onclick="closeQuestionModal()" class="px-6 py-3 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100 shadow-sm">Đóng lại</button><button onclick="adminSaveQuestion()" id="modal-btn-save" class="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg">Lưu Hệ Thống</button></div>
+                <div class="p-6 md:p-8 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+                    <button onclick="closeQuestionModal()" class="px-6 py-3 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100 shadow-sm">Đóng lại</button>
+                    <button onclick="adminSaveQuestion()" id="modal-btn-save" class="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg">Lưu Hệ Thống</button>
+                </div>
             </div>
         </div>
 
+        <!-- Modal Bài Viết (MỚI) -->
         <div id="modal-article" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] flex flex-col overflow-hidden">
-                <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50"><h3 class="text-2xl font-black text-slate-800" id="modal-a-title">Soạn Bài Mới</h3><button onclick="closeArticleModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button></div>
+                <div class="p-6 md:p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                    <h3 class="text-2xl font-black text-slate-800" id="modal-a-title">Soạn Bài Học / Bài Viết Mới</h3>
+                    <button onclick="closeArticleModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button>
+                </div>
                 <div class="p-6 md:p-8 space-y-5 overflow-y-auto custom-scrollbar flex-grow bg-white">
                     <input type="hidden" id="modal-a-rowindex">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5"><div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Bài (ID)</label><input type="text" id="modal-a-mabai" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-mono bg-slate-50 text-blue-700 font-bold"></div><div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại (cb / nc / vp)</label><input type="text" id="modal-a-phanloai" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-bold text-slate-600"></div></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Tiêu đề</label><input type="text" id="modal-a-tieude" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-black text-slate-800 text-lg"></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Link Ảnh Bìa</label><input type="text" id="modal-a-linkanh" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-mono text-sm"></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Tóm tắt</label><textarea id="modal-a-tomtat" rows="2" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-medium text-slate-600"></textarea></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nội dung HTML (h3, p, ul, li...)</label><textarea id="modal-a-noidung" rows="8" class="w-full border-2 border-slate-200 p-3 rounded-xl outline-none font-mono text-sm bg-slate-50"></textarea></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Bài (ID duy nhất)</label><input type="text" id="modal-a-mabai" class="w-full border-2 p-3 rounded-xl outline-none font-mono bg-slate-50 text-blue-700 font-bold"></div>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Phân loại (cb / nc / vp...)</label><input type="text" id="modal-a-phanloai" class="w-full border-2 p-3 rounded-xl outline-none font-bold text-slate-600"></div>
+                    </div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Tiêu đề Bài học</label><input type="text" id="modal-a-tieude" class="w-full border-2 p-3 rounded-xl outline-none font-black text-slate-800 text-lg"></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Link Ảnh Bìa (Thumnail)</label><input type="text" id="modal-a-linkanh" placeholder="https://..." class="w-full border-2 p-3 rounded-xl outline-none font-mono text-sm"></div>
+                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Tóm tắt (Mô tả ngắn ở ngoài Card)</label><textarea id="modal-a-tomtat" rows="2" class="w-full border-2 p-3 rounded-xl outline-none font-medium text-slate-600"></textarea></div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nội dung chi tiết (Hỗ trợ HTML: <code>&lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;...</code>)</label>
+                        <textarea id="modal-a-noidung" rows="8" class="w-full border-2 p-3 rounded-xl outline-none font-mono text-sm bg-slate-50 border-slate-300"></textarea>
+                    </div>
                 </div>
-                <div class="p-6 border-t bg-slate-50 flex justify-end gap-3"><button onclick="closeArticleModal()" class="px-6 py-3 rounded-xl font-bold bg-white border shadow-sm">Đóng lại</button><button onclick="adminSaveArticle()" id="modal-btn-save-art" class="px-8 py-3 rounded-xl font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-lg">Đăng Bài Viết</button></div>
+                <div class="p-6 md:p-8 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+                    <button onclick="closeArticleModal()" class="px-6 py-3 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100 shadow-sm">Đóng lại</button>
+                    <button onclick="adminSaveArticle()" id="modal-btn-save-art" class="px-8 py-3 rounded-xl font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-lg"><i class="fas fa-cloud-upload-alt mr-2"></i> Đăng Bài Viết</button>
+                </div>
             </div>
         </div>
 
-        <!-- ================= CHỌN ĐỀ & THI TRẮC NGHIỆM ================= -->
+        <!-- Modal Chấm điểm (MỚI) -->
+        <div id="modal-grade" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex justify-center items-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl max-h-[95vh] flex flex-col overflow-hidden">
+                <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                    <h3 class="text-xl font-black text-slate-800"><i class="fas fa-pen-to-square text-teal-500 mr-2"></i> Chấm điểm bài nộp</h3>
+                    <button onclick="closeGradeModal()" class="w-10 h-10 bg-white rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 font-bold text-xl flex justify-center items-center shadow-sm">&times;</button>
+                </div>
+                <div class="p-6 space-y-5 overflow-y-auto flex-grow">
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                        <div class="font-black text-slate-800" id="gm-student"></div>
+                        <div class="text-xs text-slate-500 font-mono mt-1" id="gm-time"></div>
+                        <div class="mt-3 flex items-center gap-3">
+                            <span id="gm-icon"></span>
+                            <span class="font-bold text-slate-700 break-all text-sm flex-grow" id="gm-file"></span>
+                            <a id="gm-link" href="#" target="_blank" rel="noopener" class="shrink-0 bg-teal-50 text-teal-600 px-4 py-2 rounded-lg font-bold border border-teal-100 hover:bg-teal-600 hover:text-white transition text-sm"><i class="fas fa-up-right-from-square mr-1"></i> Mở file</a>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Điểm (thang 10)</label>
+                        <input type="number" id="gm-diem" min="0" max="10" step="0.25" placeholder="VD: 8.5" class="w-full border-2 p-3 rounded-xl outline-none focus:border-teal-500 font-black text-2xl text-center text-teal-700">
+                        <div class="flex gap-2 mt-3 flex-wrap justify-center">
+                            <button type="button" onclick="setQuickScore(5)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-100 font-bold text-sm">5</button>
+                            <button type="button" onclick="setQuickScore(6)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-100 font-bold text-sm">6</button>
+                            <button type="button" onclick="setQuickScore(7)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-100 font-bold text-sm">7</button>
+                            <button type="button" onclick="setQuickScore(8)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-100 font-bold text-sm">8</button>
+                            <button type="button" onclick="setQuickScore(9)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-100 font-bold text-sm">9</button>
+                            <button type="button" onclick="setQuickScore(10)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-100 font-bold text-sm">10</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nhận xét cho học viên</label>
+                        <textarea id="gm-nhanxet" rows="4" maxlength="1000" class="w-full border-2 p-3 rounded-xl outline-none focus:border-teal-500 text-sm"></textarea>
+                        <div class="flex gap-2 mt-2 flex-wrap">
+                            <button type="button" onclick="addQuickComment('Bài làm tốt, đúng yêu cầu.')" class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100">+ Bài làm tốt</button>
+                            <button type="button" onclick="addQuickComment('Cần bổ sung thêm nội dung theo yêu cầu đề bài.')" class="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold hover:bg-amber-100">+ Thiếu nội dung</button>
+                            <button type="button" onclick="addQuickComment('Trình bày/định dạng chưa đạt, cần chỉnh sửa lại.')" class="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold hover:bg-amber-100">+ Lỗi định dạng</button>
+                            <button type="button" onclick="addQuickComment('Không mở được file hoặc sai file, vui lòng nộp lại.')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold hover:bg-rose-100">+ Nộp lại</button>
+                        </div>
+                    </div>
+                    <div id="gm-msg" class="hidden text-sm font-bold p-3 rounded-xl"></div>
+                </div>
+                <div class="p-5 border-t border-slate-100 bg-slate-50 flex justify-between items-center gap-3 flex-wrap">
+                    <div class="flex gap-2">
+                        <button onclick="gradeNav(-1)" class="px-4 py-2.5 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100"><i class="fas fa-chevron-left"></i></button>
+                        <button onclick="gradeNav(1)" class="px-4 py-2.5 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="saveGrade(false)" id="gm-save" class="px-5 py-2.5 rounded-xl font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-md">Lưu điểm</button>
+                        <button onclick="saveGrade(true)" id="gm-save-next" class="px-5 py-2.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md">Lưu &amp; bài tiếp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW HỌC VIÊN CHỌN ĐỀ LÀM BÀI ================= -->
         <div id="view-select" class="hidden-view bg-white p-8 md:p-12 rounded-3xl shadow-lg max-w-3xl mx-auto text-center border border-slate-100 mt-6">
             <div class="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto text-3xl mb-6 shadow-inner"><i class="fas fa-user-graduate"></i></div>
             <h2 class="text-3xl font-black mb-3 text-slate-800">Xin chào, <span id="student-name-display" class="text-blue-600"></span>!</h2>
+            <p class="text-slate-500 font-medium mb-8">Hãy chọn cấp độ và bộ đề để bắt đầu tính giờ thi ngay.</p>
+            
             <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10 bg-slate-50 p-2 rounded-2xl">
                 <button onclick="selectCategory('co-ban')" id="btn-coban" class="w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-blue-600 text-white shadow-md">Đề Cơ Bản</button>
                 <button onclick="selectCategory('nang-cao')" id="btn-nangcao" class="w-full sm:w-1/2 p-4 rounded-xl font-black text-sm uppercase tracking-wider transition bg-transparent text-slate-500 hover:bg-slate-200">Đề Nâng Cao</button>
             </div>
+            
             <div class="mb-8 text-left bg-slate-50 p-6 rounded-2xl border border-slate-100">
                 <label class="block text-sm font-bold text-slate-700 mb-4 uppercase tracking-widest"><i class="fas fa-th-large mr-2 text-blue-500"></i> Kho Đề Hệ Thống</label>
                 <div id="quiz-buttons-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-72 overflow-y-auto pr-2 custom-scrollbar"></div>
             </div>
-            <div class="pt-6 border-t border-slate-100 flex justify-center"><button onclick="fetchQuizHistory()" class="flex items-center text-purple-600 bg-purple-50 px-6 py-3 rounded-full font-bold hover:bg-purple-100 transition shadow-sm"><i class="fas fa-history mr-2"></i> Xem bảng điểm cá nhân</button></div>
+            
+            <div class="pt-6 border-t border-slate-100 flex justify-center">
+                <button onclick="fetchQuizHistory()" class="flex items-center text-purple-600 bg-purple-50 px-6 py-3 rounded-full font-bold hover:bg-purple-100 transition shadow-sm"><i class="fas fa-history mr-2"></i> Xem bảng điểm cá nhân</button>
+            </div>
         </div>
 
         <div id="view-history" class="hidden-view max-w-4xl mx-auto bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-slate-100 pb-6 gap-4">
                 <h2 class="text-2xl md:text-3xl font-black text-slate-800"><i class="fas fa-medal text-yellow-500 mr-2"></i> Lịch Sử Học Tập</h2>
-                <button onclick="navigate('select')" class="bg-slate-100 px-5 py-2.5 rounded-full font-bold text-slate-600 hover:bg-slate-200 transition text-sm">Trở về</button>
+                <button onclick="navigate('select')" class="bg-slate-100 px-5 py-2.5 rounded-full font-bold text-slate-600 hover:bg-slate-200 transition text-sm"><i class="fas fa-arrow-left mr-2"></i> Trở về</button>
             </div>
             <div id="history-container" class="space-y-4"></div>
         </div>
@@ -423,6 +539,7 @@
             <p class="text-blue-600 font-bold text-lg tracking-wide uppercase" id="loading-text">Hệ thống đang nạp dữ liệu...</p>
         </div>
 
+        <!-- ================= VIEW LÀM BÀI THI ================= -->
         <div id="view-quiz" class="hidden-view max-w-5xl mx-auto">
             <div class="bg-white px-6 py-4 rounded-2xl shadow-lg shadow-blue-100/50 mb-8 sticky top-[80px] z-30 flex flex-wrap justify-between items-center border border-slate-100 gap-4 backdrop-blur-md bg-opacity-95">
                 <div class="font-bold text-sm md:text-base text-slate-600 flex items-center bg-slate-50 px-4 py-2 rounded-xl border border-slate-100">
@@ -435,10 +552,11 @@
             </div>
             <div id="questions-container" class="space-y-6 mb-10"></div>
             <div class="text-center pt-8 border-t-2 border-slate-100 border-dashed">
-                <button onclick="submitQuiz()" id="submit-btn" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-5 px-16 rounded-2xl text-xl shadow-xl hover:-translate-y-1 transition-all uppercase tracking-widest">Nộp Bài Lên Hệ Thống</button>
+                <button onclick="submitQuiz()" id="submit-btn" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-5 px-16 rounded-2xl text-xl shadow-xl shadow-emerald-200 hover:-translate-y-1 transition-all uppercase tracking-widest"><i class="fas fa-paper-plane mr-2 text-emerald-100"></i> Nộp Bài Lên Hệ Thống</button>
             </div>
         </div>
 
+        <!-- ================= VIEW KẾT QUẢ ================= -->
         <div id="view-result" class="hidden-view bg-white p-10 rounded-3xl shadow-2xl max-w-2xl mx-auto text-center mt-6 border border-slate-100 overflow-hidden relative">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
             <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-cyan-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
@@ -452,7 +570,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <button onclick="openReviewModal()" class="w-full sm:w-auto bg-slate-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-slate-900 transition">Xem Đáp Án</button>
+                    <button onclick="openReviewModal()" class="w-full sm:w-auto bg-slate-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-slate-900 transition"><i class="fas fa-eye mr-2 text-slate-300"></i> Xem Đáp Án</button>
                     <button onclick="navigate('select')" class="w-full sm:w-auto bg-white border-2 border-slate-200 text-slate-700 font-bold py-4 px-8 rounded-xl hover:bg-slate-50 transition">Làm Đề Khác</button>
                 </div>
             </div>
@@ -474,7 +592,7 @@
         </div>
     </footer>
 
-    <!-- SCRIPT CHÍNH (Đã khôi phục hoàn chỉnh - Không bị mất chữ) -->
+    <!-- ============================================== SCRIPT CHÍNH ============================================== -->
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz3TwRD48dNmASXNQkBR9OZhmsKe5NHrlv0CmHTpoW8YmjV6w3hsAMWnbl2qUT5ZOvr/exec";
         
@@ -483,93 +601,106 @@
         let isLoggedIn = false;
         let timerInterval = null;
         let timeLeft = 30 * 60;
-        let adminQuestionsData = [];
-        let dbArticles = [];
         
+        // Dữ liệu Động
+        let adminQuestionsData = [];
+        let dbArticles = []; // Chứa dữ liệu bài học lấy từ Backend
+        
+        // Anti-cheat
         let isTakingQuiz = false;
         let fullscreenViolations = 0;
         let isFullscreenLocked = false;
-
-        let systemConfig = { so_de_cb: 35, so_de_nc: 10, videos: { cb: [], nc: [] } };
-        
-        const fallbackArticles = {
-            1: { title: "Tin Học Cơ Bản & Nâng Cao", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<p>Đào tạo chuẩn đầu ra, thực hành 100% trên máy tính.</p>", category: 'cb' },
-            2: { title: "Đăng Ký Tài Khoản AI Bản Quyền", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>Tăng cường hiệu suất bằng AI như ChatGPT và Gemini.</p>", category: 'gemini' },
-            3: { title: "Ứng Dụng AI Tự Động Hóa", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200", content: "<p>Học viết Prompt, tự động hóa Excel hiệu quả.</p>", category: 'vp' },
-            'cb': { title: "Chứng Chỉ Tin Học Cơ Bản", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<h3>Nội dung:</h3><ul><li>Word, Excel, PowerPoint cơ bản</li><li>Internet, Windows</li></ul>", category: 'cb' },
-            'nc': { title: "Chứng Chỉ Tin Học Nâng Cao", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<h3>Nội dung:</h3><ul><li>Word: Trộn thư, Style</li><li>Excel: Pivot Table, Macro</li></ul>", category: 'nc' },
-            'vp': { title: "Tin Học Văn Phòng Thực Chiến", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<p>Dành riêng cho người đi làm.</p>", category: 'vp' },
-            'gemini': { title: "Gemini Advanced", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>Tích hợp Google, bộ nhớ 2TB.</p>", category: 'gemini' },
-            'chatgpt': { title: "ChatGPT Plus", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>GPT-4o, DALL-E 3, Phân tích dữ liệu.</p>", category: 'chatgpt' }
-        };
 
         function extractYouTubeID(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = url.match(regExp); return (match && match[2].length === 11) ? match[2] : url.trim();
         }
 
-        function getFileIcon(fn) { 
-            const ext = fn.split('.').pop().toLowerCase(); 
-            if(['doc','docx'].includes(ext)) return '<i class="fas fa-file-word text-blue-600 text-2xl"></i>'; 
-            if(['xls','xlsx'].includes(ext)) return '<i class="fas fa-file-excel text-emerald-600 text-2xl"></i>'; 
-            if(ext==='pdf') return '<i class="fas fa-file-pdf text-rose-600 text-2xl"></i>'; 
-            if(['zip','rar'].includes(ext)) return '<i class="fas fa-file-archive text-purple-600 text-2xl"></i>'; 
-            return '<i class="fas fa-file-alt text-gray-400 text-2xl"></i>'; 
-        }
+        let systemConfig = { so_de_cb: 35, so_de_nc: 10, videos: { cb: [], nc: [] } };
+        // Giữ bộ bài viết mặc định để lỡ khi DB chưa có bài nào web vẫn đẹp
+        const fallbackArticles = {
+            1: { title: "Tin Học Cơ Bản & Nâng Cao", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200", content: "<p>Đào tạo chuẩn đầu ra...</p>", category: 'cb' },
+            2: { title: "Tài Khoản AI Bản Quyền", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200", content: "<p>Tăng cường hiệu suất bằng AI...</p>", category: 'gemini' },
+            3: { title: "Ứng Dụng AI Tự Động Hóa", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200", content: "<p>Học viết Prompt, tự động hóa Excel...</p>", category: 'vp' }
+        };
 
-        // ================= KHỞI ĐỘNG HỆ THỐNG =================
+        // ================= KHỞI ĐỘNG HỆ THỐNG (FETCH CONFIG & ARTICLES) =================
         async function initializeSystem() {
             try {
-                const resConfig = await fetch(API_URL + "?action=get_config"); const configData = await resConfig.json();
+                // 1. Tải Cấu hình
+                const resConfig = await fetch(API_URL + "?action=get_config");
+                const configData = await resConfig.json();
                 if (configData && configData.so_de_cb) {
                     systemConfig.so_de_cb = configData.so_de_cb; systemConfig.so_de_nc = configData.so_de_nc;
                     if (configData.videos && configData.videos.cb) configData.videos.cb.forEach(v => v.id = extractYouTubeID(v.id));
                     if (configData.videos && configData.videos.nc) configData.videos.nc.forEach(v => v.id = extractYouTubeID(v.id));
                     if (configData.videos && (configData.videos.cb.length > 0 || configData.videos.nc.length > 0)) systemConfig.videos = configData.videos;
                 }
-                const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json();
-                renderHomeArticles(); renderNavArticles();
-            } catch (error) { renderFallbackHomeArticles(); }
+                
+                // 2. Tải Bài Học từ CSDL
+                const resArt = await fetch(API_URL + "?action=get_articles");
+                dbArticles = await resArt.json();
+                renderHomeArticles(); // Render ra Trang chủ
+                renderNavArticles();  // Render ra Menu thả xuống
+            } catch (error) {
+                renderFallbackHomeArticles(); // Nếu lỗi thì nạp bài mẫu
+            }
         }
-        initializeSystem();
+        initializeSystem(); // Chạy ngay khi mở web
 
-        // RENDER BÀI VIẾT
+        // ================= XỬ LÝ RENDER BÀI HỌC =================
         function renderHomeArticles() {
             const container = document.getElementById('home-articles-container');
-            if(!dbArticles || dbArticles.length === 0) { renderFallbackHomeArticles(); return; }
+            if(dbArticles.length === 0) { renderFallbackHomeArticles(); return; }
             container.innerHTML = '';
+            // Render 3 bài mới nhất (hoặc tất cả)
             const displayArts = dbArticles.slice(0, 6);
             displayArts.forEach(art => {
                 const catText = art.PhanLoai ? art.PhanLoai.toUpperCase() : 'KHÓA HỌC';
-                container.innerHTML += `<div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" onclick="showArticle('${art.MaBai}')"><div class="relative overflow-hidden aspect-[4/3]"><div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div><img src="${art.LinkAnh}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600'"><div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">${catText}</div></div><div class="p-6 flex-grow flex flex-col justify-between"><div><h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${art.TieuDe}</h3><p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">${art.TomTat || 'Xem nội dung chi tiết...'}</p></div><div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div></div></div>`;
+                container.innerHTML += `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" onclick="showArticle('${art.MaBai}')">
+                        <div class="relative overflow-hidden aspect-[4/3]">
+                            <div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div>
+                            <img src="${art.LinkAnh}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600'">
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">${catText}</div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${art.TieuDe}</h3>
+                                <p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">${art.TomTat || 'Xem nội dung chi tiết bài học...'}</p>
+                            </div>
+                            <div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div>
+                        </div>
+                    </div>
+                `;
             });
         }
         function renderFallbackHomeArticles() {
-            const container = document.getElementById('home-articles-container'); if(!container) return; container.innerHTML = '';
-            [1, 2, 3].forEach(id => {
-                const art = fallbackArticles[id];
-                container.innerHTML += `<div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group card-hover cursor-pointer" onclick="showArticle('${id}')"><div class="relative overflow-hidden aspect-[4/3]"><div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition z-10"></div><img src="${art.image}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute top-4 left-4 bg-white/90 backdrop-blur font-black text-blue-600 text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-sm">NỔI BẬT</div></div><div class="p-6 flex-grow flex flex-col justify-between"><div><h3 class="font-black text-xl mb-3 text-slate-800 group-hover:text-blue-600 transition leading-snug">${art.title}</h3><p class="text-slate-500 text-sm mb-4 line-clamp-3 leading-relaxed">Đọc bài viết chi tiết tại đây...</p></div><div class="text-blue-600 font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">Xem chi tiết <i class="fas fa-arrow-right ml-2"></i></div></div></div>`;
-            });
+            // Đã có sẵn trong HTML tĩnh, bỏ qua nếu lỗi
         }
         function renderNavArticles() {
             const navMenu = document.getElementById('nav-courses');
-            if(navMenu && dbArticles && dbArticles.length > 0) {
+            if(navMenu && dbArticles.length > 0) {
                 navMenu.innerHTML = '';
-                dbArticles.forEach(art => { navMenu.innerHTML += `<a href="javascript:void(0)" onclick="showArticle('${art.MaBai}')" class="block px-5 py-3.5 hover:bg-blue-50 hover:text-blue-600 font-semibold border-b border-gray-50 transition line-clamp-1" title="${art.TieuDe}">${art.TieuDe}</a>`; });
+                dbArticles.forEach(art => {
+                    navMenu.innerHTML += `<a href="javascript:void(0)" onclick="showArticle('${art.MaBai}')" class="block px-5 py-3.5 hover:bg-blue-50 hover:text-blue-600 font-semibold border-b border-gray-50 transition line-clamp-1" title="${art.TieuDe}">${art.TieuDe}</a>`;
+                });
             }
         }
         function showArticle(id) {
-            let art = dbArticles.find(a => a.MaBai == id); if(!art) art = fallbackArticles[id];
+            let art = dbArticles.find(a => a.MaBai == id);
+            if(!art) art = fallbackArticles[id]; // Lấy fallback nếu ID cứng
             if(art) { 
                 document.getElementById('article-title').innerText = art.TieuDe || art.title; 
                 document.getElementById('article-img').src = art.LinkAnh || art.image; 
                 document.getElementById('article-content').innerHTML = art.NoiDung || art.content; 
-                const catEl = document.getElementById('article-category'); if(catEl) catEl.innerText = (art.PhanLoai || art.category || "Thông tin").toUpperCase();
+                const catEl = document.getElementById('article-category');
+                if(catEl) catEl.innerText = (art.PhanLoai || "Khóa học").toUpperCase();
                 navigate('article'); 
             }
         }
 
-        // ================= ANTI-CHEAT (FULLSCREEN) =================
+        // ================= CƠ CHẾ KHÓA TOÀN MÀN HÌNH =================
         function enterFullscreen() { const d = document.documentElement; if(d.requestFullscreen) d.requestFullscreen().catch(e=>{}); else if(d.webkitRequestFullscreen) d.webkitRequestFullscreen().catch(e=>{}); }
         function exitFullscreen() { if(document.fullscreenElement || document.webkitFullscreenElement) { if(document.exitFullscreen) document.exitFullscreen().catch(e=>{}); else if(document.webkitExitFullscreen) document.webkitExitFullscreen().catch(e=>{}); } }
         function checkFullscreen() {
@@ -586,23 +717,44 @@
         document.addEventListener("fullscreenchange", checkFullscreen); document.addEventListener("webkitfullscreenchange", checkFullscreen);
         function saveCurrentQuizState() { if (!isTakingQuiz) return; localStorage.setItem('quizState_' + studentInfo.username, JSON.stringify({ quizId: studentInfo.quizId, timeLeft: timeLeft, violations: fullscreenViolations, answers: getSessionUserChoices() })); }
 
-        // ================= NAVIGATION & AUTH =================
+        // ================= ĐIỀU HƯỚNG CHÍNH =================
         function navigate(vName) {
             ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
             const target = document.getElementById('view-' + vName); if (target) target.classList.remove('hidden-view'); window.scrollTo(0, 0);
             if (vName !== 'quiz' && vName !== 'loading') { if (timerInterval) clearInterval(timerInterval); isTakingQuiz = false; exitFullscreen(); }
             
+            // Xử lý nút chức năng sau khi login
             if (isLoggedIn) {
-                document.getElementById('nav-user-area')?.classList.remove('hidden'); document.getElementById('nav-username-display').innerText = studentInfo.name; document.getElementById('nav-reg-btn')?.classList.add('hidden'); document.getElementById('widget-reg-container')?.classList.add('hidden'); document.getElementById('nav-upload-btn')?.classList.remove('hidden');
+                document.getElementById('nav-user-area')?.classList.remove('hidden'); 
+                document.getElementById('nav-username-display').innerText = studentInfo.name; 
+                document.getElementById('nav-reg-btn')?.classList.add('hidden'); 
+                document.getElementById('widget-reg-container')?.classList.add('hidden');
+                document.getElementById('nav-upload-btn')?.classList.remove('hidden'); // Hiện nút Nộp bài
                 if(studentInfo.loai === 'admin') document.getElementById('nav-admin-btn')?.classList.remove('hidden');
             } else {
-                document.getElementById('nav-user-area')?.classList.add('hidden'); document.getElementById('nav-admin-btn')?.classList.add('hidden'); document.getElementById('nav-upload-btn')?.classList.add('hidden'); document.getElementById('nav-reg-btn')?.classList.remove('hidden'); document.getElementById('widget-reg-container')?.classList.remove('hidden');
+                document.getElementById('nav-user-area')?.classList.add('hidden'); 
+                document.getElementById('nav-admin-btn')?.classList.add('hidden'); 
+                document.getElementById('nav-upload-btn')?.classList.add('hidden'); 
+                document.getElementById('nav-reg-btn')?.classList.remove('hidden'); 
+                document.getElementById('widget-reg-container')?.classList.remove('hidden');
             }
         }
-        function requireLoginForQuiz() { if (isLoggedIn) { if (studentInfo.loai === 'admin') navigate('admin'); else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); } } else navigate('login'); }
-        function requireLoginForUpload() { if (isLoggedIn) { if (studentInfo.loai === 'admin') navigate('admin'); else { navigate('upload'); fetchUploadedFiles(); } } else navigate('login'); }
-        function logout() { if(confirm("Xác nhận đăng xuất?")) { isLoggedIn = false; studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' }; navigate('home'); } }
 
+        function logout() { if(confirm("Xác nhận đăng xuất?")) { isLoggedIn = false; userCred = null; adminSubs = []; studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' }; navigate('home'); } }
+        
+        function requireLoginForQuiz() { 
+            if (isLoggedIn) { if (studentInfo.loai === 'admin') navigate('admin'); else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); } } 
+            else navigate('login'); 
+        }
+
+        function requireLoginForUpload() {
+            if (isLoggedIn) { 
+                if (studentInfo.loai === 'admin') navigate('admin'); 
+                else { navigate('upload'); fetchUploadedFiles(); } 
+            } else navigate('login');
+        }
+
+        // ================= XỬ LÝ ĐĂNG NHẬP / ĐĂNG KÝ =================
         async function loginUser() {
             const u = document.getElementById('username').value.trim(), p = document.getElementById('password').value.trim(), err = document.getElementById('login-error'), btn = document.getElementById('login-btn');
             if (!u || !p) return err.innerText = "Vui lòng nhập đủ!", err.classList.remove('hidden'), void 0;
@@ -610,7 +762,7 @@
             try {
                 const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', username: u, password: p }) }); const r = await res.json();
                 if (r.status === "success") {
-                    isLoggedIn = true; studentInfo = { username: u, name: r.hoten, loai: r.loai }; document.getElementById('student-name-display').innerText = r.hoten;
+                    isLoggedIn = true; studentInfo = { username: u, name: r.hoten, loai: r.loai }; userCred = { username: u, password: p }; document.getElementById('student-name-display').innerText = r.hoten;
                     if (studentInfo.loai === 'admin') { loadAdminUsers(); navigate('admin'); } else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); }
                 } else { err.innerText = r.message || "Sai thông tin!"; err.classList.remove('hidden'); }
             } catch (e) { err.innerText = "Lỗi kết nối!"; err.classList.remove('hidden'); }
@@ -628,39 +780,383 @@
             btn.disabled = false; btn.innerText = "GỬI YÊU CẦU";
         }
 
-        // ================= HỌC VIÊN NỘP BÀI THỰC HÀNH =================
+        // ================= TÍNH NĂNG HỌC VIÊN: NỘP BÀI DRIVE =================
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            if(['doc', 'docx'].includes(ext)) return '<i class="fas fa-file-word text-blue-600 text-2xl"></i>';
+            if(['xls', 'xlsx'].includes(ext)) return '<i class="fas fa-file-excel text-emerald-600 text-2xl"></i>';
+            if(ext === 'pdf') return '<i class="fas fa-file-pdf text-rose-600 text-2xl"></i>';
+            if(['zip', 'rar'].includes(ext)) return '<i class="fas fa-file-archive text-purple-600 text-2xl"></i>';
+            return '<i class="fas fa-file-alt text-gray-400 text-2xl"></i>';
+        }
+
         async function handleFileUpload() {
-            const fileInput = document.getElementById('file-upload'); if(fileInput.files.length === 0) return alert("Vui lòng chọn file!");
-            const file = fileInput.files[0]; if(file.size > 5 * 1024 * 1024) return alert("File vượt quá 5MB.");
-            const allowedExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'rar']; const ext = file.name.split('.').pop().toLowerCase();
-            if(!allowedExts.includes(ext)) return alert("Chỉ hỗ trợ Word, Excel, PDF hoặc ZIP!");
-            const btn = document.getElementById('btn-upload'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang tải lên...';
+            const fileInput = document.getElementById('file-upload');
+            if(fileInput.files.length === 0) return alert("Vui lòng chọn file trước khi nộp!");
+            const file = fileInput.files[0];
+            
+            // Giới hạn 5MB
+            if(file.size > 5 * 1024 * 1024) return alert("File quá lớn! Vui lòng chỉ nộp file dưới 5MB để tiết kiệm dung lượng.");
+            
+            // Lọc định dạng
+            const allowedExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'rar'];
+            const ext = file.name.split('.').pop().toLowerCase();
+            if(!allowedExts.includes(ext)) return alert("Hệ thống chỉ hỗ trợ nộp bài định dạng Word, Excel, PDF hoặc ZIP/RAR!");
+
+            const btn = document.getElementById('btn-upload');
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang tải lên Drive...';
+
             const reader = new FileReader();
             reader.onload = async function(e) {
                 const base64 = e.target.result.split(',')[1];
                 try {
-                    const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'upload_file', username: studentInfo.username, hoten: studentInfo.name, filename: file.name, mimeType: file.type || 'application/octet-stream', base64Data: base64 }) });
-                    const r = await res.json(); if(r.status === 'success') { alert("Nộp bài thành công!"); fileInput.value = ''; fetchUploadedFiles(); } else { alert("Lỗi: " + r.message); }
-                } catch(err) { alert("Lỗi mạng!"); }
+                    const r = await api({ action: 'upload_file', filename: file.name, mimeType: file.type || 'application/octet-stream', base64Data: base64 });
+                    if(r.status === 'success') { alert("Nộp bài thành công!"); fileInput.value = ''; fetchUploadedFiles(); } 
+                    else { alert("Lỗi tải lên: " + (r.message || "Unknown error")); }
+                } catch(err) { alert("Lỗi mạng khi tải lên!"); }
                 btn.disabled = false; btn.innerText = 'TẢI FILE LÊN HỆ THỐNG';
-            }; reader.readAsDataURL(file);
+            };
+            reader.readAsDataURL(file);
         }
-        
+
         async function fetchUploadedFiles() {
-            const tbody = document.getElementById('upload-history-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu...</td></tr>`;
+            const tbody = document.getElementById('upload-history-table');
+            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu từ Drive...</td></tr>`;
             try {
-                const res = await fetch(API_URL + "?action=get_uploaded_files&username=" + encodeURIComponent(studentInfo.username)); const files = await res.json(); tbody.innerHTML = '';
-                if(files.length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500 font-medium">Chưa có bài thực hành.</td></tr>`;
+                const resF = await api({ action: 'get_uploaded_files' });
+                if (resF.status !== 'success') { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">${esc(resF.message || 'Lỗi tải dữ liệu file')}</td></tr>`; return; }
+                const files = resF.data;
+                tbody.innerHTML = '';
+                if(files.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500 font-medium">Bạn chưa nộp bài thực hành nào.</td></tr>`;
+                    return;
+                }
                 files.reverse().forEach(f => {
-                    const icon = getFileIcon(f.tenfile); const d = new Date(f.thoigian).toLocaleString('vi-VN');
-                    let diemHtml = `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ chấm</span>`, nhanXetHtml = `<span class="text-slate-400 italic text-xs">Đang chờ Giảng viên...</span>`;
-                    if(f.diem !== "") { diemHtml = `<span class="text-3xl font-black text-teal-600 drop-shadow-sm">${f.diem}</span>`; nhanXetHtml = `<span class="font-medium text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 block">${f.nhanxet || 'Hoàn thành tốt.'}</span>`; }
-                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 pl-8 flex items-center gap-4"><div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center shrink-0">${icon}</div><span class="font-bold text-slate-700 break-all">${f.tenfile}</span></td><td class="p-4 font-mono text-xs text-slate-500 font-semibold"><i class="far fa-clock mr-1"></i> ${d}</td><td class="p-4 text-center">${diemHtml}</td><td class="p-4 w-1/3">${nhanXetHtml}</td><td class="p-4 pr-8 text-center"><a href="${f.link}" target="_blank" class="inline-block bg-white text-blue-600 px-4 py-2 rounded-xl font-bold shadow-sm border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition"><i class="fas fa-eye"></i></a></td></tr>`;
+                    const icon = getFileIcon(f.tenfile);
+                    const d = new Date(f.thoigian).toLocaleString('vi-VN');
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                            <td class="p-4 pl-8 flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center shrink-0">${icon}</div>
+                                <span class="font-bold text-slate-700 break-all">${esc(f.tenfile)}</span>
+                            </td>
+                            <td class="p-4 font-mono text-xs text-slate-500">${d}</td>
+                            <td class="p-4 text-center">${(f.diem !== "" && f.diem !== null && f.diem !== undefined) ? `<span class="inline-block ${scoreColor(f.diem)} font-black px-3 py-1.5 rounded-lg">${fmtScore(f.diem)}</span>` : `<span class="bg-amber-50 text-amber-600 text-xs font-bold px-3 py-1.5 rounded-lg">Chờ chấm</span>`}</td>
+                            <td class="p-4 text-xs text-slate-600 max-w-xs">${esc(f.nhanxet) || '<span class="text-slate-300">—</span>'}</td>
+                            <td class="p-4 pr-8 text-center"><a href="${f.link}" target="_blank" class="inline-block bg-teal-50 text-teal-600 px-4 py-2 rounded-lg font-bold shadow-sm border border-teal-100 hover:bg-teal-600 hover:text-white transition"><i class="fas fa-eye mr-1"></i> Xem File</a></td>
+                        </tr>
+                    `;
                 });
             } catch (error) { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">Lỗi tải dữ liệu file</td></tr>`; }
         }
 
-        // ================= HỌC VIÊN CHỌN ĐỀ & LÀM BÀI TRẮC NGHIỆM =================
+        // ================= TÍNH NĂNG ADMIN MỞ RỘNG =================
+        function switchAdminTab(tab) {
+            ['users', 'articles', 'grading', 'questions', 'settings'].forEach(t => { 
+                document.getElementById(`admin-${t}-section`).classList.add('hidden'); 
+                document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition"; 
+            });
+            document.getElementById(`admin-${tab}-section`).classList.remove('hidden'); 
+            document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold shadow-md";
+            if(tab === 'users') loadAdminUsers(); 
+            if(tab === 'settings') renderAdminSettings();
+            if(tab === 'articles') adminLoadArticles();
+            if(tab === 'grading') loadSubmissions();
+        }
+
+
+        // ================= CHẤM ĐIỂM BÀI NỘP (ADMIN) =================
+        let userCred = null;      // Tài khoản đăng nhập hiện tại (lưu tạm trong phiên) - gửi kèm mọi yêu cầu cần quyền
+        async function api(payload) {
+            if (!userCred) throw new Error('Phiên đăng nhập đã hết, vui lòng đăng nhập lại.');
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ authUser: userCred.username, authPass: userCred.password }, payload)) });
+            return await res.json();
+        }
+        // Gọi API và tự báo lỗi nếu bị từ chối (dùng cho các thao tác ghi dữ liệu)
+        async function apiCheck(payload) {
+            const r = await api(payload);
+            if (r && r.status !== 'success') alert(r.message || 'Thao tác thất bại!');
+            return r;
+        }
+        let adminSubs = [];       // Toàn bộ bài nộp
+        let gradeList = [];       // Danh sách đang hiển thị (sau lọc) để chuyển bài trước/sau
+        let gradeCurrentRow = null;
+
+        function esc(s) { return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+        function hasScore(v) { return v !== '' && v !== null && v !== undefined && !isNaN(parseFloat(v)); }
+        function fmtScore(v) { return String(Math.round(parseFloat(v) * 100) / 100).replace('.', ','); }
+        function scoreColor(v) { const n = parseFloat(v); return n >= 8 ? 'bg-emerald-100 text-emerald-700' : (n >= 5 ? 'bg-blue-100 text-blue-700' : 'bg-rose-100 text-rose-700'); }
+
+        const postAdmin = api;
+
+        async function loadSubmissions() {
+            const tbody = document.getElementById('admin-grading-table');
+            tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải bài nộp...</td></tr>`;
+            try {
+                const r = await postAdmin({ action: 'get_submissions' });
+                if (r.status !== 'success') { tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</td></tr>`; return; }
+                adminSubs = r.data;
+                renderSubmissions();
+            } catch (e) { tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-red-500 font-bold">${esc(e.message || 'Lỗi kết nối')}</td></tr>`; }
+        }
+
+        function updateGradingStats() {
+            const done = adminSubs.filter(s => hasScore(s.diem));
+            const avg = done.length ? done.reduce((a, s) => a + parseFloat(s.diem), 0) / done.length : null;
+            document.getElementById('gr-stat-total').innerText = adminSubs.length;
+            document.getElementById('gr-stat-done').innerText = done.length;
+            document.getElementById('gr-stat-pending').innerText = adminSubs.length - done.length;
+            document.getElementById('gr-stat-avg').innerText = avg === null ? '-' : fmtScore(avg);
+            const badge = document.getElementById('grading-badge'), pending = adminSubs.length - done.length;
+            if (pending > 0) { badge.innerText = pending; badge.classList.remove('hidden'); } else badge.classList.add('hidden');
+        }
+
+        function renderSubmissions() {
+            updateGradingStats();
+            const tbody = document.getElementById('admin-grading-table');
+            const kw = (document.getElementById('gr-search').value || '').trim().toLowerCase();
+            const flt = document.getElementById('gr-filter').value;
+            gradeList = adminSubs.filter(s => {
+                if (flt === 'pending' && hasScore(s.diem)) return false;
+                if (flt === 'done' && !hasScore(s.diem)) return false;
+                if (kw && !(`${s.hoten} ${s.username} ${s.tenfile}`.toLowerCase().includes(kw))) return false;
+                return true;
+            }).sort((a, b) => new Date(b.thoigian) - new Date(a.thoigian));
+
+            if (gradeList.length === 0) { tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500 font-medium">Không có bài nộp nào phù hợp.</td></tr>`; return; }
+            tbody.innerHTML = gradeList.map((s, i) => {
+                const scored = hasScore(s.diem);
+                const d = new Date(s.thoigian).toLocaleString('vi-VN');
+                const scoreCell = scored ? `<span class="inline-block ${scoreColor(s.diem)} font-black px-3 py-1.5 rounded-lg">${fmtScore(s.diem)}</span>` : `<span class="bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1.5 rounded-lg">Chưa chấm</span>`;
+                return `<tr class="hover:bg-slate-50 transition">
+                    <td class="p-4 text-center text-slate-400 font-mono text-xs">${i + 1}</td>
+                    <td class="p-4"><div class="font-bold text-slate-700">${esc(s.hoten)}</div><div class="text-xs text-slate-400 font-mono">${esc(s.username)}</div></td>
+                    <td class="p-4"><div class="flex items-center gap-3">${getFileIcon(String(s.tenfile))}<a href="${esc(s.link)}" target="_blank" rel="noopener" class="font-semibold text-slate-700 hover:text-teal-600 break-all">${esc(s.tenfile)}</a></div></td>
+                    <td class="p-4 font-mono text-xs text-slate-500 whitespace-nowrap">${d}</td>
+                    <td class="p-4 text-center">${scoreCell}</td>
+                    <td class="p-4 text-xs text-slate-600 max-w-xs">${esc(s.nhanxet) || '<span class="text-slate-300">—</span>'}</td>
+                    <td class="p-4 text-center whitespace-nowrap"><button onclick="openGradeModal(${s.rowIndex})" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-teal-700 shadow-sm">${scored ? '<i class="fas fa-pen mr-1"></i> Sửa điểm' : '<i class="fas fa-check mr-1"></i> Chấm điểm'}</button></td>
+                </tr>`;
+            }).join('');
+        }
+
+        function openGradeModal(rowIndex) {
+            const s = adminSubs.find(x => x.rowIndex === rowIndex); if (!s) return;
+            gradeCurrentRow = rowIndex;
+            document.getElementById('gm-student').innerText = `${s.hoten} (${s.username})`;
+            document.getElementById('gm-time').innerText = 'Nộp lúc: ' + new Date(s.thoigian).toLocaleString('vi-VN') + (s.thoigiancham ? '  |  Chấm lúc: ' + new Date(s.thoigiancham).toLocaleString('vi-VN') : '');
+            document.getElementById('gm-icon').innerHTML = getFileIcon(String(s.tenfile));
+            document.getElementById('gm-file').innerText = s.tenfile;
+            document.getElementById('gm-link').href = s.link;
+            document.getElementById('gm-diem').value = hasScore(s.diem) ? parseFloat(s.diem) : '';
+            document.getElementById('gm-nhanxet').value = s.nhanxet || '';
+            const msg = document.getElementById('gm-msg'); msg.classList.add('hidden');
+            document.getElementById('modal-grade').classList.remove('hidden');
+            setTimeout(() => document.getElementById('gm-diem').focus(), 50);
+        }
+        function closeGradeModal() { document.getElementById('modal-grade').classList.add('hidden'); gradeCurrentRow = null; }
+        function setQuickScore(n) { document.getElementById('gm-diem').value = n; }
+        function addQuickComment(t) { const el = document.getElementById('gm-nhanxet'); el.value = el.value.trim() ? el.value.trim() + ' ' + t : t; }
+
+        function gradeNav(step) {
+            const idx = gradeList.findIndex(x => x.rowIndex === gradeCurrentRow); if (idx < 0) return;
+            const n = gradeList[idx + step]; if (n) openGradeModal(n.rowIndex);
+        }
+
+        async function saveGrade(goNext) {
+            const s = adminSubs.find(x => x.rowIndex === gradeCurrentRow); if (!s) return;
+            const raw = document.getElementById('gm-diem').value.trim().replace(',', '.');
+            const nhanxet = document.getElementById('gm-nhanxet').value.trim();
+            const msg = document.getElementById('gm-msg');
+            const showMsg = (t, ok) => { msg.innerText = t; msg.className = 'text-sm font-bold p-3 rounded-xl ' + (ok ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'); };
+            if (raw !== '') { const n = parseFloat(raw); if (isNaN(n) || n < 0 || n > 10) return showMsg('Điểm phải nằm trong khoảng 0 - 10!', false); }
+            const b1 = document.getElementById('gm-save'), b2 = document.getElementById('gm-save-next');
+            b1.disabled = b2.disabled = true; const t1 = b1.innerHTML; b1.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            try {
+                const r = await postAdmin({ action: 'grade_submission', rowIndex: s.rowIndex, link: s.link, diem: raw, nhanxet });
+                if (r.status === 'success') {
+                    s.diem = r.diem; s.nhanxet = r.nhanxet; s.thoigiancham = new Date().toISOString();
+                    const idxBefore = gradeList.findIndex(x => x.rowIndex === s.rowIndex);
+                    renderSubmissions();
+                    if (goNext) {
+                        // Ưu tiên bài chưa chấm kế tiếp; nếu hết thì thông báo
+                        const nextPending = adminSubs.filter(x => !hasScore(x.diem)).sort((a, b) => new Date(b.thoigian) - new Date(a.thoigian))[0];
+                        const nxt = gradeList.slice(idxBefore + 1).find(x => !hasScore(x.diem)) || nextPending;
+                        if (nxt) openGradeModal(nxt.rowIndex); else { closeGradeModal(); alert('Đã chấm xong tất cả bài nộp!'); }
+                    } else showMsg('Đã lưu điểm!', true);
+                } else showMsg(r.message || 'Lưu thất bại!', false);
+            } catch (e) { showMsg('Lỗi kết nối, vui lòng thử lại!', false); }
+            b1.disabled = b2.disabled = false; b1.innerHTML = t1;
+        }
+
+        function exportGradesCSV() {
+            if (adminSubs.length === 0) return alert('Chưa có dữ liệu để xuất!');
+            const q = v => '"' + String(v === null || v === undefined ? '' : v).replace(/"/g, '""') + '"';
+            const rows = [['Họ tên', 'Username', 'Tên file', 'Thời gian nộp', 'Điểm', 'Nhận xét', 'Thời gian chấm', 'Link file']];
+            [...adminSubs].sort((a, b) => String(a.hoten).localeCompare(String(b.hoten), 'vi')).forEach(s => rows.push([s.hoten, s.username, s.tenfile, new Date(s.thoigian).toLocaleString('vi-VN'), hasScore(s.diem) ? fmtScore(s.diem) : '', s.nhanxet, s.thoigiancham ? new Date(s.thoigiancham).toLocaleString('vi-VN') : '', s.link]));
+            const blob = new Blob(['\uFEFF' + rows.map(r => r.map(q).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'diem_bai_thuc_hanh.csv'; a.click(); URL.revokeObjectURL(a.href);
+        }
+
+        // TAB ADMIN: NGƯỜI DÙNG
+        async function loadAdminUsers() {
+            const tbody = document.getElementById('admin-users-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>`;
+            try {
+                const resU = await api({ action: 'get_users' }); if (resU.status !== 'success') return tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-red-500 font-bold">${esc(resU.message || 'Lỗi tải dữ liệu')}</td></tr>`; const users = resU.data; tbody.innerHTML = '';
+                if(users.length === 0) return tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">Chưa có người dùng.</td></tr>`;
+                users.forEach(u => {
+                    let stBadge = u.trangthai==='pending' ? `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ duyệt</span>` : (u.trangthai==='blocked' ? `<span class="bg-rose-100 text-rose-700 font-bold px-3 py-1.5 rounded-lg text-xs">Đã Khóa</span>` : `<span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1.5 rounded-lg text-xs">Hoạt động</span>`);
+                    let acts = u.trangthai==='pending' ? `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:bg-emerald-600">Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-rose-600">Xóa</button>`
+                        : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border border-slate-200 text-xs font-bold rounded-lg p-1.5 mr-1 text-slate-600 outline-none"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>ALL</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${u.trangthai==='active'?'blocked':'active'}', '${u.loai}')" class="${u.trangthai==='active'?'bg-orange-500':'bg-emerald-500'} text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:opacity-90">${u.trangthai==='active'?'Khóa':'Mở'}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-rose-600"><i class="fas fa-trash"></i></button>`;
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition"><td class="p-4 font-bold text-slate-700">${u.username}</td><td class="p-4 text-slate-400 font-mono text-xs">${u.password}</td><td class="p-4 font-semibold text-slate-700">${u.hoten}</td><td class="p-4 uppercase text-xs font-black text-blue-600">${u.loai}</td><td class="p-4 text-center">${stBadge}</td><td class="p-4 text-center whitespace-nowrap">${acts}</td></tr>`;
+                });
+            } catch (e) { tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-6 font-bold">Lỗi tải dữ liệu</td></tr>`; }
+        }
+        async function updateUserStatus(rowIndex, status, loai) { await apiCheck({ action: 'update_user_status', rowIndex, trangthai: status, loai }); loadAdminUsers(); }
+        async function adminDeleteUser(rowIndex) { if(!confirm("XÓA VĨNH VIỄN TÀI KHOẢN NÀY?")) return; await apiCheck({ action: 'delete_user', rowIndex: rowIndex }); loadAdminUsers(); }
+        async function adminAddUser() {
+            const u = document.getElementById('admin-add-username').value.trim(), p = document.getElementById('admin-add-password').value.trim(), h = document.getElementById('admin-add-hoten').value.trim(), l = document.getElementById('admin-add-loai').value;
+            if (!u || !p || !h) return alert("Nhập đủ thông tin!"); await apiCheck({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l });
+            document.getElementById('admin-add-username').value=''; document.getElementById('admin-add-password').value=''; document.getElementById('admin-add-hoten').value=''; loadAdminUsers();
+        }
+
+        // TAB ADMIN: BÀI VIẾT (MỚI)
+        function adminLoadArticles() {
+            const tbody = document.getElementById('admin-articles-table');
+            tbody.innerHTML = '';
+            if(dbArticles.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trên hệ thống.</td></tr>`;
+                return;
+            }
+            dbArticles.forEach((art, idx) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                        <td class="p-4 font-mono font-bold text-blue-600 text-xs">${art.MaBai}</td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-3">
+                                <img src="${art.LinkAnh}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'">
+                                <span class="font-bold text-slate-700 leading-snug line-clamp-2">${art.TieuDe}</span>
+                            </div>
+                        </td>
+                        <td class="p-4 uppercase text-xs font-black text-slate-400 tracking-wider">${art.PhanLoai}</td>
+                        <td class="p-4 text-center whitespace-nowrap">
+                            <button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button>
+                            <button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        function openArticleModal(artData = null) {
+            document.getElementById('modal-article').classList.remove('hidden');
+            if (artData) {
+                document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-edit text-blue-500 mr-2'></i> Sửa Bài Viết";
+                document.getElementById('modal-a-rowindex').value = artData._rowIndex;
+                document.getElementById('modal-a-mabai').value = artData.MaBai || ""; document.getElementById('modal-a-mabai').readOnly = true;
+                document.getElementById('modal-a-tieude').value = artData.TieuDe || "";
+                document.getElementById('modal-a-linkanh').value = artData.LinkAnh || "";
+                document.getElementById('modal-a-tomtat').value = artData.TomTat || "";
+                document.getElementById('modal-a-noidung').value = artData.NoiDung || "";
+                document.getElementById('modal-a-phanloai').value = artData.PhanLoai || "";
+            } else {
+                document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-plus-circle text-teal-500 mr-2'></i> Viết Bài Mới";
+                document.getElementById('modal-a-rowindex').value = "";
+                document.getElementById('modal-a-mabai').value = "ID_" + new Date().getTime(); document.getElementById('modal-a-mabai').readOnly = false;
+                document.getElementById('modal-a-tieude').value = ""; document.getElementById('modal-a-linkanh').value = "";
+                document.getElementById('modal-a-tomtat').value = ""; document.getElementById('modal-a-noidung').value = ""; document.getElementById('modal-a-phanloai').value = "cb";
+            }
+        }
+        function closeArticleModal() { document.getElementById('modal-article').classList.add('hidden'); }
+        function editArticle(index) { openArticleModal(dbArticles[index]); }
+        
+        async function adminSaveArticle() {
+            const btn = document.getElementById('modal-btn-save-art');
+            const rowIndex = document.getElementById('modal-a-rowindex').value;
+            const a = {
+                MaBai: document.getElementById('modal-a-mabai').value.trim(),
+                TieuDe: document.getElementById('modal-a-tieude').value.trim(),
+                LinkAnh: document.getElementById('modal-a-linkanh').value.trim(),
+                TomTat: document.getElementById('modal-a-tomtat').value.trim(),
+                NoiDung: document.getElementById('modal-a-noidung').value.trim(),
+                PhanLoai: document.getElementById('modal-a-phanloai').value.trim()
+            };
+            if(!a.MaBai || !a.TieuDe) return alert("Thiếu ID hoặc Tiêu đề!");
+            btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Đang tải lên...";
+            try { 
+                const res = await apiCheck({ action: 'save_article', rowIndex: rowIndex || null, article: a }); 
+                // Cập nhật lại Database cục bộ
+                const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json();
+                closeArticleModal(); adminLoadArticles(); renderHomeArticles(); renderNavArticles();
+            } catch(e) { alert("Lỗi kết nối"); }
+            btn.disabled = false; btn.innerHTML = "<i class='fas fa-cloud-upload-alt mr-2'></i> Đăng Bài Viết";
+        }
+
+        async function adminDeleteArticle(index) {
+            if(!confirm("Gỡ bài viết này?")) return;
+            const art = dbArticles[index];
+            try {
+                await apiCheck({ action: 'delete_article', rowIndex: art._rowIndex });
+                const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json();
+                adminLoadArticles(); renderHomeArticles(); renderNavArticles();
+            } catch(e) {}
+        }
+
+        // TAB ADMIN: CÂU HỎI
+        async function adminLoadQuestions() {
+            const cat = document.getElementById('admin-q-cat').value, made = document.getElementById('admin-q-made').value.trim(), tbody = document.getElementById('admin-questions-table'), btn = document.getElementById('btn-load-qs');
+            if(!made) return alert("Vui lòng nhập Mã đề!"); btn.disabled = true; btn.innerText = "Đang lấy DL..."; tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center font-bold text-blue-500"><i class="fas fa-spinner fa-spin mr-2"></i> Tải câu hỏi...</td></tr>`;
+            try {
+                const resQ = await api({ action: 'get_questions', made: made, cat: cat }); if (resQ.status !== 'success') { alert(resQ.message || 'Lỗi tải câu hỏi'); btn.disabled = false; btn.innerText = 'Truy Xuất Dữ Liệu'; tbody.innerHTML = ''; return; } adminQuestionsData = resQ.data; tbody.innerHTML = '';
+                if(adminQuestionsData.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-medium bg-slate-50 rounded-xl">Đề này trống. Bấm nút Thêm để bắt đầu tạo.</td></tr>`, btn.disabled = false, btn.innerText = "Truy Xuất Dữ Liệu";
+                adminQuestionsData.forEach((q, idx) => {
+                    const ans = String(q.DapAnDung || "").toUpperCase();
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-black text-slate-400 text-center">${idx + 1}</td><td class="p-4 font-semibold text-slate-700 leading-snug">${q.NoiDung}</td><td class="p-4 font-black text-emerald-600 text-center text-lg tracking-widest">${ans}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button></td></tr>`;
+                });
+            } catch(e) {} btn.disabled = false; btn.innerText = "Truy Xuất Dữ Liệu";
+        }
+        function openQuestionModal(qData) {
+            document.getElementById('modal-question').classList.remove('hidden'); const m = document.getElementById('admin-q-made').value.trim();
+            if (qData) { document.getElementById('modal-q-title').innerHTML = "<i class='fas fa-edit text-blue-500 mr-2'></i> Sửa Câu Hỏi"; document.getElementById('modal-q-rowindex').value = qData._rowIndex; document.getElementById('modal-q-made').value = qData.MaDe || ""; document.getElementById('modal-q-noidung').value = qData.NoiDung || ""; document.getElementById('modal-q-a').value = qData.DapAnA || ""; document.getElementById('modal-q-b').value = qData.DapAnB || ""; document.getElementById('modal-q-c').value = qData.DapAnC || ""; document.getElementById('modal-q-d').value = qData.DapAnD || ""; document.getElementById('modal-q-dapandung').value = qData.DapAnDung || ""; } 
+            else { document.getElementById('modal-q-title').innerHTML = "<i class='fas fa-plus-circle text-emerald-500 mr-2'></i> Thêm Câu Mới"; document.getElementById('modal-q-rowindex').value = ""; document.getElementById('modal-q-made').value = m; document.getElementById('modal-q-noidung').value = ""; document.getElementById('modal-q-a').value = ""; document.getElementById('modal-q-b').value = ""; document.getElementById('modal-q-c').value = ""; document.getElementById('modal-q-d').value = ""; document.getElementById('modal-q-dapandung').value = ""; }
+        }
+        function closeQuestionModal() { document.getElementById('modal-question').classList.add('hidden'); }
+        function editQuestion(index) { openQuestionModal(adminQuestionsData[index]); }
+        async function adminSaveQuestion() {
+            const btn = document.getElementById('modal-btn-save'), cat = document.getElementById('admin-q-cat').value, rowIndex = document.getElementById('modal-q-rowindex').value;
+            const q = { MaDe: document.getElementById('modal-q-made').value.trim(), NoiDung: document.getElementById('modal-q-noidung').value.trim(), DapAnA: document.getElementById('modal-q-a').value.trim(), DapAnB: document.getElementById('modal-q-b').value.trim(), DapAnC: document.getElementById('modal-q-c').value.trim(), DapAnD: document.getElementById('modal-q-d').value.trim(), DapAnDung: document.getElementById('modal-q-dapandung').value.trim().toUpperCase() };
+            if(!q.MaDe || !q.NoiDung || !q.DapAnDung) return alert("Nhập Nội dung và Đáp án!"); btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Đang lưu...";
+            try { await apiCheck({ action: 'save_question', category: cat, rowIndex: rowIndex || null, question: q }); closeQuestionModal(); document.getElementById('admin-q-made').value = q.MaDe; adminLoadQuestions(); } catch(e) {}
+            btn.disabled = false; btn.innerHTML = "Lưu Hệ Thống";
+        }
+        async function deleteQuestion(index) {
+            if(!confirm("Xóa câu hỏi vĩnh viễn?")) return; const q = adminQuestionsData[index], cat = document.getElementById('admin-q-cat').value;
+            try { await apiCheck({ action: 'delete_question', category: cat, rowIndex: q._rowIndex }); adminLoadQuestions(); } catch(e) {}
+        }
+
+        // TAB ADMIN: CẤU HÌNH (SỐ ĐỀ & VIDEO)
+        function renderAdminSettings() {
+            document.getElementById('admin-so-de-cb').value = systemConfig.so_de_cb; document.getElementById('admin-so-de-nc').value = systemConfig.so_de_nc;
+            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb; document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
+            const container = document.getElementById('admin-video-list'); container.innerHTML = '';
+            ['cb', 'nc'].forEach(cat => {
+                let html = `<div class="mb-6"><h4 class="font-black text-slate-400 mb-3 text-xs tracking-widest bg-slate-100 inline-block px-3 py-1 rounded-full">${cat==='cb'?'CƠ BẢN':'NÂNG CAO'}</h4><div class="space-y-2">`;
+                if(systemConfig.videos[cat]) systemConfig.videos[cat].forEach((v, idx) => { html += `<div class="flex justify-between items-center p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 transition"><div><span class="font-mono text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded mr-3">${v.id}</span> <span class="font-bold text-slate-700">${v.title}</span></div><button onclick="adminDeleteVideo('${cat}', ${idx})" class="text-rose-500 bg-rose-50 hover:bg-rose-500 hover:text-white px-3 py-1.5 rounded-lg font-bold transition text-xs shadow-sm">Xóa</button></div>`; });
+                html += `</div></div>`; container.innerHTML += html;
+            });
+        }
+        async function saveSystemConfig() {
+            systemConfig.so_de_cb = parseInt(document.getElementById('admin-so-de-cb').value) || 35; systemConfig.so_de_nc = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
+            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb; document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
+            await apiCheck({ action: 'update_config', config: systemConfig }); alert("Đã lưu giới hạn Đề!");
+        }
+        function adminAddVideo() {
+            const c = document.getElementById('admin-vid-loai').value, rawUrl = document.getElementById('admin-vid-id').value.trim(), t = document.getElementById('admin-vid-title').value.trim();
+            if(!rawUrl || !t) return alert("Nhập Link Youtube và Tên bài giảng!"); const id = extractYouTubeID(rawUrl); systemConfig.videos[c].push({id: id, title: t});
+            document.getElementById('admin-vid-id').value=''; document.getElementById('admin-vid-title').value=''; renderAdminSettings(); apiCheck({ action: 'update_config', config: systemConfig });
+        }
+        function adminDeleteVideo(c, idx) { if(!confirm("Gỡ video?")) return; systemConfig.videos[c].splice(idx, 1); renderAdminSettings(); apiCheck({ action: 'update_config', config: systemConfig }); }
+
+        // ================= HỌC VIÊN VIDEO & CHỌN ĐỀ =================
         function openVideoSection(category) {
             navigate('videos'); const list = systemConfig.videos[category] || [];
             document.getElementById('video-section-title').innerHTML = category==='cb'?'Luyện Video Cơ Bản':'Luyện Video Nâng Cao';
@@ -698,7 +1194,7 @@
             enterFullscreen(); navigate('loading');
             document.getElementById('display-name').innerText = studentInfo.name; document.getElementById('display-quiz').innerText = quizId;
             try {
-                const res = await fetch(`${API_URL}?made=${quizId}`); quizData = await res.json();
+                const resQ = await api({ action: 'get_questions', made: quizId }); if (resQ.status !== 'success') return alert(resQ.message || 'Không tải được đề!'), isTakingQuiz = false, exitFullscreen(), navigate('select'); quizData = resQ.data;
                 if(quizData.length === 0) return alert(`Đề ${quizId} chưa có câu hỏi!`), isTakingQuiz = false, exitFullscreen(), navigate('select');
                 renderQuestions();
                 if (savedState && savedState.answers) {
@@ -727,7 +1223,6 @@
                 c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div><div class="font-bold text-lg mb-6 flex items-start text-slate-800"><span class="bg-blue-100 text-blue-700 px-4 py-1 mr-4 rounded-lg font-black shrink-0 shadow-sm border border-blue-200">Câu ${i+1}</span><span class="leading-relaxed mt-0.5">${q.NoiDung}</span></div><div class="space-y-3 pl-2">${opts}</div></div>`;
             });
         }
-
         function getSessionUserChoices() { let ch = {}; quizData.forEach((_, i) => { let arr = []; document.querySelectorAll(`input[name="q${i}"]:checked`).forEach(n => arr.push(n.value.toUpperCase())); ch[i] = arr; }); return ch; }
 
         async function submitQuiz(timeout = false) {
@@ -742,27 +1237,30 @@
             let score = (right / quizData.length) * 10;
             document.getElementById('score-display').innerText = score.toFixed(1); document.getElementById('correct-count').innerText = right; document.getElementById('total-count').innerText = quizData.length;
             isTakingQuiz = false; exitFullscreen(); localStorage.removeItem('quizState_' + studentInfo.username); navigate('result');
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'submit', hoc_vien: studentInfo.username, ma_de: studentInfo.quizId, diem_so: score.toFixed(1) + " Điểm", so_cau_dung: right, chi_tiet_dap_an: chiTiet }) });
+            apiCheck({ action: 'submit', hoc_vien: studentInfo.username, ma_de: studentInfo.quizId, diem_so: score.toFixed(1) + " Điểm", so_cau_dung: right, chi_tiet_dap_an: chiTiet });
         }
 
         function openReviewModal() {
-            const c = document.getElementById('review-container'); c.innerHTML = ''; let ch = getSessionUserChoices();
+            const c = document.getElementById('review-container'); c.innerHTML = '';
+            let ch = getSessionUserChoices();
             quizData.forEach((q, i) => {
                 let uC = ch[i]||[], cC = String(q.DapAnDung||"").toUpperCase().replace(/[\s,]/g,'').split('');
                 let isOK = uC.length === cC.length && uC.every(v => cC.includes(v));
                 let opts = ['A','B','C','D'].map(o => {
-                    if(!q['DapAn'+o]) return ''; let st = cC.includes(o) ? "bg-emerald-50 border-emerald-500 font-bold shadow-sm" : (uC.includes(o) ? "bg-rose-50 border-rose-400 font-bold text-rose-700 shadow-sm" : "border-slate-100 text-slate-600");
+                    if(!q['DapAn'+o]) return '';
+                    let st = cC.includes(o) ? "bg-emerald-50 border-emerald-500 font-bold shadow-sm" : (uC.includes(o) ? "bg-rose-50 border-rose-400 font-bold text-rose-700 shadow-sm" : "border-slate-100 text-slate-600");
                     let icon = cC.includes(o) ? '<i class="fas fa-check text-emerald-600 ml-auto"></i>' : (uC.includes(o)?'<i class="fas fa-times text-rose-500 ml-auto"></i>':'');
                     return `<div class="p-4 border-2 rounded-xl mb-3 flex items-start transition-all ${st}"><span class="w-8 font-black">${o}.</span><span class="font-medium mr-4">${q['DapAn'+o]}</span>${icon}</div>`;
                 });
                 c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 ${isOK?'bg-emerald-500':'bg-rose-500'}"></div><div class="mb-6 flex items-center justify-between"><div class="flex items-center"><span class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-lg font-black mr-4 shadow-sm border border-slate-200">Câu ${i+1}</span>${isOK?'<span class="text-emerald-600 font-black bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200"><i class="fas fa-check-circle mr-1"></i> Chính xác</span>':'<span class="text-rose-600 font-black bg-rose-50 px-3 py-1 rounded-lg border border-rose-200"><i class="fas fa-times-circle mr-1"></i> Sai</span>'}</div></div><div class="font-bold text-slate-800 text-lg mb-6 leading-relaxed">${q.NoiDung}</div>${opts}</div>`;
-            }); navigate('review');
+            });
+            navigate('review');
         }
 
         async function fetchQuizHistory() {
             navigate('loading');
             try {
-                const res = await fetch(`${API_URL}?action=history&username=${studentInfo.username}`); const hist = await res.json();
+                const resH = await api({ action: 'history' }); if (resH.status !== 'success') { alert(resH.message || 'Lỗi tải lịch sử'); navigate('select'); return; } const hist = resH.data;
                 const c = document.getElementById('history-container'); c.innerHTML = '';
                 if(hist.length === 0) c.innerHTML = `<div class="text-center py-16"><i class="fas fa-folder-open text-6xl text-slate-200 mb-4"></i><p class="text-slate-500 font-bold">Chưa có lịch sử làm bài.</p></div>`;
                 else hist.reverse().forEach(item => {
@@ -775,7 +1273,7 @@
         async function viewHistDetail(made, chitiet) {
             navigate('loading');
             try {
-                const res = await fetch(`${API_URL}?made=${made}`); quizData = await res.json();
+                const resQ = await api({ action: 'get_questions', made: made }); if (resQ.status !== 'success') { alert(resQ.message || 'Không tải được đề!'); navigate('history'); return; } quizData = resQ.data;
                 let parsed = {}; try { parsed = JSON.parse(chitiet.replace(/&quot;/g, '"')); } catch(e){}
                 const c = document.getElementById('review-container'); c.innerHTML = '';
                 quizData.forEach((q, i) => {
@@ -790,135 +1288,6 @@
                 }); navigate('review');
             } catch (e) { alert("Lỗi tải đề"); navigate('history'); }
         }
-
-        // ================= ADMIN CÁC CHỨC NĂNG =================
-        function switchAdminTab(tab) {
-            ['users', 'practical', 'articles', 'questions', 'settings'].forEach(t => { 
-                document.getElementById(`admin-${t}-section`).classList.add('hidden'); 
-                document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition"; 
-            });
-            document.getElementById(`admin-${tab}-section`).classList.remove('hidden'); 
-            document.getElementById(`tab-${tab}-btn`).className = "bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md";
-            if(tab === 'users') loadAdminUsers(); 
-            if(tab === 'settings') renderAdminSettings();
-            if(tab === 'articles') adminLoadArticles();
-            if(tab === 'practical') adminLoadPractical();
-        }
-
-        async function loadAdminUsers() {
-            const tbody = document.getElementById('admin-users-table'); if(!tbody) return; tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>`;
-            try {
-                const res = await fetch(API_URL + "?action=get_users"); const users = await res.json(); tbody.innerHTML = '';
-                if(users.length === 0) return tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">Chưa có người dùng.</td></tr>`;
-                users.forEach(u => {
-                    let stBadge = u.trangthai==='pending' ? `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ duyệt</span>` : (u.trangthai==='blocked' ? `<span class="bg-rose-100 text-rose-700 font-bold px-3 py-1.5 rounded-lg text-xs">Đã Khóa</span>` : `<span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1.5 rounded-lg text-xs">Hoạt động</span>`);
-                    let acts = u.trangthai==='pending' ? `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:bg-emerald-600">Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-rose-600">Xóa</button>`
-                        : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border border-slate-200 text-xs font-bold rounded-lg p-1.5 mr-1 text-slate-600 outline-none"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>ALL</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${u.trangthai==='active'?'blocked':'active'}', '${u.loai}')" class="${u.trangthai==='active'?'bg-orange-500':'bg-emerald-500'} text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:opacity-90">${u.trangthai==='active'?'Khóa':'Mở'}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-rose-600"><i class="fas fa-trash"></i></button>`;
-                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-bold text-slate-700">${u.username}</td><td class="p-4 text-slate-400 font-mono text-xs">${u.password}</td><td class="p-4 font-semibold text-slate-700">${u.hoten}</td><td class="p-4 uppercase text-xs font-black text-blue-600">${u.loai}</td><td class="p-4 text-center">${stBadge}</td><td class="p-4 text-center whitespace-nowrap">${acts}</td></tr>`;
-                });
-            } catch (e) { tbody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500 p-6 font-bold">Lỗi tải dữ liệu</td></tr>`; }
-        }
-        async function updateUserStatus(rowIndex, status, loai) { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_user_status', rowIndex, trangthai: status, loai }) }); loadAdminUsers(); }
-        async function adminDeleteUser(rowIndex) { if(!confirm("XÓA VĨNH VIỄN TÀI KHOẢN NÀY?")) return; await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_user', rowIndex: rowIndex }) }); loadAdminUsers(); }
-        async function adminAddUser() {
-            const u = document.getElementById('admin-add-username').value.trim(), p = document.getElementById('admin-add-password').value.trim(), h = document.getElementById('admin-add-hoten').value.trim(), l = document.getElementById('admin-add-loai').value;
-            if (!u || !p || !h) return alert("Nhập đủ thông tin!"); await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'add_user_direct', username: u, password: p, hoten: h, loai: l }) });
-            document.getElementById('admin-add-username').value=''; document.getElementById('admin-add-password').value=''; document.getElementById('admin-add-hoten').value=''; loadAdminUsers();
-        }
-
-        async function adminLoadPractical() {
-            const tbody = document.getElementById('admin-practical-table'); if(!tbody) return;
-            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-teal-600 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu thực hành...</td></tr>`;
-            try {
-                const res = await fetch(API_URL + "?action=admin_get_all_files"); const files = await res.json(); tbody.innerHTML = '';
-                if(files.length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500">Chưa có bài thực hành nào được nộp.</td></tr>`;
-                files.reverse().forEach(f => {
-                    const icon = getFileIcon(f.tenfile); const d = new Date(f.thoigian).toLocaleString('vi-VN');
-                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4"><div class="font-bold text-slate-700">${f.hoten}</div><div class="text-xs font-mono text-slate-400 mt-1">${f.username}</div></td><td class="p-4 flex items-center gap-3"><div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center">${icon}</div><div><a href="${f.link}" target="_blank" class="font-bold text-blue-600 hover:underline line-clamp-1" title="Tải file">${f.tenfile}</a><div class="text-xs text-slate-400 mt-1"><i class="far fa-clock"></i> ${d}</div></div></td><td class="p-4 text-center"><input type="number" id="grade-diem-${f.rowIndex}" value="${f.diem}" placeholder="Điểm" class="w-16 border-2 border-slate-200 p-2 rounded-lg text-center font-bold text-teal-600 focus:border-teal-500 outline-none"></td><td class="p-4"><input type="text" id="grade-nhanxet-${f.rowIndex}" value="${f.nhanxet}" placeholder="Nhập lời phê..." class="w-full border-2 border-slate-200 p-2 rounded-lg text-sm font-medium focus:border-teal-500 outline-none"></td><td class="p-4 text-center"><button onclick="savePracticalGrade(${f.rowIndex})" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-bold shadow-md shadow-teal-200 transition"><i class="fas fa-save"></i> Lưu</button></td></tr>`;
-                });
-            } catch (err) { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">Lỗi tải dữ liệu</td></tr>`; }
-        }
-        async function savePracticalGrade(rowIndex) {
-            const d = document.getElementById('grade-diem-' + rowIndex).value.trim(), nx = document.getElementById('grade-nhanxet-' + rowIndex).value.trim();
-            if (!d) return alert("Vui lòng nhập điểm số!");
-            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'grade_file', rowIndex: rowIndex, diem: d, nhanxet: nx }) }); alert("Đã lưu điểm thành công!"); } catch (e) { alert("Lỗi mạng!"); }
-        }
-
-        function adminLoadArticles() {
-            const tbody = document.getElementById('admin-articles-table'); tbody.innerHTML = '';
-            if(dbArticles.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trên hệ thống.</td></tr>`;
-            dbArticles.forEach((art, idx) => {
-                tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-mono font-bold text-blue-600 text-xs">${art.MaBai}</td><td class="p-4"><div class="flex items-center gap-3"><img src="${art.LinkAnh}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'"><span class="font-bold text-slate-700 leading-snug line-clamp-2">${art.TieuDe}</span></div></td><td class="p-4 uppercase text-xs font-black text-slate-400 tracking-wider">${art.PhanLoai}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button><button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button></td></tr>`;
-            });
-        }
-        function openArticleModal(artData = null) {
-            document.getElementById('modal-article').classList.remove('hidden');
-            if (artData) { document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-edit text-blue-500 mr-2'></i> Sửa Bài Viết"; document.getElementById('modal-a-rowindex').value = artData._rowIndex; document.getElementById('modal-a-mabai').value = artData.MaBai || ""; document.getElementById('modal-a-mabai').readOnly = true; document.getElementById('modal-a-tieude').value = artData.TieuDe || ""; document.getElementById('modal-a-linkanh').value = artData.LinkAnh || ""; document.getElementById('modal-a-tomtat').value = artData.TomTat || ""; document.getElementById('modal-a-noidung').value = artData.NoiDung || ""; document.getElementById('modal-a-phanloai').value = artData.PhanLoai || ""; } 
-            else { document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-plus-circle text-teal-500 mr-2'></i> Viết Bài Mới"; document.getElementById('modal-a-rowindex').value = ""; document.getElementById('modal-a-mabai').value = "ID_" + new Date().getTime(); document.getElementById('modal-a-mabai').readOnly = false; document.getElementById('modal-a-tieude').value = ""; document.getElementById('modal-a-linkanh').value = ""; document.getElementById('modal-a-tomtat').value = ""; document.getElementById('modal-a-noidung').value = ""; document.getElementById('modal-a-phanloai').value = "cb"; }
-        }
-        function closeArticleModal() { document.getElementById('modal-article').classList.add('hidden'); }
-        function editArticle(index) { openArticleModal(dbArticles[index]); }
-        async function adminSaveArticle() {
-            const btn = document.getElementById('modal-btn-save-art'), rowIndex = document.getElementById('modal-a-rowindex').value;
-            const a = { MaBai: document.getElementById('modal-a-mabai').value.trim(), TieuDe: document.getElementById('modal-a-tieude').value.trim(), LinkAnh: document.getElementById('modal-a-linkanh').value.trim(), TomTat: document.getElementById('modal-a-tomtat').value.trim(), NoiDung: document.getElementById('modal-a-noidung').value.trim(), PhanLoai: document.getElementById('modal-a-phanloai').value.trim() };
-            if(!a.MaBai || !a.TieuDe) return alert("Thiếu ID hoặc Tiêu đề!"); btn.disabled = true; btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Đang lưu...";
-            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_article', rowIndex: rowIndex || null, article: a }) }); const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json(); closeArticleModal(); adminLoadArticles(); renderHomeArticles(); renderNavArticles(); } catch(e) { alert("Lỗi kết nối"); }
-            btn.disabled = false; btn.innerHTML = "Đăng Bài Viết";
-        }
-        async function adminDeleteArticle(index) { if(!confirm("Gỡ bài viết này?")) return; const art = dbArticles[index]; try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_article', rowIndex: art._rowIndex }) }); const resArt = await fetch(API_URL + "?action=get_articles"); dbArticles = await resArt.json(); adminLoadArticles(); renderHomeArticles(); renderNavArticles(); } catch(e) {} }
-
-        async function adminLoadQuestions() {
-            const cat = document.getElementById('admin-q-cat').value, made = document.getElementById('admin-q-made').value.trim(), tbody = document.getElementById('admin-questions-table'), btn = document.getElementById('btn-load-qs');
-            if(!made) return alert("Vui lòng nhập Mã đề!"); btn.disabled = true; btn.innerText = "Đang tải..."; tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center font-bold text-blue-500"><i class="fas fa-spinner fa-spin mr-2"></i> Tải câu hỏi...</td></tr>`;
-            try {
-                const res = await fetch(`${API_URL}?made=${made}&cat=${cat}`); adminQuestionsData = await res.json(); tbody.innerHTML = '';
-                if(adminQuestionsData.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-medium">Đề này trống.</td></tr>`, btn.disabled = false, btn.innerText = "Truy Xuất Dữ Liệu";
-                adminQuestionsData.forEach((q, idx) => {
-                    const ans = String(q.DapAnDung || "").toUpperCase();
-                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-black text-slate-400 text-center">${idx + 1}</td><td class="p-4 font-semibold text-slate-700 leading-snug">${q.NoiDung}</td><td class="p-4 font-black text-emerald-600 text-center text-lg tracking-widest">${ans}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition"><i class="fas fa-trash"></i></button></td></tr>`;
-                });
-            } catch(e) {} btn.disabled = false; btn.innerText = "Truy Xuất Dữ Liệu";
-        }
-        function openQuestionModal(qData) {
-            document.getElementById('modal-question').classList.remove('hidden'); const m = document.getElementById('admin-q-made').value.trim();
-            if (qData) { document.getElementById('modal-q-title').innerHTML = "Sửa Câu Hỏi"; document.getElementById('modal-q-rowindex').value = qData._rowIndex; document.getElementById('modal-q-made').value = qData.MaDe || ""; document.getElementById('modal-q-noidung').value = qData.NoiDung || ""; document.getElementById('modal-q-a').value = qData.DapAnA || ""; document.getElementById('modal-q-b').value = qData.DapAnB || ""; document.getElementById('modal-q-c').value = qData.DapAnC || ""; document.getElementById('modal-q-d').value = qData.DapAnD || ""; document.getElementById('modal-q-dapandung').value = qData.DapAnDung || ""; } 
-            else { document.getElementById('modal-q-title').innerHTML = "Thêm Mới"; document.getElementById('modal-q-rowindex').value = ""; document.getElementById('modal-q-made').value = m; document.getElementById('modal-q-noidung').value = ""; document.getElementById('modal-q-a').value = ""; document.getElementById('modal-q-b').value = ""; document.getElementById('modal-q-c').value = ""; document.getElementById('modal-q-d').value = ""; document.getElementById('modal-q-dapandung').value = ""; }
-        }
-        function closeQuestionModal() { document.getElementById('modal-question').classList.add('hidden'); }
-        function editQuestion(index) { openQuestionModal(adminQuestionsData[index]); }
-        async function adminSaveQuestion() {
-            const btn = document.getElementById('modal-btn-save'), cat = document.getElementById('admin-q-cat').value, rowIndex = document.getElementById('modal-q-rowindex').value;
-            const q = { MaDe: document.getElementById('modal-q-made').value.trim(), NoiDung: document.getElementById('modal-q-noidung').value.trim(), DapAnA: document.getElementById('modal-q-a').value.trim(), DapAnB: document.getElementById('modal-q-b').value.trim(), DapAnC: document.getElementById('modal-q-c').value.trim(), DapAnD: document.getElementById('modal-q-d').value.trim(), DapAnDung: document.getElementById('modal-q-dapandung').value.trim().toUpperCase() };
-            if(!q.MaDe || !q.NoiDung || !q.DapAnDung) return alert("Nhập Nội dung và Đáp án!"); btn.disabled = true; btn.innerHTML = "Đang lưu...";
-            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_question', category: cat, rowIndex: rowIndex || null, question: q }) }); closeQuestionModal(); document.getElementById('admin-q-made').value = q.MaDe; adminLoadQuestions(); } catch(e) {}
-            btn.disabled = false; btn.innerHTML = "Lưu Hệ Thống";
-        }
-        async function deleteQuestion(index) {
-            if(!confirm("Xóa câu hỏi?")) return; const q = adminQuestionsData[index], cat = document.getElementById('admin-q-cat').value;
-            try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_question', category: cat, rowIndex: q._rowIndex }) }); adminLoadQuestions(); } catch(e) {}
-        }
-
-        function renderAdminSettings() {
-            document.getElementById('admin-so-de-cb').value = systemConfig.so_de_cb; document.getElementById('admin-so-de-nc').value = systemConfig.so_de_nc;
-            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb; document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
-            const container = document.getElementById('admin-video-list'); container.innerHTML = '';
-            ['cb', 'nc'].forEach(cat => {
-                let html = `<div class="mb-6"><h4 class="font-black text-slate-400 mb-3 text-xs tracking-widest bg-slate-100 inline-block px-3 py-1 rounded-full">${cat==='cb'?'CƠ BẢN':'NÂNG CAO'}</h4><div class="space-y-2">`;
-                if(systemConfig.videos[cat]) systemConfig.videos[cat].forEach((v, idx) => { html += `<div class="flex justify-between items-center p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 transition"><div><span class="font-mono text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded mr-3">${v.id}</span> <span class="font-bold text-slate-700">${v.title}</span></div><button onclick="adminDeleteVideo('${cat}', ${idx})" class="text-rose-500 bg-rose-50 hover:bg-rose-500 hover:text-white px-3 py-1.5 rounded-lg font-bold transition text-xs shadow-sm">Xóa</button></div>`; });
-                html += `</div></div>`; container.innerHTML += html;
-            });
-        }
-        async function saveSystemConfig() {
-            systemConfig.so_de_cb = parseInt(document.getElementById('admin-so-de-cb').value) || 35; systemConfig.so_de_nc = parseInt(document.getElementById('admin-so-de-nc').value) || 10;
-            document.getElementById('lbl-sode-cb').innerText = systemConfig.so_de_cb; document.getElementById('lbl-sode-nc').innerText = systemConfig.so_de_nc;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) }); alert("Đã lưu giới hạn Đề!");
-        }
-        function adminAddVideo() {
-            const c = document.getElementById('admin-vid-loai').value, rawUrl = document.getElementById('admin-vid-id').value.trim(), t = document.getElementById('admin-vid-title').value.trim();
-            if(!rawUrl || !t) return alert("Nhập Link Youtube và Tên bài giảng!"); const id = extractYouTubeID(rawUrl); systemConfig.videos[c].push({id: id, title: t});
-            document.getElementById('admin-vid-id').value=''; document.getElementById('admin-vid-title').value=''; renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) });
-        }
-        function adminDeleteVideo(c, idx) { if(!confirm("Gỡ video?")) return; systemConfig.videos[c].splice(idx, 1); renderAdminSettings(); fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'update_config', config: systemConfig }) }); }
     </script>
 </body>
 </html>
