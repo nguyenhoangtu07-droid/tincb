@@ -515,14 +515,15 @@
                 <div class="p-6 md:p-8 space-y-5 overflow-y-auto custom-scrollbar flex-grow bg-white">
                     <input type="hidden" id="modal-q-rowindex">
                     <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Đề</label><input type="text" id="modal-q-made" class="w-full border-2 p-3 rounded-xl outline-none font-mono font-bold bg-slate-50"></div>
-                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Nội dung câu hỏi</label><textarea id="modal-q-noidung" rows="3" class="w-full border-2 p-3 rounded-xl outline-none font-medium"></textarea></div>
+                    <div><div class="flex justify-between items-center mb-2"><label class="block text-sm font-bold text-slate-700">Nội dung câu hỏi</label><button type="button" onclick="pickQuestionImage('modal-q-noidung')" title="Tải ảnh từ máy (hoặc dán ảnh Ctrl+V vào ô)" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition normal-case"><i class="fas fa-image mr-1"></i> Chèn ảnh</button></div><textarea id="modal-q-noidung" rows="3" class="w-full border-2 p-3 rounded-xl outline-none font-medium"></textarea><div class="text-[11px] text-slate-400 mt-1">Mẹo: bấm <b>Chèn ảnh</b> hoặc dán ảnh chụp màn hình (Ctrl+V) ngay trong ô. Ảnh hiển thị dạng <code class="bg-slate-100 px-1 rounded">[img:link-ảnh]</code>; thêm <code class="bg-slate-100 px-1 rounded">|300</code> để đặt chiều rộng 300px.</div></div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 bg-slate-50 rounded-2xl border">
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án A</label><input type="text" id="modal-q-a" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án B</label><input type="text" id="modal-q-b" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án C</label><input type="text" id="modal-q-c" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
-                        <div><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Đáp án D</label><input type="text" id="modal-q-d" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><div class="flex justify-between items-center mb-2"><label class="block text-xs font-bold text-slate-500 uppercase">Đáp án A</label><button type="button" onclick="pickQuestionImage('modal-q-a')" title="Tải ảnh từ máy (hoặc dán ảnh Ctrl+V vào ô)" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition normal-case"><i class="fas fa-image mr-1"></i> Chèn ảnh</button></div><input type="text" id="modal-q-a" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><div class="flex justify-between items-center mb-2"><label class="block text-xs font-bold text-slate-500 uppercase">Đáp án B</label><button type="button" onclick="pickQuestionImage('modal-q-b')" title="Tải ảnh từ máy (hoặc dán ảnh Ctrl+V vào ô)" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition normal-case"><i class="fas fa-image mr-1"></i> Chèn ảnh</button></div><input type="text" id="modal-q-b" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><div class="flex justify-between items-center mb-2"><label class="block text-xs font-bold text-slate-500 uppercase">Đáp án C</label><button type="button" onclick="pickQuestionImage('modal-q-c')" title="Tải ảnh từ máy (hoặc dán ảnh Ctrl+V vào ô)" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition normal-case"><i class="fas fa-image mr-1"></i> Chèn ảnh</button></div><input type="text" id="modal-q-c" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
+                        <div><div class="flex justify-between items-center mb-2"><label class="block text-xs font-bold text-slate-500 uppercase">Đáp án D</label><button type="button" onclick="pickQuestionImage('modal-q-d')" title="Tải ảnh từ máy (hoặc dán ảnh Ctrl+V vào ô)" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition normal-case"><i class="fas fa-image mr-1"></i> Chèn ảnh</button></div><input type="text" id="modal-q-d" class="w-full border-2 p-2.5 rounded-lg outline-none"></div>
                     </div>
-                    <div><label class="block text-sm font-black text-emerald-600 mb-2">ĐÁP ÁN ĐÚNG</label><input type="text" id="modal-q-dapandung" class="w-full border-2 p-3.5 rounded-xl outline-none bg-emerald-50 text-emerald-700 font-black text-lg uppercase text-center shadow-inner"></div>
+                    <div class="border-2 border-dashed border-slate-200 rounded-2xl p-4 bg-white"><div class="flex justify-between items-center mb-3"><span class="text-xs font-black text-slate-400 uppercase tracking-wider"><i class="fas fa-eye mr-1"></i> Xem trước như học viên thấy</span><span id="q-img-status" class="text-xs font-bold"></span></div><div id="modal-q-preview" class="text-slate-800"></div><input type="file" id="q-img-file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden"></div>
+                <div><label class="block text-sm font-black text-emerald-600 mb-2">ĐÁP ÁN ĐÚNG</label><input type="text" id="modal-q-dapandung" class="w-full border-2 p-3.5 rounded-xl outline-none bg-emerald-50 text-emerald-700 font-black text-lg uppercase text-center shadow-inner"></div>
                 </div>
                 <div class="p-6 md:p-8 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
                     <button onclick="closeQuestionModal()" class="px-6 py-3 rounded-xl font-bold text-slate-600 bg-white border hover:bg-slate-100 shadow-sm">Đóng lại</button>
@@ -736,6 +737,7 @@
                     <div class="flex items-end"><button onclick="downloadImportTemplate()" class="w-full bg-slate-100 text-slate-700 px-4 py-3 rounded-xl font-bold hover:bg-slate-200"><i class="fas fa-download mr-1"></i> Tải file mẫu</button></div>
                 </div>
                 <label class="block border-2 border-dashed border-emerald-300 bg-emerald-50/50 rounded-2xl p-6 text-center cursor-pointer hover:bg-emerald-50 transition"><i class="fas fa-cloud-arrow-up text-3xl text-emerald-500 mb-2"></i><div class="font-bold text-slate-700">Chọn file Excel (.xlsx, .xls) hoặc .csv</div><div class="text-xs text-slate-500 mt-1">Cột cần có: <b>NoiDung, DapAnA, DapAnB, DapAnC, DapAnD, DapAnDung</b> và (tùy chọn) <b>MaDe</b>. Đáp án đúng nhiều đáp án viết dạng A,C</div><input type="file" id="imp-file" accept=".xlsx,.xls,.csv" class="hidden" onchange="impHandleFile(this)"></label>
+                <label class="flex items-center gap-4 border-2 border-dashed border-sky-300 bg-sky-50/50 rounded-2xl p-4 cursor-pointer hover:bg-sky-50 transition"><i class="fas fa-images text-2xl text-sky-500"></i><div class="flex-grow"><div class="font-bold text-slate-700 text-sm">Ảnh kèm theo (tùy chọn) <span id="imp-img-count" class="ml-2 text-xs font-black text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full hidden"></span></div><div class="text-xs text-slate-500 mt-0.5">Trong Excel ghi <b>[img:tên_file.png]</b> vào ô câu hỏi/đáp án, rồi chọn <b>cùng lúc tất cả file ảnh</b> tại đây. Hệ thống tự tải ảnh lên và thay bằng link. Cũng có thể ghi thẳng link ảnh: <b>[img:https://...]</b>.</div></div><input type="file" id="imp-images" accept="image/png,image/jpeg,image/webp,image/gif" multiple class="hidden" onchange="impHandleImages(this)"></label>
                 <div id="imp-status" class="hidden text-sm font-bold p-3 rounded-xl"></div>
                 <div id="imp-preview" class="hidden space-y-3">
                     <div id="imp-summary" class="flex gap-3 flex-wrap"></div>
@@ -1474,7 +1476,7 @@ loadAdminUsers();
                 if(adminQuestionsData.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-medium bg-slate-50 rounded-xl">Đề này trống. Bấm nút Thêm để bắt đầu tạo.</td></tr>`, btn.disabled = false, btn.innerText = "Truy Xuất Dữ Liệu";
                 adminQuestionsData.forEach((q, idx) => {
                     const ans = String(q.DapAnDung || "").toUpperCase();
-                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-black text-slate-400 text-center">${idx + 1}</td><td class="p-4 font-semibold text-slate-700 leading-snug">${q.NoiDung}</td><td class="p-4 font-black text-emerald-600 text-center text-lg tracking-widest">${ans}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button></td></tr>`;
+                    tbody.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-100"><td class="p-4 font-black text-slate-400 text-center">${idx + 1}</td><td class="p-4 font-semibold text-slate-700 leading-snug">${richText(q.NoiDung, { thumb: true })}</td><td class="p-4 font-black text-emerald-600 text-center text-lg tracking-widest">${ans}</td><td class="p-4 text-center whitespace-nowrap"><button onclick="editQuestion(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button><button onclick="deleteQuestion(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button></td></tr>`;
                 });
             } catch(e) {} btn.disabled = false; btn.innerText = "Truy Xuất Dữ Liệu";
         }
@@ -1602,8 +1604,8 @@ loadAdminUsers();
             const c = document.getElementById('questions-container'); c.innerHTML = '';
             quizData.forEach((q, i) => {
                 const isM = !!q._multi;
-                let opts = ['A','B','C','D'].map(o => q['DapAn'+o] ? `<label class="flex items-start p-4 border-2 border-slate-100 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50"><input type="${isM?'checkbox':'radio'}" name="q${i}" value="${o}" onchange="saveCurrentQuizState()" class="mt-1 mr-4 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"><span class="font-black mr-2 text-slate-800">${o}.</span><span class="text-slate-700 font-medium">${q['DapAn'+o]}</span></label>` : '').join('');
-                c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div><div class="font-bold text-lg mb-6 flex items-start text-slate-800"><span class="bg-blue-100 text-blue-700 px-4 py-1 mr-4 rounded-lg font-black shrink-0 shadow-sm border border-blue-200">Câu ${i+1}</span><span class="leading-relaxed mt-0.5">${q.NoiDung}</span></div><div class="space-y-3 pl-2">${opts}</div></div>`;
+                let opts = ['A','B','C','D'].map(o => q['DapAn'+o] ? `<label class="flex items-start p-4 border-2 border-slate-100 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50"><input type="${isM?'checkbox':'radio'}" name="q${i}" value="${o}" onchange="saveCurrentQuizState()" class="mt-1 mr-4 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"><span class="font-black mr-2 text-slate-800">${o}.</span><span class="text-slate-700 font-medium min-w-0 break-words">${richText(q['DapAn'+o], { opt: true })}</span></label>` : '').join('');
+                c.innerHTML += `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div><div class="font-bold text-lg mb-6 flex items-start text-slate-800"><span class="bg-blue-100 text-blue-700 px-4 py-1 mr-4 rounded-lg font-black shrink-0 shadow-sm border border-blue-200">Câu ${i+1}</span><div class="leading-relaxed mt-0.5 min-w-0 break-words">${richText(q.NoiDung, { zoom: true })}</div></div><div class="space-y-3 pl-2">${opts}</div></div>`;
             });
         }
         function getSessionUserChoices() { let ch = {}; quizData.forEach((_, i) => { let arr = []; document.querySelectorAll(`input[name="q${i}"]:checked`).forEach(n => arr.push(n.value.toUpperCase())); ch[i] = arr; }); return ch; }
@@ -1645,9 +1647,9 @@ loadAdminUsers();
                     if (!q['DapAn'+o]) return '';
                     const st = hide ? (uC.includes(o) ? "bg-blue-50 border-blue-400 font-bold text-blue-700 shadow-sm" : "border-slate-100 text-slate-600") : (cC.includes(o) ? "bg-emerald-50 border-emerald-500 font-bold shadow-sm" : (uC.includes(o) ? "bg-rose-50 border-rose-400 font-bold text-rose-700 shadow-sm" : "border-slate-100 text-slate-600"));
                     const icon = hide ? (uC.includes(o) ? '<i class="fas fa-hand-pointer text-blue-500 ml-auto"></i>' : '') : (cC.includes(o) ? '<i class="fas fa-check text-emerald-600 ml-auto"></i>' : (uC.includes(o) ? '<i class="fas fa-times text-rose-500 ml-auto"></i>' : ''));
-                    return `<div class="p-4 border-2 rounded-xl mb-3 flex items-start transition-all ${st}"><span class="w-8 font-black">${o}.</span><span class="font-medium mr-4">${q['DapAn'+o]}</span>${icon}</div>`;
+                    return `<div class="p-4 border-2 rounded-xl mb-3 flex items-start transition-all ${st}"><span class="w-8 font-black">${o}.</span><span class="font-medium mr-4 min-w-0 break-words">${richText(q['DapAn'+o], { opt: true })}</span>${icon}</div>`;
                 }).join('');
-                return `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 ${isOK?'bg-emerald-500':'bg-rose-500'}"></div><div class="mb-6 flex items-center justify-between"><div class="flex items-center"><span class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-lg font-black mr-4 shadow-sm border border-slate-200">Câu ${i+1}</span>${isOK?'<span class="text-emerald-600 font-black bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200"><i class="fas fa-check-circle mr-1"></i> Chính xác</span>':'<span class="text-rose-600 font-black bg-rose-50 px-3 py-1 rounded-lg border border-rose-200"><i class="fas fa-times-circle mr-1"></i> Sai</span>'}</div></div><div class="font-bold text-slate-800 text-lg mb-6 leading-relaxed">${q.NoiDung}</div>${opts}</div>`;
+                return `<div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-6 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1.5 ${isOK?'bg-emerald-500':'bg-rose-500'}"></div><div class="mb-6 flex items-center justify-between"><div class="flex items-center"><span class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-lg font-black mr-4 shadow-sm border border-slate-200">Câu ${i+1}</span>${isOK?'<span class="text-emerald-600 font-black bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200"><i class="fas fa-check-circle mr-1"></i> Chính xác</span>':'<span class="text-rose-600 font-black bg-rose-50 px-3 py-1 rounded-lg border border-rose-200"><i class="fas fa-times-circle mr-1"></i> Sai</span>'}</div></div><div class="font-bold text-slate-800 text-lg mb-6 leading-relaxed">${richText(q.NoiDung, { zoom: true })}</div>${opts}</div>`;
             }).join('');
             navigate('review');
         }
@@ -1796,7 +1798,7 @@ loadAdminUsers();
             const bar = (p, c) => `<div class="flex items-center gap-2"><div class="flex-grow h-2 bg-slate-100 rounded-full overflow-hidden"><div class="${c} h-full" style="width:${p}%"></div></div><span class="text-xs font-bold text-slate-600 w-12 text-right">${fx(p)}%</span></div>`;
             document.getElementById('stats-made').innerHTML = st.byMade.length ? st.byMade.map(m => `<tr><td class="p-3 font-bold text-blue-600">${esc(m.made)}</td><td class="p-3 text-center font-bold">${m.count}</td><td class="p-3 text-center"><span class="inline-block ${scoreColor(m.avg)} font-black px-2.5 py-1 rounded-lg">${fx(m.avg)}</span></td><td class="p-3 w-44">${bar(m.passRate, 'bg-emerald-500')}</td></tr>`).join('') : '<tr><td colspan="4" class="p-6 text-center text-slate-400">Chưa có dữ liệu</td></tr>';
             document.getElementById('stats-top').innerHTML = st.topStudents.length ? st.topStudents.map((x, i) => `<tr><td class="p-3 text-center font-black ${i < 3 ? 'text-amber-500' : 'text-slate-400'}">${i + 1}</td><td class="p-3"><div class="font-bold text-slate-700">${esc(x.hoten) || '(đã xóa)'}</div><div class="text-xs text-slate-400 font-mono">${esc(x.username)}</div></td><td class="p-3 text-center">${x.count}</td><td class="p-3 text-center font-black text-teal-600">${fx(x.avg)}</td><td class="p-3 text-center font-bold">${fx(x.best)}</td></tr>`).join('') : '<tr><td colspan="5" class="p-6 text-center text-slate-400">Chưa có dữ liệu</td></tr>';
-            document.getElementById('stats-hard').innerHTML = st.hardQuestions.length ? st.hardQuestions.map(q => `<tr><td class="p-3 font-medium text-slate-700">${esc(q.noidung)}</td><td class="p-3 text-center font-bold text-blue-600">${esc(q.made)}</td><td class="p-3 text-center font-black text-emerald-600">${esc(q.dapan.split('').join(', '))}</td><td class="p-3 text-center">${q.wrong}/${q.attempts}</td><td class="p-3">${bar(q.rate, 'bg-rose-500')}</td></tr>`).join('') : '<tr><td colspan="5" class="p-6 text-center text-slate-400">Chưa đủ dữ liệu (cần ít nhất 3 lượt làm mỗi câu)</td></tr>';
+            document.getElementById('stats-hard').innerHTML = st.hardQuestions.length ? st.hardQuestions.map(q => `<tr><td class="p-3 font-medium text-slate-700">${esc(plainText(q.noidung))}</td><td class="p-3 text-center font-bold text-blue-600">${esc(q.made)}</td><td class="p-3 text-center font-black text-emerald-600">${esc(q.dapan.split('').join(', '))}</td><td class="p-3 text-center">${q.wrong}/${q.attempts}</td><td class="p-3">${bar(q.rate, 'bg-rose-500')}</td></tr>`).join('') : '<tr><td colspan="5" class="p-6 text-center text-slate-400">Chưa đủ dữ liệu (cần ít nhất 3 lượt làm mỗi câu)</td></tr>';
         }
         async function exportStatsXLSX() {
             const st = adminStats; if (!st) return alert('Chưa có số liệu, vui lòng đợi tải xong!');
@@ -1813,7 +1815,7 @@ loadAdminUsers();
         const IMP_COLS = { MaDe: ['made', 'madethi', 'dethi'], NoiDung: ['noidung', 'cauhoi', 'noidungcauhoi', 'question'], DapAnA: ['dapana', 'a', 'phuongana', 'luachona'], DapAnB: ['dapanb', 'b', 'phuonganb', 'luachonb'], DapAnC: ['dapanc', 'c', 'phuonganc', 'luachonc'], DapAnD: ['dapand', 'd', 'phuongand', 'luachond'], DapAnDung: ['dapandung', 'dapan', 'dapandungnhat', 'dapanchinhxac', 'correct', 'ketqua'], ID_CauHoi: ['idcauhoi', 'id', 'macauhoi'] };
         const normHeader = h => String(h || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]/g, '');
         const impLetters = v => Array.from(new Set(String(v === null || v === undefined ? '' : v).toUpperCase().replace(/[^A-D]/g, '').split(''))).sort();
-        function openImportModal() { impRows = []; document.getElementById('imp-file').value = ''; document.getElementById('imp-preview').classList.add('hidden'); document.getElementById('imp-status').classList.add('hidden'); document.getElementById('imp-go').disabled = true; document.getElementById('imp-cat').value = (document.getElementById('admin-q-cat') || {}).value || 'cb'; document.getElementById('modal-import').classList.remove('hidden'); }
+        function openImportModal() { impImages = {}; document.getElementById('imp-images').value = ''; document.getElementById('imp-img-count').classList.add('hidden'); impRows = []; document.getElementById('imp-file').value = ''; document.getElementById('imp-preview').classList.add('hidden'); document.getElementById('imp-status').classList.add('hidden'); document.getElementById('imp-go').disabled = true; document.getElementById('imp-cat').value = (document.getElementById('admin-q-cat') || {}).value || 'cb'; document.getElementById('modal-import').classList.remove('hidden'); }
         function closeImportModal() { document.getElementById('modal-import').classList.add('hidden'); }
         function impCheck(q) {
             if (!q.MaDe) return 'Thiếu mã đề';
@@ -1823,6 +1825,8 @@ loadAdminUsers();
             const c = impLetters(q.DapAnDung);
             if (!c.length) return 'Đáp án đúng phải là A-D';
             if (c.some(k => !q['DapAn' + k])) return 'Đáp án đúng trỏ vào ô trống';
+            const miss = impImgNames(q).filter(n => !impImages[n.toLowerCase()]);
+            if (miss.length) return 'Thiếu file ảnh: ' + miss[0];
             return '';
         }
         function impRevalidate() {
@@ -1856,7 +1860,7 @@ loadAdminUsers();
         function impRender() {
             const ok = impRows.filter(r => !r.err).length, bad = impRows.length - ok, cut = (v, n) => esc(String(v).length > n ? String(v).slice(0, n) + '…' : v);
             document.getElementById('imp-summary').innerHTML = `<span class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">Tổng: ${impRows.length} dòng</span><span class="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-xl text-sm">Hợp lệ: ${ok}</span><span class="${bad ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-400'} font-bold px-4 py-2 rounded-xl text-sm">Lỗi: ${bad}</span>`;
-            document.getElementById('imp-table').innerHTML = impRows.slice(0, 300).map(r => `<tr class="${r.err ? 'bg-rose-50' : ''}"><td class="p-2 text-center text-slate-400 font-mono">${r.q._row}</td><td class="p-2 font-bold text-blue-600">${esc(r.q.MaDe)}</td><td class="p-2">${cut(r.q.NoiDung, 70)}</td><td class="p-2">${cut(r.q.DapAnA, 18)}</td><td class="p-2">${cut(r.q.DapAnB, 18)}</td><td class="p-2">${cut(r.q.DapAnC, 18)}</td><td class="p-2">${cut(r.q.DapAnD, 18)}</td><td class="p-2 text-center font-black text-emerald-600">${esc(impLetters(r.q.DapAnDung).join(','))}</td><td class="p-2 font-bold ${r.err ? 'text-rose-600' : 'text-emerald-600'}">${r.err ? esc(r.err) : 'OK'}</td></tr>`).join('') + (impRows.length > 300 ? `<tr><td colspan="9" class="p-2 text-center text-slate-400">... và ${impRows.length - 300} dòng nữa</td></tr>` : '');
+            document.getElementById('imp-table').innerHTML = impRows.slice(0, 300).map(r => `<tr class="${r.err ? 'bg-rose-50' : ''}"><td class="p-2 text-center text-slate-400 font-mono">${r.q._row}</td><td class="p-2 font-bold text-blue-600">${esc(r.q.MaDe)}</td><td class="p-2">${cut(plainText(r.q.NoiDung), 70)}</td><td class="p-2">${cut(plainText(r.q.DapAnA), 18)}</td><td class="p-2">${cut(plainText(r.q.DapAnB), 18)}</td><td class="p-2">${cut(plainText(r.q.DapAnC), 18)}</td><td class="p-2">${cut(plainText(r.q.DapAnD), 18)}</td><td class="p-2 text-center font-black text-emerald-600">${esc(impLetters(r.q.DapAnDung).join(','))}</td><td class="p-2 font-bold ${r.err ? 'text-rose-600' : 'text-emerald-600'}">${r.err ? esc(r.err) : 'OK'}</td></tr>`).join('') + (impRows.length > 300 ? `<tr><td colspan="9" class="p-2 text-center text-slate-400">... và ${impRows.length - 300} dòng nữa</td></tr>` : '');
             document.getElementById('imp-preview').classList.remove('hidden');
             const go = document.getElementById('imp-go'); go.disabled = ok === 0; go.innerText = ok ? `Nhập ${ok} câu hợp lệ` : 'Nhập vào hệ thống';
         }
@@ -1867,6 +1871,12 @@ loadAdminUsers();
             if (!confirm(`Nhập ${valid.length} câu hỏi vào ngân hàng ${cat === 'nc' ? 'NÂNG CAO' : 'CƠ BẢN'}?`)) return;
             go.disabled = true; let added = 0, skipped = 0; const errs = [];
             try {
+                // Tải các ảnh kèm theo lên Drive rồi thay [img:tên_file] bằng link
+                const need = []; valid.forEach(q => impImgNames(q).forEach(n => { if (need.indexOf(n.toLowerCase()) < 0) need.push(n.toLowerCase()); }));
+                if (need.length > 150) throw new Error('Mỗi lần nhập tối đa 150 ảnh, vui lòng chia nhỏ file Excel!');
+                const urlMap = {};
+                for (let k = 0; k < need.length; k++) { flashMsg(st, `Đang tải ảnh lên Drive... ${k + 1}/${need.length}`, true); urlMap[need[k]] = await uploadImageFile(impImages[need[k]]); }
+                if (need.length) valid.forEach(q => ['NoiDung', 'DapAnA', 'DapAnB', 'DapAnC', 'DapAnD'].forEach(f => { q[f] = replaceImgNames(q[f], urlMap); }));
                 for (let i = 0; i < valid.length; i += 200) {
                     flashMsg(st, `Đang nhập... ${Math.min(i + 200, valid.length)}/${valid.length}`, true);
                     const r = await api({ action: 'import_questions', category: cat, questions: valid.slice(i, i + 200) });
@@ -1880,7 +1890,7 @@ loadAdminUsers();
         }
         async function downloadImportTemplate() {
             const rows = [['MaDe', 'NoiDung', 'DapAnA', 'DapAnB', 'DapAnC', 'DapAnD', 'DapAnDung'], ['12', 'Phím tắt để sao chép trong Windows là gì?', 'Ctrl + C', 'Ctrl + V', 'Ctrl + X', 'Ctrl + Z', 'A'], ['12', 'Chọn các hàm thống kê trong Excel (chọn 2 đáp án)', '=SUM()', '=IF()', '=AVERAGE()', '=VLOOKUP()', 'A,C']];
-            const guide = [['HƯỚNG DẪN'], ['1. Mỗi dòng là một câu hỏi, giữ nguyên hàng tiêu đề ở sheet đầu tiên.'], ['2. MaDe: mã đề (VD 12, hoặc NC_de02 cho ngân hàng Nâng cao). Có thể bỏ cột này và nhập "Mã đề mặc định" trên màn hình.'], ['3. DapAnDung: A, B, C hoặc D. Nhiều đáp án đúng viết dạng A,C.'], ['4. Cần tối thiểu 2 đáp án; ô đáp án để trống nếu không dùng.'], ['5. Tối đa 300 câu mỗi lượt gửi (hệ thống tự chia nhỏ).']];
+            const guide = [['HƯỚNG DẪN'], ['1. Mỗi dòng là một câu hỏi, giữ nguyên hàng tiêu đề ở sheet đầu tiên.'], ['2. MaDe: mã đề (VD 12, hoặc NC_de02 cho ngân hàng Nâng cao). Có thể bỏ cột này và nhập "Mã đề mặc định" trên màn hình.'], ['3. DapAnDung: A, B, C hoặc D. Nhiều đáp án đúng viết dạng A,C.'], ['4. Cần tối thiểu 2 đáp án; ô đáp án để trống nếu không dùng.'], ['5. Tối đa 300 câu mỗi lượt gửi (hệ thống tự chia nhỏ).'], ['6. HÌNH ẢNH: ghi [img:ten_file.png] vào ô câu hỏi hoặc đáp án (có thể kèm chữ), rồi chọn tất cả file ảnh ở mục "Ảnh kèm theo" khi nhập. Hoặc ghi link ảnh: [img:https://...]. Thêm |300 để đặt chiều rộng, VD [img:ten_file.png|300].'], ['7. Lưu ý: ảnh dán TRỰC TIẾP trong ô Excel không đọc được, hãy dùng cách ghi tên file ở mục 6.']];
             await saveWorkbook([['Cau hoi', rows, [8, 60, 22, 22, 22, 22, 12]], ['Huong dan', guide, [110]]], 'mau_nhap_cau_hoi.xlsx');
         }
 
@@ -2024,15 +2034,112 @@ loadAdminUsers();
             if (r && r.status === 'success') { chatActiveId = null; document.getElementById('chat-admin-reply').classList.add('hidden'); document.getElementById('chat-admin-msgs').innerHTML = ''; document.getElementById('chat-admin-head').className = 'p-4 border-b border-slate-100 bg-slate-50/50 text-slate-400 text-sm font-medium flex items-center'; document.getElementById('chat-admin-head').innerText = 'Chọn một hội thoại ở bên trái để xem và trả lời.'; loadChatThreads(); }
         }
         document.getElementById('chat-admin-input').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendAdminReply(); } });
-        // Tự động lắng nghe sự kiện click trên toàn bộ khung xem bài viết
-document.getElementById('view-article')?.addEventListener('click', function (e) {
-    // Tìm xem phần tử vừa click (hoặc thẻ cha của nó) có class nút đăng ký hoặc href chứa #register không
-    const btn = e.target.closest('.cta-btn-adv, .cta-btn, [href="#register"]');
-    if (btn) {
-        e.preventDefault(); // Chặn hành vi cuộn trang mặc định
-        navigate('register'); // Gọi hàm chuyển sang màn hình Đăng ký
-    }
-});
+    
+        // ======================================================================
+        //  HÌNH ẢNH TRONG CÂU HỎI / ĐÁP ÁN:  [img:link]  hoặc  [img:link|300]
+        // ======================================================================
+        function safeImgUrl(u) { u = fixImageUrl(String(u || '').trim()); return /^https:\/\/[^\s"'<>]+$/i.test(u) ? u : ''; }
+        function imgTag(url, w, opt) {
+            const maxH = opt.thumb ? '4rem' : (opt.opt ? '11rem' : '20rem'), wd = w ? Math.min(parseInt(w, 10) || 0, 1200) : 0;
+            const style = `max-width:100%;max-height:${maxH};${wd ? 'width:' + wd + 'px;' : ''}${opt.zoom ? 'cursor:zoom-in;' : ''}`;
+            const zoom = opt.zoom ? ' onclick="event.stopPropagation();zoomImage(this.src)"' : (opt.opt ? ' ondblclick="zoomImage(this.src)" title="Nhấp đúp để phóng to"' : '');
+            return `<img src="${esc(url)}" alt="Hình minh họa" loading="lazy" referrerpolicy="no-referrer" class="${opt.thumb ? 'inline-block align-middle mr-1' : 'block my-2'} rounded-lg border border-slate-200 bg-white object-contain" style="${style}"${zoom} onerror="this.onerror=null;this.removeAttribute('src');this.style.cssText='width:150px;height:70px;border:2px dashed #fca5a5;border-radius:8px'">`;
+        }
+        // Hiển thị an toàn: chuyển mọi ký tự đặc biệt thành chữ thường, chỉ riêng thẻ [img:https://...] mới thành hình
+        function richText(raw, opt) {
+            opt = opt || {}; const text = String(raw === null || raw === undefined ? '' : raw), re = /\[img:\s*([^\]\s|]+)(?:\|(\d{2,4}))?\s*\]/gi;
+            const part = t => esc(t).replace(/\n/g, '<br>');
+            let out = '', last = 0, m;
+            while ((m = re.exec(text))) {
+                out += part(text.slice(last, m.index)); const url = safeImgUrl(m[1]);
+                out += url ? imgTag(url, m[2], opt) : esc(m[0]); last = m.index + m[0].length;
+            }
+            return out + part(text.slice(last));
+        }
+        const plainText = raw => String(raw === null || raw === undefined ? '' : raw).replace(/\[img:[^\]]*\]/gi, '[Hình ảnh]');
+        function zoomImage(src) {
+            let o = document.getElementById('img-lightbox');
+            if (!o) {
+                o = document.createElement('div'); o.id = 'img-lightbox'; o.className = 'hidden fixed inset-0 z-[130] bg-slate-900/85 flex items-center justify-center p-4 cursor-zoom-out';
+                o.innerHTML = '<img alt="Hình phóng to" class="max-w-full max-h-full rounded-xl shadow-2xl bg-white object-contain"><button type="button" aria-label="Đóng" class="absolute top-4 right-5 w-11 h-11 rounded-full bg-white/20 text-white text-2xl font-bold hover:bg-white/30">&times;</button>';
+                o.onclick = () => o.classList.add('hidden'); document.body.appendChild(o);
+            }
+            o.querySelector('img').src = src; o.classList.remove('hidden');
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { const o = document.getElementById('img-lightbox'); if (o) o.classList.add('hidden'); } });
+
+        // ---------- Chuẩn bị & tải ảnh lên (thu nhỏ trước khi gửi để nhanh và nhẹ) ----------
+        function loadImageEl(file) { return new Promise((res, rej) => { const u = URL.createObjectURL(file), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('Không đọc được ảnh này!')); }; im.src = u; }); }
+        const canvasBlob = (cv, type, q) => new Promise(res => cv.toBlob(res, type, q));
+        async function prepareImageForUpload(file) {
+            if (!file || !/^image\/(jpeg|png|webp|gif)$/i.test(file.type)) throw new Error('Chỉ nhận ảnh JPG, PNG, WEBP hoặc GIF!');
+            if (file.size > 15 * 1024 * 1024) throw new Error('Ảnh quá lớn (tối đa 15MB)!');
+            if (file.type === 'image/gif' && file.size <= 2.5 * 1024 * 1024) return { blob: file, mime: 'image/gif' };   // giữ nguyên ảnh động
+            const im = await loadImageEl(file), MAX = 1200, k = Math.min(1, MAX / Math.max(im.naturalWidth, im.naturalHeight));
+            const cv = document.createElement('canvas'); cv.width = Math.max(1, Math.round(im.naturalWidth * k)); cv.height = Math.max(1, Math.round(im.naturalHeight * k));
+            const cx = cv.getContext('2d'); let blob = null, mime = 'image/jpeg';
+            if (file.type !== 'image/jpeg') { cx.drawImage(im, 0, 0, cv.width, cv.height); blob = await canvasBlob(cv, 'image/png'); mime = 'image/png'; }   // ảnh chụp màn hình: giữ PNG cho chữ sắc nét
+            if (!blob || blob.size > 700 * 1024) { cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(im, 0, 0, cv.width, cv.height); blob = await canvasBlob(cv, 'image/jpeg', 0.85); mime = 'image/jpeg'; }
+            if (!blob || blob.size > 3 * 1024 * 1024) throw new Error('Ảnh vẫn quá lớn sau khi nén, vui lòng chọn ảnh nhỏ hơn!');
+            return { blob, mime };
+        }
+        const blobToBase64 = blob => new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(',')[1] || ''); fr.onerror = () => rej(new Error('Không đọc được ảnh!')); fr.readAsDataURL(blob); });
+        async function uploadImageFile(file) {
+            const p = await prepareImageForUpload(file), b64 = await blobToBase64(p.blob);
+            const r = await api({ action: 'upload_question_image', mimeType: p.mime, base64Data: b64 });
+            if (r.status !== 'success' || !r.url) throw new Error(r.message || 'Tải ảnh lên thất bại!');
+            return r.url;
+        }
+
+        // ---------- Soạn câu hỏi: chèn ảnh, dán ảnh, xem trước ----------
+        const Q_FIELDS = ['modal-q-noidung', 'modal-q-a', 'modal-q-b', 'modal-q-c', 'modal-q-d'];
+        function qImgStatus(t, ok) { const e = document.getElementById('q-img-status'); if (!e) return; e.innerText = t || ''; e.className = 'text-xs font-bold ' + (ok ? 'text-emerald-600' : 'text-rose-600'); }
+        function updateQPreview() {
+            const g = id => (document.getElementById(id) || {}).value || '', box = document.getElementById('modal-q-preview'); if (!box) return;
+            const opts = ['a', 'b', 'c', 'd'].map(k => g('modal-q-' + k) ? `<div class="flex items-start gap-2 p-2.5 border-2 border-slate-100 rounded-lg mt-2"><b class="text-slate-800">${k.toUpperCase()}.</b><span class="min-w-0 break-words font-medium text-slate-700">${richText(g('modal-q-' + k), { opt: true })}</span></div>` : '').join('');
+            box.innerHTML = (g('modal-q-noidung') ? `<div class="font-bold leading-relaxed break-words">${richText(g('modal-q-noidung'), { zoom: true })}</div>` : '<div class="text-slate-300 italic text-sm">Nội dung câu hỏi sẽ hiện ở đây...</div>') + opts;
+        }
+        function insertAtCursor(id, text) {
+            const el = document.getElementById(id), a = el.selectionStart === undefined ? el.value.length : el.selectionStart, b = el.selectionEnd === undefined ? a : el.selectionEnd;
+            const pre = el.value.slice(0, a), post = el.value.slice(b), lead = pre && !/[\s]$/.test(pre) ? (el.tagName === 'TEXTAREA' ? '\n' : ' ') : '';
+            el.value = pre + lead + text + post; const pos = (pre + lead + text).length; try { el.setSelectionRange(pos, pos); } catch (e) {} el.focus();
+        }
+        async function uploadQuestionImage(file, fieldId) {
+            qImgStatus('Đang xử lý và tải ảnh lên...', true);
+            try { const url = await uploadImageFile(file); insertAtCursor(fieldId, `[img:${url}]`); updateQPreview(); qImgStatus('Đã chèn ảnh!', true); setTimeout(() => qImgStatus(''), 3000); }
+            catch (e) { qImgStatus(e.message || 'Tải ảnh thất bại!', false); }
+        }
+        function pickQuestionImage(fieldId) {
+            const inp = document.getElementById('q-img-file'); inp.value = '';
+            inp.onchange = () => { if (inp.files[0]) uploadQuestionImage(inp.files[0], fieldId); };
+            inp.click();
+        }
+        Q_FIELDS.forEach(id => {
+            const el = document.getElementById(id); if (!el) return;
+            el.addEventListener('input', updateQPreview);
+            el.addEventListener('paste', e => {   // dán ảnh chụp màn hình trực tiếp
+                const f = Array.from((e.clipboardData && e.clipboardData.files) || []).find(x => /^image\//.test(x.type));
+                if (f) { e.preventDefault(); uploadQuestionImage(f, id); }
+            });
+        });
+        const _openQuestionModal = openQuestionModal;
+        openQuestionModal = function () { _openQuestionModal.apply(this, arguments); qImgStatus(''); updateQPreview(); };
+
+        // ---------- Nhập Excel: ảnh kèm theo ----------
+        let impImages = {};
+        const IMG_NAME_RE = /\[img:\s*([^\]\s|]+)(?:\|\d{2,4})?\s*\]/gi;
+        function impImgNames(q) {
+            const out = []; ['NoiDung', 'DapAnA', 'DapAnB', 'DapAnC', 'DapAnD'].forEach(f => { const re = new RegExp(IMG_NAME_RE.source, 'gi'); let m; while ((m = re.exec(q[f] || ''))) if (!/^https?:\/\//i.test(m[1])) out.push(m[1]); });
+            return out;
+        }
+        function replaceImgNames(text, map) {
+            return String(text || '').replace(new RegExp(IMG_NAME_RE.source, 'gi'), (m, n) => { if (/^https?:\/\//i.test(n)) return m; const u = map[n.toLowerCase()]; const w = (m.match(/\|(\d{2,4})\s*\]$/) || [])[1]; return u ? `[img:${u}${w ? '|' + w : ''}]` : m; });
+        }
+        function impHandleImages(input) {
+            impImages = {}; Array.from(input.files).filter(f => /^image\//.test(f.type)).forEach(f => { impImages[f.name.toLowerCase()] = f; });
+            const n = Object.keys(impImages).length, c = document.getElementById('imp-img-count'); c.innerText = n + ' ảnh'; c.classList.toggle('hidden', !n);
+            if (impRows.length) impRevalidate();
+        }
     </script>
 </body>
 </html>
