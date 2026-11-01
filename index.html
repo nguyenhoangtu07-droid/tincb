@@ -75,6 +75,14 @@
                 </div>
 
                 <div class="dropdown relative">
+                    <button class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center"><i class="fas fa-folder-open mr-1"></i> Kho đề <i class="fas fa-chevron-down ml-1 text-xs opacity-70"></i></button>
+                    <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-64 shadow-2xl rounded-2xl border border-gray-100 z-50 mt-1 overflow-hidden" id="nav-kho">
+                        <a href="javascript:void(0)" onclick="openKhoDe('nc')" class="block px-5 py-3.5 hover:bg-orange-50 hover:text-orange-600 font-semibold border-b border-gray-50 transition"><i class="fas fa-folder mr-2 text-orange-500"></i> Đề thi UDNC</a>
+                        <a href="javascript:void(0)" onclick="openKhoDe('cb')" class="block px-5 py-3.5 hover:bg-emerald-50 hover:text-emerald-600 font-semibold transition"><i class="fas fa-folder mr-2 text-emerald-500"></i> Đề thi UDCB</a>
+                    </div>
+                </div>
+
+                <div class="dropdown relative">
                     <button onclick="openAiSection()" class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-amber-200"><i class="fas fa-robot mr-1"></i> Cung ứng tài khoản AI <i class="fas fa-chevron-down ml-1 text-xs opacity-70"></i></button>
                     <div class="dropdown-menu absolute hidden bg-white text-gray-700 w-72 shadow-2xl rounded-2xl border border-gray-100 z-50 mt-1 overflow-hidden" id="nav-ai">
                         <a href="javascript:void(0)" onclick="openAiSection()" class="block px-5 py-3.5 hover:bg-violet-50 hover:text-violet-600 font-semibold transition"><i class="fas fa-robot mr-2 text-violet-500"></i> Xem tất cả dịch vụ</a>
@@ -142,6 +150,10 @@
                         <div class="flex-grow min-w-0"><div class="font-black text-lg md:text-xl leading-tight">Cung ứng tài khoản AI</div><div class="text-blue-100 text-sm font-medium">Xem dịch vụ, bảng giá và hướng dẫn sử dụng</div></div>
                         <i class="fas fa-arrow-right text-xl opacity-80 shrink-0"></i>
                     </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div onclick="openKhoDe('nc')" class="cursor-pointer rounded-3xl bg-white border border-orange-100 p-5 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition flex items-center gap-4"><div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-rose-500 text-white flex items-center justify-center text-2xl shrink-0"><i class="fas fa-folder-open"></i></div><div class="min-w-0"><div class="text-[11px] font-black text-orange-500 uppercase tracking-widest">Kho đề</div><div class="font-black text-slate-800 text-lg leading-tight">Đề thi UDNC</div></div><i class="fas fa-arrow-right text-slate-300 ml-auto"></i></div>
+                        <div onclick="openKhoDe('cb')" class="cursor-pointer rounded-3xl bg-white border border-emerald-100 p-5 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition flex items-center gap-4"><div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-600 text-white flex items-center justify-center text-2xl shrink-0"><i class="fas fa-folder-open"></i></div><div class="min-w-0"><div class="text-[11px] font-black text-emerald-600 uppercase tracking-widest">Kho đề</div><div class="font-black text-slate-800 text-lg leading-tight">Đề thi UDCB</div></div><i class="fas fa-arrow-right text-slate-300 ml-auto"></i></div>
+                    </div>
                 <div class="flex items-center mb-8">
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight text-gradient">Khám Phá Khóa Học</h2>
                     <div class="h-1 w-20 bg-blue-500 rounded-full ml-4"></div>
@@ -200,6 +212,24 @@
             <div id="ai-articles-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
         </div>
 
+        <!-- ================= KHO ĐỀ (UDNC / UDCB) ================= -->
+        <div id="view-kho" class="hidden-view space-y-8">
+            <div id="kho-hero"></div>
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                <div class="p-5 md:p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between flex-wrap gap-3">
+                    <h3 class="font-black text-slate-800 text-lg"><i class="fab fa-google-drive text-blue-500 mr-2"></i> Danh sách đề trên Google Drive</h3>
+                    <a id="kho-open-link" href="#" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-lg hover:bg-blue-100 transition"><i class="fas fa-up-right-from-square mr-1"></i> Mở toàn màn hình</a>
+                </div>
+                <iframe id="kho-frame" title="Danh sách đề thi trên Google Drive" class="w-full border-0 block" style="height:30rem" loading="lazy" referrerpolicy="no-referrer"></iframe>
+                <div class="px-6 py-3 text-xs text-slate-400 bg-slate-50/50 border-t border-slate-100">Nếu danh sách không hiện, hãy bấm <b>Mở thư mục trên Google Drive</b> ở phía trên.</div>
+            </div>
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <div class="flex items-center"><h3 class="text-2xl font-black text-slate-800">Hướng dẫn &amp; thông tin</h3><div class="h-1 w-16 bg-orange-500 rounded-full ml-4"></div></div>
+                <button id="kho-write-btn" onclick="openArticleModal(null, KHO_DE[khoCurrent].cat)" class="hidden bg-amber-500 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-amber-200 hover:bg-amber-600 transition"><i class="fas fa-pen-nib mr-2"></i> Viết bài mới</button>
+            </div>
+            <div id="kho-articles-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
+        </div>
+
         <!-- ================= BÀI VIẾT CHI TIẾT ================= -->
         <div id="view-article" class="hidden-view bg-white p-8 md:p-12 rounded-3xl shadow-lg max-w-4xl mx-auto border border-slate-100">
             <button id="article-back-btn" onclick="navigate('home')" class="text-blue-600 font-bold mb-8 hover:text-blue-700 flex items-center bg-blue-50 px-4 py-2 rounded-full w-max text-sm"><i class="fas fa-arrow-left mr-2"></i> <span id="article-back-label">Quay lại trang chủ</span></button>
@@ -212,6 +242,11 @@
                 <span class="bg-slate-50 px-4 py-1.5 rounded-full"><i class="fas fa-tag mr-2 text-emerald-500"></i> <span id="article-category">Tin học</span></span>
             </div>
             <div id="article-content" class="article-content text-slate-700 text-lg"></div>
+            <div id="article-cta-kho" class="hidden mt-10 p-6 md:p-8 rounded-3xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100">
+                <div class="font-black text-xl text-slate-800 mb-1">Tải đề thi</div>
+                <p class="text-slate-600 text-sm mb-4 font-medium">Toàn bộ đề thi được lưu trong thư mục Google Drive.</p>
+                <a id="article-cta-kho-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-orange-600 text-white px-6 py-3 rounded-xl font-black shadow-md hover:bg-orange-700 transition"><i class="fab fa-google-drive mr-2"></i> Mở thư mục đề trên Google Drive</a>
+            </div>
             <div id="article-cta" class="hidden mt-10 p-6 md:p-8 rounded-3xl bg-gradient-to-br from-violet-50 to-indigo-50 border border-violet-100">
                 <div class="font-black text-xl text-slate-800 mb-1">Cần tư vấn hoặc đặt dịch vụ?</div>
                 <p class="text-slate-600 text-sm mb-4 font-medium">Liên hệ trực tiếp, chúng tôi phản hồi sớm nhất.</p>
@@ -434,7 +469,7 @@
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-6 md:p-8 flex justify-between items-center border-b border-slate-100 bg-slate-50/50">
                         <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-newspaper text-teal-500 mr-2"></i> Danh Sách Bài Viết / Bài Học</h3>
-                        <div class="flex gap-2 flex-wrap"><button onclick="openArticleModal(null, 'ai')" class="bg-violet-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-violet-200 hover:bg-violet-700 transition"><i class="fas fa-robot mr-2"></i> Viết bài Cung ứng AI</button><button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-teal-200 hover:bg-teal-700 transition"><i class="fas fa-plus mr-2"></i> Soạn bài khóa học</button></div>
+                        <div class="flex gap-2 flex-wrap"><button onclick="openArticleModal(null, 'ai')" class="bg-violet-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-violet-200 hover:bg-violet-700 transition"><i class="fas fa-robot mr-2"></i> Viết bài Cung ứng AI</button><button onclick="openArticleModal(null, 'kd-nc')" class="bg-amber-500 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-amber-200 hover:bg-amber-600 transition"><i class="fas fa-folder-open mr-2"></i> Viết bài Kho đề</button><button onclick="openArticleModal()" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-teal-200 hover:bg-teal-700 transition"><i class="fas fa-plus mr-2"></i> Soạn bài khóa học</button></div>
                     </div>
                     <div id="admin-article-filter" class="px-6 md:px-8 py-4 flex gap-2 flex-wrap border-b border-slate-100"></div>
             <div class="overflow-x-auto">
@@ -591,7 +626,7 @@
                     <input type="hidden" id="modal-a-rowindex">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div><label class="block text-sm font-bold text-slate-700 mb-2">Mã Bài (ID duy nhất)</label><input type="text" id="modal-a-mabai" class="w-full border-2 p-3 rounded-xl outline-none font-mono bg-slate-50 text-blue-700 font-bold"></div>
-                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mục đăng bài</label><select id="modal-a-phanloai" class="w-full border-2 p-3 rounded-xl outline-none font-bold text-slate-600 bg-white"><option value="cb">Khóa học - Cơ bản (cb)</option><option value="nc">Khóa học - Nâng cao (nc)</option><option value="vp">Khóa học - Văn phòng (vp)</option><option value="ai">Cung ứng tài khoản AI (ai)</option></select></div>
+                        <div><label class="block text-sm font-bold text-slate-700 mb-2">Mục đăng bài</label><select id="modal-a-phanloai" class="w-full border-2 p-3 rounded-xl outline-none font-bold text-slate-600 bg-white"><option value="cb">Khóa học - Cơ bản (cb)</option><option value="nc">Khóa học - Nâng cao (nc)</option><option value="vp">Khóa học - Văn phòng (vp)</option><option value="ai">Cung ứng tài khoản AI (ai)</option><option value="kd-nc">Kho đề - Đề thi UDNC (kd-nc)</option><option value="kd-cb">Kho đề - Đề thi UDCB (kd-cb)</option></select></div>
                     </div>
                     <div><label class="block text-sm font-bold text-slate-700 mb-2">Tiêu đề Bài học</label><input type="text" id="modal-a-tieude" class="w-full border-2 p-3 rounded-xl outline-none font-black text-slate-800 text-lg"></div>
                     <div><div class="flex justify-between items-center mb-2"><label class="block text-sm font-bold text-slate-700">Link Ảnh Bìa (Thumbnail)</label><button type="button" onclick="pickArticleImage('cover')" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg hover:bg-emerald-600 hover:text-white transition"><i class="fas fa-image mr-1"></i> Tải ảnh lên</button></div><input type="text" id="modal-a-linkanh" placeholder="https://..." class="w-full border-2 p-3 rounded-xl outline-none font-mono text-sm"></div>
@@ -945,7 +980,7 @@
                 try { sessionStorage.setItem('articlesCache', JSON.stringify(dbArticles)); } catch (e) {}
             } finally { clearTimeout(timer); }
         }
-        function catLabel(c) { c = String(c || '').trim(); const m = { cb: 'CƠ BẢN', nc: 'NÂNG CAO', vp: 'VĂN PHÒNG', ai: 'TÀI KHOẢN AI', gemini: 'AI' }; return m[c.toLowerCase()] || (c ? c.toUpperCase() : 'KHÓA HỌC'); }
+        function catLabel(c) { c = String(c || '').trim(); const m = { cb: 'CƠ BẢN', nc: 'NÂNG CAO', vp: 'VĂN PHÒNG', ai: 'TÀI KHOẢN AI', 'kd-nc': 'KHO ĐỀ UDNC', 'kd-cb': 'KHO ĐỀ UDCB', gemini: 'AI' }; return m[c.toLowerCase()] || (c ? c.toUpperCase() : 'KHÓA HỌC'); }
         function fmtDate(d) { const t = Date.parse(d); return t ? new Date(t).toLocaleDateString('vi-VN') : ''; }
 
         // Làm sạch HTML bài viết: bỏ script/on*=/javascript:, chỉ cho nhúng iframe YouTube/Vimeo, giữ <style> của bài
@@ -1000,12 +1035,12 @@
             if (navMenu && courses.length > 0) navMenu.innerHTML = courses.map(a => link(a, 'hover:bg-blue-50 hover:text-blue-600')).join('');
             const navAi = document.getElementById('nav-ai');
             if (navAi) navAi.innerHTML = '<a href="javascript:void(0)" onclick="openAiSection()" class="block px-5 py-3.5 hover:bg-violet-50 hover:text-violet-600 font-bold border-b border-gray-100 transition"><i class="fas fa-robot mr-2 text-violet-500"></i> Xem tất cả dịch vụ</a>' + aiArticles().map(a => link(a, 'hover:bg-violet-50 hover:text-violet-600')).join('');
-            renderAiSection();
+            renderAiSection(); renderKhoDe(false);
         }
         // ----- Mục "Cung ứng tài khoản AI": bài viết có Phân loại = ai -----
         const AI_CAT = 'ai';
         const isAiArticle = a => String(a && a.PhanLoai || '').trim().toLowerCase() === AI_CAT;
-        const courseArticles = () => dbArticles.filter(a => !isAiArticle(a));
+        const courseArticles = () => dbArticles.filter(a => sectionOf(a) === 'course');
         const aiArticles = () => dbArticles.filter(isAiArticle);
         function renderAiSection() {
             const c = document.getElementById('ai-articles-container'); if (!c) return;
@@ -1025,9 +1060,10 @@
             document.getElementById('article-content').innerHTML = renderArticleHtml(art.NoiDung) || '<p class="italic text-slate-400">Bài viết chưa có nội dung.</p>';
             const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
             const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
-            const ai = isAiArticle(art), back = document.getElementById('article-back-btn');
-            if (back) { back.onclick = ai ? openAiSection : () => navigate('home'); document.getElementById('article-back-label').textContent = ai ? 'Quay lại Cung ứng tài khoản AI' : 'Quay lại trang chủ'; }
+            const ai = isAiArticle(art), kk = khoKeyOf(art), back = document.getElementById('article-back-btn');
+            if (back) { back.onclick = ai ? openAiSection : (kk ? () => openKhoDe(kk) : () => navigate('home')); document.getElementById('article-back-label').textContent = ai ? 'Quay lại Cung ứng tài khoản AI' : (kk ? 'Quay lại Kho đề ' + KHO_DE[kk].short : 'Quay lại trang chủ'); }
             const cta = document.getElementById('article-cta'); if (cta) cta.classList.toggle('hidden', !ai);
+            const ctaK = document.getElementById('article-cta-kho'); if (ctaK) { ctaK.classList.toggle('hidden', !kk); if (kk) document.getElementById('article-cta-kho-link').href = KHO_DE[kk].link; }
             navigate('article'); window.scrollTo({ top: 0 });
         }
 
@@ -1051,7 +1087,7 @@
         // ================= ĐIỀU HƯỚNG CHÍNH =================
         function navigate(vName) {
             if (typeof setChatVisible === 'function') setChatVisible(vName !== 'quiz' && vName !== 'loading');
-            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-ai', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
+            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-ai', 'view-kho', 'view-videos', 'view-upload'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
             const target = document.getElementById('view-' + vName); if (target) target.classList.remove('hidden-view'); window.scrollTo(0, 0);
             if (vName !== 'quiz' && vName !== 'loading') { if (timerInterval) clearInterval(timerInterval); isTakingQuiz = false; exitFullscreen(); }
             
@@ -1454,20 +1490,20 @@ loadAdminUsers();
         let adminArtFilter = 'all';
         function setArtFilter(f) { adminArtFilter = f; adminLoadArticles(); }
         function adminLoadArticles() {
-            const tbody = document.getElementById('admin-articles-table'), nAi = dbArticles.filter(isAiArticle).length;
-            document.getElementById('admin-article-filter').innerHTML = [['all', 'Tất cả', dbArticles.length], ['course', 'Khóa học', dbArticles.length - nAi], ['ai', 'Cung ứng AI', nAi]].map(([k, l, n]) => `<button onclick="setArtFilter('${k}')" class="px-4 py-2 rounded-full text-sm font-bold transition ${adminArtFilter === k ? (k === 'ai' ? 'bg-violet-600 text-white shadow-md' : 'bg-blue-600 text-white shadow-md') : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${l} <span class="opacity-70">(${n})</span></button>`).join('');
+            const tbody = document.getElementById('admin-articles-table'), nAi = dbArticles.filter(isAiArticle).length, nKho = dbArticles.filter(isKhoArticle).length;
+            document.getElementById('admin-article-filter').innerHTML = [['all', 'Tất cả', dbArticles.length], ['course', 'Khóa học', dbArticles.length - nAi - nKho], ['ai', 'Cung ứng AI', nAi], ['kho', 'Kho đề', nKho]].map(([k, l, n]) => `<button onclick="setArtFilter('${k}')" class="px-4 py-2 rounded-full text-sm font-bold transition ${adminArtFilter === k ? (k === 'ai' ? 'bg-violet-600 text-white shadow-md' : (k === 'kho' ? 'bg-amber-500 text-white shadow-md' : 'bg-blue-600 text-white shadow-md')) : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${l} <span class="opacity-70">(${n})</span></button>`).join('');
             tbody.innerHTML = '';
             if (dbArticles.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 font-medium">Chưa có bài viết nào trên hệ thống.</td></tr>`; return; }
             let shown = 0;
             dbArticles.forEach((art, idx) => {
                 const ai = isAiArticle(art);
-                if ((adminArtFilter === 'ai' && !ai) || (adminArtFilter === 'course' && ai)) return;
+                if (adminArtFilter !== 'all' && adminArtFilter !== sectionOf(art)) return;
                 shown++;
                 tbody.innerHTML += `
                 <tr class="hover:bg-slate-50 transition border-b border-slate-100">
                     <td class="p-4 font-mono font-bold text-blue-600 text-xs">${esc(art.MaBai)}</td>
                     <td class="p-4"><div class="flex items-center gap-3"><img src="${esc(art.LinkAnh || DEFAULT_COVER)}" class="w-12 h-12 object-cover rounded-lg shadow-sm" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=150'"><span class="font-bold text-slate-700 leading-snug line-clamp-2">${esc(art.TieuDe)}</span></div></td>
-                    <td class="p-4">${ai ? '<span class="bg-violet-100 text-violet-700 text-xs font-black px-2.5 py-1 rounded-full whitespace-nowrap"><i class="fas fa-robot mr-1"></i>Cung ứng AI</span>' : `<span class="uppercase text-xs font-black text-slate-400 tracking-wider">${esc(art.PhanLoai)}</span>`}</td>
+                    <td class="p-4">${ai ? '<span class="bg-violet-100 text-violet-700 text-xs font-black px-2.5 py-1 rounded-full whitespace-nowrap"><i class="fas fa-robot mr-1"></i>Cung ứng AI</span>' : `${isKhoArticle(art) ? '<span class="bg-amber-100 text-amber-700 text-xs font-black px-2.5 py-1 rounded-full whitespace-nowrap"><i class="fas fa-folder-open mr-1"></i>Kho đề ' + KHO_DE[khoKeyOf(art)].short + '</span>' : `<span class="uppercase text-xs font-black text-slate-400 tracking-wider">${esc(art.PhanLoai)}</span>`}`}</td>
                     <td class="p-4 text-center whitespace-nowrap">
                         <button onclick="editArticle(${idx})" class="bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold mr-1 hover:bg-blue-600 hover:text-white transition shadow-sm"><i class="fas fa-edit"></i></button>
                         <button onclick="adminDeleteArticle(${idx})" class="bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg font-bold hover:bg-rose-600 hover:text-white transition shadow-sm"><i class="fas fa-trash"></i></button>
@@ -2215,6 +2251,7 @@ loadAdminUsers();
             if (val && !Array.from(sel.options).some(o => o.value === val)) { const o = document.createElement('option'); o.value = val; o.textContent = 'Khác (' + val + ')'; sel.appendChild(o); }
             sel.value = val || 'cb';
             if (!artData && presetCat === 'ai') document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-robot text-violet-500 mr-2'></i> Viết Bài - Cung ứng tài khoản AI";
+            if (!artData && /^kd-(nc|cb)$/.test(presetCat || '')) document.getElementById('modal-a-title').innerHTML = "<i class='fas fa-folder-open text-amber-500 mr-2'></i> Viết Bài - Kho đề " + KHO_DE[presetCat.slice(3)].short;
             document.getElementById('modal-a-preview').classList.add('hidden'); aImgStatus('');
         };
         const A_TEMPLATE = '<h3>Giới thiệu dịch vụ</h3>\n<p>Mô tả ngắn về dịch vụ / loại tài khoản AI mà bạn cung cấp.</p>\n<h3>Bảng giá</h3>\n<table>\n  <tr><th>Gói</th><th>Thời hạn</th><th>Giá</th></tr>\n  <tr><td>[Tên gói 1]</td><td>[Thời hạn]</td><td>[Giá]</td></tr>\n  <tr><td>[Tên gói 2]</td><td>[Thời hạn]</td><td>[Giá]</td></tr>\n</table>\n<h3>Quyền lợi khi sử dụng</h3>\n<ul>\n  <li>[Quyền lợi thứ nhất]</li>\n  <li>[Quyền lợi thứ hai]</li>\n</ul>\n<h3>Cách đặt mua</h3>\n<ul>\n  <li>Liên hệ hotline 0969264305 hoặc nhắn tin trong khung chat ở góc phải màn hình.</li>\n  <li>[Các bước thanh toán / bàn giao tài khoản]</li>\n</ul>\n<h3>Lưu ý</h3>\n<p>[Điều kiện sử dụng, chính sách bảo hành...]</p>\n';
@@ -2252,10 +2289,30 @@ loadAdminUsers();
             const f = Array.from((e.clipboardData && e.clipboardData.files) || []).find(x => /^image\//.test(x.type));
             if (f) { e.preventDefault(); uploadArticleImage(f, 'body'); }
         });
-
-        // Tự động lắng nghe sự kiện click trên toàn bộ khung xem bài viết
-document.getElementById('view-article')?.addEventListener('click', function (e) {
-    // Tìm xem phần tử vừa click (hoặc thẻ cha của nó) có class nút đăng ký hoặc href chứa #register không
+    
+        // ======================================================================
+        //  KHO ĐỀ: Đề thi UDNC / Đề thi UDCB (thư mục Google Drive + bài viết)
+        // ======================================================================
+        const KHO_DE = {
+            nc: { cat: 'kd-nc', short: 'UDNC', title: 'Đề thi UDNC', sub: 'Kho đề thi chứng chỉ ứng dụng công nghệ thông tin nâng cao', folderId: '1tSlGlK89rD_WjJdNEv6ISLhjPR-hnBXl', link: 'https://drive.google.com/drive/folders/1tSlGlK89rD_WjJdNEv6ISLhjPR-hnBXl?usp=drive_link', grad: 'from-orange-500 via-rose-500 to-pink-600', text: 'text-orange-700' },
+            cb: { cat: 'kd-cb', short: 'UDCB', title: 'Đề thi UDCB', sub: 'Kho đề thi chứng chỉ ứng dụng công nghệ thông tin cơ bản', folderId: '1ADvXMjDc_yyaIcK-pX4ZHbQYx-EyotND', link: 'https://drive.google.com/drive/folders/1ADvXMjDc_yyaIcK-pX4ZHbQYx-EyotND?usp=drive_link', grad: 'from-emerald-500 via-teal-500 to-cyan-600', text: 'text-emerald-700' }
+        };
+        const khoKeyOf = a => { const c = String(a && a.PhanLoai || '').trim().toLowerCase(); return c === 'kd-nc' ? 'nc' : (c === 'kd-cb' ? 'cb' : ''); };
+        const isKhoArticle = a => !!khoKeyOf(a);
+        const sectionOf = a => isAiArticle(a) ? 'ai' : (isKhoArticle(a) ? 'kho' : 'course');
+        let khoCurrent = 'nc';
+        function renderKhoDe(loadFrame) {
+            const hero = document.getElementById('kho-hero'); if (!hero) return;
+            const k = KHO_DE[khoCurrent], admin = isLoggedIn && studentInfo && studentInfo.loai === 'admin';
+            hero.innerHTML = `<div class="relative overflow-hidden rounded-3xl bg-gradient-to-br ${k.grad} text-white p-8 md:p-12 shadow-xl"><div class="absolute -right-12 -top-12 w-64 h-64 bg-white/10 rounded-full"></div><div class="absolute right-24 -bottom-16 w-40 h-40 bg-white/10 rounded-full"></div><div class="relative max-w-3xl"><div class="inline-flex items-center gap-2 bg-white/15 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4"><i class="fas fa-folder-open"></i> Kho đề</div><h2 class="text-3xl md:text-4xl font-black leading-tight mb-3">${esc(k.title)}</h2><p class="text-white/85 text-lg font-medium leading-relaxed mb-6">${esc(k.sub)}</p><div class="flex flex-wrap gap-3"><a href="${esc(k.link)}" target="_blank" rel="noopener noreferrer" class="bg-white ${k.text} px-6 py-3 rounded-xl font-black shadow-md hover:bg-slate-50 transition"><i class="fab fa-google-drive mr-2"></i> Mở thư mục trên Google Drive</a><button onclick="openChat()" class="bg-white/15 border border-white/30 text-white px-6 py-3 rounded-xl font-bold hover:bg-white/25 transition"><i class="fas fa-comments mr-2"></i> Hỏi về đề thi</button></div></div></div>`;
+            document.getElementById('kho-open-link').href = k.link;
+            if (loadFrame) { const fr = document.getElementById('kho-frame'); if (fr.dataset.k !== khoCurrent) { fr.dataset.k = khoCurrent; fr.src = 'https://drive.google.com/embeddedfolderview?id=' + k.folderId + '#list'; } }
+            const wb = document.getElementById('kho-write-btn'); if (wb) wb.classList.toggle('hidden', !admin);
+            const list = dbArticles.filter(a => khoKeyOf(a) === khoCurrent);
+            document.getElementById('kho-articles-container').innerHTML = list.length ? list.map(articleCard).join('') : `<div class="col-span-full bg-white rounded-3xl border-2 border-dashed border-slate-200 p-10 text-center"><div class="font-black text-slate-700 text-lg mb-1">Chưa có bài hướng dẫn nào</div><p class="text-slate-500 text-sm font-medium">Các đề thi nằm trong thư mục Google Drive ở phía trên.</p>${admin ? `<button onclick="openArticleModal(null, KHO_DE[khoCurrent].cat)" class="mt-5 bg-amber-500 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:bg-amber-600 transition"><i class="fas fa-pen-nib mr-2"></i> Viết bài đầu tiên</button>` : ''}</div>`;
+        }
+        function openKhoDe(key) { if (!KHO_DE[key]) return; khoCurrent = key; renderKhoDe(true); navigate('kho'); }
+         // Tìm xem phần tử vừa click (hoặc thẻ cha của nó) có class nút đăng ký hoặc href chứa #register không
     const btn = e.target.closest('.cta-btn-adv, .cta-btn, [href="#register"]');
     if (btn) {
         e.preventDefault(); // Chặn hành vi cuộn trang mặc định
@@ -2265,3 +2322,5 @@ document.getElementById('view-article')?.addEventListener('click', function (e) 
     </script>
 </body>
 </html>
+
+ 
