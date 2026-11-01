@@ -2312,13 +2312,7 @@ loadAdminUsers();
             document.getElementById('kho-articles-container').innerHTML = list.length ? list.map(articleCard).join('') : `<div class="col-span-full bg-white rounded-3xl border-2 border-dashed border-slate-200 p-10 text-center"><div class="font-black text-slate-700 text-lg mb-1">Chưa có bài hướng dẫn nào</div><p class="text-slate-500 text-sm font-medium">Các đề thi nằm trong thư mục Google Drive ở phía trên.</p>${admin ? `<button onclick="openArticleModal(null, KHO_DE[khoCurrent].cat)" class="mt-5 bg-amber-500 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:bg-amber-600 transition"><i class="fas fa-pen-nib mr-2"></i> Viết bài đầu tiên</button>` : ''}</div>`;
         }
         function openKhoDe(key) { if (!KHO_DE[key]) return; khoCurrent = key; renderKhoDe(true); navigate('kho'); }
-         // Tìm xem phần tử vừa click (hoặc thẻ cha của nó) có class nút đăng ký hoặc href chứa #register không
-    const btn = e.target.closest('.cta-btn-adv, .cta-btn, [href="#register"]');
-    if (btn) {
-        e.preventDefault(); // Chặn hành vi cuộn trang mặc định
-        navigate('register'); // Gọi hàm chuyển sang màn hình Đăng ký
-    }
-});
+
     </script>
 </body>
 </html>
