@@ -114,7 +114,7 @@
             </div>
 
             <div class="flex items-center space-x-3 py-2">
-                <button onclick="navigate('register')" id="nav-reg-btn" class="btn-bounce bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black text-xs px-4 py-2 rounded-full shadow-lg border border-white/30 hover:scale-105 transition tracking-wider">
+                <button onclick="openRegister()" id="nav-reg-btn" class="btn-bounce bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black text-xs px-4 py-2 rounded-full shadow-lg border border-white/30 hover:scale-105 transition tracking-wider">
                     <i class="fas fa-bolt mr-1"></i> ĐĂNG KÝ
                 </button>
                 <div id="nav-user-area" class="hidden flex items-center space-x-4 bg-white/10 px-4 py-1.5 rounded-full border border-white/20">
@@ -184,7 +184,7 @@
                         
                         <div class="pt-4 border-t border-slate-100 mt-2" id="widget-reg-container">
                             <p class="text-xs text-slate-400 mb-3 font-semibold uppercase">Chưa có tài khoản?</p>
-                            <button onclick="navigate('register')" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black py-3 rounded-xl shadow-md uppercase text-sm">Đăng Ký Ngay</button>
+                            <button onclick="openRegister()" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black py-3 rounded-xl shadow-md uppercase text-sm">Đăng Ký Ngay</button>
                         </div>
                     </div>
                 </div>
@@ -347,6 +347,7 @@
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-emerald-600 text-2xl"><i class="fas fa-user-plus"></i></div>
                 <h2 class="text-3xl font-black text-slate-800">Đăng Ký Mới</h2>
+                <div id="reg-source" class="hidden mt-4 text-sm font-bold text-emerald-800 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-2"></div>
             </div>
             <div class="space-y-4">
                 <input type="text" id="reg-username" placeholder="Tên đăng nhập (Viết liền, không dấu)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
@@ -1049,6 +1050,47 @@
             c.innerHTML = list.length ? list.map(articleCard).join('') : `<div class="col-span-full bg-white rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center"><div class="w-16 h-16 mx-auto rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center text-3xl mb-4"><i class="fas fa-robot"></i></div><div class="font-black text-slate-700 text-lg mb-1">Nội dung đang được cập nhật</div><p class="text-slate-500 text-sm font-medium">Vui lòng liên hệ hotline <a href="tel:0969264305" class="font-black text-indigo-600">0969 264 305</a> để được tư vấn trực tiếp.</p>${admin ? `<button onclick="openArticleModal(null, 'ai')" class="mt-5 bg-violet-600 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:bg-violet-700 transition"><i class="fas fa-pen-nib mr-2"></i> Viết bài đầu tiên</button>` : ''}</div>`;
         }
         function openAiSection() { renderAiSection(); navigate('ai'); }
+        // ================= ĐĂNG KÝ NGAY TỪ BÀI VIẾT =================
+        let regSourceTitle = '', currentArticle = null;
+        function setRegSource(title) {
+            regSourceTitle = String(title || '').substring(0, 150);
+            const b = document.getElementById('reg-source'); if (!b) return;
+            if (regSourceTitle) { b.textContent = 'Bạn đang đăng ký: ' + regSourceTitle; b.classList.remove('hidden'); } else b.classList.add('hidden');
+        }
+        function openRegister() { setRegSource(''); navigate('register'); }
+        function regFold(t) { return String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/\s+/g, ' ').trim(); }
+        // Nút/link có chữ "Đăng ký học ngay", "Đăng ký ngay"... (kể cả không dấu) -> mở form đăng ký
+        const REG_TEXT = /dang ky (hoc )?(ngay|khoa hoc|tai khoan)|dang ky ngay/;
+        function guessLoai(art) {
+            const c = regFold(art && art.PhanLoai), t = regFold(art && art.TieuDe);
+            if (/combo/.test(t)) return 'cbnc';
+            if (c === 'nc' || c === 'kd-nc' || /nang cao|udnc/.test(t)) return 'nc';
+            if (c === 'cb' || c === 'kd-cb' || /co ban|udcb/.test(t)) return 'cb';
+            return '';
+        }
+        function goRegisterFromArticle() {
+            if (isLoggedIn) { alert('Bạn đã có tài khoản và đang đăng nhập. Cần đăng ký thêm khóa học, vui lòng gọi hotline 0969264305 hoặc nhắn tin ở mục Hỗ trợ.'); return; }
+            const art = currentArticle || {};
+            navigate('register');
+            setRegSource(art.TieuDe || '');
+            const loai = guessLoai(art), sel = document.getElementById('reg-loai'); if (sel && loai) sel.value = loai;
+            const u = document.getElementById('reg-username'); if (u) setTimeout(() => u.focus(), 150);
+        }
+        function upgradeRegisterLinks() {
+            const box = document.getElementById('article-content'); if (!box) return;
+            box.querySelectorAll('a, button, [role="button"]').forEach(el => {
+                if (!REG_TEXT.test(regFold(el.textContent))) return;
+                el.setAttribute('data-reg-link', '1');
+                if (el.tagName === 'A') { el.setAttribute('href', 'javascript:void(0)'); el.removeAttribute('target'); }
+                el.style.cursor = 'pointer';
+            });
+        }
+        document.addEventListener('click', function (e) {
+            const el = e.target && e.target.closest ? e.target.closest('#article-content [data-reg-link]') : null;
+            if (!el) return;
+            e.preventDefault(); e.stopPropagation(); goRegisterFromArticle();
+        }, true);
+
         function showArticle(id) {
             let art = dbArticles.find(a => String(a.MaBai) === String(id));
             if (!art && fallbackArticles[id]) { const f = fallbackArticles[id]; art = { TieuDe: f.title, LinkAnh: f.image, NoiDung: f.content, PhanLoai: f.category, NgayTao: '' }; }
@@ -1058,6 +1100,7 @@
             img.onerror = function () { this.onerror = null; this.src = DEFAULT_COVER; };
             img.src = art.LinkAnh || DEFAULT_COVER;
             document.getElementById('article-content').innerHTML = renderArticleHtml(art.NoiDung) || '<p class="italic text-slate-400">Bài viết chưa có nội dung.</p>';
+            currentArticle = art; upgradeRegisterLinks();
             const catEl = document.getElementById('article-category'); if (catEl) catEl.textContent = catLabel(art.PhanLoai);
             const dEl = document.getElementById('article-date'); if (dEl) dEl.textContent = fmtDate(art.NgayTao) || 'Cập nhật mới nhất';
             const ai = isAiArticle(art), kk = khoKeyOf(art), back = document.getElementById('article-back-btn');
@@ -1147,9 +1190,9 @@
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return show("Email không hợp lệ!", false);
             btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...'; msg.classList.add('hidden');
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l, sodienthoai: phone, email: email }) }); const r = await res.json();
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'register', username: u, password: p, hoten: h, loai: l, sdt: phone, sodienthoai: phone, email: email, nguon: regSourceTitle }) }); const r = await res.json();
                 show(r.message || 'Có lỗi xảy ra!', r.status === "success");
-                if (r.status === "success") ['reg-username', 'reg-password', 'reg-hoten', 'reg-phone', 'reg-email'].forEach(id => g(id).value = '');
+                if (r.status === "success") { ['reg-username', 'reg-password', 'reg-hoten', 'reg-phone', 'reg-email'].forEach(id => g(id).value = ''); setRegSource(''); }
             } catch (e) { show("Lỗi mạng!", false); }
             btn.disabled = false; btn.innerText = "GỬI YÊU CẦU";
         }
@@ -2316,5 +2359,3 @@ loadAdminUsers();
     </script>
 </body>
 </html>
-
- 
