@@ -375,7 +375,7 @@
                 <input type="tel" id="reg-phone" inputmode="tel" autocomplete="tel" placeholder="Số điện thoại (VD: 0969264305)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
                 <input type="email" id="reg-email" autocomplete="email" placeholder="Email (để nhận kết quả điểm, thông báo)" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-medium">
                 <select id="reg-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-emerald-500 outline-none font-bold text-slate-700">
-                    <option value="cb">Tin học Cơ Bản</option><option value="nc">Tin học Nâng Cao</option><option value="cbnc">Gói Combo (Cơ bản + Nâng cao)</option>
+                    <option value="cb">Tin học Cơ Bản</option><option value="nc">Tin học Nâng Cao</option><option value="cbnc">Gói Combo (Cơ bản + Nâng cao)</option><option value="ph">Phụ huynh (xem điểm danh, học phí của con)</option>
                 </select>
                 <button onclick="registerUser()" id="reg-btn" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 mt-4">GỬI YÊU CẦU</button>
             </div>
@@ -392,6 +392,9 @@
                     <button onclick="switchAdminTab('articles')" id="tab-articles-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Quản lý Bài viết</button>
                     <button onclick="switchAdminTab('grading')" id="tab-grading-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Chấm điểm bài nộp <span id="grading-badge" class="hidden ml-1 bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
                     <button onclick="switchAdminTab('exams')" id="tab-exams-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Kết quả thi</button>
+                    <button onclick="switchAdminTab('kids')" id="tab-kids-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Lớp thiếu nhi</button>
+                    <button onclick="switchAdminTab('fees')" id="tab-fees-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Học phí</button>
+                    <button onclick="switchAdminTab('certs')" id="tab-certs-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Kỳ thi chứng chỉ</button>
                     <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Ngân hàng Câu hỏi</button>
                     <button onclick="switchAdminTab('chat')" id="tab-chat-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Hỏi đáp <span id="chat-admin-badge" class="hidden ml-1 bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
                     <button onclick="switchAdminTab('notify')" id="tab-notify-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Thông báo</button>
@@ -408,7 +411,7 @@
                         <input type="text" id="admin-add-username" placeholder="Username" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
                         <input type="text" id="admin-add-password" placeholder="Password" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
                         <input type="text" id="admin-add-hoten" placeholder="Họ tên" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
-                        <select id="admin-add-loai" class="border-2 p-3 rounded-xl font-bold outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option><option value="cbnc">Combo</option><option value="admin">Admin</option></select>
+                        <select id="admin-add-loai" class="border-2 p-3 rounded-xl font-bold outline-none"><option value="cb">Cơ bản</option><option value="nc">Nâng cao</option><option value="cbnc">Combo</option><option value="ph">Phụ huynh</option><option value="admin">Admin</option></select>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <input type="tel" id="admin-add-phone" placeholder="Số điện thoại (không bắt buộc)" class="border-2 p-3 rounded-xl focus:border-blue-500 outline-none">
@@ -422,6 +425,236 @@
                         <button onclick="loadAdminUsers()" class="text-blue-600 bg-blue-50 px-4 py-2 rounded-lg font-bold hover:bg-blue-100">Tải lại</button>
                     </div>
                     <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-slate-50 text-slate-600 text-xs uppercase"><th class="p-4">Tài khoản</th><th class="p-4">Mật khẩu (đã mã hóa)</th><th class="p-4">Họ tên</th><th class="p-4">Liên hệ</th><th class="p-4">Quyền</th><th class="p-4">Trạng thái</th><th class="p-4 text-center">Tác vụ</th></thead><tbody id="admin-users-table" class="text-sm divide-y divide-slate-100"></tbody></table></div>
+                </div>
+            </div>
+
+            <!-- Tab: Lớp thiếu nhi -->
+            <div id="admin-kids-section" class="hidden space-y-6">
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="kidsPane('cls')" id="kp-cls-btn" class="px-4 py-2 rounded-xl font-bold text-sm">Lớp &amp; học sinh</button>
+                    <button onclick="kidsPane('att')" id="kp-att-btn" class="px-4 py-2 rounded-xl font-bold text-sm">Điểm danh</button>
+                    <button onclick="kidsPane('bill')" id="kp-bill-btn" class="px-4 py-2 rounded-xl font-bold text-sm">Học phí tháng &amp; phiếu in</button>
+                </div>
+
+                <div id="kp-cls" class="space-y-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-center flex-wrap gap-3 mb-4"><h3 class="font-black text-slate-800 text-lg"><i class="fas fa-chalkboard-teacher text-indigo-500 mr-2"></i> Lớp học</h3><button onclick="kidsClassForm()" class="bg-blue-600 text-white font-black px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm"><i class="fas fa-plus mr-1"></i> Thêm lớp</button></div>
+                        <div id="kc-form" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-4">
+                            <input type="hidden" id="kc-id">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="md:col-span-2"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tên lớp</label><input id="kc-ten" maxlength="100" placeholder="VD: Lập trình Scratch - nhóm sáng" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Đơn giá / buổi (đ)</label><input id="kc-gia" inputmode="numeric" placeholder="VD: 100000" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div class="md:col-span-2"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ngày học trong tuần</label><div id="kc-days" class="flex gap-3 flex-wrap text-sm font-bold text-slate-600"></div></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Giờ học</label><input id="kc-gio" maxlength="30" placeholder="18:00-19:30" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Giáo viên</label><input id="kc-gv" maxlength="100" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Trạng thái</label><select id="kc-tt" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"><option value="dang_hoc">Đang học</option><option value="dong">Đã đóng lớp</option></select></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ghi chú</label><input id="kc-gc" maxlength="300" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                            </div>
+                            <div class="flex gap-3 mt-3"><button id="kc-save" onclick="kidsSaveClass()" class="bg-emerald-600 text-white font-black px-5 py-2 rounded-xl hover:bg-emerald-700 transition text-sm">Lưu lớp</button><button onclick="document.getElementById('kc-form').classList.add('hidden')" class="bg-slate-200 text-slate-700 font-bold px-5 py-2 rounded-xl text-sm">Hủy</button></div>
+                        </div>
+                        <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="text-xs uppercase text-slate-400 border-b border-slate-100"><th class="p-3">Lớp</th><th class="p-3">Lịch học</th><th class="p-3">Giáo viên</th><th class="p-3 text-right">Đơn giá/buổi</th><th class="p-3 text-center">Sĩ số</th><th class="p-3">Trạng thái</th><th class="p-3"></th></tr></thead><tbody id="kc-list"></tbody></table></div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-center flex-wrap gap-3 mb-4"><h3 class="font-black text-slate-800 text-lg"><i class="fas fa-child text-pink-500 mr-2"></i> Học sinh</h3>
+                            <div class="flex gap-2 flex-wrap"><input id="ks-search" oninput="kidsRenderStudents()" placeholder="Tìm tên bé / phụ huynh / SĐT..." class="border-2 border-slate-200 p-2 rounded-xl text-sm bg-slate-50"><select id="ks-lop" onchange="kidsRenderStudents()" class="border-2 border-slate-200 p-2 rounded-xl text-sm bg-slate-50 font-bold"></select><button onclick="kidsStudentForm()" class="bg-blue-600 text-white font-black px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm"><i class="fas fa-plus mr-1"></i> Thêm học sinh</button></div></div>
+                        <div id="ks-form" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-4">
+                            <input type="hidden" id="ks-id">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Họ tên bé</label><input id="ks-ten" maxlength="100" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ngày sinh</label><input id="ks-ns" type="date" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Phụ huynh</label><input id="ks-ph" maxlength="100" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">SĐT phụ huynh</label><input id="ks-sdt" type="tel" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Email phụ huynh</label><input id="ks-email" type="email" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tài khoản phụ huynh (để xem online)</label><input id="ks-user" maxlength="50" placeholder="tên đăng nhập, có thể để trống" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div class="md:col-span-3"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ghi chú</label><input id="ks-gc" maxlength="300" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                            </div>
+                            <div class="flex gap-3 mt-3"><button id="ks-save" onclick="kidsSaveStudent()" class="bg-emerald-600 text-white font-black px-5 py-2 rounded-xl hover:bg-emerald-700 transition text-sm">Lưu học sinh</button><button onclick="document.getElementById('ks-form').classList.add('hidden')" class="bg-slate-200 text-slate-700 font-bold px-5 py-2 rounded-xl text-sm">Hủy</button></div>
+                        </div>
+                        <div id="ke-form" class="hidden bg-indigo-50 border border-indigo-100 rounded-2xl p-4 mb-4">
+                            <div class="font-black text-slate-700 mb-2 text-sm">Xếp <span id="ke-name"></span> vào lớp</div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Lớp</label><select id="ke-lop" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></select></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Bắt đầu từ ngày</label><input id="ke-bd" type="date" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Đơn giá riêng/buổi (tùy chọn)</label><input id="ke-gia" inputmode="numeric" placeholder="để trống = theo lớp" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <button onclick="kidsEnroll()" class="bg-indigo-600 text-white font-black px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition text-sm">Xếp lớp</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="text-xs uppercase text-slate-400 border-b border-slate-100"><th class="p-3">Bé</th><th class="p-3">Phụ huynh</th><th class="p-3">Tài khoản PH</th><th class="p-3">Lớp đang học</th><th class="p-3"></th></tr></thead><tbody id="ks-list"></tbody></table></div>
+                    </div>
+                </div>
+
+                <div id="kp-att" class="hidden bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex gap-3 flex-wrap items-end mb-3">
+                        <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Lớp</label><select id="ka-lop" onchange="kidsAttLoad()" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm bg-slate-50 font-bold"></select></div>
+                        <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tháng</label><input id="ka-thang" type="month" onchange="kidsAttLoad()" class="border-2 border-slate-200 p-2 rounded-xl text-sm bg-slate-50"></div>
+                        <button onclick="kidsGenSessions()" class="bg-indigo-600 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-indigo-700 transition text-sm"><i class="fas fa-calendar-plus mr-1"></i> Tạo buổi theo lịch</button>
+                        <input id="ka-extra" type="date" class="border-2 border-slate-200 p-2 rounded-xl text-sm bg-slate-50"><button onclick="kidsAddSession()" class="bg-slate-600 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-slate-700 transition text-sm">Thêm ngày</button>
+                        <button id="ka-save" onclick="kidsAttSave()" class="bg-emerald-600 text-white font-black px-5 py-2.5 rounded-xl hover:bg-emerald-700 transition text-sm">Lưu điểm danh</button>
+                        <button onclick="kidsExportAtt()" class="bg-green-700 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-green-800 transition text-sm"><i class="fas fa-file-excel mr-1"></i> Excel</button>
+                    </div>
+                    <div class="text-xs text-slate-500 mb-3 flex gap-4 flex-wrap"><span><b class="text-emerald-600">✓</b> Có mặt</span><span><b class="text-amber-600">P</b> Vắng có phép (không tính phí)</span><span><b class="text-rose-600">K</b> Vắng không phép (tính phí)</span><span><b class="text-blue-600">B</b> Học bù (tính phí)</span><span class="text-slate-400">Bấm vào ô để đổi trạng thái; bấm "✓ cả cột" để điểm danh cả buổi.</span></div>
+                    <div id="ka-lock" class="hidden mb-3 text-sm font-bold bg-amber-50 text-amber-700 border border-amber-100 rounded-xl p-3">Tháng này đã chốt học phí — mở lại ở mục "Học phí tháng" để sửa điểm danh.</div>
+                    <div class="overflow-x-auto"><table class="text-sm border-collapse" id="ka-table"></table></div>
+                </div>
+
+                <div id="kp-bill" class="hidden space-y-4">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="flex gap-3 flex-wrap items-end mb-4">
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tháng</label><input id="kb-thang" type="month" onchange="kidsBillLoad()" class="border-2 border-slate-200 p-2 rounded-xl text-sm bg-slate-50"></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Lớp</label><select id="kb-lop" onchange="kidsBillLoad()" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm bg-slate-50 font-bold"></select></div>
+                            <button id="kb-close" onclick="kidsCloseMonth()" class="bg-slate-800 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-slate-900 transition text-sm"><i class="fas fa-lock mr-1"></i> Chốt tháng</button>
+                            <button onclick="kidsPrint()" class="bg-blue-600 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-blue-700 transition text-sm"><i class="fas fa-print mr-1"></i> In phiếu cả lớp</button>
+                            <button onclick="kidsRemind()" class="bg-amber-500 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-amber-600 transition text-sm"><i class="fas fa-bell mr-1"></i> Nhắc nợ</button>
+                            <label class="text-xs font-bold text-slate-500 flex items-center gap-1"><input type="checkbox" id="kb-mail"> kèm email</label>
+                            <button onclick="kidsExportBill()" class="bg-green-700 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-green-800 transition text-sm"><i class="fas fa-file-excel mr-1"></i> Excel</button>
+                        </div>
+                        <div id="kb-note" class="text-xs text-slate-500 mb-3"></div>
+                        <div class="grid grid-cols-3 gap-3 mb-4 text-center"><div class="bg-slate-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Phải thu tháng</div><div id="kb-s-due" class="font-black text-slate-800">–</div></div><div class="bg-emerald-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Đã thu</div><div id="kb-s-paid" class="font-black text-emerald-600">–</div></div><div class="bg-rose-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Còn lại</div><div id="kb-s-debt" class="font-black text-rose-600">–</div></div></div>
+                        <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="text-xs uppercase text-slate-400 border-b border-slate-100"><th class="p-3"><input type="checkbox" onchange="document.querySelectorAll('.kb-chk').forEach(c=>c.checked=this.checked)"></th><th class="p-3">Bé</th><th class="p-3">Buổi tính phí</th><th class="p-3 text-right">Phải đóng</th><th class="p-3 text-right">Nợ trước</th><th class="p-3 text-right">Đã đóng</th><th class="p-3 text-right">Còn lại</th><th class="p-3"></th></tr></thead><tbody id="kb-list"></tbody></table></div>
+                    </div>
+                </div>
+
+                <div id="kb-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 my-4">
+                        <div class="flex justify-between items-start gap-3 mb-3"><div><h3 id="km-name" class="font-black text-slate-800 text-xl"></h3><p id="km-sub" class="text-sm text-slate-500"></p></div><button onclick="document.getElementById('kb-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button></div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
+                            <input id="km-tien" inputmode="numeric" placeholder="Số tiền (đ)" class="col-span-2 border-2 border-slate-200 p-2.5 rounded-xl text-sm">
+                            <input id="km-ngay" type="date" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm">
+                            <select id="km-ht" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm"><option value="tien_mat">Tiền mặt</option><option value="chuyen_khoan">Chuyển khoản</option><option value="khac">Khác</option></select>
+                            <input id="km-gc" maxlength="300" placeholder="Ghi chú" class="col-span-2 md:col-span-3 border-2 border-slate-200 p-2.5 rounded-xl text-sm">
+                            <button id="km-btn" onclick="kidsPay()" class="bg-emerald-600 text-white font-black rounded-xl hover:bg-emerald-700 transition text-sm py-2.5">Ghi nhận</button>
+                        </div>
+                        <label class="text-xs font-bold text-slate-500 flex items-center gap-1 mt-2"><input type="checkbox" id="km-mail"> Gửi biên lai qua email phụ huynh</label>
+                        <h4 class="font-black text-slate-700 mt-4 mb-2 text-sm">Phiếu thu của tháng</h4>
+                        <div id="km-history" class="space-y-2 max-h-56 overflow-y-auto"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Học phí -->
+            <div id="admin-fees-section" class="hidden space-y-6">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm"><div class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Tổng phải thu</div><div id="fee-s-due" class="text-xl md:text-2xl font-black text-slate-800 mt-1">–</div></div>
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm"><div class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Đã thu</div><div id="fee-s-paid" class="text-xl md:text-2xl font-black text-emerald-600 mt-1">–</div></div>
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm"><div class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Còn nợ</div><div id="fee-s-debt" class="text-xl md:text-2xl font-black text-rose-600 mt-1">–</div></div>
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm"><div class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Thu trong tháng này</div><div id="fee-s-month" class="text-xl md:text-2xl font-black text-blue-600 mt-1">–</div></div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center flex-wrap gap-3 cursor-pointer" onclick="document.getElementById('fee-settings').classList.toggle('hidden')">
+                        <h3 class="font-black text-slate-800 text-lg"><i class="fas fa-tags text-amber-500 mr-2"></i> Bảng học phí theo gói &amp; thông tin chuyển khoản</h3>
+                        <span class="text-sm font-bold text-blue-600">Mở / đóng</span>
+                    </div>
+                    <div id="fee-settings" class="hidden mt-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tin học Cơ bản (đ)</label><input id="fs-cb" inputmode="numeric" placeholder="VD: 1500000" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none"></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tin học Nâng cao (đ)</label><input id="fs-nc" inputmode="numeric" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none"></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Combo Cơ bản + Nâng cao (đ)</label><input id="fs-cbnc" inputmode="numeric" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none"></div>
+                        </div>
+                        <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mt-4 mb-1">Thông tin chuyển khoản (hiện cho học viên)</label>
+                        <textarea id="fs-bank" rows="2" maxlength="500" placeholder="VD: VietinBank - Số tài khoản 0934671006" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none"></textarea>
+                        <p class="text-xs text-slate-400 mt-2">Mặc định: Cơ bản 500.000 đ, Nâng cao 1.000.000 đ, Combo 1.500.000 đ (= Cơ bản + Nâng cao). Nội dung chuyển khoản của từng học viên tự sinh dạng "Hoc phi [khoá học] [họ tên] [số điện thoại]". Mức này áp dụng cho mọi học viên theo gói đang đăng ký. Có thể đặt mức riêng cho từng học viên (giảm giá, miễn phí) ở nút "Thu / Chi tiết".</p>
+                        <button id="fs-save" onclick="feeSaveSettings()" class="mt-3 bg-emerald-600 text-white font-black px-6 py-2.5 rounded-xl hover:bg-emerald-700 transition">Lưu bảng học phí</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex gap-3 flex-wrap items-center mb-4">
+                        <input id="fee-search" oninput="feeRender()" placeholder="Tìm tên / tài khoản / SĐT..." class="flex-1 min-w-[200px] border-2 border-slate-200 p-2.5 rounded-xl bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none text-sm">
+                        <select id="fee-filter" onchange="feeRender()" class="border-2 border-slate-200 p-2.5 rounded-xl bg-slate-50 text-sm font-bold"><option value="">Tất cả</option><option value="chua_dong">Chưa đóng</option><option value="mot_phan">Đóng một phần</option><option value="du">Đã đủ</option><option value="mien">Chưa đặt / miễn phí</option><option value="no">Đang nợ</option></select>
+                        <button onclick="feeRemind()" class="bg-amber-500 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-amber-600 transition text-sm"><i class="fas fa-bell mr-1"></i> Nhắc nợ</button>
+                        <label class="text-xs font-bold text-slate-500 flex items-center gap-1"><input type="checkbox" id="fee-remind-mail"> kèm email</label>
+                        <button onclick="feeExportList()" class="bg-green-700 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-green-800 transition text-sm"><i class="fas fa-file-excel mr-1"></i> Xuất danh sách</button>
+                    </div>
+                    <div class="flex gap-3 flex-wrap items-center mb-4 text-sm bg-slate-50 rounded-2xl p-3 border border-slate-100">
+                        <span class="font-black text-slate-500">Báo cáo thu:</span>
+                        <label class="flex items-center gap-1">Từ <input id="fee-from" type="date" class="border border-slate-200 rounded-lg p-1.5"></label>
+                        <label class="flex items-center gap-1">đến <input id="fee-to" type="date" class="border border-slate-200 rounded-lg p-1.5"></label>
+                        <button onclick="feeExportReport()" class="bg-blue-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-blue-700 transition"><i class="fas fa-file-excel mr-1"></i> Xuất báo cáo thu</button>
+                    </div>
+                    <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="text-xs uppercase text-slate-400 border-b border-slate-100"><th class="p-3"><input type="checkbox" onchange="document.querySelectorAll('.fee-chk').forEach(c=>c.checked=this.checked)"></th><th class="p-3">Học viên</th><th class="p-3">Gói</th><th class="p-3 text-right">Phải đóng</th><th class="p-3 text-right">Đã đóng</th><th class="p-3 text-right">Còn nợ</th><th class="p-3">Trạng thái</th><th class="p-3"></th></tr></thead><tbody id="fee-list"></tbody></table></div>
+                </div>
+
+                <div id="fee-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 my-4">
+                        <div class="flex justify-between items-start gap-3 mb-4">
+                            <div><h3 id="fm-name" class="font-black text-slate-800 text-xl"></h3><p id="fm-sub" class="text-sm text-slate-500 mt-1"></p></div>
+                            <button onclick="feeCloseModal()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 mb-5 text-center">
+                            <div class="bg-slate-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Phải đóng</div><div id="fm-due" class="font-black text-slate-800"></div></div>
+                            <div class="bg-emerald-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Đã đóng</div><div id="fm-paid" class="font-black text-emerald-600"></div></div>
+                            <div class="bg-rose-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Còn nợ</div><div id="fm-debt" class="font-black text-rose-600"></div></div>
+                        </div>
+                        <div class="border border-slate-100 rounded-2xl p-4 mb-4">
+                            <h4 class="font-black text-slate-700 mb-2 text-sm"><i class="fas fa-hand-holding-usd text-emerald-500 mr-1"></i> Ghi nhận thu tiền</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <input id="fp-tien" inputmode="numeric" placeholder="Số tiền (đ)" class="col-span-2 border-2 border-slate-200 p-2.5 rounded-xl text-sm focus:border-emerald-500 focus:outline-none">
+                                <input id="fp-ngay" type="date" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm">
+                                <select id="fp-ht" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm"><option value="tien_mat">Tiền mặt</option><option value="chuyen_khoan">Chuyển khoản</option><option value="khac">Khác</option></select>
+                                <input id="fp-ghichu" maxlength="300" placeholder="Ghi chú (không bắt buộc)" class="col-span-2 md:col-span-3 border-2 border-slate-200 p-2.5 rounded-xl text-sm">
+                                <button id="fp-btn" onclick="feeAddPayment()" class="bg-emerald-600 text-white font-black rounded-xl hover:bg-emerald-700 transition text-sm">Ghi nhận</button>
+                            </div>
+                            <label class="text-xs font-bold text-slate-500 flex items-center gap-1 mt-2"><input type="checkbox" id="fp-mail"> Gửi biên lai qua email cho học viên</label>
+                        </div>
+                        <div class="border border-slate-100 rounded-2xl p-4 mb-4">
+                            <h4 class="font-black text-slate-700 mb-2 text-sm"><i class="fas fa-sliders-h text-blue-500 mr-1"></i> Học phí riêng của học viên này</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <input id="fo-tien" inputmode="numeric" class="border-2 border-slate-200 p-2.5 rounded-xl text-sm" placeholder="Để trống = theo gói">
+                                <input id="fo-ghichu" maxlength="300" placeholder="Lý do (VD: giảm giá học viên cũ)" class="md:col-span-2 border-2 border-slate-200 p-2.5 rounded-xl text-sm">
+                            </div>
+                            <button onclick="feeSaveOverride()" class="mt-2 bg-blue-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm">Lưu mức học phí</button>
+                            <p class="text-xs text-slate-400 mt-1">Nhập 0 để miễn phí hoàn toàn. Để trống rồi lưu để quay về mức theo gói.</p>
+                        </div>
+                        <h4 class="font-black text-slate-700 mb-2 text-sm"><i class="fas fa-receipt text-amber-500 mr-1"></i> Lịch sử thu</h4>
+                        <div id="fm-history" class="space-y-2 max-h-64 overflow-y-auto"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Kỳ thi chứng chỉ -->
+            <div id="admin-certs-section" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center flex-wrap gap-3 mb-4">
+                        <div>
+                            <h3 class="font-black text-slate-800 text-xl"><i class="fas fa-certificate text-amber-500 mr-2"></i> Đợt thi cấp chứng chỉ</h3>
+                            <p class="text-xs text-slate-400 mt-1">Quy trình: học viên đăng ký học &rarr; admin duyệt tài khoản &rarr; xếp học viên vào đợt thi &rarr; nhập điểm, hệ thống tự xét Đạt / Chưa đạt.</p>
+                        </div>
+                        <button onclick="certOpenForm()" class="bg-blue-600 text-white font-black px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-100"><i class="fas fa-plus mr-2"></i> Tạo đợt thi</button>
+                    </div>
+                    <div id="cert-form" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-5">
+                        <input type="hidden" id="cf-id">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tên đợt thi</label><input id="cf-ten" maxlength="120" placeholder="VD: Đợt 1 năm 2026" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none"></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Loại chứng chỉ</label><select id="cf-loai" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none"><option value="cb">Tin học Cơ bản</option><option value="nc">Tin học Nâng cao</option></select></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ngày thi</label><input id="cf-ngay" type="date" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none"></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Địa điểm</label><input id="cf-diadiem" maxlength="200" placeholder="VD: Phòng máy số 2" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none"></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Trạng thái</label><select id="cf-tt" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none"><option value="sap_thi">Sắp thi</option><option value="dang_thi">Đang thi</option><option value="da_dong">Đã đóng (công bố kết quả)</option></select></div>
+                            <div class="md:col-span-2"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ghi chú</label><input id="cf-ghichu" maxlength="500" class="w-full border-2 border-slate-200 p-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none"></div>
+                        </div>
+                        <div class="flex gap-3 mt-4"><button id="cf-save" onclick="certSaveSession()" class="bg-emerald-600 text-white font-black px-6 py-2.5 rounded-xl hover:bg-emerald-700 transition">Lưu đợt thi</button><button onclick="document.getElementById('cert-form').classList.add('hidden')" class="bg-slate-200 text-slate-700 font-bold px-6 py-2.5 rounded-xl hover:bg-slate-300 transition">Hủy</button></div>
+                    </div>
+                    <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="text-xs uppercase text-slate-400 border-b border-slate-100"><th class="p-3">Đợt thi</th><th class="p-3">Chứng chỉ</th><th class="p-3">Ngày thi</th><th class="p-3">Địa điểm</th><th class="p-3">Trạng thái</th><th class="p-3 text-center">Thí sinh</th><th class="p-3 text-center">Đạt</th><th class="p-3"></th></tr></thead><tbody id="cert-list"></tbody></table></div>
+                </div>
+
+                <div id="cert-detail" class="hidden bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start flex-wrap gap-3 mb-4">
+                        <div><h3 id="cd-title" class="font-black text-slate-800 text-xl"></h3><p id="cd-sub" class="text-sm text-slate-500 mt-1"></p></div>
+                        <div class="flex gap-2 flex-wrap">
+                            <button onclick="certToggleAdd()" class="bg-indigo-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-indigo-700 transition text-sm"><i class="fas fa-user-plus mr-1"></i> Thêm học viên</button>
+                            <button id="cd-save" onclick="certSaveResults()" class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-emerald-700 transition text-sm"><i class="fas fa-save mr-1"></i> Lưu kết quả</button>
+                            <button onclick="certExport()" class="bg-green-700 text-white font-bold px-4 py-2 rounded-xl hover:bg-green-800 transition text-sm"><i class="fas fa-file-excel mr-1"></i> Xuất Excel</button>
+                            <button onclick="document.getElementById('cert-detail').classList.add('hidden')" class="bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl hover:bg-slate-300 transition text-sm">Đóng</button>
+                        </div>
+                    </div>
+                    <div id="cd-add" class="hidden bg-indigo-50 border border-indigo-100 rounded-2xl p-4 mb-4">
+                        <div class="flex gap-3 items-center flex-wrap mb-3"><input id="cd-search" oninput="certRenderCands()" placeholder="Tìm theo tên / tài khoản..." class="flex-1 min-w-[180px] border-2 border-indigo-100 p-2.5 rounded-xl bg-white focus:outline-none focus:border-indigo-400 text-sm"><button onclick="certAddMembers()" class="bg-indigo-600 text-white font-black px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition text-sm">Thêm vào đợt thi</button></div>
+                        <p class="text-xs text-slate-500 mb-2">Chỉ hiện học viên đã được duyệt và có gói học phù hợp với loại chứng chỉ của đợt thi.</p>
+                        <div id="cd-cands" class="max-h-56 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-2"></div>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-2">Điểm thang 10. <b>Đạt</b> khi cả lý thuyết và thực hành đều từ <span id="cd-pass">5</span> điểm. Số chứng chỉ để trống + tích "Tự sinh" sẽ được cấp tự động khi Đạt.</p>
+                    <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="text-xs uppercase text-slate-400 border-b border-slate-100"><th class="p-2">Học viên</th><th class="p-2 w-24">Lý thuyết</th><th class="p-2 w-24">Thực hành</th><th class="p-2">Kết quả</th><th class="p-2">Số chứng chỉ</th><th class="p-2">Ngày cấp</th><th class="p-2">Ghi chú</th><th class="p-2"></th></tr></thead><tbody id="cd-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -830,6 +1063,18 @@
                 </div>
 
                 <div id="pf-student-only" class="md:col-span-3 space-y-6">
+                    <div id="pf-kids-card" class="hidden bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+                        <h3 class="font-black text-slate-800 text-lg mb-4"><i class="fas fa-child text-pink-500 mr-2"></i> Con của tôi — điểm danh &amp; học phí</h3>
+                        <div id="pf-kids"></div>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+                        <h3 class="font-black text-slate-800 text-lg mb-4"><i class="fas fa-wallet text-emerald-500 mr-2"></i> Học phí</h3>
+                        <div id="pf-fees"><p class="text-sm text-slate-400">Đang tải...</p></div>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+                        <h3 class="font-black text-slate-800 text-lg mb-4"><i class="fas fa-certificate text-amber-500 mr-2"></i> Kỳ thi chứng chỉ</h3>
+                        <div id="pf-exams" class="space-y-3"><p class="text-sm text-slate-400">Chưa có.</p></div>
+                    </div>
                     <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                         <h3 class="font-black text-slate-800 text-lg mb-1"><i class="fas fa-chart-bar text-indigo-500 mr-2"></i> Tiến bộ điểm thi</h3>
                         <p class="text-xs text-slate-400 mb-4">10 lần thi gần nhất · vạch đứt là mức đạt (5 điểm)</p>
@@ -1194,7 +1439,13 @@
         function openRegister() { setRegSource(''); navigate('register'); }
         function regFold(t) { return String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/\s+/g, ' ').trim(); }
         // Nút/link có chữ "Đăng ký học ngay", "Đăng ký ngay"... (kể cả không dấu) -> mở form đăng ký
-        const REG_TEXT = /dang ky (hoc )?(ngay|khoa hoc|tai khoan)|dang ky ngay/;
+        const REG_TEXT = /dang ky (hoc )?(ngay|khoa hoc|tai khoan)|dang ky ngay|dang ky (tham gia|lop|hoc|khoa)|ghi danh|hoc ngay hom nay/;
+        // Nút/link ngắn bắt đầu bằng "Đăng ký ..." hoặc trỏ tới #register / trang đăng ký đều mở form đăng ký
+        function isRegLink(el) {
+            const t = regFold(el.textContent), href = String(el.getAttribute('href') || '').toLowerCase();
+            if (t.length > 60) return false;
+            return REG_TEXT.test(t) || /^dang ky\b/.test(t) || /^#?\/?(register|dang-?ky)\b/.test(href.replace(/^#\/?/, ''));
+        }
         function guessLoai(art) {
             const c = regFold(art && art.PhanLoai), t = regFold(art && art.TieuDe);
             if (/combo/.test(t)) return 'cbnc';
@@ -1213,7 +1464,7 @@
         function upgradeRegisterLinks() {
             const box = document.getElementById('article-content'); if (!box) return;
             box.querySelectorAll('a, button, [role="button"]').forEach(el => {
-                if (!REG_TEXT.test(regFold(el.textContent))) return;
+                if (!isRegLink(el)) return;
                 el.setAttribute('data-reg-link', '1');
                 if (el.tagName === 'A') { el.setAttribute('href', 'javascript:void(0)'); el.removeAttribute('target'); }
                 el.style.cursor = 'pointer';
@@ -1262,7 +1513,7 @@
         function saveCurrentQuizState() { if (!isTakingQuiz) return; localStorage.setItem('quizState_' + studentInfo.username, JSON.stringify({ quizId: studentInfo.quizId, attempt: currentAttempt, violations: fullscreenViolations, answers: getSessionUserChoices() })); }
 
         // ================= MENU NGƯỜI DÙNG & TRANG THÔNG TIN CÁ NHÂN =================
-        const LOAI_LABEL = { cb: 'Tin học Cơ Bản', nc: 'Tin học Nâng Cao', cbnc: 'Combo Cơ Bản + Nâng Cao', admin: 'Quản trị viên' };
+        const LOAI_LABEL = { cb: 'Tin học Cơ Bản', nc: 'Tin học Nâng Cao', cbnc: 'Combo Cơ Bản + Nâng Cao', ph: 'Phụ huynh', admin: 'Quản trị viên' };
         const initialOf = n => { const w = String(n || '').trim().split(/\s+/); return (w[w.length - 1] || '?').charAt(0).toUpperCase(); };
         function closeUserMenu() { document.getElementById('user-menu')?.classList.add('hidden'); }
         function toggleUserMenu(e) { if (e) e.stopPropagation(); document.getElementById('user-menu')?.classList.toggle('hidden'); }
@@ -1289,8 +1540,11 @@
             const admin = studentInfo.loai === 'admin', g = id => document.getElementById(id);
             refreshAvatars(); g('pf-avatar-msg').innerText = ''; g('pf-name').innerText = studentInfo.name || ''; g('pf-username').innerText = studentInfo.username || '';
             g('pf-hoten').value = studentInfo.name || ''; g('pf-badge').innerText = LOAI_LABEL[studentInfo.loai] || 'Học viên'; g('pf-msg').classList.add('hidden');
-            g('pf-student-only').classList.toggle('hidden', admin); g('pf-stats').classList.toggle('hidden', admin);
-            g('pf-actions').classList.toggle('hidden', admin); g('pf-student-only').parentElement.classList.toggle('md:grid-cols-5', !admin);
+            const parentRole = studentInfo.loai === 'ph';
+            g('pf-student-only').classList.toggle('hidden', admin); g('pf-stats').classList.toggle('hidden', admin || parentRole);
+            Array.from(g('pf-student-only').children).forEach(c => { if (c.id !== 'pf-kids-card') c.classList.toggle('hidden', parentRole); });
+            if (parentRole) g('pf-kids-card').classList.remove('hidden');
+            g('pf-actions').classList.toggle('hidden', admin || parentRole); g('pf-student-only').parentElement.classList.toggle('md:grid-cols-5', !admin);
             const spin = '<div class="text-center py-6 text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</div>';
             if (!admin) { ['pf-s-count', 'pf-s-avg', 'pf-s-best', 'pf-s-pass'].forEach(id => g(id).innerText = '–'); g('pf-recent').innerHTML = spin; g('pf-files').innerHTML = spin; g('pf-chart').innerHTML = ''; }
             try {
@@ -1299,6 +1553,7 @@
                 if (admin) return;
                 renderProfileHistory(h && h.status === 'success' ? h.data : null, h && h.message);
                 renderProfileFiles(f && f.status === 'success' ? f.data : null, f && f.message);
+                loadMyExams(); loadMyFees(); loadMyKids();
             } catch (e) {
                 if (!admin) { const err = '<div class="text-center py-6 text-rose-500 font-bold">Lỗi kết nối, vui lòng thử lại.</div>'; g('pf-recent').innerHTML = err; g('pf-files').innerHTML = err; }
             }
@@ -1666,10 +1921,482 @@
             } catch (error) { tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500 font-bold">Lỗi tải dữ liệu file</td></tr>`; }
         }
 
+
+        // ================= KỲ THI CẤP CHỨNG CHỈ =================
+        const CERT_LOAI = { cb: 'Cơ bản', nc: 'Nâng cao' };
+        const CERT_TT = { sap_thi: ['Sắp thi', 'bg-blue-50 text-blue-700'], dang_thi: ['Đang thi', 'bg-amber-50 text-amber-700'], da_dong: ['Đã đóng', 'bg-slate-100 text-slate-600'] };
+        let certSessions = [], certCur = null, certMembers = [], certCands = [], certPass = 5;
+        const certDate = v => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v || '')); return m ? `${m[3]}/${m[2]}/${m[1]}` : ''; };
+        const certVerdict = (lt, th) => (lt === '' || th === '' || isNaN(lt) || isNaN(th)) ? '' : ((lt >= certPass && th >= certPass) ? 'dat' : 'khong_dat');
+        const certBadge = k => k === 'dat' ? '<span class="px-2.5 py-1 rounded-full text-xs font-black bg-emerald-50 text-emerald-700">ĐẠT</span>' : (k === 'khong_dat' ? '<span class="px-2.5 py-1 rounded-full text-xs font-black bg-rose-50 text-rose-700">CHƯA ĐẠT</span>' : '<span class="text-slate-300">—</span>');
+        async function loadCertSessions() {
+            const tb = document.getElementById('cert-list'); tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
+            try {
+                const r = await api({ action: 'get_exam_sessions' });
+                if (r.status !== 'success') { tb.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</td></tr>`; return; }
+                certSessions = r.data; certPass = r.passScore || 5;
+                if (!certSessions.length) { tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400">Chưa có đợt thi nào. Bấm "Tạo đợt thi" để bắt đầu.</td></tr>'; return; }
+                tb.innerHTML = certSessions.map((x, i) => { const tt = CERT_TT[x.trangthai] || CERT_TT.sap_thi; return `<tr class="border-b border-slate-50 hover:bg-slate-50">
+                    <td class="p-3 font-bold text-slate-800">${esc(x.ten)}</td><td class="p-3">${esc(CERT_LOAI[x.loai] || x.loai)}</td><td class="p-3">${esc(certDate(x.ngay)) || '—'}</td><td class="p-3">${esc(x.diadiem) || '—'}</td>
+                    <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span></td><td class="p-3 text-center font-bold">${x.tong}</td><td class="p-3 text-center font-bold text-emerald-600">${x.dat}</td>
+                    <td class="p-3 whitespace-nowrap text-right"><button onclick="certOpenDetail(${i})" class="text-blue-600 font-bold hover:underline mr-3">Quản lý</button><button onclick="certOpenForm(${i})" class="text-slate-600 font-bold hover:underline mr-3">Sửa</button><button onclick="certDeleteSession(${i})" class="text-rose-600 font-bold hover:underline">Xóa</button></td></tr>`; }).join('');
+            } catch (e) { tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">Lỗi kết nối!</td></tr>'; }
+        }
+        function certOpenForm(i) {
+            const x = (i === undefined) ? { id: '', ten: '', loai: 'cb', ngay: '', diadiem: '', trangthai: 'sap_thi', ghichu: '' } : certSessions[i], g = id => document.getElementById(id);
+            g('cf-id').value = x.id; g('cf-ten').value = x.ten; g('cf-loai').value = x.loai; g('cf-ngay').value = x.ngay; g('cf-diadiem').value = x.diadiem; g('cf-tt').value = x.trangthai; g('cf-ghichu').value = x.ghichu;
+            g('cert-form').classList.remove('hidden'); g('cf-ten').focus();
+        }
+        async function certSaveSession() {
+            const g = id => document.getElementById(id), btn = g('cf-save');
+            const p = { action: 'save_exam_session', id: g('cf-id').value, ten: g('cf-ten').value.trim(), loai: g('cf-loai').value, ngay: g('cf-ngay').value, diadiem: g('cf-diadiem').value.trim(), trangthai: g('cf-tt').value, ghichu: g('cf-ghichu').value.trim() };
+            if (!p.ten) return alert('Vui lòng nhập tên đợt thi!');
+            btn.disabled = true;
+            try { const r = await apiCheck(p); if (r.status === 'success') { g('cert-form').classList.add('hidden'); await loadCertSessions(); if (certCur && certCur.id === r.id) certOpenDetailById(r.id); } } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
+        async function certDeleteSession(i) {
+            const x = certSessions[i]; if (!x) return;
+            if (!confirm(`Xóa đợt thi "${x.ten}" và toàn bộ ${x.tong} kết quả trong đợt? Không thể khôi phục!`)) return;
+            const r = await apiCheck({ action: 'delete_exam_session', id: x.id });
+            if (r.status === 'success') { if (certCur && certCur.id === x.id) document.getElementById('cert-detail').classList.add('hidden'); loadCertSessions(); }
+        }
+        function certOpenDetail(i) { certOpenDetailById(certSessions[i].id); }
+        async function certOpenDetailById(id) {
+            const box = document.getElementById('cert-detail'), body = document.getElementById('cd-body');
+            box.classList.remove('hidden'); body.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
+            if (box.scrollIntoView) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const r = await apiCheck({ action: 'get_exam_session_detail', id: id });
+            if (r.status !== 'success') { box.classList.add('hidden'); return; }
+            certCur = r.session; certMembers = r.members; certCands = r.candidates; certPass = r.passScore || 5;
+            document.getElementById('cd-pass').innerText = certPass;
+            document.getElementById('cd-title').innerText = certCur.ten;
+            document.getElementById('cd-sub').innerText = `Chứng chỉ ${CERT_LOAI[certCur.loai] || ''} · Ngày thi: ${certDate(certCur.ngay) || 'chưa đặt'} · ${certCur.diadiem || 'chưa có địa điểm'} · ${(CERT_TT[certCur.trangthai] || [''])[0]}`;
+            certRenderMembers(); certRenderCands();
+        }
+        function certRenderMembers() {
+            const body = document.getElementById('cd-body');
+            if (!certMembers.length) { body.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400">Chưa có học viên. Bấm "Thêm học viên".</td></tr>'; return; }
+            const inp = 'border border-slate-200 rounded-lg p-1.5 w-full text-sm focus:outline-none focus:border-blue-400';
+            body.innerHTML = certMembers.map((m, i) => `<tr class="border-b border-slate-50" data-i="${i}">
+                <td class="p-2"><div class="font-bold text-slate-800">${esc(m.hoten)}${m.conno > 0 ? ` <span class="ml-1 px-2 py-0.5 rounded-full text-[11px] font-black bg-rose-50 text-rose-600" title="Học viên còn nợ học phí">Nợ ${esc(fmtMoney(m.conno))}</span>` : ''}</div><div class="text-xs text-slate-400">@${esc(m.username)}${m.sdt ? ' · ' + esc(m.sdt) : ''}</div></td>
+                <td class="p-2"><input data-f="diemlt" type="number" min="0" max="10" step="0.25" value="${esc(m.diemlt)}" oninput="certRowChange(this)" class="${inp}"></td>
+                <td class="p-2"><input data-f="diemth" type="number" min="0" max="10" step="0.25" value="${esc(m.diemth)}" oninput="certRowChange(this)" class="${inp}"></td>
+                <td class="p-2" data-f="kq">${certBadge(m.ketqua)}</td>
+                <td class="p-2"><input data-f="sochungchi" maxlength="50" value="${esc(m.sochungchi)}" placeholder="Tự sinh nếu để trống" class="${inp}"></td>
+                <td class="p-2"><input data-f="ngaycap" type="date" value="${esc(m.ngaycap)}" class="${inp}"></td>
+                <td class="p-2"><input data-f="ghichu" maxlength="300" value="${esc(m.ghichu)}" class="${inp}"></td>
+                <td class="p-2"><button onclick="certRemoveMember(${i})" class="text-rose-500 hover:text-rose-700" title="Bỏ khỏi đợt thi"><i class="fas fa-user-minus"></i></button></td></tr>`).join('');
+        }
+        function certRowChange(el) {
+            const tr = el.closest('tr'), v = f => tr.querySelector(`[data-f="${f}"]`).value.trim().replace(',', '.');
+            const lt = v('diemlt') === '' ? '' : parseFloat(v('diemlt')), th = v('diemth') === '' ? '' : parseFloat(v('diemth'));
+            tr.querySelector('[data-f="kq"]').innerHTML = certBadge(certVerdict(lt, th));
+        }
+        function certToggleAdd() { document.getElementById('cd-add').classList.toggle('hidden'); }
+        function certRenderCands() {
+            const q = regFold(document.getElementById('cd-search').value), box = document.getElementById('cd-cands');
+            const list = certCands.filter(c => !q || regFold(c.hoten + ' ' + c.username).includes(q));
+            box.innerHTML = list.length ? list.map(c => `<label class="flex items-center gap-2 bg-white rounded-xl border border-indigo-100 p-2.5 text-sm cursor-pointer"><input type="checkbox" class="cd-cand" value="${esc(c.username)}"><span class="font-bold text-slate-700">${esc(c.hoten)}</span><span class="text-xs text-slate-400">@${esc(c.username)}</span>${c.conno > 0 ? `<span class="text-[11px] font-black text-rose-600">nợ ${esc(fmtMoney(c.conno))}</span>` : ''}</label>`).join('') : '<p class="text-sm text-slate-400 md:col-span-2">Không có học viên phù hợp để thêm.</p>';
+        }
+        async function certAddMembers() {
+            const names = Array.from(document.querySelectorAll('.cd-cand:checked')).map(e => e.value);
+            if (!names.length) return alert('Hãy tích chọn học viên cần thêm!');
+            const r = await apiCheck({ action: 'add_exam_members', id: certCur.id, usernames: names });
+            if (r.status === 'success') { if (r.skipped && r.skipped.length) alert('Không thêm được:\n' + r.skipped.join('\n')); document.getElementById('cd-add').classList.add('hidden'); await certOpenDetailById(certCur.id); loadCertSessions(); }
+        }
+        async function certRemoveMember(i) {
+            const m = certMembers[i]; if (!m || !confirm(`Bỏ ${m.hoten} khỏi đợt thi? Điểm đã nhập của học viên này sẽ mất.`)) return;
+            const r = await apiCheck({ action: 'remove_exam_member', id: certCur.id, username: m.username });
+            if (r.status === 'success') { await certOpenDetailById(certCur.id); loadCertSessions(); }
+        }
+        async function certSaveResults() {
+            if (!certCur || !certMembers.length) return alert('Chưa có học viên để lưu!');
+            const results = Array.from(document.querySelectorAll('#cd-body tr[data-i]')).map(tr => {
+                const m = certMembers[+tr.dataset.i], v = f => tr.querySelector(`[data-f="${f}"]`).value.trim();
+                return { username: m.username, diemlt: v('diemlt'), diemth: v('diemth'), sochungchi: v('sochungchi'), ngaycap: v('ngaycap'), ghichu: v('ghichu'), autoso: true };
+            });
+            const btn = document.getElementById('cd-save'); btn.disabled = true;
+            try {
+                const r = await apiCheck({ action: 'save_exam_results', id: certCur.id, results: results });
+                if (r.status === 'success') { await certOpenDetailById(certCur.id); loadCertSessions(); alert(`Đã lưu ${r.saved} học viên (${r.passed} đạt). Học viên có kết quả mới đã được thông báo.`); }
+            } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
+        function certExport() {
+            if (!certCur) return;
+            const rows = [['STT', 'Họ tên', 'Tài khoản', 'Điện thoại', 'Email', 'Điểm lý thuyết', 'Điểm thực hành', 'Kết quả', 'Số chứng chỉ', 'Ngày cấp', 'Ghi chú']];
+            certMembers.forEach((m, i) => rows.push([i + 1, m.hoten, m.username, m.sdt || '', m.email || '', m.diemlt, m.diemth, m.ketqua === 'dat' ? 'Đạt' : (m.ketqua === 'khong_dat' ? 'Chưa đạt' : ''), m.sochungchi, certDate(m.ngaycap), m.ghichu]));
+            const head = [['Đợt thi: ' + certCur.ten], ['Chứng chỉ: Tin học ' + (CERT_LOAI[certCur.loai] || '') + ' · Ngày thi: ' + (certDate(certCur.ngay) || '') + ' · Địa điểm: ' + (certCur.diadiem || '')], []];
+            saveWorkbook([['Kết quả thi', head.concat(rows), [6, 24, 16, 14, 26, 14, 14, 12, 18, 12, 24]]], `ket-qua-thi-${certCur.loai}-${stamp()}.xlsx`);
+        }
+        // Học viên: xem đợt thi của mình
+        async function loadMyExams() {
+            const box = document.getElementById('pf-exams'); if (!box) return;
+            try {
+                const r = await api({ action: 'get_my_exams' });
+                if (r.status !== 'success') { box.innerHTML = `<p class="text-sm text-rose-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</p>`; return; }
+                if (!r.data.length) { box.innerHTML = '<p class="text-sm text-slate-400">Bạn chưa được xếp vào đợt thi chứng chỉ nào. Khi hoàn thành khóa học, quản trị viên sẽ xếp bạn vào đợt thi.</p>'; return; }
+                box.innerHTML = r.data.map(x => {
+                    const tt = CERT_TT[x.trangthai] || CERT_TT.sap_thi, has = x.ketqua !== '';
+                    return `<div class="border border-slate-100 rounded-2xl p-4 ${x.ketqua === 'dat' ? 'bg-emerald-50/50' : 'bg-slate-50/50'}">
+                        <div class="flex justify-between gap-2 flex-wrap"><div class="font-black text-slate-800">${esc(x.ten)}</div><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span></div>
+                        <div class="text-xs text-slate-500 mt-1">Chứng chỉ Tin học ${esc(CERT_LOAI[x.loai] || '')} · ${esc(certDate(x.ngay)) || 'chưa có ngày thi'}${x.diadiem ? ' · ' + esc(x.diadiem) : ''}</div>
+                        ${has ? `<div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm"><span>Lý thuyết: <b>${esc(x.diemlt)}</b></span><span>Thực hành: <b>${esc(x.diemth)}</b></span>${certBadge(x.ketqua)}${x.sochungchi ? `<span>Số chứng chỉ: <b>${esc(x.sochungchi)}</b></span>` : ''}${x.ngaycap ? `<span>Ngày cấp: <b>${esc(certDate(x.ngaycap))}</b></span>` : ''}</div>` : '<div class="mt-3 text-sm text-slate-400">Chưa có kết quả.</div>'}</div>`;
+                }).join('');
+            } catch (e) { box.innerHTML = '<p class="text-sm text-rose-500 font-bold">Lỗi kết nối.</p>'; }
+        }
+
+
+        // ================= QUẢN LÝ HỌC PHÍ =================
+        const fmtMoney = n => (Number(n) || 0).toLocaleString('vi-VN') + ' đ';
+        const FEE_TT = { chua_dong: ['Chưa đóng', 'bg-rose-50 text-rose-700'], mot_phan: ['Đóng một phần', 'bg-amber-50 text-amber-700'], du: ['Đã đủ', 'bg-emerald-50 text-emerald-700'], mien: ['Chưa đặt / miễn', 'bg-slate-100 text-slate-600'] };
+        const FEE_HT = { tien_mat: 'Tiền mặt', chuyen_khoan: 'Chuyển khoản', khac: 'Khác' };
+        const FEE_GOI = { cb: 'Cơ bản', nc: 'Nâng cao', cbnc: 'Combo' };
+        let feeList = [], feeCurUser = '', feeCurPays = [];
+        const todayStr = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
+        async function loadFees() {
+            const tb = document.getElementById('fee-list'); tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
+            try {
+                const r = await api({ action: 'get_fees' });
+                if (r.status !== 'success') { tb.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</td></tr>`; return; }
+                feeList = r.data; const g = id => document.getElementById(id);
+                g('fee-s-due').innerText = fmtMoney(r.sum.phaidong); g('fee-s-paid').innerText = fmtMoney(r.sum.dadong); g('fee-s-debt').innerText = fmtMoney(r.sum.conno); g('fee-s-month').innerText = fmtMoney(r.sum.thang);
+                const s = r.settings || {}; g('fs-cb').value = s.hp_cb || ''; g('fs-nc').value = s.hp_nc || ''; g('fs-cbnc').value = s.hp_cbnc || ''; g('fs-bank').value = s.hp_bank || '';
+                feeRender();
+            } catch (e) { tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">Lỗi kết nối!</td></tr>'; }
+        }
+        function feeRender() {
+            const q = regFold(document.getElementById('fee-search').value), f = document.getElementById('fee-filter').value, tb = document.getElementById('fee-list');
+            const rows = feeList.map((x, i) => [x, i]).filter(([x]) => (!q || regFold(x.hoten + ' ' + x.username + ' ' + x.sdt).includes(q)) && (!f || (f === 'no' ? x.conno > 0 : x.tt === f)));
+            if (!rows.length) { tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400">Không có học viên phù hợp.</td></tr>'; return; }
+            tb.innerHTML = rows.map(([x, i]) => { const tt = FEE_TT[x.tt]; return `<tr class="border-b border-slate-50 hover:bg-slate-50">
+                <td class="p-3"><input type="checkbox" class="fee-chk" data-u="${esc(x.username)}"></td>
+                <td class="p-3"><div class="font-bold text-slate-800">${esc(x.hoten)}${x.trangthai !== 'active' ? ' <span class="text-[11px] font-black text-amber-600">(' + esc(x.trangthai === 'pending' ? 'chờ duyệt' : 'khóa') + ')</span>' : ''}</div><div class="text-xs text-slate-400">@${esc(x.username)}${x.sdt ? ' · ' + esc(x.sdt) : ''}</div></td>
+                <td class="p-3">${esc(FEE_GOI[x.loai] || x.loai)}</td>
+                <td class="p-3 text-right font-bold">${esc(fmtMoney(x.phaidong))}${x.rieng ? ' <span class="text-[10px] font-black text-blue-600" title="Mức riêng">*</span>' : ''}</td>
+                <td class="p-3 text-right text-emerald-600 font-bold">${esc(fmtMoney(x.dadong))}</td>
+                <td class="p-3 text-right font-black ${x.conno > 0 ? 'text-rose-600' : 'text-slate-400'}">${esc(fmtMoney(x.conno))}</td>
+                <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span></td>
+                <td class="p-3 text-right whitespace-nowrap"><button onclick="feeOpen(${i})" class="text-blue-600 font-bold hover:underline">Thu / Chi tiết</button></td></tr>`; }).join('');
+        }
+        async function feeSaveSettings() {
+            const g = id => document.getElementById(id), btn = g('fs-save'); btn.disabled = true;
+            try { const r = await apiCheck({ action: 'save_fee_settings', hp_cb: g('fs-cb').value, hp_nc: g('fs-nc').value, hp_cbnc: g('fs-cbnc').value, hp_bank: g('fs-bank').value }); if (r.status === 'success') { await loadFees(); alert('Đã lưu bảng học phí.'); } } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
+        function feeOpen(i) {
+            const x = feeList[i]; if (!x) return; feeCurUser = x.username; const g = id => document.getElementById(id);
+            g('fm-name').innerText = x.hoten; g('fm-sub').innerText = `@${x.username} · Gói ${FEE_GOI[x.loai] || x.loai}${x.sdt ? ' · ' + x.sdt : ''}${x.email ? ' · ' + x.email : ''}`;
+            g('fp-tien').value = x.conno > 0 ? x.conno : ''; g('fp-ngay').value = todayStr(); g('fp-ht').value = 'tien_mat'; g('fp-ghichu').value = ''; g('fp-mail').checked = !!x.email; g('fp-mail').disabled = !x.email;
+            g('fo-tien').value = x.rieng ? x.phaidong : ''; g('fo-ghichu').value = x.ghichu || '';
+            feeFillSummary(x); g('fee-modal').classList.remove('hidden'); feeLoadHistory();
+        }
+        function feeFillSummary(x) { const g = id => document.getElementById(id); g('fm-due').innerText = fmtMoney(x.phaidong); g('fm-paid').innerText = fmtMoney(x.dadong); g('fm-debt').innerText = fmtMoney(x.conno); }
+        function feeCloseModal() { document.getElementById('fee-modal').classList.add('hidden'); feeCurUser = ''; }
+        async function feeLoadHistory() {
+            const box = document.getElementById('fm-history'); box.innerHTML = '<p class="text-sm text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-1"></i> Đang tải...</p>';
+            const r = await api({ action: 'get_payments', username: feeCurUser });
+            if (r.status !== 'success') { box.innerHTML = `<p class="text-sm text-rose-500 font-bold">${esc(r.message || 'Lỗi')}</p>`; return; }
+            feeCurPays = r.data;
+            box.innerHTML = r.data.length ? r.data.map((p, i) => `<div class="flex justify-between items-center gap-2 flex-wrap border border-slate-100 rounded-xl p-3 text-sm ${p.huy ? 'opacity-50 line-through' : ''}">
+                <div><span class="font-black text-slate-800">${esc(p.sophieu)}</span> · <b>${esc(fmtMoney(p.sotien))}</b> · ${esc(certDate(p.ngay))} · ${esc(FEE_HT[p.hinhthuc] || '')}${p.ghichu ? '<div class="text-xs text-slate-400">' + esc(p.ghichu) + '</div>' : ''}</div>
+                ${p.huy ? '<span class="text-xs font-black text-rose-600 no-underline">ĐÃ HỦY</span>' : `<div class="whitespace-nowrap"><button onclick="feePrint(${i})" class="text-slate-600 font-bold hover:underline mr-3">In</button><button onclick="feeEmailReceipt(${i})" class="text-blue-600 font-bold hover:underline mr-3">Gửi email</button><button onclick="feeVoid(${i})" class="text-rose-600 font-bold hover:underline">Hủy</button></div>`}</div>`).join('') : '<p class="text-sm text-slate-400">Chưa có lần thu nào.</p>';
+        }
+        async function feeRefreshAfter() { await loadFees(); const x = feeList.find(v => v.username === feeCurUser); if (x) { feeFillSummary(x); document.getElementById('fp-tien').value = x.conno > 0 ? x.conno : ''; } await feeLoadHistory(); }
+        async function feeAddPayment() {
+            const g = id => document.getElementById(id), btn = g('fp-btn');
+            if (!g('fp-tien').value.trim()) return alert('Vui lòng nhập số tiền!');
+            btn.disabled = true;
+            try {
+                const r = await apiCheck({ action: 'add_payment', username: feeCurUser, sotien: g('fp-tien').value, ngay: g('fp-ngay').value, hinhthuc: g('fp-ht').value, ghichu: g('fp-ghichu').value.trim(), guiemail: g('fp-mail').checked });
+                if (r.status === 'success') { await feeRefreshAfter(); alert(`Đã ghi nhận phiếu ${r.sophieu}.` + (r.email === 'sent' ? ' Đã gửi biên lai qua email.' : (r.email ? ' Chưa gửi được email biên lai.' : ''))); }
+            } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
+        async function feeSaveOverride() {
+            const g = id => document.getElementById(id);
+            const r = await apiCheck({ action: 'set_student_fee', username: feeCurUser, phaidong: g('fo-tien').value.trim(), ghichu: g('fo-ghichu').value.trim() });
+            if (r.status === 'success') await feeRefreshAfter();
+        }
+        async function feeVoid(i) {
+            const p = feeCurPays[i]; if (!p) return;
+            const why = prompt(`Hủy phiếu ${p.sophieu} (${fmtMoney(p.sotien)})? Nhập lý do hủy:`, 'Nhập nhầm'); if (why === null) return;
+            const r = await apiCheck({ action: 'void_payment', sophieu: p.sophieu, lydo: why });
+            if (r.status === 'success') await feeRefreshAfter();
+        }
+        async function feeEmailReceipt(i) { const p = feeCurPays[i]; if (!p) return; const r = await apiCheck({ action: 'email_receipt', sophieu: p.sophieu }); if (r.status === 'success') alert('Đã gửi biên lai qua email.'); }
+        function feePrint(i) {
+            const p = feeCurPays[i], x = feeList.find(v => v.username === feeCurUser); if (!p || !x) return;
+            const w = window.open('', '_blank'); if (!w) return alert('Trình duyệt đang chặn cửa sổ in, vui lòng cho phép pop-up.');
+            const row = (a, b) => `<tr><td style="padding:6px 12px 6px 0;color:#64748b">${a}</td><td style="padding:6px 0"><b>${b}</b></td></tr>`;
+            w.document.write(`<!doctype html><meta charset="utf-8"><title>Biên lai ${esc(p.sophieu)}</title><body style="font-family:Arial,sans-serif;max-width:520px;margin:30px auto;color:#1e293b"><h2 style="text-align:center;margin-bottom:0">BIÊN LAI THU HỌC PHÍ</h2><p style="text-align:center;margin-top:4px">CÔNG TY TNHH THÀNH DANH · Hotline 0969264305</p><hr><table>${row('Số phiếu', esc(p.sophieu))}${row('Học viên', esc(x.hoten) + ' (@' + esc(x.username) + ')')}${row('Số tiền', esc(fmtMoney(p.sotien)))}${row('Ngày thu', esc(certDate(p.ngay)))}${row('Hình thức', esc(FEE_HT[p.hinhthuc] || ''))}${row('Tổng học phí', esc(fmtMoney(x.phaidong)))}${row('Đã đóng', esc(fmtMoney(x.dadong)))}${row('Còn lại', esc(fmtMoney(x.conno)))}${p.ghichu ? row('Ghi chú', esc(p.ghichu)) : ''}</table><p style="margin-top:40px;text-align:right">Người thu tiền<br><br><br>${esc(p.nguoithu || '')}</p></body>`);
+            w.document.close(); setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 300);
+        }
+        async function feeRemind() {
+            let names = Array.from(document.querySelectorAll('.fee-chk:checked')).map(c => c.dataset.u);
+            if (!names.length) { if (!confirm('Chưa tích chọn học viên nào. Gửi nhắc nợ cho TẤT CẢ học viên đang nợ trong danh sách đang lọc?')) return; names = feeList.filter(x => x.conno > 0).map(x => x.username); }
+            const mail = document.getElementById('fee-remind-mail').checked;
+            if (!names.length) return alert('Không có học viên nào còn nợ.');
+            if (!confirm(`Gửi nhắc nợ tới tối đa ${names.length} học viên${mail ? ' (kèm email)' : ''}?`)) return;
+            const r = await apiCheck({ action: 'send_fee_reminder', usernames: names, guiemail: mail });
+            if (r.status === 'success') alert(`Đã nhắc ${r.sent} học viên` + (mail ? `, gửi ${r.mails} email` : '') + (r.skipped ? `. Bỏ qua ${r.skipped} người không còn nợ.` : '.'));
+        }
+        function feeExportList() {
+            const rows = [['STT', 'Họ tên', 'Tài khoản', 'Điện thoại', 'Email', 'Gói', 'Phải đóng', 'Đã đóng', 'Còn nợ', 'Trạng thái', 'Ghi chú']];
+            feeList.forEach((x, i) => rows.push([i + 1, x.hoten, x.username, x.sdt, x.email, FEE_GOI[x.loai] || x.loai, x.phaidong, x.dadong, x.conno, FEE_TT[x.tt][0], x.ghichu]));
+            saveWorkbook([['Công nợ học phí', rows, [6, 24, 16, 14, 26, 10, 14, 14, 14, 16, 26]]], `cong-no-hoc-phi-${stamp()}.xlsx`);
+        }
+        async function feeExportReport() {
+            const tu = document.getElementById('fee-from').value, den = document.getElementById('fee-to').value;
+            const r = await apiCheck({ action: 'get_payments', tu: tu, den: den }); if (r.status !== 'success') return;
+            const ok = r.data.filter(p => !p.huy), total = ok.reduce((s, p) => s + p.sotien, 0);
+            const rows = [['Báo cáo thu học phí' + (tu || den ? ` (${tu ? certDate(tu) : '...'} - ${den ? certDate(den) : '...'})` : '')], [], ['Số phiếu', 'Ngày thu', 'Họ tên', 'Tài khoản', 'Số tiền', 'Hình thức', 'Ghi chú', 'Người thu', 'Tình trạng']];
+            r.data.forEach(p => rows.push([p.sophieu, certDate(p.ngay), p.hoten, p.username, p.sotien, FEE_HT[p.hinhthuc] || '', p.ghichu, p.nguoithu, p.huy ? 'Đã hủy' : 'Hợp lệ']));
+            rows.push([], ['', '', '', 'Tổng thu hợp lệ', total]);
+            saveWorkbook([['Báo cáo thu', rows, [14, 12, 24, 16, 14, 14, 26, 14, 12]]], `bao-cao-thu-hoc-phi-${stamp()}.xlsx`);
+        }
+        // Học viên: xem học phí của mình
+        async function loadMyFees() {
+            const box = document.getElementById('pf-fees'); if (!box) return;
+            try {
+                const r = await api({ action: 'get_my_fees' });
+                if (r.status !== 'success') { box.innerHTML = `<p class="text-sm text-rose-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</p>`; return; }
+                if (r.admin) { box.innerHTML = ''; return; }
+                const tt = FEE_TT[r.tt] || FEE_TT.mien;
+                box.innerHTML = `<div class="grid grid-cols-3 gap-3 text-center mb-4"><div class="bg-slate-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Phải đóng</div><div class="font-black text-slate-800">${esc(fmtMoney(r.phaidong))}</div></div><div class="bg-emerald-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Đã đóng</div><div class="font-black text-emerald-600">${esc(fmtMoney(r.dadong))}</div></div><div class="bg-rose-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Còn nợ</div><div class="font-black text-rose-600">${esc(fmtMoney(r.conno))}</div></div></div>
+                    <div class="mb-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span></div>
+                    ${r.conno > 0 && (r.bank || r.noidung) ? `<div class="text-sm bg-amber-50 border border-amber-100 rounded-xl p-3 mb-3 space-y-1"><div><b>Chuyển khoản:</b> ${esc(r.bank)}</div><div><b>Nội dung:</b> <span id="pf-fee-note">${esc(r.noidung)}</span> <button onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('pf-fee-note').textContent).then(()=>alert('Đã sao chép nội dung chuyển khoản'))" class="ml-1 text-blue-600 font-bold hover:underline">Sao chép</button></div></div>` : ''}
+                    ${r.payments.length ? '<div class="space-y-2">' + r.payments.map(p => `<div class="flex justify-between gap-2 text-sm border border-slate-100 rounded-xl p-3"><span><b>${esc(p.sophieu)}</b> · ${esc(certDate(p.ngay))} · ${esc(FEE_HT[p.hinhthuc] || '')}</span><b class="text-emerald-600">${esc(fmtMoney(p.sotien))}</b></div>`).join('') + '</div>' : '<p class="text-sm text-slate-400">Chưa có lần đóng nào.</p>'}`;
+            } catch (e) { box.innerHTML = '<p class="text-sm text-rose-500 font-bold">Lỗi kết nối.</p>'; }
+        }
+
+
+        // ================= LỚP THIẾU NHI: ĐIỂM DANH & HỌC PHÍ THEO THÁNG =================
+        const K_DAY = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+        const K_ST = { co_mat: ['✓', 'text-emerald-600 bg-emerald-50', 'Có mặt'], co_phep: ['P', 'text-amber-600 bg-amber-50', 'Vắng có phép'], khong_phep: ['K', 'text-rose-600 bg-rose-50', 'Vắng không phép'], hoc_bu: ['B', 'text-blue-600 bg-blue-50', 'Học bù'] };
+        const K_CYCLE = ['', 'co_mat', 'co_phep', 'khong_phep', 'hoc_bu'];
+        let kPane = 'cls', kClasses = [], kStudents = [], kAtt = null, kBill = null, kPayHs = '';
+        const kDM = d => String(d || '').substring(8, 10) + '/' + String(d || '').substring(5, 7);
+        const kMonthLabel = t => String(t || '').substring(5, 7) + '/' + String(t || '').substring(0, 4);
+        function kidsPane(p) {
+            kPane = p;
+            ['cls', 'att', 'bill'].forEach(x => { document.getElementById('kp-' + x).classList.toggle('hidden', x !== p); document.getElementById('kp-' + x + '-btn').className = 'px-4 py-2 rounded-xl font-bold text-sm ' + (x === p ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'); });
+            if (p === 'att') kidsAttLoad(); if (p === 'bill') kidsBillLoad();
+        }
+        async function kidsInit() {
+            const m = todayStr().slice(0, 7);
+            ['ka-thang', 'kb-thang'].forEach(id => { const e = document.getElementById(id); if (!e.value) e.value = m; });
+            const dayBox = document.getElementById('kc-days'); if (!dayBox.innerHTML) dayBox.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => `<label class="flex items-center gap-1"><input type="checkbox" class="kc-day" value="${d}"> ${K_DAY[d]}</label>`).join('');
+            await kidsReload(); kidsPane(kPane);
+        }
+        async function kidsReload() {
+            const r = await apiCheck({ action: 'kids_get_overview' }); if (r.status !== 'success') return;
+            kClasses = r.classes; kStudents = r.students;
+            const opts = (all) => (all ? '<option value="">Tất cả lớp</option>' : '') + kClasses.map(c => `<option value="${esc(c.id)}">${esc(c.ten)}</option>`).join('');
+            const keep = id => document.getElementById(id).value;
+            const prev = { ks: keep('ks-lop'), ka: keep('ka-lop'), kb: keep('kb-lop'), ke: keep('ke-lop') };
+            document.getElementById('ks-lop').innerHTML = opts(true); document.getElementById('kb-lop').innerHTML = opts(true);
+            document.getElementById('ka-lop').innerHTML = opts(false); document.getElementById('ke-lop').innerHTML = opts(false);
+            [['ks-lop', prev.ks], ['ka-lop', prev.ka], ['kb-lop', prev.kb], ['ke-lop', prev.ke]].forEach(([id, v]) => { if (v && kClasses.some(c => c.id === v)) document.getElementById(id).value = v; });
+            kidsRenderClasses(); kidsRenderStudents();
+        }
+        function kidsRenderClasses() {
+            const tb = document.getElementById('kc-list');
+            tb.innerHTML = kClasses.length ? kClasses.map((c, i) => `<tr class="border-b border-slate-50 hover:bg-slate-50"><td class="p-3 font-bold text-slate-800">${esc(c.ten)}</td><td class="p-3">${esc(c.ngayhoc.map(d => K_DAY[d]).join(', '))}${c.gio ? ' · ' + esc(c.gio) : ''}</td><td class="p-3">${esc(c.giaovien) || '—'}</td><td class="p-3 text-right font-bold">${esc(fmtMoney(c.dongia))}</td><td class="p-3 text-center font-bold">${c.siso}</td><td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${c.trangthai === 'dong' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'}">${c.trangthai === 'dong' ? 'Đã đóng' : 'Đang học'}</span></td><td class="p-3 text-right whitespace-nowrap"><button onclick="kidsClassForm(${i})" class="text-blue-600 font-bold hover:underline mr-3">Sửa</button><button onclick="kidsDeleteClass(${i})" class="text-rose-600 font-bold hover:underline">Xóa</button></td></tr>`).join('') : '<tr><td colspan="7" class="p-6 text-center text-slate-400">Chưa có lớp nào. Bấm "Thêm lớp".</td></tr>';
+        }
+        function kidsClassForm(i) {
+            const c = i === undefined ? { id: '', ten: '', ngayhoc: [], gio: '', giaovien: '', dongia: '', trangthai: 'dang_hoc', ghichu: '' } : kClasses[i], g = id => document.getElementById(id);
+            g('kc-id').value = c.id; g('kc-ten').value = c.ten; g('kc-gia').value = c.dongia || ''; g('kc-gio').value = c.gio; g('kc-gv').value = c.giaovien; g('kc-tt').value = c.trangthai; g('kc-gc').value = c.ghichu;
+            document.querySelectorAll('.kc-day').forEach(e => e.checked = c.ngayhoc.indexOf(+e.value) >= 0); g('kc-form').classList.remove('hidden'); g('kc-ten').focus();
+        }
+        async function kidsSaveClass() {
+            const g = id => document.getElementById(id), btn = g('kc-save');
+            const p = { action: 'kids_save_class', id: g('kc-id').value, ten: g('kc-ten').value.trim(), dongia: g('kc-gia').value, gio: g('kc-gio').value.trim(), giaovien: g('kc-gv').value.trim(), trangthai: g('kc-tt').value, ghichu: g('kc-gc').value.trim(), ngayhoc: Array.from(document.querySelectorAll('.kc-day:checked')).map(e => e.value) };
+            if (!p.ten) return alert('Vui lòng nhập tên lớp!');
+            btn.disabled = true; try { const r = await apiCheck(p); if (r.status === 'success') { g('kc-form').classList.add('hidden'); await kidsReload(); } } catch (e) { alert('Lỗi kết nối!'); } btn.disabled = false;
+        }
+        async function kidsDeleteClass(i) {
+            const c = kClasses[i]; if (!c || !confirm(`Xóa lớp "${c.ten}" cùng toàn bộ buổi học, điểm danh và số liệu đã chốt của lớp? Phiếu thu đã ghi nhận vẫn được giữ. Không thể khôi phục!`)) return;
+            const r = await apiCheck({ action: 'kids_delete_class', id: c.id }); if (r.status === 'success') kidsReload();
+        }
+        function kidsRenderStudents() {
+            const q = regFold(document.getElementById('ks-search').value), lop = document.getElementById('ks-lop').value, cn = {}; kClasses.forEach(c => cn[c.id] = c.ten);
+            const rows = kStudents.map((s, i) => [s, i]).filter(([s]) => (!q || regFold(s.hoten + ' ' + s.phuhuynh + ' ' + s.sdt).includes(q)) && (!lop || s.lops.some(l => l.lop === lop && !l.kt)));
+            document.getElementById('ks-list').innerHTML = rows.length ? rows.map(([s, i]) => `<tr class="border-b border-slate-50 hover:bg-slate-50"><td class="p-3"><div class="font-bold text-slate-800">${esc(s.hoten)}</div><div class="text-xs text-slate-400">${s.ngaysinh ? 'Sinh ' + esc(certDate(s.ngaysinh)) : ''}</div></td><td class="p-3">${esc(s.phuhuynh) || '—'}<div class="text-xs text-slate-400">${esc(s.sdt)}${s.email ? ' · ' + esc(s.email) : ''}</div></td><td class="p-3 text-xs">${s.username ? '@' + esc(s.username) + (s.tenTK === '(không tồn tại)' ? ' <span class="text-rose-500 font-black">(chưa có tài khoản)</span>' : '') : '<span class="text-slate-300">—</span>'}</td><td class="p-3">${s.lops.filter(l => !l.kt).map(l => `<span class="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 text-xs font-bold px-2 py-1 rounded-full mr-1 mb-1">${esc(cn[l.lop] || '?')}${l.giarieng !== null ? ' · ' + esc(fmtMoney(l.giarieng)) : ''}<button title="Cho nghỉ học" onclick="kidsUnenroll(${i},'${esc(l.lop)}')" class="text-indigo-400 hover:text-rose-600">&times;</button></span>`).join('') || '<span class="text-slate-300">Chưa xếp lớp</span>'}</td><td class="p-3 text-right whitespace-nowrap"><button onclick="kidsEnrollForm(${i})" class="text-indigo-600 font-bold hover:underline mr-3">Xếp lớp</button><button onclick="kidsStudentForm(${i})" class="text-blue-600 font-bold hover:underline mr-3">Sửa</button><button onclick="kidsDeleteStudent(${i})" class="text-rose-600 font-bold hover:underline">Xóa</button></td></tr>`).join('') : '<tr><td colspan="5" class="p-6 text-center text-slate-400">Chưa có học sinh phù hợp.</td></tr>';
+        }
+        function kidsStudentForm(i) {
+            const s = i === undefined ? { id: '', hoten: '', ngaysinh: '', phuhuynh: '', sdt: '', email: '', username: '', ghichu: '' } : kStudents[i], g = id => document.getElementById(id);
+            g('ks-id').value = s.id; g('ks-ten').value = s.hoten; g('ks-ns').value = s.ngaysinh; g('ks-ph').value = s.phuhuynh; g('ks-sdt').value = s.sdt; g('ks-email').value = s.email; g('ks-user').value = s.username; g('ks-gc').value = s.ghichu;
+            g('ks-form').classList.remove('hidden'); g('ks-ten').focus();
+        }
+        async function kidsSaveStudent() {
+            const g = id => document.getElementById(id), btn = g('ks-save');
+            const p = { action: 'kids_save_student', id: g('ks-id').value, hoten: g('ks-ten').value.trim(), ngaysinh: g('ks-ns').value, phuhuynh: g('ks-ph').value.trim(), sdt: g('ks-sdt').value.trim(), email: g('ks-email').value.trim(), username: g('ks-user').value.trim(), ghichu: g('ks-gc').value.trim() };
+            if (!p.hoten) return alert('Vui lòng nhập họ tên bé!');
+            btn.disabled = true; try { const r = await apiCheck(p); if (r.status === 'success') { g('ks-form').classList.add('hidden'); await kidsReload(); } } catch (e) { alert('Lỗi kết nối!'); } btn.disabled = false;
+        }
+        async function kidsDeleteStudent(i) {
+            const s = kStudents[i]; if (!s || !confirm(`Xóa học sinh "${s.hoten}" cùng điểm danh? Nếu bé đã đóng học phí, hãy dùng dấu × để cho nghỉ học thay vì xóa.`)) return;
+            const r = await apiCheck({ action: 'kids_delete_student', id: s.id }); if (r.status === 'success') kidsReload();
+        }
+        let kEnrollIdx = -1;
+        function kidsEnrollForm(i) { kEnrollIdx = i; document.getElementById('ke-name').innerText = kStudents[i].hoten; document.getElementById('ke-bd').value = todayStr(); document.getElementById('ke-gia').value = ''; document.getElementById('ke-form').classList.remove('hidden'); }
+        async function kidsEnroll() {
+            const s = kStudents[kEnrollIdx]; if (!s) return; const lop = document.getElementById('ke-lop').value; if (!lop) return alert('Chưa có lớp để xếp!');
+            const r = await apiCheck({ action: 'kids_enroll', lop: lop, hs: s.id, bd: document.getElementById('ke-bd').value, giarieng: document.getElementById('ke-gia').value.trim() });
+            if (r.status === 'success') { document.getElementById('ke-form').classList.add('hidden'); kidsReload(); }
+        }
+        async function kidsUnenroll(i, lop) {
+            const s = kStudents[i]; if (!s || !confirm(`Cho ${s.hoten} nghỉ học lớp này từ hôm nay? Các buổi đã học vẫn được giữ để tính học phí.`)) return;
+            const r = await apiCheck({ action: 'kids_unenroll', lop: lop, hs: s.id, kt: todayStr() }); if (r.status === 'success') kidsReload();
+        }
+
+        // ---------- Điểm danh ----------
+        async function kidsAttLoad() {
+            const lop = document.getElementById('ka-lop').value, thang = document.getElementById('ka-thang').value, tb = document.getElementById('ka-table');
+            if (!lop || !thang) { tb.innerHTML = '<tr><td class="p-6 text-slate-400">Hãy tạo lớp và chọn lớp, tháng.</td></tr>'; kAtt = null; return; }
+            if (kAtt && Object.keys(kAtt.changes).length && !confirm('Có thay đổi điểm danh chưa lưu, bỏ qua và tải lại?')) return;
+            tb.innerHTML = '<tr><td class="p-6 text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
+            const r = await apiCheck({ action: 'kids_get_attendance', lop: lop, thang: thang }); if (r.status !== 'success') { tb.innerHTML = ''; return; }
+            kAtt = { lop: lop, thang: thang, cls: r.lop, sessions: r.sessions, members: r.members, locked: r.locked, map: {}, changes: {} };
+            r.att.forEach(a => kAtt.map[a.hs + '|' + a.ngay] = a.tt); kidsAttRender();
+        }
+        function kidsAttRender() {
+            const a = kAtt, tb = document.getElementById('ka-table'); if (!a) return;
+            document.getElementById('ka-lock').classList.toggle('hidden', !a.locked);
+            const n = Object.keys(a.changes).length; document.getElementById('ka-save').innerText = n ? `Lưu điểm danh (${n} thay đổi)` : 'Lưu điểm danh';
+            if (!a.sessions.length) { tb.innerHTML = '<tr><td class="p-6 text-slate-400">Tháng này chưa có buổi học. Bấm "Tạo buổi theo lịch" hoặc "Thêm ngày".</td></tr>'; return; }
+            if (!a.members.length) { tb.innerHTML = '<tr><td class="p-6 text-slate-400">Lớp chưa có học sinh trong tháng này. Xếp lớp ở mục "Lớp &amp; học sinh".</td></tr>'; return; }
+            const wd = d => K_DAY[new Date(+d.substring(0, 4), +d.substring(5, 7) - 1, +d.substring(8, 10)).getDay()];
+            let html = '<thead><tr class="text-xs text-slate-500"><th class="p-2 text-left sticky left-0 bg-white min-w-[140px]">Học sinh</th>' + a.sessions.map((s, j) => `<th class="p-1 text-center min-w-[52px]"><div class="font-black">${esc(kDM(s.ngay))}</div><div class="text-slate-400">${wd(s.ngay)}</div>${a.locked ? '' : `<button onclick="kidsAttAll(${j})" class="text-emerald-600 font-black hover:underline" title="Điểm danh cả buổi">✓ cả cột</button><br><button onclick="kidsRemoveSession(${j})" class="text-rose-400 hover:text-rose-600" title="Xóa buổi">&times;</button>`}</th>`).join('') + '<th class="p-2 text-center">Tính phí</th></tr></thead><tbody>';
+            a.members.forEach((m, i) => {
+                let cnt = 0;
+                const cells = a.sessions.map((s, j) => { const out = (m.bd && s.ngay < m.bd) || (m.kt && s.ngay > m.kt), tt = a.map[m.id + '|' + s.ngay] || ''; if (out) return '<td class="p-1"><div class="h-9 rounded-lg bg-slate-100"></div></td>'; if (tt === 'co_mat' || tt === 'khong_phep' || tt === 'hoc_bu') cnt++; const st = K_ST[tt];
+                    return `<td class="p-1"><button ${a.locked ? 'disabled' : ''} onclick="kidsAttCell(${i},${j})" title="${st ? esc(st[2]) : 'Chưa điểm danh'}" class="w-full h-9 rounded-lg border border-slate-200 font-black ${st ? st[1] : 'text-slate-300 bg-white hover:bg-slate-50'} ${a.changes[m.id + '|' + s.ngay] ? 'ring-2 ring-blue-400' : ''}">${st ? st[0] : '·'}</button></td>`; }).join('');
+                html += `<tr class="border-t border-slate-100"><td class="p-2 font-bold text-slate-700 sticky left-0 bg-white">${esc(m.hoten)}</td>${cells}<td class="p-2 text-center font-black text-slate-700">${cnt}</td></tr>`;
+            });
+            tb.innerHTML = html + '</tbody>';
+        }
+        function kidsAttSet(hs, ngay, tt) { const a = kAtt, key = hs + '|' + ngay; if (tt) a.map[key] = tt; else delete a.map[key]; a.changes[key] = { ngay: ngay, hs: hs, tt: tt, gc: '' }; }
+        function kidsAttCell(i, j) { const a = kAtt, m = a.members[i], s = a.sessions[j], cur = a.map[m.id + '|' + s.ngay] || ''; kidsAttSet(m.id, s.ngay, K_CYCLE[(K_CYCLE.indexOf(cur) + 1) % K_CYCLE.length]); kidsAttRender(); }
+        function kidsAttAll(j) { const a = kAtt, s = a.sessions[j]; a.members.forEach(m => { if ((m.bd && s.ngay < m.bd) || (m.kt && s.ngay > m.kt)) return; if (!a.map[m.id + '|' + s.ngay]) kidsAttSet(m.id, s.ngay, 'co_mat'); }); kidsAttRender(); }
+        async function kidsAttSave(silent) {
+            const a = kAtt; if (!a) return true; const ch = Object.values(a.changes); if (!ch.length) { if (!silent) alert('Chưa có thay đổi nào.'); return true; }
+            const btn = document.getElementById('ka-save'); btn.disabled = true;
+            try { const r = await apiCheck({ action: 'kids_save_attendance', lop: a.lop, thang: a.thang, changes: ch }); if (r.status === 'success') { a.changes = {}; kidsAttRender(); if (!silent) alert('Đã lưu điểm danh.'); btn.disabled = false; return true; } } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false; return false;
+        }
+        async function kidsSessionOp(p) {
+            if (!kAtt) return alert('Hãy chọn lớp và tháng!'); if (Object.keys(kAtt.changes).length && !(await kidsAttSave(true))) return;
+            const r = await apiCheck(Object.assign({ lop: kAtt.lop, thang: kAtt.thang }, p)); if (r.status === 'success') { kAtt.changes = {}; await kidsAttLoad(); } return r;
+        }
+        async function kidsGenSessions() { const r = await kidsSessionOp({ action: 'kids_gen_sessions' }); if (r && r.status === 'success') alert(r.added ? `Đã tạo ${r.added} buổi học theo lịch tuần.` : 'Các buổi theo lịch đã có đủ.'); }
+        async function kidsAddSession() { const d = document.getElementById('ka-extra').value; if (!d) return alert('Hãy chọn ngày cần thêm!'); if (d.substring(0, 7) !== document.getElementById('ka-thang').value) return alert('Ngày này không nằm trong tháng đang xem!'); await kidsSessionOp({ action: 'kids_add_session', ngay: d }); }
+        async function kidsRemoveSession(j) { const s = kAtt.sessions[j]; if (!confirm(`Xóa buổi ${kDM(s.ngay)} và điểm danh của buổi này (VD nghỉ lễ)?`)) return; await kidsSessionOp({ action: 'kids_remove_session', ngay: s.ngay }); }
+        function kidsExportAtt() {
+            const a = kAtt; if (!a || !a.sessions.length) return alert('Chưa có dữ liệu điểm danh để xuất!');
+            const sym = t => (K_ST[t] || ['', '', ''])[0], rows = [['Lớp: ' + a.cls.ten + ' — Tháng ' + kMonthLabel(a.thang)], [], ['STT', 'Học sinh'].concat(a.sessions.map(s => kDM(s.ngay))).concat(['Số buổi tính phí'])];
+            a.members.forEach((m, i) => { const marks = a.sessions.map(s => sym(a.map[m.id + '|' + s.ngay])); rows.push([i + 1, m.hoten].concat(marks).concat([a.sessions.filter(s => ['co_mat', 'khong_phep', 'hoc_bu'].indexOf(a.map[m.id + '|' + s.ngay]) >= 0).length])); });
+            saveWorkbook([['Điểm danh', rows, [6, 24].concat(a.sessions.map(() => 7)).concat([16])]], `diem-danh-${a.thang}-${stamp()}.xlsx`);
+        }
+
+        // ---------- Học phí tháng & phiếu in ----------
+        async function kidsBillLoad() {
+            const thang = document.getElementById('kb-thang').value, lop = document.getElementById('kb-lop').value, tb = document.getElementById('kb-list');
+            if (!thang) return; tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
+            const r = await apiCheck({ action: 'kids_get_billing', thang: thang, lop: lop }); if (r.status !== 'success') { tb.innerHTML = ''; return; }
+            kBill = r; const g = id => document.getElementById(id);
+            g('kb-s-due').innerText = fmtMoney(r.sum.due); g('kb-s-paid').innerText = fmtMoney(r.sum.paid); g('kb-s-debt').innerText = fmtMoney(r.sum.conno);
+            const chotNames = r.chot.map(id => (kClasses.find(c => c.id === id) || {}).ten).filter(Boolean);
+            g('kb-note').innerHTML = chotNames.length ? `<i class="fas fa-lock text-amber-500"></i> Đã chốt học phí: <b>${esc(chotNames.join(', '))}</b>. Học phí đã chốt không đổi khi sửa đơn giá.` : 'Tháng chưa chốt: học phí tự cập nhật theo điểm danh. Quy tắc: tính phí các buổi Có mặt, Vắng không phép, Học bù; Vắng có phép không tính.';
+            const closed = lop && r.chot.indexOf(lop) >= 0; g('kb-close').innerHTML = closed ? '<i class="fas fa-lock-open mr-1"></i> Mở lại tháng' : '<i class="fas fa-lock mr-1"></i> Chốt tháng'; g('kb-close').classList.toggle('hidden', !lop);
+            tb.innerHTML = r.data.length ? r.data.map((x, i) => `<tr class="border-b border-slate-50 hover:bg-slate-50"><td class="p-3"><input type="checkbox" class="kb-chk" data-i="${i}"></td><td class="p-3"><div class="font-bold text-slate-800">${esc(x.hoten)}</div><div class="text-xs text-slate-400">${esc(x.phuhuynh)}${x.sdt ? ' · ' + esc(x.sdt) : ''}</div></td><td class="p-3 text-xs">${x.lops.map(l => `${esc(l.ten)}: <b>${l.sobuoi}</b> × ${esc(fmtMoney(l.dongia))}${l.chot ? ' 🔒' : ''}`).join('<br>')}</td><td class="p-3 text-right font-bold">${esc(fmtMoney(x.due))}</td><td class="p-3 text-right ${x.notruoc > 0 ? 'text-rose-600 font-bold' : 'text-slate-400'}">${esc(fmtMoney(x.notruoc))}</td><td class="p-3 text-right text-emerald-600 font-bold">${esc(fmtMoney(x.paid))}</td><td class="p-3 text-right font-black ${x.conno > 0 ? 'text-rose-600' : 'text-slate-400'}">${esc(fmtMoney(x.conno))}</td><td class="p-3 text-right whitespace-nowrap"><button onclick="kidsPayOpen(${i})" class="text-emerald-600 font-bold hover:underline mr-3">Thu tiền</button><button onclick="kidsPrint(${i})" class="text-blue-600 font-bold hover:underline mr-3">In</button><button onclick="kidsEmailOne(${i})" class="text-slate-600 font-bold hover:underline">Email</button></td></tr>`).join('') : '<tr><td colspan="8" class="p-6 text-center text-slate-400">Tháng này chưa có buổi học nào được tạo cho lớp đã chọn.</td></tr>';
+        }
+        async function kidsCloseMonth() {
+            const thang = document.getElementById('kb-thang').value, lop = document.getElementById('kb-lop').value; if (!lop) return alert('Hãy chọn một lớp để chốt!');
+            const closed = kBill && kBill.chot.indexOf(lop) >= 0;
+            if (!confirm(closed ? 'Mở lại tháng này? Học phí sẽ tính lại theo điểm danh và đơn giá hiện tại.' : 'Chốt học phí tháng này cho lớp? Sau khi chốt, điểm danh tháng này bị khóa và số tiền không đổi nữa (có thể mở lại).')) return;
+            const r = await apiCheck({ action: closed ? 'kids_reopen_month' : 'kids_close_month', thang: thang, lop: lop }); if (r.status === 'success') kidsBillLoad();
+        }
+        function kidsPayOpen(i) {
+            const x = kBill.data[i]; kPayHs = x.hs; const g = id => document.getElementById(id);
+            g('km-name').innerText = x.hoten; g('km-sub').innerText = `Tháng ${kMonthLabel(document.getElementById('kb-thang').value)} · Phải đóng ${fmtMoney(x.due)} · Còn lại ${fmtMoney(x.conno)}${x.notruoc > 0 ? ' · Nợ trước ' + fmtMoney(x.notruoc) : ''}`;
+            g('km-tien').value = x.conno > 0 ? x.conno : ''; g('km-ngay').value = todayStr(); g('km-ht').value = 'tien_mat'; g('km-gc').value = ''; g('km-mail').checked = !!x.email; g('km-mail').disabled = !x.email;
+            g('kb-modal').classList.remove('hidden'); kidsPayHistory();
+        }
+        async function kidsPayHistory() {
+            const box = document.getElementById('km-history'), thang = document.getElementById('kb-thang').value;
+            const r = await api({ action: 'kids_get_statements', thang: thang, hs: [kPayHs] }); const stm = r.status === 'success' ? r.data[0] : null;
+            box.innerHTML = stm && stm.payments.length ? stm.payments.map(p => `<div class="flex justify-between items-center gap-2 border border-slate-100 rounded-xl p-3 text-sm"><span><b>${esc(p.sophieu)}</b> · ${esc(certDate(p.ngay))} · ${esc(FEE_HT[p.hinhthuc] || '')}</span><span><b class="text-emerald-600 mr-3">${esc(fmtMoney(p.sotien))}</b><button onclick="kidsVoid('${esc(p.sophieu)}')" class="text-rose-600 font-bold hover:underline">Hủy</button></span></div>`).join('') : '<p class="text-sm text-slate-400">Chưa có phiếu thu trong tháng này.</p>';
+        }
+        async function kidsPay() {
+            const g = id => document.getElementById(id), btn = g('km-btn'); if (!g('km-tien').value.trim()) return alert('Vui lòng nhập số tiền!');
+            btn.disabled = true;
+            try { const r = await apiCheck({ action: 'kids_add_payment', hs: kPayHs, thang: g('kb-thang').value, sotien: g('km-tien').value, ngay: g('km-ngay').value, hinhthuc: g('km-ht').value, ghichu: g('km-gc').value.trim(), guiemail: g('km-mail').checked });
+                if (r.status === 'success') { await kidsBillLoad(); const i = kBill.data.findIndex(v => v.hs === kPayHs); if (i >= 0) kidsPayOpen(i); alert(`Đã ghi nhận phiếu ${r.sophieu}.` + (r.email === 'sent' ? ' Đã gửi biên lai cho phụ huynh.' : '')); } } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
+        async function kidsVoid(no) {
+            const why = prompt(`Hủy phiếu ${no}? Nhập lý do:`, 'Nhập nhầm'); if (why === null) return;
+            const r = await apiCheck({ action: 'kids_void_payment', sophieu: no, lydo: why }); if (r.status === 'success') { await kidsBillLoad(); const i = kBill.data.findIndex(v => v.hs === kPayHs); if (i >= 0) kidsPayOpen(i); }
+        }
+        async function kidsEmailOne(i) { const x = kBill.data[i]; const r = await apiCheck({ action: 'kids_email_statement', hs: x.hs, thang: document.getElementById('kb-thang').value }); if (r.status === 'success') alert('Đã gửi phiếu cho phụ huynh qua email.'); }
+        async function kidsRemind() {
+            if (!kBill) return; let ids = Array.from(document.querySelectorAll('.kb-chk:checked')).map(c => kBill.data[+c.dataset.i].hs);
+            if (!ids.length) { if (!confirm('Chưa tích chọn bé nào. Nhắc nợ tất cả bé còn nợ trong danh sách?')) return; ids = kBill.data.filter(x => x.conno + Math.max(0, x.notruoc) > 0).map(x => x.hs); }
+            if (!ids.length) return alert('Không có bé nào còn nợ.'); const mail = document.getElementById('kb-mail').checked;
+            const r = await apiCheck({ action: 'kids_remind', thang: document.getElementById('kb-thang').value, hs: ids, guiemail: mail });
+            if (r.status === 'success') alert(`Đã nhắc ${r.sent} phụ huynh có tài khoản` + (mail ? `, gửi ${r.mails} email` : '') + (r.skipped ? `. Bỏ qua ${r.skipped} bé không còn nợ.` : '.'));
+        }
+        function kidsExportBill() {
+            if (!kBill) return; const thang = document.getElementById('kb-thang').value;
+            const rows = [['Học phí lớp thiếu nhi — tháng ' + kMonthLabel(thang)], [], ['STT', 'Học sinh', 'Phụ huynh', 'SĐT', 'Lớp / buổi tính phí', 'Phải đóng', 'Nợ tháng trước', 'Đã đóng', 'Còn lại']];
+            kBill.data.forEach((x, i) => rows.push([i + 1, x.hoten, x.phuhuynh, x.sdt, x.lops.map(l => `${l.ten}: ${l.sobuoi} buổi × ${l.dongia}`).join('; '), x.due, x.notruoc, x.paid, x.conno]));
+            saveWorkbook([['Học phí tháng', rows, [6, 22, 22, 14, 40, 14, 14, 14, 14]]], `hoc-phi-thieu-nhi-${thang}-${stamp()}.xlsx`);
+        }
+        // Phiếu điểm danh & học phí (dùng cho cả admin và phụ huynh)
+        function kidsStatementHtml(stm) {
+            const mark = t => ({ co_mat: '✓', co_phep: 'P', khong_phep: 'K', hoc_bu: 'B' }[t] || ''), cell = 'border:1px solid #475569;padding:4px 2px;text-align:center;font-size:12px;min-width:34px';
+            const items = stm.items.map(it => `<div style="margin:14px 0 4px;font-weight:bold">Lớp: ${esc(it.tenlop)}</div><table style="border-collapse:collapse;width:100%"><tr>${it.buoi.map(b => `<td style="${cell};background:#f1f5f9;font-weight:bold">${esc(kDM(b.ngay))}</td>`).join('')}</tr><tr>${it.buoi.map(b => `<td style="${cell};height:26px;font-weight:bold;font-size:15px">${mark(b.tt)}</td>`).join('')}</tr></table><div style="margin-top:4px;font-size:13px">Số buổi tính phí: <b>${it.sobuoi}</b> × ${esc(fmtMoney(it.dongia))} = <b>${esc(fmtMoney(it.thanhtien))}</b></div>`).join('');
+            return `<div style="page-break-after:always;font-family:Arial,sans-serif;color:#1e293b;max-width:720px;margin:0 auto 24px"><div style="text-align:center"><div style="font-weight:bold">CÔNG TY TNHH THÀNH DANH</div><div style="font-size:12px">Hotline: 0969264305</div><h2 style="margin:10px 0 2px">PHIẾU ĐIỂM DANH &amp; HỌC PHÍ THÁNG ${esc(kMonthLabel(stm.thang))}</h2></div>
+                <div style="font-size:14px;margin:8px 0">Học sinh: <b>${esc(stm.hs.hoten)}</b>${stm.hs.ngaysinh ? ' · Sinh ' + esc(certDate(stm.hs.ngaysinh)) : ''}<br>Phụ huynh: ${esc(stm.hs.phuhuynh)}${stm.hs.sdt ? ' · ' + esc(stm.hs.sdt) : ''}</div>${items}
+                <table style="margin-top:14px;font-size:14px;border-collapse:collapse"><tr><td style="padding:3px 16px 3px 0">Tổng học phí tháng</td><td><b>${esc(fmtMoney(stm.due))}</b></td></tr><tr><td style="padding:3px 16px 3px 0">Đã đóng</td><td>${esc(fmtMoney(stm.paid))}</td></tr>${stm.notruoc > 0 ? `<tr><td style="padding:3px 16px 3px 0">Nợ các tháng trước</td><td><b>${esc(fmtMoney(stm.notruoc))}</b></td></tr>` : ''}<tr><td style="padding:3px 16px 3px 0">Còn phải đóng</td><td><b style="font-size:16px">${esc(fmtMoney(stm.conno + Math.max(0, stm.notruoc)))}</b></td></tr></table>
+                <div style="font-size:12px;color:#475569;margin-top:8px">Ký hiệu: ✓ Có mặt · P Vắng có phép (không tính phí) · K Vắng không phép (tính phí) · B Học bù (tính phí) · ô trống: chưa điểm danh</div>
+                ${(stm.conno + Math.max(0, stm.notruoc)) > 0 ? `<div style="margin-top:10px;border:1px dashed #94a3b8;padding:8px;font-size:13px"><b>Thông tin chuyển khoản:</b> ${esc(stm.bank)}<br><b>Nội dung:</b> ${esc(stm.noidung)}</div>` : ''}
+                <div style="display:flex;justify-content:space-between;margin-top:26px;font-size:13px;text-align:center"><div>Phụ huynh xác nhận<br><br><br><br>(ký, ghi rõ họ tên)</div><div>Người lập phiếu<br><br><br><br>&nbsp;</div></div></div>`;
+        }
+        function kidsOpenPrint(list) {
+            if (!list.length) return alert('Không có phiếu nào để in!');
+            const w = window.open('', '_blank'); if (!w) return alert('Trình duyệt đang chặn cửa sổ in, vui lòng cho phép pop-up.');
+            w.document.write('<!doctype html><meta charset="utf-8"><title>Phiếu điểm danh & học phí</title><style>@media print{body{margin:10mm}}</style><body>' + list.map(kidsStatementHtml).join('') + '</body>'); w.document.close(); setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 400);
+        }
+        async function kidsPrint(i) {
+            const thang = document.getElementById('kb-thang').value, lop = document.getElementById('kb-lop').value;
+            const p = { action: 'kids_get_statements', thang: thang, lop: lop }; if (i !== undefined) p.hs = [kBill.data[i].hs];
+            const r = await apiCheck(p); if (r.status === 'success') kidsOpenPrint(r.data);
+        }
+        // Phụ huynh: xem con của mình
+        let kMyData = [];
+        async function loadMyKids() {
+            const card = document.getElementById('pf-kids-card'), box = document.getElementById('pf-kids'); if (!card) return;
+            try {
+                const r = await api({ action: 'get_my_children' });
+                if (r.status !== 'success') { if (studentInfo.loai === 'ph') box.innerHTML = `<p class="text-sm text-rose-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</p>`; return; }
+                kMyData = r.data;
+                if (!r.data.length) { card.classList.toggle('hidden', studentInfo.loai !== 'ph'); box.innerHTML = '<p class="text-sm text-slate-400">Tài khoản này chưa được liên kết với học sinh nào. Vui lòng liên hệ trung tâm (0969264305) để được liên kết.</p>'; return; }
+                card.classList.remove('hidden');
+                box.innerHTML = r.data.map((k, ki) => `<div class="mb-5"><div class="font-black text-slate-800 text-base mb-2">${esc(k.hoten)}</div>${k.months.length ? k.months.map((m, mi) => { const tong = m.conno + Math.max(0, m.notruoc); return `<div class="border border-slate-100 rounded-2xl p-4 mb-3 ${tong > 0 ? 'bg-rose-50/40' : 'bg-emerald-50/40'}"><div class="flex justify-between items-center gap-2 flex-wrap"><b>Tháng ${esc(kMonthLabel(m.thang))}</b><button onclick="kidsOpenPrint([kMyData[${ki}].months[${mi}]])" class="text-xs font-bold text-blue-600 hover:underline"><i class="fas fa-print mr-1"></i>In phiếu</button></div>
+                    ${m.items.map(it => `<div class="mt-2 text-sm"><b>${esc(it.tenlop)}</b>: ${it.sobuoi} buổi tính phí × ${esc(fmtMoney(it.dongia))} = <b>${esc(fmtMoney(it.thanhtien))}</b><div class="flex flex-wrap gap-1 mt-1">${it.buoi.map(b => { const st = K_ST[b.tt]; return `<span title="${st ? esc(st[2]) : 'Chưa điểm danh'}" class="inline-flex flex-col items-center text-[11px] rounded-lg px-1.5 py-0.5 ${st ? st[1] : 'text-slate-300 bg-slate-50'}"><span>${esc(kDM(b.ngay))}</span><b>${st ? st[0] : '·'}</b></span>`; }).join('')}</div></div>`).join('')}
+                    <div class="mt-2 text-sm">Phải đóng <b>${esc(fmtMoney(m.due))}</b> · Đã đóng <b class="text-emerald-600">${esc(fmtMoney(m.paid))}</b> · Còn lại <b class="${tong > 0 ? 'text-rose-600' : 'text-emerald-600'}">${esc(fmtMoney(tong))}</b>${m.notruoc > 0 ? ' <span class="text-xs text-rose-500">(gồm nợ tháng trước ' + esc(fmtMoney(m.notruoc)) + ')</span>' : ''}</div>
+                    ${tong > 0 ? `<div class="mt-2 text-xs bg-amber-50 border border-amber-100 rounded-xl p-2"><b>Chuyển khoản:</b> ${esc(m.bank)}<br><b>Nội dung:</b> <span id="kmy-${ki}-${mi}">${esc(m.noidung)}</span> <button onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('kmy-${ki}-${mi}').textContent).then(()=>alert('Đã sao chép nội dung chuyển khoản'))" class="ml-1 text-blue-600 font-bold hover:underline">Sao chép</button></div>` : ''}</div>`; }).join('') : '<p class="text-sm text-slate-400">Chưa có buổi học nào được ghi nhận.</p>'}</div>`).join('');
+            } catch (e) { if (studentInfo.loai === 'ph') box.innerHTML = '<p class="text-sm text-rose-500 font-bold">Lỗi kết nối.</p>'; }
+        }
+
         // ================= TÍNH NĂNG ADMIN MỞ RỘNG =================
         let chatAdminTimer = null;
 function switchAdminTab(tab) {
-['users', 'stats', 'articles', 'grading', 'exams', 'questions', 'chat', 'notify', 'settings'].forEach(t => {
+['users', 'stats', 'articles', 'grading', 'exams', 'kids', 'fees', 'certs', 'questions', 'chat', 'notify', 'settings'].forEach(t => {
 document.getElementById(`admin-${t}-section`).classList.add('hidden');
 document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition";
 });
@@ -1682,6 +2409,9 @@ if(tab === 'settings') renderAdminSettings();
 if(tab === 'articles') adminLoadArticles();
 if(tab === 'grading') loadSubmissions();
 if(tab === 'exams') loadExamResults();
+if(tab === 'certs') loadCertSessions();
+if(tab === 'fees') loadFees();
+if(tab === 'kids') kidsInit();
 if(tab === 'notify') loadAdminNotifs();
 if(tab === 'chat') { loadChatThreads(); chatAdminTimer = setInterval(() => { if (!document.hidden) loadChatThreads(true); }, 30000); }
 }
@@ -1906,7 +2636,7 @@ async function loadAdminUsers() {
                 users.forEach(u => {
                     let stBadge = u.trangthai==='pending' ? `<span class="bg-amber-100 text-amber-700 font-bold px-3 py-1.5 rounded-lg text-xs">Chờ duyệt</span>` : (u.trangthai==='blocked' ? `<span class="bg-rose-100 text-rose-700 font-bold px-3 py-1.5 rounded-lg text-xs">Đã Khóa</span>` : `<span class="bg-emerald-100 text-emerald-700 font-bold px-3 py-1.5 rounded-lg text-xs">Hoạt động</span>`);
                     let acts = u.trangthai==='pending' ? `<button onclick="updateUserStatus(${u.rowIndex}, 'active', '${u.loai}')" class="bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:bg-emerald-600">Duyệt</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-rose-600">Xóa</button>`
-                        : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border border-slate-200 text-xs font-bold rounded-lg p-1.5 mr-1 text-slate-600 outline-none"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>ALL</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${u.trangthai==='active'?'blocked':'active'}', '${u.loai}')" class="${u.trangthai==='active'?'bg-orange-500':'bg-emerald-500'} text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:opacity-90">${u.trangthai==='active'?'Khóa':'Mở'}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-rose-600"><i class="fas fa-trash"></i></button>`;
+                        : `<select onchange="updateUserStatus(${u.rowIndex}, '${u.trangthai}', this.value)" class="border border-slate-200 text-xs font-bold rounded-lg p-1.5 mr-1 text-slate-600 outline-none"><option value="cb" ${u.loai==='cb'?'selected':''}>CB</option><option value="nc" ${u.loai==='nc'?'selected':''}>NC</option><option value="cbnc" ${u.loai==='cbnc'?'selected':''}>ALL</option><option value="ph" ${u.loai==='ph'?'selected':''}>PH</option><option value="admin" ${u.loai==='admin'?'selected':''}>Admin</option></select><button onclick="updateUserStatus(${u.rowIndex}, '${u.trangthai==='active'?'blocked':'active'}', '${u.loai}')" class="${u.trangthai==='active'?'bg-orange-500':'bg-emerald-500'} text-white px-3 py-1.5 rounded-lg text-xs font-bold mr-1 hover:opacity-90">${u.trangthai==='active'?'Khóa':'Mở'}</button><button onclick="adminDeleteUser(${u.rowIndex})" class="bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs hover:bg-rose-600"><i class="fas fa-trash"></i></button>`;
                     tbody.innerHTML += `<tr class="hover:bg-slate-50 transition"><td class="p-4 font-bold text-slate-700">${esc(u.username)}</td><td class="p-4"><button data-u="${esc(u.username)}" onclick="adminResetPassword(${u.rowIndex}, this.dataset.u)" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-100"><i class="fas fa-key mr-1"></i> Đặt lại</button></td><td class="p-4 font-semibold text-slate-700">${esc(u.hoten)}${u.loai !== 'admin' ? `<div><button data-u="${esc(u.username)}" onclick="openStudentProfile(this.dataset.u)" class="text-xs text-blue-600 font-bold hover:underline"><i class="fas fa-id-badge mr-1"></i>Hồ sơ</button></div>` : ''}</td><td class="p-4 text-xs text-slate-600 whitespace-nowrap"><div>${u.sodienthoai ? '<i class="fas fa-phone text-slate-400 mr-1"></i>' + esc(u.sodienthoai) : '<span class="text-slate-300">Chưa có SĐT</span>'}</div><div>${u.email ? '<i class="fas fa-envelope text-slate-400 mr-1"></i>' + esc(u.email) : '<span class="text-slate-300">Chưa có email</span>'}</div><button onclick="openContactModal(${u.rowIndex})" class="mt-1 text-blue-600 font-bold hover:underline"><i class="fas fa-pen mr-1"></i>Sửa</button></td><td class="p-4 uppercase text-xs font-black text-blue-600">${u.loai}</td><td class="p-4 text-center">${stBadge}</td><td class="p-4 text-center whitespace-nowrap">${acts}</td></tr>`;
                 });
             } catch (e) { tbody.innerHTML = `<tr><td colspan="7" class="text-center text-red-500 p-6 font-bold">Lỗi tải dữ liệu</td></tr>`; }
