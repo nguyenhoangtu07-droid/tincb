@@ -515,6 +515,34 @@
                     </div>
                 </div>
 
+                <div id="kl-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start justify-center p-4 overflow-y-auto">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl p-6 my-4">
+                        <div class="flex justify-between items-start gap-3 mb-4"><div><h3 id="kl-title" class="font-black text-slate-800 text-xl"></h3><p id="kl-sub" class="text-sm text-slate-500"></p></div><button onclick="kidsLessonClose()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Nội dung buổi học</label><textarea id="kl-nd" rows="2" maxlength="500" placeholder="VD: Làm nhân vật di chuyển trong Scratch" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></textarea></div>
+                            <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Bài tập về nhà</label><textarea id="kl-bt" rows="2" maxlength="500" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></textarea></div>
+                        </div>
+                        <button id="kl-save" onclick="kidsLessonSave()" class="mt-2 bg-blue-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm">Lưu nội dung buổi học</button>
+                        <h4 class="font-black text-slate-700 mt-5 mb-2 text-sm"><i class="fas fa-palette text-pink-500 mr-1"></i> Sản phẩm của từng bé</h4>
+                        <div id="kl-members" class="space-y-3"></div>
+                        <div id="kl-edit" class="hidden mt-4 bg-indigo-50 border border-indigo-100 rounded-2xl p-4">
+                            <div class="font-black text-slate-700 mb-2 text-sm">Sản phẩm của <span id="ke2-name"></span></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="md:col-span-2"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tên sản phẩm</label><input id="ke2-ten" maxlength="120" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Đánh giá</label><select id="ke2-sao" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"><option value="0">Chưa đánh giá</option><option value="1">★ Cần cố gắng</option><option value="2">★★ Đạt</option><option value="3">★★★ Khá</option><option value="4">★★★★ Tốt</option><option value="5">★★★★★ Xuất sắc</option></select></div>
+                                <div class="md:col-span-3"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Mô tả</label><input id="ke2-mt" maxlength="500" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
+                                <div class="md:col-span-3"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Nhận xét của giáo viên</label><textarea id="ke2-nx" rows="2" maxlength="500" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></textarea></div>
+                                <div class="md:col-span-2"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Link sản phẩm (Scratch, web, video)</label><div class="flex gap-2"><input id="ke2-link" placeholder="https://scratch.mit.edu/projects/..." class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"><button onclick="kidsAddLink()" class="bg-slate-600 text-white font-bold px-3 rounded-xl text-sm whitespace-nowrap">Thêm link</button></div></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ảnh / tệp (≤5MB)</label><input id="ke2-file" type="file" accept="image/*,.sb3,.zip,.pdf,.doc,.docx,.xlsx,.pptx" multiple onchange="kidsUploadFiles(this)" class="text-xs w-full"></div>
+                            </div>
+                            <div id="ke2-media" class="flex flex-wrap gap-2 mt-3"></div>
+                            <label class="text-xs font-bold text-slate-600 flex items-center gap-1 mt-3"><input type="checkbox" id="ke2-pub"> Công bố ngay cho phụ huynh (bỏ chọn = lưu nháp)</label>
+                            <div class="flex gap-3 mt-3"><button id="ke2-save" onclick="kidsSaveProduct()" class="bg-emerald-600 text-white font-black px-5 py-2 rounded-xl hover:bg-emerald-700 transition text-sm">Lưu sản phẩm</button><button onclick="document.getElementById('kl-edit').classList.add('hidden')" class="bg-slate-200 text-slate-700 font-bold px-5 py-2 rounded-xl text-sm">Hủy</button></div>
+                        </div>
+                        <div class="flex gap-3 items-center flex-wrap mt-5 pt-4 border-t border-slate-100"><button onclick="kidsPublish()" class="bg-amber-500 text-white font-black px-5 py-2.5 rounded-xl hover:bg-amber-600 transition text-sm"><i class="fas fa-paper-plane mr-1"></i> Công bố cả buổi cho phụ huynh</button><label class="text-xs font-bold text-slate-500 flex items-center gap-1"><input type="checkbox" id="kl-mail"> kèm email</label><span class="text-xs text-slate-400">Chỉ các sản phẩm đang ở trạng thái Nháp mới được công bố.</span></div>
+                    </div>
+                </div>
+
                 <div id="kb-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
                     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 my-4">
                         <div class="flex justify-between items-start gap-3 mb-3"><div><h3 id="km-name" class="font-black text-slate-800 text-xl"></h3><p id="km-sub" class="text-sm text-slate-500"></p></div><button onclick="document.getElementById('kb-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button></div>
@@ -2269,7 +2297,7 @@
             if (!a.sessions.length) { tb.innerHTML = '<tr><td class="p-6 text-slate-400">Tháng này chưa có buổi học. Bấm "Tạo buổi theo lịch" hoặc "Thêm ngày".</td></tr>'; return; }
             if (!a.members.length) { tb.innerHTML = '<tr><td class="p-6 text-slate-400">Lớp chưa có học sinh trong tháng này. Xếp lớp ở mục "Lớp &amp; học sinh".</td></tr>'; return; }
             const wd = d => K_DAY[new Date(+d.substring(0, 4), +d.substring(5, 7) - 1, +d.substring(8, 10)).getDay()];
-            let html = '<thead><tr class="text-xs text-slate-500"><th class="p-2 text-left sticky left-0 bg-white min-w-[140px]">Học sinh</th>' + a.sessions.map((s, j) => `<th class="p-1 text-center min-w-[52px]"><div class="font-black">${esc(kDM(s.ngay))}</div><div class="text-slate-400">${wd(s.ngay)}</div>${a.locked ? '' : `<button onclick="kidsAttAll(${j})" class="text-emerald-600 font-black hover:underline" title="Điểm danh cả buổi">✓ cả cột</button><br><button onclick="kidsRemoveSession(${j})" class="text-rose-400 hover:text-rose-600" title="Xóa buổi">&times;</button>`}</th>`).join('') + '<th class="p-2 text-center">Tính phí</th></tr></thead><tbody>';
+            let html = '<thead><tr class="text-xs text-slate-500"><th class="p-2 text-left sticky left-0 bg-white min-w-[140px]">Học sinh</th>' + a.sessions.map((s, j) => `<th class="p-1 text-center min-w-[52px]"><div class="font-black">${esc(kDM(s.ngay))}</div><div class="text-slate-400">${wd(s.ngay)}</div>${a.locked ? '' : `<button onclick="kidsAttAll(${j})" class="text-emerald-600 font-black hover:underline" title="Điểm danh cả buổi">✓ cả cột</button><br><button onclick="kidsRemoveSession(${j})" class="text-rose-400 hover:text-rose-600" title="Xóa buổi">&times;</button><br>`}<button onclick="kidsLesson(${j})" class="text-indigo-600 font-black hover:underline" title="Nội dung buổi học &amp; sản phẩm của bé">📝 buổi học</button></th>`).join('') + '<th class="p-2 text-center">Tính phí</th></tr></thead><tbody>';
             a.members.forEach((m, i) => {
                 let cnt = 0;
                 const cells = a.sessions.map((s, j) => { const out = (m.bd && s.ngay < m.bd) || (m.kt && s.ngay > m.kt), tt = a.map[m.id + '|' + s.ngay] || ''; if (out) return '<td class="p-1"><div class="h-9 rounded-lg bg-slate-100"></div></td>'; if (tt === 'co_mat' || tt === 'khong_phep' || tt === 'hoc_bu') cnt++; const st = K_ST[tt];
@@ -2386,11 +2414,114 @@
                 kMyData = r.data;
                 if (!r.data.length) { card.classList.toggle('hidden', studentInfo.loai !== 'ph'); box.innerHTML = '<p class="text-sm text-slate-400">Tài khoản này chưa được liên kết với học sinh nào. Vui lòng liên hệ trung tâm (0969264305) để được liên kết.</p>'; return; }
                 card.classList.remove('hidden');
-                box.innerHTML = r.data.map((k, ki) => `<div class="mb-5"><div class="font-black text-slate-800 text-base mb-2">${esc(k.hoten)}</div>${k.months.length ? k.months.map((m, mi) => { const tong = m.conno + Math.max(0, m.notruoc); return `<div class="border border-slate-100 rounded-2xl p-4 mb-3 ${tong > 0 ? 'bg-rose-50/40' : 'bg-emerald-50/40'}"><div class="flex justify-between items-center gap-2 flex-wrap"><b>Tháng ${esc(kMonthLabel(m.thang))}</b><button onclick="kidsOpenPrint([kMyData[${ki}].months[${mi}]])" class="text-xs font-bold text-blue-600 hover:underline"><i class="fas fa-print mr-1"></i>In phiếu</button></div>
+                box.innerHTML = r.data.map((k, ki) => `<div class="mb-5"><div class="flex justify-between items-center gap-2 flex-wrap mb-2"><div class="font-black text-slate-800 text-base">${esc(k.hoten)}</div><button onclick="kidsToggleProducts(${ki})" class="bg-pink-50 text-pink-700 border border-pink-100 font-bold px-3 py-1.5 rounded-xl text-sm hover:bg-pink-100"><i class="fas fa-palette mr-1"></i> Sản phẩm học tập</button></div>
+                    <div id="kprod-${ki}" class="hidden mb-4"><div class="flex gap-2 items-center flex-wrap mb-3"><input id="kprod-m-${ki}" type="month" onchange="kidsLoadProducts(${ki})" class="border-2 border-slate-200 p-1.5 rounded-xl text-sm"><button onclick="kidsPrintReport(${ki})" class="text-sm font-bold text-blue-600 hover:underline"><i class="fas fa-print mr-1"></i>In báo cáo tháng</button></div><div id="kprod-out-${ki}"></div></div>${k.months.length ? k.months.map((m, mi) => { const tong = m.conno + Math.max(0, m.notruoc); return `<div class="border border-slate-100 rounded-2xl p-4 mb-3 ${tong > 0 ? 'bg-rose-50/40' : 'bg-emerald-50/40'}"><div class="flex justify-between items-center gap-2 flex-wrap"><b>Tháng ${esc(kMonthLabel(m.thang))}</b><button onclick="kidsOpenPrint([kMyData[${ki}].months[${mi}]])" class="text-xs font-bold text-blue-600 hover:underline"><i class="fas fa-print mr-1"></i>In phiếu</button></div>
                     ${m.items.map(it => `<div class="mt-2 text-sm"><b>${esc(it.tenlop)}</b>: ${it.sobuoi} buổi tính phí × ${esc(fmtMoney(it.dongia))} = <b>${esc(fmtMoney(it.thanhtien))}</b><div class="flex flex-wrap gap-1 mt-1">${it.buoi.map(b => { const st = K_ST[b.tt]; return `<span title="${st ? esc(st[2]) : 'Chưa điểm danh'}" class="inline-flex flex-col items-center text-[11px] rounded-lg px-1.5 py-0.5 ${st ? st[1] : 'text-slate-300 bg-slate-50'}"><span>${esc(kDM(b.ngay))}</span><b>${st ? st[0] : '·'}</b></span>`; }).join('')}</div></div>`).join('')}
                     <div class="mt-2 text-sm">Phải đóng <b>${esc(fmtMoney(m.due))}</b> · Đã đóng <b class="text-emerald-600">${esc(fmtMoney(m.paid))}</b> · Còn lại <b class="${tong > 0 ? 'text-rose-600' : 'text-emerald-600'}">${esc(fmtMoney(tong))}</b>${m.notruoc > 0 ? ' <span class="text-xs text-rose-500">(gồm nợ tháng trước ' + esc(fmtMoney(m.notruoc)) + ')</span>' : ''}</div>
                     ${tong > 0 ? `<div class="mt-2 text-xs bg-amber-50 border border-amber-100 rounded-xl p-2"><b>Chuyển khoản:</b> ${esc(m.bank)}<br><b>Nội dung:</b> <span id="kmy-${ki}-${mi}">${esc(m.noidung)}</span> <button onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('kmy-${ki}-${mi}').textContent).then(()=>alert('Đã sao chép nội dung chuyển khoản'))" class="ml-1 text-blue-600 font-bold hover:underline">Sao chép</button></div>` : ''}</div>`; }).join('') : '<p class="text-sm text-slate-400">Chưa có buổi học nào được ghi nhận.</p>'}</div>`).join('');
             } catch (e) { if (studentInfo.loai === 'ph') box.innerHTML = '<p class="text-sm text-rose-500 font-bold">Lỗi kết nối.</p>'; }
+        }
+
+
+        // ================= SẢN PHẨM HỌC TẬP THEO BUỔI =================
+        let kLes = null, kEd = null;
+        const kStars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+        const kSafeUrl = u => /^https:\/\//i.test(String(u || '')) ? String(u) : '';
+        async function kidsLesson(j) {
+            const a = kAtt; if (!a) return; if (Object.keys(a.changes).length && !(await kidsAttSave(true))) return;
+            const ngay = a.sessions[j].ngay, r = await apiCheck({ action: 'kids_get_lesson', lop: a.lop, ngay: ngay }); if (r.status !== 'success') return;
+            kLes = r; const g = id => document.getElementById(id);
+            g('kl-title').innerText = 'Buổi học ngày ' + certDate(ngay); g('kl-sub').innerText = r.lop.ten; g('kl-nd').value = r.noidung; g('kl-bt').value = r.btvn;
+            g('kl-edit').classList.add('hidden'); kidsLessonRender(); g('kl-modal').classList.remove('hidden');
+        }
+        function kidsLessonClose() { document.getElementById('kl-modal').classList.add('hidden'); kLes = null; }
+        async function kidsLessonSave() {
+            const g = id => document.getElementById(id); const r = await apiCheck({ action: 'kids_save_lesson', lop: kLes.lop.id, ngay: kLes.ngay, noidung: g('kl-nd').value.trim(), btvn: g('kl-bt').value.trim() });
+            if (r.status === 'success') alert('Đã lưu nội dung buổi học.');
+        }
+        function kidsLessonRender() {
+            const box = document.getElementById('kl-members'); if (!kLes) return;
+            box.innerHTML = kLes.members.length ? kLes.members.map((m, mi) => { const ps = kLes.products.filter(p => p.hs === m.id), st = K_ST[m.tt];
+                return `<div class="border border-slate-100 rounded-2xl p-3"><div class="flex justify-between items-center gap-2 flex-wrap"><div class="font-bold text-slate-800">${esc(m.hoten)} ${st ? `<span class="ml-1 px-2 py-0.5 rounded-full text-[11px] font-black ${st[1]}">${esc(st[2])}</span>` : '<span class="ml-1 text-[11px] text-slate-300">chưa điểm danh</span>'}</div><button onclick="kidsEditProduct(${mi})" class="text-indigo-600 font-bold text-sm hover:underline"><i class="fas fa-plus mr-1"></i>Thêm sản phẩm</button></div>
+                ${ps.map(p => `<div class="mt-2 flex justify-between items-center gap-2 flex-wrap bg-slate-50 rounded-xl p-2 text-sm"><div><b>${esc(p.tieude)}</b> <span class="text-amber-500">${esc(kStars(p.sao))}</span> <span class="px-2 py-0.5 rounded-full text-[11px] font-black ${p.congbo ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-200 text-slate-600'}">${p.congbo ? 'Đã công bố' : 'Nháp'}</span> <span class="text-xs text-slate-400">${p.media.length} tệp/link</span></div><div class="whitespace-nowrap"><button onclick="kidsEditProduct(${mi},'${esc(p.id)}')" class="text-blue-600 font-bold hover:underline mr-3">Sửa</button><button onclick="kidsDeleteProduct('${esc(p.id)}')" class="text-rose-600 font-bold hover:underline">Xóa</button></div></div>`).join('')}</div>`; }).join('') : '<p class="text-sm text-slate-400">Buổi này chưa có học sinh.</p>';
+        }
+        function kidsEditProduct(mi, id) {
+            const m = kLes.members[mi], p = id ? kLes.products.find(x => x.id === id) : null, g = x => document.getElementById(x);
+            kEd = { id: p ? p.id : '', hs: m.id, media: p ? p.media.slice() : [] };
+            g('ke2-name').innerText = m.hoten; g('ke2-ten').value = p ? p.tieude : ''; g('ke2-mt').value = p ? p.mota : ''; g('ke2-nx').value = p ? p.nhanxet : ''; g('ke2-sao').value = p ? p.sao : 0; g('ke2-link').value = ''; g('ke2-file').value = ''; g('ke2-pub').checked = p ? p.congbo : false;
+            kidsMediaRender(); g('kl-edit').classList.remove('hidden'); g('ke2-ten').focus();
+        }
+        function kidsMediaRender() {
+            document.getElementById('ke2-media').innerHTML = kEd.media.map((m, i) => `<span class="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-xl p-1.5 text-xs">${m.t === 'img' && m.th && kSafeUrl(m.th) ? `<img src="${esc(m.th)}" referrerpolicy="no-referrer" class="w-12 h-12 object-cover rounded-lg">` : `<i class="fas ${m.t === 'file' ? 'fa-file' : 'fa-link'} text-slate-400 text-lg px-2"></i>`}<span class="max-w-[140px] truncate">${esc(m.n || m.u)}</span><button onclick="kEd.media.splice(${i},1);kidsMediaRender()" class="text-rose-500 font-black">&times;</button></span>`).join('');
+        }
+        function kidsAddLink() {
+            const inp = document.getElementById('ke2-link'), u = inp.value.trim(); if (!u) return;
+            if (!/^https:\/\//i.test(u)) return alert('Link phải bắt đầu bằng https://');
+            if (kEd.media.length >= 6) return alert('Mỗi sản phẩm tối đa 6 tệp/link.');
+            kEd.media.push({ t: 'link', u: u, n: u.replace(/^https:\/\//i, '').substring(0, 60) }); inp.value = ''; kidsMediaRender();
+        }
+        function kidsPrepFile(file) {   // ảnh được thu nhỏ còn tối đa 1280px để tải nhanh
+            return new Promise((res, rej) => {
+                const rd = new FileReader();
+                if (!/^image\//.test(file.type)) {
+                    if (file.size > 5 * 1024 * 1024) return rej(new Error(file.name + ': tệp quá lớn (tối đa 5MB)'));
+                    rd.onload = () => res({ filename: file.name, mimeType: file.type || 'application/octet-stream', base64Data: String(rd.result).split(',')[1] }); rd.onerror = () => rej(new Error('Không đọc được tệp')); return rd.readAsDataURL(file);
+                }
+                rd.onload = () => { const img = new Image(); img.onload = () => {
+                    const k = Math.min(1, 1280 / Math.max(img.width, img.height)), c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+                    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); const data = c.toDataURL('image/jpeg', 0.82);
+                    res({ filename: file.name.replace(/\.[^.]+$/, '') + '.jpg', mimeType: 'image/jpeg', base64Data: data.split(',')[1] }); }; img.onerror = () => rej(new Error(file.name + ': không đọc được ảnh')); img.src = rd.result; };
+                rd.onerror = () => rej(new Error('Không đọc được ảnh')); rd.readAsDataURL(file);
+            });
+        }
+        async function kidsUploadFiles(inp) {
+            const files = Array.from(inp.files || []); if (!files.length) return; const btn = document.getElementById('ke2-save'); btn.disabled = true; btn.innerText = 'Đang tải lên...';
+            try {
+                for (const f of files) {
+                    if (kEd.media.length >= 6) { alert('Mỗi sản phẩm tối đa 6 tệp/link.'); break; }
+                    const p = await kidsPrepFile(f), r = await apiCheck(Object.assign({ action: 'kids_upload_media', lop: kLes.lop.id, ngay: kLes.ngay, hs: kEd.hs }, p));
+                    if (r.status === 'success') { kEd.media.push(r.item); if (r.shared === false) alert('Lưu ý: Google Drive không cho chia sẻ tệp này, phụ huynh có thể không xem được ảnh. Hãy kiểm tra cài đặt chia sẻ của Drive.'); kidsMediaRender(); }
+                }
+            } catch (e) { alert(e.message || 'Lỗi tải tệp!'); }
+            inp.value = ''; btn.disabled = false; btn.innerText = 'Lưu sản phẩm';
+        }
+        async function kidsSaveProduct() {
+            const g = id => document.getElementById(id); if (!g('ke2-ten').value.trim()) return alert('Vui lòng nhập tên sản phẩm!');
+            const btn = g('ke2-save'); btn.disabled = true;
+            try { const r = await apiCheck({ action: 'kids_save_product', id: kEd.id, lop: kLes.lop.id, ngay: kLes.ngay, hs: kEd.hs, tieude: g('ke2-ten').value.trim(), mota: g('ke2-mt').value.trim(), nhanxet: g('ke2-nx').value.trim(), sao: g('ke2-sao').value, media: kEd.media, congbo: g('ke2-pub').checked });
+                if (r.status === 'success') { await kidsLessonReload(); g('kl-edit').classList.add('hidden'); } } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
+        async function kidsLessonReload() { const r = await apiCheck({ action: 'kids_get_lesson', lop: kLes.lop.id, ngay: kLes.ngay }); if (r.status === 'success') { kLes = r; kidsLessonRender(); } }
+        async function kidsDeleteProduct(id) { if (!confirm('Xóa sản phẩm này cùng các ảnh/tệp đã tải lên?')) return; const r = await apiCheck({ action: 'kids_delete_product', id: id, lop: kLes.lop.id, ngay: kLes.ngay }); if (r.status === 'success') kidsLessonReload(); }
+        async function kidsPublish() {
+            const n = kLes.products.filter(p => !p.congbo).length; if (!n) return alert('Không có sản phẩm nháp nào để công bố.');
+            if (!confirm(`Công bố ${n} sản phẩm cho phụ huynh và gửi thông báo?`)) return;
+            const r = await apiCheck({ action: 'kids_publish', lop: kLes.lop.id, ngay: kLes.ngay, guiemail: document.getElementById('kl-mail').checked });
+            if (r.status === 'success') { await kidsLessonReload(); alert(`Đã công bố ${r.published} sản phẩm, thông báo cho ${r.notified} phụ huynh có tài khoản` + (r.mails ? `, gửi ${r.mails} email.` : '.')); }
+        }
+        // Phụ huynh: xem sản phẩm của con theo từng buổi
+        let kMyProd = {};
+        function kidsToggleProducts(ki) {
+            const box = document.getElementById('kprod-' + ki); box.classList.toggle('hidden'); if (!box.classList.contains('hidden') && !box.dataset.loaded) { const m = document.getElementById('kprod-m-' + ki); if (!m.value) m.value = todayStr().slice(0, 7); kidsLoadProducts(ki); }
+        }
+        async function kidsLoadProducts(ki) {
+            const k = kMyData[ki], thang = document.getElementById('kprod-m-' + ki).value, out = document.getElementById('kprod-out-' + ki); if (!thang) return;
+            out.innerHTML = '<p class="text-sm text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-1"></i> Đang tải...</p>';
+            const r = await api({ action: 'get_my_products', hs: k.id, thang: thang }); document.getElementById('kprod-' + ki).dataset.loaded = '1';
+            if (r.status !== 'success') { out.innerHTML = `<p class="text-sm text-rose-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</p>`; return; }
+            kMyProd[ki] = r;
+            out.innerHTML = r.data.length ? r.data.map(s => { const st = K_ST[s.tt]; return `<div class="border border-slate-100 rounded-2xl p-3 mb-3"><div class="flex justify-between gap-2 flex-wrap"><b class="text-slate-800">Buổi ${esc(certDate(s.ngay))}</b><span class="text-xs">${esc(s.tenlop)} ${st ? `<span class="ml-1 px-2 py-0.5 rounded-full font-black ${st[1]}">${esc(st[2])}</span>` : ''}</span></div>
+                ${s.noidung ? `<div class="text-sm mt-1"><b>Nội dung:</b> ${esc(s.noidung)}</div>` : ''}${s.btvn ? `<div class="text-sm"><b>Bài tập về nhà:</b> ${esc(s.btvn)}</div>` : ''}
+                ${s.products.map(p => `<div class="mt-2 bg-slate-50 rounded-xl p-3"><div class="font-bold text-slate-800">${esc(p.tieude)} <span class="text-amber-500 text-sm">${p.sao ? esc(kStars(p.sao)) : ''}</span></div>${p.mota ? `<div class="text-sm text-slate-600">${esc(p.mota)}</div>` : ''}
+                    <div class="flex flex-wrap gap-2 mt-2">${p.media.map(m => { const u = kSafeUrl(m.u); if (!u) return ''; if (m.t === 'img' && kSafeUrl(m.th)) return `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(m.th)}" referrerpolicy="no-referrer" loading="lazy" class="w-28 h-28 object-cover rounded-xl border border-slate-200"></a>`; return `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-blue-600 hover:bg-blue-50"><i class="fas ${m.t === 'file' ? 'fa-download' : 'fa-play-circle'}"></i> ${m.t === 'file' ? 'Tải ' : 'Xem '}${esc(m.n || 'sản phẩm')}</a>`; }).join('')}</div>
+                    ${p.nhanxet ? `<div class="mt-2 text-sm bg-emerald-50 border border-emerald-100 rounded-lg p-2"><b>Nhận xét của giáo viên:</b> ${esc(p.nhanxet)}</div>` : ''}</div>`).join('')}</div>`; }).join('') : '<p class="text-sm text-slate-400">Tháng này chưa có buổi học hoặc sản phẩm nào được công bố.</p>';
+        }
+        function kidsPrintReport(ki) {
+            const r = kMyProd[ki]; if (!r || !r.data.length) return alert('Chưa có dữ liệu để in. Hãy chọn tháng có buổi học.');
+            const w = window.open('', '_blank'); if (!w) return alert('Trình duyệt đang chặn cửa sổ in, vui lòng cho phép pop-up.');
+            const rows = r.data.slice().reverse().map(s => `<div style="margin:10px 0;padding:8px;border:1px solid #cbd5e1;border-radius:6px;page-break-inside:avoid"><b>Buổi ${esc(certDate(s.ngay))}</b> — ${esc(s.tenlop)}${K_ST[s.tt] ? ' — ' + esc(K_ST[s.tt][2]) : ''}${s.noidung ? '<br>Nội dung: ' + esc(s.noidung) : ''}${s.btvn ? '<br>Bài tập về nhà: ' + esc(s.btvn) : ''}${s.products.map(p => `<div style="margin-top:6px">• <b>${esc(p.tieude)}</b> ${p.sao ? esc(kStars(p.sao)) : ''}${p.mota ? ' — ' + esc(p.mota) : ''}${p.nhanxet ? '<br><i>Nhận xét: ' + esc(p.nhanxet) + '</i>' : ''}${p.media.filter(m => m.t === 'img' && kSafeUrl(m.th)).map(m => `<br><img src="${esc(m.th)}" referrerpolicy="no-referrer" style="max-width:220px;max-height:160px;margin:4px 4px 0 0;border-radius:6px">`).join('')}</div>`).join('')}</div>`).join('');
+            w.document.write(`<!doctype html><meta charset="utf-8"><title>Báo cáo học tập</title><body style="font-family:Arial,sans-serif;max-width:720px;margin:20px auto;color:#1e293b;font-size:14px"><div style="text-align:center"><b>CÔNG TY TNHH THÀNH DANH</b> · Hotline 0969264305<h2 style="margin:8px 0">BÁO CÁO HỌC TẬP THÁNG ${esc(kMonthLabel(r.thang))}</h2></div><div>Học sinh: <b>${esc(r.hoten)}</b></div>${rows}</body>`); w.document.close(); setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 600);
         }
 
         // ================= TÍNH NĂNG ADMIN MỞ RỘNG =================
