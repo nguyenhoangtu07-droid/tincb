@@ -99,6 +99,8 @@
                     </div>
                 </div>
 
+                <button onclick="openOnline()" class="py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-violet-100"><i class="fas fa-chalkboard-teacher mr-1"></i> Học online</button>
+
                 <!-- Nút Nộp Bài (Chỉ hiện khi Đăng nhập) -->
                 <button id="nav-upload-btn" onclick="requireLoginForUpload()" class="hidden py-4 px-4 hover:bg-white/20 transition font-bold text-sm uppercase tracking-wide rounded-lg my-1 mr-1 flex items-center text-teal-200">
                     <i class="fas fa-cloud-upload-alt mr-1"></i> Nộp Thực Hành
@@ -346,6 +348,41 @@
             </div>
         </div>
 
+        <!-- ================= HỌC ONLINE ================= -->
+        <div id="view-online" class="hidden-view space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
+                <div class="flex justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800"><i class="fas fa-chalkboard-teacher text-violet-500 mr-2"></i> Học online</h2>
+                        <p class="text-slate-500 font-medium mt-1">Bài giảng video theo từng phần: Windows, Word, PowerPoint, Excel...</p>
+                    </div>
+                    <div id="ol-progress-box" class="hidden w-full sm:w-64">
+                        <div class="flex justify-between text-xs font-black text-slate-500 mb-1"><span>Tiến độ học</span><span id="ol-progress-txt"></span></div>
+                        <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden"><div id="ol-progress-bar" class="h-full bg-violet-500 rounded-full transition-all" style="width:0%"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div id="ol-state" class="hidden"></div>
+            <div id="ol-main" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 bg-white p-5 rounded-3xl shadow-sm border border-slate-100 lg:max-h-[78vh] overflow-y-auto order-2 lg:order-1"><div id="ol-side" class="space-y-5"></div></div>
+                <div class="lg:col-span-2 bg-white p-5 rounded-3xl shadow-sm border border-slate-100 order-1 lg:order-2 lg:self-start">
+                    <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-900 shadow-inner">
+                        <iframe id="ol-player" class="w-full h-full" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+                    </div>
+                    <div class="mt-4">
+                        <div id="ol-sec-name" class="text-xs font-black text-violet-600 uppercase tracking-wider"></div>
+                        <h3 id="ol-title" class="text-xl font-black text-slate-800 leading-snug mt-1"></h3>
+                        <p id="ol-desc" class="text-sm text-slate-500 mt-2 whitespace-pre-line"></p>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <button id="ol-prev" onclick="olStep(-1)" class="px-4 py-2.5 rounded-xl border-2 border-slate-200 font-bold text-sm text-slate-600 hover:bg-slate-50 transition disabled:opacity-40"><i class="fas fa-chevron-left mr-1"></i> Bài trước</button>
+                        <button id="ol-done" onclick="olToggleDone(false)" class="px-4 py-2.5 rounded-xl border-2 font-bold text-sm transition"></button>
+                        <button id="ol-next" onclick="olToggleDone(true)" class="px-4 py-2.5 rounded-xl bg-violet-600 text-white font-black text-sm hover:bg-violet-700 transition disabled:opacity-40">Hoàn thành &amp; bài tiếp <i class="fas fa-chevron-right ml-1"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ================= ĐĂNG NHẬP / ĐĂNG KÝ ================= -->
         <div id="view-login" class="hidden-view bg-white p-10 rounded-3xl shadow-xl max-w-md mx-auto mt-10 border border-slate-100 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
@@ -394,6 +431,7 @@
                     <button onclick="switchAdminTab('exams')" id="tab-exams-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Kết quả thi</button>
                     <button onclick="switchAdminTab('kids')" id="tab-kids-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Lớp thiếu nhi</button>
                     <button onclick="switchAdminTab('fees')" id="tab-fees-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Học phí</button>
+                    <button onclick="switchAdminTab('online')" id="tab-online-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Học online</button>
                     <button onclick="switchAdminTab('certs')" id="tab-certs-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Kỳ thi chứng chỉ</button>
                     <button onclick="switchAdminTab('questions')" id="tab-questions-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Ngân hàng Câu hỏi</button>
                     <button onclick="switchAdminTab('chat')" id="tab-chat-btn" class="bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition">Hỏi đáp <span id="chat-admin-badge" class="hidden ml-1 bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full"></span></button>
@@ -466,7 +504,7 @@
                                 <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Phụ huynh</label><input id="ks-ph" maxlength="100" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
                                 <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">SĐT phụ huynh</label><input id="ks-sdt" type="tel" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
                                 <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Email phụ huynh</label><input id="ks-email" type="email" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
-                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tài khoản phụ huynh (để xem online)</label><input id="ks-user" list="ks-user-list" maxlength="50" placeholder="gõ để chọn tài khoản có sẵn, hoặc để trống" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"><datalist id="ks-user-list"></datalist><label class="text-xs font-bold text-slate-500 flex items-center gap-1 mt-1"><input type="checkbox" id="ks-newacc"> Tạo tài khoản mới cho phụ huynh (tên đăng nhập = SĐT)</label></div>
+                                <div><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Tài khoản phụ huynh (để xem online)</label><input id="ks-user" list="ks-user-list" maxlength="50" placeholder="gõ để chọn tài khoản có sẵn, hoặc để trống" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"><datalist id="ks-user-list"></datalist><div class="text-[11px] text-slate-400 mt-1">Phụ huynh có nhiều con: chọn <b>cùng một tài khoản</b> cho từng bé (dù học lớp khác nhau), phụ huynh sẽ thấy tất cả các con trong một tài khoản.</div><label class="text-xs font-bold text-slate-500 flex items-center gap-1 mt-1"><input type="checkbox" id="ks-newacc"> Tạo tài khoản mới cho phụ huynh (tên đăng nhập = SĐT)</label></div>
                                 <div class="md:col-span-3"><label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Ghi chú</label><input id="ks-gc" maxlength="300" class="w-full border-2 border-slate-200 p-2.5 rounded-xl bg-white focus:border-blue-500 focus:outline-none text-sm"></div>
                             </div>
                             <div class="flex gap-3 mt-3"><button id="ks-save" onclick="kidsSaveStudent()" class="bg-emerald-600 text-white font-black px-5 py-2 rounded-xl hover:bg-emerald-700 transition text-sm">Lưu học sinh</button><button onclick="document.getElementById('ks-form').classList.add('hidden')" class="bg-slate-200 text-slate-700 font-bold px-5 py-2 rounded-xl text-sm">Hủy</button></div>
@@ -635,6 +673,14 @@
                             <button onclick="feeSaveOverride()" class="mt-2 bg-blue-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-blue-700 transition text-sm">Lưu mức học phí</button>
                             <p class="text-xs text-slate-400 mt-1">Nhập 0 để miễn phí hoàn toàn. Để trống rồi lưu để quay về mức theo gói.</p>
                         </div>
+                        <div class="border border-slate-100 rounded-2xl p-4 mb-4">
+                            <h4 class="font-black text-slate-700 mb-2 text-sm"><i class="fas fa-chalkboard-teacher text-violet-500 mr-1"></i> Quyền học online</h4>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span id="fo-online-state" class="px-2.5 py-1 rounded-full text-xs font-black bg-slate-100 text-slate-600"></span>
+                                <select id="fo-online-mode" class="border-2 border-slate-200 p-2 rounded-xl text-sm"><option value="">Tự động (đã duyệt + đóng đủ học phí)</option><option value="mo">Luôn mở (VD: cho đóng góp dần)</option><option value="khoa">Luôn khóa</option></select>
+                                <button onclick="feeSaveOnline()" class="bg-violet-600 text-white font-bold px-4 py-2 rounded-xl hover:bg-violet-700 transition text-sm">Lưu</button>
+                            </div>
+                        </div>
                         <h4 class="font-black text-slate-700 mb-2 text-sm"><i class="fas fa-receipt text-amber-500 mr-1"></i> Lịch sử thu</h4>
                         <div id="fm-history" class="space-y-2 max-h-64 overflow-y-auto"></div>
                     </div>
@@ -642,6 +688,65 @@
             </div>
 
             <!-- Tab: Kỳ thi chứng chỉ -->
+            <div id="admin-online-section" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start flex-wrap gap-3">
+                        <div>
+                            <h3 class="text-xl font-black text-slate-800"><i class="fas fa-chalkboard-teacher text-violet-500 mr-2"></i> Học online — video YouTube theo phần</h3>
+                            <p class="text-sm text-slate-500 mt-1">Học viên chỉ xem được khi tài khoản <b>đã được duyệt</b> và <b>đã đóng đủ học phí</b>. Có thể mở/khóa tay cho từng học viên ở tab <b>Học phí</b> (nút "Thu / Chi tiết").</p>
+                        </div>
+                        <button onclick="olSecEdit('')" class="bg-violet-600 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-violet-700 transition text-sm"><i class="fas fa-plus mr-1"></i> Thêm phần</button>
+                    </div>
+                    <div class="text-xs text-slate-500 mt-3 bg-slate-50 rounded-xl p-3 leading-relaxed">
+                        <b>Cách thêm video:</b> tải video lên YouTube, đặt chế độ <b>Không công khai (Unlisted)</b> và bật <b>Cho phép nhúng</b>; sao chép link rồi dán vào đây. Đừng chọn chế độ "Riêng tư" vì sẽ không phát được.
+                        Mỗi phần có nút <b>"Thêm nhiều bài"</b> để dán một loạt link cùng lúc (mỗi dòng: <code>Tiêu đề | link</code>).
+                    </div>
+                </div>
+                <div id="ol-adm-list" class="space-y-4"></div>
+
+                <div id="ol-sec-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 my-4">
+                        <div class="flex justify-between items-start mb-4"><h3 id="ol-sec-title" class="font-black text-slate-800 text-xl">Thêm phần</h3><button onclick="olClose('ol-sec-modal')" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button></div>
+                        <input type="hidden" id="ol-s-id">
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-1">Tên phần</label>
+                        <input id="ol-s-ten" maxlength="100" placeholder="VD: Phần V: Internet" class="w-full border-2 border-slate-200 p-2.5 rounded-xl mb-3 text-sm focus:border-violet-500 focus:outline-none">
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-1">Dành cho</label>
+                        <select id="ol-s-goi" class="w-full border-2 border-slate-200 p-2.5 rounded-xl mb-3 text-sm"><option value="all">Cả gói Cơ bản và Nâng cao</option><option value="cb">Chỉ gói Cơ bản</option><option value="nc">Chỉ gói Nâng cao</option></select>
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-1">Mô tả ngắn (không bắt buộc)</label>
+                        <input id="ol-s-mota" maxlength="300" class="w-full border-2 border-slate-200 p-2.5 rounded-xl mb-3 text-sm focus:border-violet-500 focus:outline-none">
+                        <label class="flex items-center gap-2 text-sm font-bold text-slate-600 mb-4"><input type="checkbox" id="ol-s-hien" checked> Hiển thị cho học viên</label>
+                        <button onclick="olSecSave()" class="w-full bg-violet-600 text-white font-black py-3 rounded-xl hover:bg-violet-700 transition">Lưu</button>
+                    </div>
+                </div>
+
+                <div id="ol-les-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 my-4">
+                        <div class="flex justify-between items-start mb-4"><h3 id="ol-les-title" class="font-black text-slate-800 text-xl">Thêm bài giảng</h3><button onclick="olClose('ol-les-modal')" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button></div>
+                        <input type="hidden" id="ol-l-id"><input type="hidden" id="ol-l-phan">
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-1">Tiêu đề bài</label>
+                        <input id="ol-l-tieude" maxlength="150" class="w-full border-2 border-slate-200 p-2.5 rounded-xl mb-3 text-sm focus:border-violet-500 focus:outline-none">
+                        <label class="block text-xs font-black text-slate-400 uppercase mb-1">Link YouTube</label>
+                        <input id="ol-l-link" placeholder="https://www.youtube.com/watch?v=..." class="w-full border-2 border-slate-200 p-2.5 rounded-xl mb-3 text-sm font-mono focus:border-violet-500 focus:outline-none">
+                        <div class="grid grid-cols-3 gap-3 mb-3">
+                            <div><label class="block text-xs font-black text-slate-400 uppercase mb-1">Thời lượng</label><input id="ol-l-tl" maxlength="20" placeholder="12:30" class="w-full border-2 border-slate-200 p-2.5 rounded-xl text-sm focus:border-violet-500 focus:outline-none"></div>
+                            <div class="col-span-2"><label class="block text-xs font-black text-slate-400 uppercase mb-1">Mô tả / ghi chú (không bắt buộc)</label><input id="ol-l-mota" maxlength="500" class="w-full border-2 border-slate-200 p-2.5 rounded-xl text-sm focus:border-violet-500 focus:outline-none"></div>
+                        </div>
+                        <label class="flex items-center gap-2 text-sm font-bold text-slate-600 mb-4"><input type="checkbox" id="ol-l-hien" checked> Hiển thị cho học viên</label>
+                        <button onclick="olLesSave()" class="w-full bg-violet-600 text-white font-black py-3 rounded-xl hover:bg-violet-700 transition">Lưu</button>
+                    </div>
+                </div>
+
+                <div id="ol-bulk-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-6 my-4">
+                        <div class="flex justify-between items-start mb-2"><h3 class="font-black text-slate-800 text-xl">Thêm nhiều bài cùng lúc</h3><button onclick="olClose('ol-bulk-modal')" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button></div>
+                        <p class="text-sm text-slate-500 mb-3">Mỗi dòng một bài, dạng <code>Tiêu đề | link YouTube</code>. Nếu chỉ dán link thì hệ thống tự đặt tên "Bài 1, Bài 2...".</p>
+                        <input type="hidden" id="ol-b-phan">
+                        <textarea id="ol-b-text" rows="9" placeholder="Bài 1: Làm quen Windows | https://youtu.be/xxxxxxxxxxx&#10;Bài 2: Quản lý tệp và thư mục | https://www.youtube.com/watch?v=yyyyyyyyyyy" class="w-full border-2 border-slate-200 p-3 rounded-xl text-sm font-mono mb-3 focus:border-violet-500 focus:outline-none"></textarea>
+                        <button onclick="olBulkSave()" id="ol-b-btn" class="w-full bg-violet-600 text-white font-black py-3 rounded-xl hover:bg-violet-700 transition">Thêm các bài</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="admin-certs-section" class="hidden space-y-6">
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center flex-wrap gap-3 mb-4">
@@ -1058,6 +1163,7 @@
                 <div id="pf-actions" class="flex flex-col sm:items-end gap-2 w-full sm:w-auto">
                     <button onclick="requireLoginForQuiz()" class="bg-white text-blue-700 font-black px-5 py-2.5 rounded-xl shadow hover:-translate-y-0.5 transition text-sm"><i class="fas fa-laptop-code mr-2"></i> Vào luyện thi</button>
                     <button onclick="requireLoginForUpload()" id="pf-upload-btn" class="bg-white/15 border border-white/40 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-white/25 transition text-sm"><i class="fas fa-cloud-upload-alt mr-2"></i> Nộp thực hành</button>
+                    <button onclick="openOnline()" class="bg-violet-500/90 border border-white/40 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-violet-500 transition text-sm"><i class="fas fa-chalkboard-teacher mr-2"></i> Học online</button>
                 </div>
             </div>
 
@@ -1810,8 +1916,9 @@
         // ================= ĐIỀU HƯỚNG CHÍNH =================
         function navigate(vName) {
             if (typeof setChatVisible === 'function') setChatVisible(vName !== 'quiz' && vName !== 'loading');
-            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-ai', 'view-kho', 'view-videos', 'view-upload', 'view-profile'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
+            ['view-home', 'view-login', 'view-register', 'view-admin', 'view-select', 'view-loading', 'view-quiz', 'view-result', 'view-review', 'view-history', 'view-article', 'view-ai', 'view-kho', 'view-videos', 'view-upload', 'view-profile', 'view-online'].forEach(v => { const el = document.getElementById(v); if (el) el.classList.add('hidden-view'); });
             const target = document.getElementById('view-' + vName); if (target) target.classList.remove('hidden-view'); window.scrollTo(0, 0);
+            [['main-video-player', 'videos'], ['ol-player', 'online']].forEach(([id, v]) => { const f = document.getElementById(id); if (f && f.getAttribute('src') && vName !== v) f.setAttribute('src', 'about:blank'); });   // rời trang video thì dừng phát
             if (vName !== 'quiz' && vName !== 'loading') { if (timerInterval) clearInterval(timerInterval); isTakingQuiz = false; exitFullscreen(); }
             
             // Xử lý nút chức năng sau khi login
@@ -1833,7 +1940,7 @@
             }
         }
 
-        function logout() { if(confirm("Xác nhận đăng xuất?")) { if (userCred) { try { fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'logout', token: userCred.token }) }); } catch(e) {} } stopNotifPolling(); isLoggedIn = false; userCred = null; adminSubs = []; studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' }; navigate('home'); } }
+        function logout() { if(confirm("Xác nhận đăng xuất?")) { if (userCred) { try { fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'logout', token: userCred.token }) }); } catch(e) {} } stopNotifPolling(); isLoggedIn = false; userCred = null; adminSubs = []; olData = null; olFlat = []; olCur = ''; feeList = []; olLoaded = false; olAdm = { sections: [], lessons: [] }; const oa = document.getElementById('ol-adm-list'); if (oa) oa.innerHTML = ''; const fl = document.getElementById('fee-list'); if (fl) fl.innerHTML = ''; studentInfo = { username: '', name: '', quizId: '', loai: 'cbnc' }; navigate('home'); } }
         
         function requireLoginForQuiz() { 
             if (isLoggedIn) { if (studentInfo.loai === 'admin') navigate('admin'); else { selectCategory(studentInfo.loai === 'nc' ? 'nang-cao' : 'co-ban'); navigate('select'); } } 
@@ -2083,29 +2190,50 @@
         const FEE_GOI = { cb: 'Cơ bản', nc: 'Nâng cao', cbnc: 'Combo' };
         let feeList = [], feeCurUser = '', feeCurPays = [];
         const todayStr = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
+        let feeMonthSum = 0;
+        function feeToast(msg, bad) {
+            const d = document.createElement('div');
+            d.className = 'fixed left-1/2 -translate-x-1/2 bottom-6 z-[100] px-5 py-3 rounded-2xl shadow-2xl text-sm font-bold text-white ' + (bad ? 'bg-rose-600' : 'bg-slate-800');
+            d.innerText = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 3800);
+        }
+        function feeSums() {   // tính lại 4 thẻ tổng ngay trên máy, không cần hỏi máy chủ
+            let a = 0, b = 0, c = 0; feeList.forEach(x => { a += x.phaidong; b += x.dadong; c += x.conno; });
+            const g = id => document.getElementById(id);
+            g('fee-s-due').innerText = fmtMoney(a); g('fee-s-paid').innerText = fmtMoney(b); g('fee-s-debt').innerText = fmtMoney(c); g('fee-s-month').innerText = fmtMoney(feeMonthSum);
+        }
+        function feeMonthAdjust(p, sign) { if (p && String(p.ngay || '').substring(0, 7) === todayStr().substring(0, 7)) feeMonthSum += sign * (Number(p.sotien) || 0); }
+        function feeApply(f) {   // máy chủ trả về dòng học phí mới của 1 học viên -> thay thẳng vào danh sách
+            if (!f) return;
+            const i = feeList.findIndex(x => x.username === f.username); if (i >= 0) feeList[i] = Object.assign({}, feeList[i], f);
+            feeSums(); feeRender();
+            const x = i >= 0 ? feeList[i] : null;
+            if (x && feeCurUser === x.username) { feeFillSummary(x); feeFillOnline(x); }
+        }
         async function loadFees() {
-            const tb = document.getElementById('fee-list'); tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
+            const tb = document.getElementById('fee-list');
+            if (feeList.length) feeRender();   // có sẵn dữ liệu cũ thì hiện ngay, tải mới ở nền
+            else tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</td></tr>';
             try {
                 const r = await api({ action: 'get_fees' });
                 if (r.status !== 'success') { tb.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</td></tr>`; return; }
-                feeList = r.data; const g = id => document.getElementById(id);
-                g('fee-s-due').innerText = fmtMoney(r.sum.phaidong); g('fee-s-paid').innerText = fmtMoney(r.sum.dadong); g('fee-s-debt').innerText = fmtMoney(r.sum.conno); g('fee-s-month').innerText = fmtMoney(r.sum.thang);
+                feeList = r.data; feeMonthSum = r.sum.thang; const g = id => document.getElementById(id);
                 const s = r.settings || {}; g('fs-cb').value = s.hp_cb || ''; g('fs-nc').value = s.hp_nc || ''; g('fs-cbnc').value = s.hp_cbnc || ''; g('fs-bank').value = s.hp_bank || '';
-                feeRender();
-            } catch (e) { tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">Lỗi kết nối!</td></tr>'; }
+                feeSums(); feeRender();
+            } catch (e) { if (!feeList.length) tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-red-500 font-bold">Lỗi kết nối!</td></tr>'; }
         }
         function feeRender() {
+            const chk = new Set(Array.from(document.querySelectorAll('.fee-chk:checked')).map(c => c.dataset.u));
             const q = regFold(document.getElementById('fee-search').value), f = document.getElementById('fee-filter').value, tb = document.getElementById('fee-list');
             const rows = feeList.map((x, i) => [x, i]).filter(([x]) => (!q || regFold(x.hoten + ' ' + x.username + ' ' + x.sdt).includes(q)) && (!f || (f === 'no' ? x.conno > 0 : x.tt === f)));
             if (!rows.length) { tb.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400">Không có học viên phù hợp.</td></tr>'; return; }
             tb.innerHTML = rows.map(([x, i]) => { const tt = FEE_TT[x.tt]; return `<tr class="border-b border-slate-50 hover:bg-slate-50">
-                <td class="p-3"><input type="checkbox" class="fee-chk" data-u="${esc(x.username)}"></td>
+                <td class="p-3"><input type="checkbox" class="fee-chk" data-u="${esc(x.username)}" ${chk.has(x.username) ? 'checked' : ''}></td>
                 <td class="p-3"><div class="font-bold text-slate-800">${esc(x.hoten)}${x.trangthai !== 'active' ? ' <span class="text-[11px] font-black text-amber-600">(' + esc(x.trangthai === 'pending' ? 'chờ duyệt' : 'khóa') + ')</span>' : ''}</div><div class="text-xs text-slate-400">@${esc(x.username)}${x.sdt ? ' · ' + esc(x.sdt) : ''}</div></td>
                 <td class="p-3">${esc(FEE_GOI[x.loai] || x.loai)}</td>
                 <td class="p-3 text-right font-bold">${esc(fmtMoney(x.phaidong))}${x.rieng ? ' <span class="text-[10px] font-black text-blue-600" title="Mức riêng">*</span>' : ''}</td>
                 <td class="p-3 text-right text-emerald-600 font-bold">${esc(fmtMoney(x.dadong))}</td>
                 <td class="p-3 text-right font-black ${x.conno > 0 ? 'text-rose-600' : 'text-slate-400'}">${esc(fmtMoney(x.conno))}</td>
-                <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span></td>
+                <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span><div class="text-[10px] mt-1 font-black ${x.hocduoc ? 'text-violet-600' : 'text-slate-400'}" title="Quyền vào mục Học online"><i class="fas fa-${x.hocduoc ? 'unlock' : 'lock'} mr-1"></i>Học online${x.online === 'mo' ? ' (mở tay)' : (x.online === 'khoa' ? ' (khóa tay)' : '')}</div></td>
                 <td class="p-3 text-right whitespace-nowrap"><button onclick="feeOpen(${i})" class="text-blue-600 font-bold hover:underline">Thu / Chi tiết</button></td></tr>`; }).join('');
         }
         async function feeSaveSettings() {
@@ -2118,42 +2246,74 @@
             g('fm-name').innerText = x.hoten; g('fm-sub').innerText = `@${x.username} · Gói ${FEE_GOI[x.loai] || x.loai}${x.sdt ? ' · ' + x.sdt : ''}${x.email ? ' · ' + x.email : ''}`;
             g('fp-tien').value = x.conno > 0 ? x.conno : ''; g('fp-ngay').value = todayStr(); g('fp-ht').value = 'tien_mat'; g('fp-ghichu').value = ''; g('fp-mail').checked = !!x.email; g('fp-mail').disabled = !x.email;
             g('fo-tien').value = x.rieng ? x.phaidong : ''; g('fo-ghichu').value = x.ghichu || '';
-            feeFillSummary(x); g('fee-modal').classList.remove('hidden'); feeLoadHistory();
+            feeFillSummary(x); feeFillOnline(x); g('fee-modal').classList.remove('hidden'); feeLoadHistory();
         }
         function feeFillSummary(x) { const g = id => document.getElementById(id); g('fm-due').innerText = fmtMoney(x.phaidong); g('fm-paid').innerText = fmtMoney(x.dadong); g('fm-debt').innerText = fmtMoney(x.conno); }
         function feeCloseModal() { document.getElementById('fee-modal').classList.add('hidden'); feeCurUser = ''; }
         async function feeLoadHistory() {
             const box = document.getElementById('fm-history'); box.innerHTML = '<p class="text-sm text-blue-500 font-bold"><i class="fas fa-spinner fa-spin mr-1"></i> Đang tải...</p>';
-            const r = await api({ action: 'get_payments', username: feeCurUser });
+            const user = feeCurUser;
+            const r = await api({ action: 'get_payments', username: user });
+            if (user !== feeCurUser) return;
             if (r.status !== 'success') { box.innerHTML = `<p class="text-sm text-rose-500 font-bold">${esc(r.message || 'Lỗi')}</p>`; return; }
-            feeCurPays = r.data;
-            box.innerHTML = r.data.length ? r.data.map((p, i) => `<div class="flex justify-between items-center gap-2 flex-wrap border border-slate-100 rounded-xl p-3 text-sm ${p.huy ? 'opacity-50 line-through' : ''}">
+            feeCurPays = r.data; feeRenderHistory();
+        }
+        function feeRenderHistory() {
+            const box = document.getElementById('fm-history'), data = feeCurPays;
+            box.innerHTML = data.length ? data.map((p, i) => `<div class="flex justify-between items-center gap-2 flex-wrap border border-slate-100 rounded-xl p-3 text-sm ${p.huy ? 'opacity-50 line-through' : ''}">
                 <div><span class="font-black text-slate-800">${esc(p.sophieu)}</span> · <b>${esc(fmtMoney(p.sotien))}</b> · ${esc(certDate(p.ngay))} · ${esc(FEE_HT[p.hinhthuc] || '')}${p.ghichu ? '<div class="text-xs text-slate-400">' + esc(p.ghichu) + '</div>' : ''}</div>
                 ${p.huy ? '<span class="text-xs font-black text-rose-600 no-underline">ĐÃ HỦY</span>' : `<div class="whitespace-nowrap"><button onclick="feePrint(${i})" class="text-slate-600 font-bold hover:underline mr-3">In</button><button onclick="feeEmailReceipt(${i})" class="text-blue-600 font-bold hover:underline mr-3">Gửi email</button><button onclick="feeVoid(${i})" class="text-rose-600 font-bold hover:underline">Hủy</button></div>`}</div>`).join('') : '<p class="text-sm text-slate-400">Chưa có lần thu nào.</p>';
         }
-        async function feeRefreshAfter() { await loadFees(); const x = feeList.find(v => v.username === feeCurUser); if (x) { feeFillSummary(x); document.getElementById('fp-tien').value = x.conno > 0 ? x.conno : ''; } await feeLoadHistory(); }
         async function feeAddPayment() {
             const g = id => document.getElementById(id), btn = g('fp-btn');
             if (!g('fp-tien').value.trim()) return alert('Vui lòng nhập số tiền!');
-            btn.disabled = true;
+            btn.disabled = true; const oldLabel = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            const user = feeCurUser, wantMail = g('fp-mail').checked;
             try {
-                const r = await apiCheck({ action: 'add_payment', username: feeCurUser, sotien: g('fp-tien').value, ngay: g('fp-ngay').value, hinhthuc: g('fp-ht').value, ghichu: g('fp-ghichu').value.trim(), guiemail: g('fp-mail').checked });
-                if (r.status === 'success') { await feeRefreshAfter(); alert(`Đã ghi nhận phiếu ${r.sophieu}.` + (r.email === 'sent' ? ' Đã gửi biên lai qua email.' : (r.email ? ' Chưa gửi được email biên lai.' : ''))); }
+                // Không gửi email trong cùng yêu cầu (gửi thư mất 1-3 giây): ghi phiếu xong hiện kết quả ngay, thư gửi ở nền
+                const r = await apiCheck({ action: 'add_payment', username: user, sotien: g('fp-tien').value, ngay: g('fp-ngay').value, hinhthuc: g('fp-ht').value, ghichu: g('fp-ghichu').value.trim() });
+                if (r.status === 'success') {
+                    if (r.payment && feeCurUser === user) { feeCurPays.unshift(r.payment); feeCurPays.sort((a, b) => (b.ngay + b.sophieu).localeCompare(a.ngay + a.sophieu)); feeRenderHistory(); }
+                    feeMonthAdjust(r.payment, 1); feeApply(r.fee);
+                    if (feeCurUser === user) { g('fp-tien').value = r.fee && r.fee.conno > 0 ? r.fee.conno : ''; g('fp-ghichu').value = ''; }
+                    feeToast(`Đã ghi nhận phiếu ${r.sophieu}` + (r.fee && r.fee.hocduoc ? ' · đã mở học online cho học viên' : ''));
+                    if (wantMail) feeMailBg(r.sophieu);
+                }
             } catch (e) { alert('Lỗi kết nối!'); }
-            btn.disabled = false;
+            btn.disabled = false; btn.innerHTML = oldLabel;
+        }
+        async function feeMailBg(no) {
+            try { const r = await api({ action: 'email_receipt', sophieu: no }); feeToast(r.status === 'success' ? 'Đã gửi biên lai qua email.' : 'Chưa gửi được email biên lai: ' + (r.message || ''), r.status !== 'success'); }
+            catch (e) { feeToast('Chưa gửi được email biên lai.', true); }
         }
         async function feeSaveOverride() {
             const g = id => document.getElementById(id);
             const r = await apiCheck({ action: 'set_student_fee', username: feeCurUser, phaidong: g('fo-tien').value.trim(), ghichu: g('fo-ghichu').value.trim() });
-            if (r.status === 'success') await feeRefreshAfter();
+            if (r.status === 'success') { feeApply(r.fee); const x = feeList.find(v => v.username === feeCurUser); if (x) g('fp-tien').value = x.conno > 0 ? x.conno : ''; feeToast('Đã lưu mức học phí.'); }
+        }
+        function feeFillOnline(x) {
+            const st = document.getElementById('fo-online-state'), sel = document.getElementById('fo-online-mode'); if (!st || !sel) return;
+            const why = x.trangthai !== 'active' ? 'tài khoản chưa được duyệt' : (x.online === 'khoa' ? 'đang bị khóa tay' : (x.online === 'mo' ? 'được mở tay' : (x.hocduoc ? 'đã đóng đủ học phí' : 'chưa đóng đủ học phí')));
+            st.className = 'px-2.5 py-1 rounded-full text-xs font-black ' + (x.hocduoc ? 'bg-violet-50 text-violet-700' : 'bg-slate-100 text-slate-600');
+            st.innerHTML = `<i class="fas fa-${x.hocduoc ? 'unlock' : 'lock'} mr-1"></i>${x.hocduoc ? 'Đang mở' : 'Đang khóa'} · ${why}`;
+            sel.value = x.online || '';
+        }
+        async function feeSaveOnline() {
+            const r = await apiCheck({ action: 'set_online_access', username: feeCurUser, mode: document.getElementById('fo-online-mode').value });
+            if (r.status === 'success') { feeApply(r.fee); feeToast('Đã lưu quyền học online.'); }
         }
         async function feeVoid(i) {
             const p = feeCurPays[i]; if (!p) return;
             const why = prompt(`Hủy phiếu ${p.sophieu} (${fmtMoney(p.sotien)})? Nhập lý do hủy:`, 'Nhập nhầm'); if (why === null) return;
             const r = await apiCheck({ action: 'void_payment', sophieu: p.sophieu, lydo: why });
-            if (r.status === 'success') await feeRefreshAfter();
+            if (r.status === 'success') {
+                if (r.payment) Object.assign(p, r.payment);
+                feeMonthAdjust(p, -1); feeRenderHistory(); feeApply(r.fee);
+                const x = feeList.find(v => v.username === feeCurUser); if (x) document.getElementById('fp-tien').value = x.conno > 0 ? x.conno : '';
+                feeToast('Đã hủy phiếu ' + p.sophieu);
+            }
         }
-        async function feeEmailReceipt(i) { const p = feeCurPays[i]; if (!p) return; const r = await apiCheck({ action: 'email_receipt', sophieu: p.sophieu }); if (r.status === 'success') alert('Đã gửi biên lai qua email.'); }
+        async function feeEmailReceipt(i) { const p = feeCurPays[i]; if (!p) return; const r = await apiCheck({ action: 'email_receipt', sophieu: p.sophieu }); if (r.status === 'success') feeToast('Đã gửi biên lai qua email.'); }
         function feePrint(i) {
             const p = feeCurPays[i], x = feeList.find(v => v.username === feeCurUser); if (!p || !x) return;
             const w = window.open('', '_blank'); if (!w) return alert('Trình duyệt đang chặn cửa sổ in, vui lòng cho phép pop-up.');
@@ -2196,9 +2356,181 @@
                     <div class="mb-3"><span class="px-2.5 py-1 rounded-full text-xs font-black ${tt[1]}">${tt[0]}</span></div>
                     ${r.conno > 0 && (r.bank || r.noidung) ? `<div class="text-sm bg-amber-50 border border-amber-100 rounded-xl p-3 mb-3 space-y-1"><div><b>Chuyển khoản:</b> ${esc(r.bank)}</div><div><b>Nội dung:</b> <span id="pf-fee-note">${esc(r.noidung)}</span> <button onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('pf-fee-note').textContent).then(()=>alert('Đã sao chép nội dung chuyển khoản'))" class="ml-1 text-blue-600 font-bold hover:underline">Sao chép</button></div></div>` : ''}
                     ${r.payments.length ? '<div class="space-y-2">' + r.payments.map(p => `<div class="flex justify-between gap-2 text-sm border border-slate-100 rounded-xl p-3"><span><b>${esc(p.sophieu)}</b> · ${esc(certDate(p.ngay))} · ${esc(FEE_HT[p.hinhthuc] || '')}</span><b class="text-emerald-600">${esc(fmtMoney(p.sotien))}</b></div>`).join('') + '</div>' : '<p class="text-sm text-slate-400">Chưa có lần đóng nào.</p>'}`;
+                box.insertAdjacentHTML('beforeend', r.hocduoc
+                    ? `<div class="mt-3 text-sm bg-violet-50 border border-violet-100 rounded-xl p-3 flex justify-between items-center gap-2 flex-wrap"><span><i class="fas fa-unlock text-violet-500 mr-1"></i> Bạn đã được mở <b>Học online</b>.</span><button onclick="openOnline()" class="font-bold text-violet-700 hover:underline">Vào học</button></div>`
+                    : `<div class="mt-3 text-xs text-slate-500"><i class="fas fa-lock mr-1"></i> Mục Học online sẽ mở khi bạn đã đóng đủ học phí.</div>`);
             } catch (e) { box.innerHTML = '<p class="text-sm text-rose-500 font-bold">Lỗi kết nối.</p>'; }
         }
 
+
+        // ================= HỌC ONLINE (HỌC VIÊN) =================
+        let olData = null, olFlat = [], olCur = '', olDone = new Set();
+        async function openOnline() {
+            if (!isLoggedIn) { alert('Vui lòng đăng nhập để vào mục Học online.'); navigate('login'); return; }
+            navigate('online');
+            const st = document.getElementById('ol-state'), main = document.getElementById('ol-main');
+            main.classList.add('hidden'); document.getElementById('ol-progress-box').classList.add('hidden');
+            st.className = ''; st.innerHTML = '<div class="p-10 text-center text-violet-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải bài giảng...</div>';
+            try {
+                const r = await api({ action: 'get_my_online' });
+                if (r.status !== 'success') { st.innerHTML = `<div class="p-6 bg-rose-50 text-rose-600 font-bold rounded-2xl">${esc(r.message || 'Lỗi tải dữ liệu')}</div>`; return; }
+                olData = r;
+                if (!r.access) { olRenderLocked(r); return; }
+                st.className = 'hidden'; st.innerHTML = '';
+                olDone = new Set(r.done || []); olFlat = [];
+                r.sections.forEach(s => (s.baihoc || []).forEach(l => olFlat.push(Object.assign({ sec: s.ten }, l))));
+                if (!olFlat.length) { st.className = ''; st.innerHTML = '<div class="p-8 bg-white rounded-3xl border border-slate-100 text-center text-slate-500">Chưa có bài giảng nào. Quản trị viên đang cập nhật nội dung, bạn quay lại sau nhé.</div>'; return; }
+                main.classList.remove('hidden'); document.getElementById('ol-progress-box').classList.remove('hidden');
+                olRenderSide();
+                let last = ''; try { last = localStorage.getItem('ol_last_' + studentInfo.username) || ''; } catch (e) {}
+                const start = olFlat.find(l => l.id === last) || olFlat.find(l => !olDone.has(l.id)) || olFlat[0];
+                olPlay(start.id, true);
+            } catch (e) { st.className = ''; st.innerHTML = '<div class="p-6 bg-rose-50 text-rose-600 font-bold rounded-2xl">Lỗi kết nối!</div>'; }
+        }
+        function olRenderLocked(r) {
+            const st = document.getElementById('ol-state'); st.className = '';
+            const secs = (r.sections || []).map(s => `<div class="flex justify-between gap-3 text-sm border border-slate-100 rounded-xl p-3"><span class="font-bold text-slate-700">${esc(s.ten)}</span><span class="text-slate-400 whitespace-nowrap">${s.sobai} bài</span></div>`).join('');
+            let head, body = '';
+            if (r.why === 'ph') { head = 'Tài khoản phụ huynh không có khóa học online.'; }
+            else if (r.why === 'pending') { head = 'Tài khoản của bạn đang chờ quản trị viên duyệt.'; }
+            else if (r.why === 'locked') { head = 'Quyền học online của bạn đang bị tạm khóa.'; body = '<p class="text-sm text-slate-500 mt-2">Vui lòng liên hệ hotline <b>0969264305</b> để được hỗ trợ.</p>'; }
+            else {
+                head = 'Bạn cần đóng đủ học phí để mở khóa học online.';
+                body = `<div class="grid grid-cols-2 gap-3 text-center mt-4"><div class="bg-slate-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Học phí</div><div class="font-black text-slate-800">${esc(fmtMoney(r.phaidong))}</div></div><div class="bg-rose-50 rounded-xl p-3"><div class="text-[11px] font-black text-slate-400 uppercase">Còn phải đóng</div><div class="font-black text-rose-600">${esc(fmtMoney(r.conno))}</div></div></div>`
+                    + (r.bank || r.noidung ? `<div class="text-sm bg-amber-50 border border-amber-100 rounded-xl p-3 mt-3 space-y-1"><div><b>Chuyển khoản:</b> ${esc(r.bank)}</div><div><b>Nội dung:</b> ${esc(r.noidung)}</div></div>` : '')
+                    + '<p class="text-xs text-slate-400 mt-3">Sau khi trung tâm xác nhận đã nhận học phí, mục này sẽ tự mở (tải lại trang nếu chưa thấy).</p>';
+            }
+            st.innerHTML = `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 max-w-2xl mx-auto"><div class="text-center"><div class="w-16 h-16 mx-auto rounded-full bg-violet-50 text-violet-500 flex items-center justify-center text-2xl mb-3"><i class="fas fa-lock"></i></div><h3 class="text-xl font-black text-slate-800">${esc(head)}</h3></div>${body}${secs ? '<h4 class="font-black text-slate-500 text-xs uppercase tracking-widest mt-6 mb-2">Nội dung khóa học</h4><div class="space-y-2">' + secs + '</div>' : ''}</div>`;
+        }
+        function olRenderSide() {
+            document.getElementById('ol-side').innerHTML = olData.sections.map(s => {
+                const ls = s.baihoc || [], dn = ls.filter(l => olDone.has(l.id)).length;
+                return `<div><div class="flex justify-between items-baseline gap-2 mb-2"><h4 class="font-black text-slate-800 text-sm">${esc(s.ten)}</h4><span class="text-[11px] font-black text-slate-400 whitespace-nowrap">${dn}/${ls.length}</span></div>`
+                    + (ls.length ? '<div class="space-y-1.5">' + ls.map(l => `<button id="ol-i-${esc(l.id)}" onclick="olPlay('${esc(l.id)}')" class="w-full text-left flex items-start gap-2.5 p-2.5 rounded-xl border-2 border-transparent hover:bg-slate-50 transition"><span class="mt-0.5 w-5 h-5 shrink-0 rounded-full flex items-center justify-center text-[10px] ${olDone.has(l.id) ? 'bg-emerald-500 text-white' : 'bg-slate-200 text-slate-400'}"><i class="fas ${olDone.has(l.id) ? 'fa-check' : 'fa-play'}"></i></span><span class="text-sm font-semibold text-slate-700 leading-snug">${esc(l.tieude)}${l.an ? ' <span class="text-[10px] font-black text-amber-600">(đang ẩn)</span>' : ''}${l.thoiluong ? '<span class="block text-[11px] text-slate-400 font-medium">' + esc(l.thoiluong) + '</span>' : ''}</span></button>`).join('') + '</div>' : '<p class="text-xs text-slate-400">Chưa có bài.</p>')
+                    + '</div>';
+            }).join('');
+            const tot = olFlat.length, dn = olFlat.filter(l => olDone.has(l.id)).length, pct = tot ? Math.round(dn * 100 / tot) : 0;
+            document.getElementById('ol-progress-txt').innerText = `${dn}/${tot} bài (${pct}%)`; document.getElementById('ol-progress-bar').style.width = pct + '%';
+            olHighlight();
+        }
+        function olHighlight() {
+            olFlat.forEach(l => { const b = document.getElementById('ol-i-' + l.id); if (b) { const on = l.id === olCur; b.classList.toggle('border-violet-300', on); b.classList.toggle('bg-violet-50', on); } });
+        }
+        function olPlay(id, noScroll) {
+            const l = olFlat.find(x => x.id === id); if (!l) return; olCur = id;
+            document.getElementById('ol-player').src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(l.yt)}?rel=0&modestbranding=1&playsinline=1`;
+            document.getElementById('ol-sec-name').innerText = l.sec; document.getElementById('ol-title').innerText = l.tieude; document.getElementById('ol-desc').innerText = l.mota || '';
+            try { localStorage.setItem('ol_last_' + studentInfo.username, id); } catch (e) {}
+            olHighlight(); olSyncButtons();
+            const b = document.getElementById('ol-i-' + id); if (b && b.scrollIntoView && !noScroll) { try { b.scrollIntoView({ block: 'nearest' }); } catch (e) {} }
+        }
+        function olSyncButtons() {
+            const i = olFlat.findIndex(x => x.id === olCur), done = olDone.has(olCur), d = document.getElementById('ol-done');
+            document.getElementById('ol-prev').disabled = i <= 0;
+            document.getElementById('ol-next').innerHTML = i >= 0 && i < olFlat.length - 1 ? 'Hoàn thành &amp; bài tiếp <i class="fas fa-chevron-right ml-1"></i>' : 'Hoàn thành bài này <i class="fas fa-check ml-1"></i>';
+            d.className = 'px-4 py-2.5 rounded-xl border-2 font-bold text-sm transition ' + (done ? 'border-emerald-300 bg-emerald-50 text-emerald-700' : 'border-slate-200 text-slate-600 hover:bg-slate-50');
+            d.innerHTML = done ? '<i class="fas fa-check-circle mr-1"></i> Đã học (bấm để bỏ)' : '<i class="far fa-circle mr-1"></i> Đánh dấu đã học';
+        }
+        function olStep(n) { const i = olFlat.findIndex(x => x.id === olCur), t = olFlat[i + n]; if (t) olPlay(t.id); }
+        async function olToggleDone(goNext) {
+            const id = olCur; if (!id) return;
+            const want = goNext ? true : !olDone.has(id);   // nút "Hoàn thành & bài tiếp" luôn đánh dấu đã học
+            if (want) olDone.add(id); else olDone.delete(id);
+            olRenderSide(); olSyncButtons();
+            if (goNext) olStep(1);
+            try { const r = await api({ action: 'mark_online_progress', lesson: id, done: want }); if (r.status !== 'success') throw new Error(); }
+            catch (e) { if (want) olDone.delete(id); else olDone.add(id); olRenderSide(); olSyncButtons(); feeToast('Chưa lưu được tiến độ, vui lòng thử lại.', true); }
+        }
+
+        // ================= HỌC ONLINE (ADMIN) =================
+        const OL_GOI_LB = { all: 'Cơ bản + Nâng cao', cb: 'Chỉ Cơ bản', nc: 'Chỉ Nâng cao' };
+        let olAdm = { sections: [], lessons: [] }, olLoaded = false;
+        const olClose = id => document.getElementById(id).classList.add('hidden');
+        async function loadOnlineAdmin() {
+            const box = document.getElementById('ol-adm-list');
+            if (olLoaded) olAdmRender(); else box.innerHTML = '<div class="p-6 text-center text-violet-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...</div>';
+            try {
+                const r = await api({ action: 'online_get_admin' });
+                if (r.status !== 'success') { box.innerHTML = `<div class="p-6 text-center text-red-500 font-bold">${esc(r.message || 'Lỗi tải dữ liệu')}</div>`; return; }
+                olAdm = r; olLoaded = true; olAdmRender();
+            } catch (e) { if (!olLoaded) box.innerHTML = '<div class="p-6 text-center text-red-500 font-bold">Lỗi kết nối!</div>'; }
+        }
+        function olAdmRender() {
+            const box = document.getElementById('ol-adm-list');
+            if (!olAdm.sections.length) { box.innerHTML = '<div class="bg-white rounded-3xl border border-slate-100 p-8 text-center text-slate-400">Chưa có phần nào. Bấm "Thêm phần" để bắt đầu.</div>'; return; }
+            box.innerHTML = olAdm.sections.map((s, si) => {
+                const ls = olAdm.lessons.filter(l => l.phan === s.id), q = esc(s.id);
+                return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="p-4 md:p-5 bg-slate-50 flex justify-between items-center gap-3 flex-wrap">
+                        <div><div class="font-black text-slate-800 text-lg">${esc(s.ten)} ${s.hien ? '' : '<span class="text-[11px] font-black text-amber-600">(đang ẩn)</span>'}</div>
+                            <div class="text-xs text-slate-500 mt-0.5"><span class="font-bold text-violet-600">${OL_GOI_LB[s.goi] || ''}</span> · ${ls.length} bài${s.mota ? ' · ' + esc(s.mota) : ''}</div></div>
+                        <div class="flex items-center gap-1.5 flex-wrap text-sm">
+                            <button onclick="olMove('section','${q}',-1)" ${si === 0 ? 'disabled' : ''} class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-white disabled:opacity-30" title="Lên"><i class="fas fa-arrow-up"></i></button>
+                            <button onclick="olMove('section','${q}',1)" ${si === olAdm.sections.length - 1 ? 'disabled' : ''} class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-white disabled:opacity-30" title="Xuống"><i class="fas fa-arrow-down"></i></button>
+                            <button onclick="olLesEdit('','${q}')" class="px-3 py-1.5 rounded-lg bg-violet-600 text-white font-bold hover:bg-violet-700"><i class="fas fa-plus mr-1"></i>Thêm bài</button>
+                            <button onclick="olBulk('${q}')" class="px-3 py-1.5 rounded-lg bg-white border border-violet-200 text-violet-700 font-bold hover:bg-violet-50">Thêm nhiều bài</button>
+                            <button onclick="olSecEdit('${q}')" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-white">Sửa</button>
+                            <button onclick="olSecDel('${q}')" class="px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 font-bold hover:bg-rose-50">Xóa</button>
+                        </div>
+                    </div>
+                    <div class="divide-y divide-slate-50">${ls.length ? ls.map((l, li) => { const lq = esc(l.id); return `<div class="px-4 md:px-5 py-2.5 flex items-center gap-3 flex-wrap ${l.hien ? '' : 'opacity-60'}">
+                        <span class="w-6 text-xs font-black text-slate-300">${li + 1}</span>
+                        <div class="flex-1 min-w-[180px]"><div class="font-bold text-slate-700 text-sm">${esc(l.tieude)} ${l.hien ? '' : '<span class="text-[11px] font-black text-amber-600">(ẩn)</span>'}</div>
+                            <div class="text-[11px] text-slate-400"><a href="https://www.youtube.com/watch?v=${esc(l.yt)}" target="_blank" rel="noopener" class="hover:text-blue-600 underline">youtube.com/watch?v=${esc(l.yt)}</a>${l.thoiluong ? ' · ' + esc(l.thoiluong) : ''}</div></div>
+                        <div class="flex items-center gap-1 text-sm">
+                            <button onclick="olMove('lesson','${lq}',-1)" ${li === 0 ? 'disabled' : ''} class="w-7 h-7 rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-30"><i class="fas fa-arrow-up text-xs"></i></button>
+                            <button onclick="olMove('lesson','${lq}',1)" ${li === ls.length - 1 ? 'disabled' : ''} class="w-7 h-7 rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 disabled:opacity-30"><i class="fas fa-arrow-down text-xs"></i></button>
+                            <button onclick="olLesEdit('${lq}','')" class="px-2.5 py-1 text-blue-600 font-bold hover:underline">Sửa</button>
+                            <button onclick="olLesDel('${lq}')" class="px-2.5 py-1 text-rose-600 font-bold hover:underline">Xóa</button>
+                        </div></div>`; }).join('') : '<div class="px-5 py-4 text-sm text-slate-400">Chưa có bài giảng trong phần này.</div>'}</div></div>`;
+            }).join('');
+        }
+        async function olMove(kind, id, dir) {   // đổi chỗ ngay trên màn hình, gửi máy chủ ở nền
+            const arr = kind === 'section' ? olAdm.sections : olAdm.lessons, me = arr.find(x => x.id === id); if (!me) return;
+            const sib = kind === 'section' ? arr : arr.filter(x => x.phan === me.phan), i = sib.indexOf(me), j = i + dir; if (j < 0 || j >= sib.length) return;
+            const ia = arr.indexOf(sib[i]), ib = arr.indexOf(sib[j]); [arr[ia], arr[ib]] = [arr[ib], arr[ia]]; olAdmRender();
+            const r = await api({ action: 'online_move', kind: kind, id: id, dir: dir });
+            if (r.status !== 'success') { alert(r.message || 'Không đổi được thứ tự!'); loadOnlineAdmin(); }
+        }
+        function olSecEdit(id) {
+            const s = olAdm.sections.find(x => x.id === id), g = k => document.getElementById(k);
+            g('ol-sec-title').innerText = s ? 'Sửa phần' : 'Thêm phần'; g('ol-s-id').value = s ? s.id : ''; g('ol-s-ten').value = s ? s.ten : ''; g('ol-s-goi').value = s ? s.goi : 'all'; g('ol-s-mota').value = s ? s.mota : ''; g('ol-s-hien').checked = s ? s.hien : true;
+            g('ol-sec-modal').classList.remove('hidden'); g('ol-s-ten').focus();
+        }
+        async function olSecSave() {
+            const g = k => document.getElementById(k);
+            const r = await apiCheck({ action: 'online_save_section', id: g('ol-s-id').value, ten: g('ol-s-ten').value, goi: g('ol-s-goi').value, mota: g('ol-s-mota').value, hien: g('ol-s-hien').checked });
+            if (r.status === 'success') { olClose('ol-sec-modal'); loadOnlineAdmin(); }
+        }
+        async function olSecDel(id) {
+            const s = olAdm.sections.find(x => x.id === id); if (!s) return; const n = olAdm.lessons.filter(l => l.phan === id).length;
+            if (!confirm(`Xóa "${s.ten}"${n ? ' và ' + n + ' bài giảng trong phần này' : ''}? Không thể khôi phục.`)) return;
+            const r = await apiCheck({ action: 'online_delete_section', id: id }); if (r.status === 'success') loadOnlineAdmin();
+        }
+        function olLesEdit(id, phan) {
+            const l = olAdm.lessons.find(x => x.id === id), g = k => document.getElementById(k);
+            g('ol-les-title').innerText = l ? 'Sửa bài giảng' : 'Thêm bài giảng'; g('ol-l-id').value = l ? l.id : ''; g('ol-l-phan').value = l ? l.phan : phan;
+            g('ol-l-tieude').value = l ? l.tieude : ''; g('ol-l-link').value = l ? 'https://www.youtube.com/watch?v=' + l.yt : ''; g('ol-l-tl').value = l ? l.thoiluong : ''; g('ol-l-mota').value = l ? l.mota : ''; g('ol-l-hien').checked = l ? l.hien : true;
+            g('ol-les-modal').classList.remove('hidden'); g('ol-l-tieude').focus();
+        }
+        async function olLesSave() {
+            const g = k => document.getElementById(k);
+            const r = await apiCheck({ action: 'online_save_lesson', id: g('ol-l-id').value, phan: g('ol-l-phan').value, tieude: g('ol-l-tieude').value, link: g('ol-l-link').value, thoiluong: g('ol-l-tl').value, mota: g('ol-l-mota').value, hien: g('ol-l-hien').checked });
+            if (r.status === 'success') { olClose('ol-les-modal'); loadOnlineAdmin(); }
+        }
+        async function olLesDel(id) {
+            const l = olAdm.lessons.find(x => x.id === id); if (!l || !confirm(`Xóa bài "${l.tieude}"?`)) return;
+            const r = await apiCheck({ action: 'online_delete_lesson', id: id }); if (r.status === 'success') loadOnlineAdmin();
+        }
+        function olBulk(phan) { document.getElementById('ol-b-phan').value = phan; document.getElementById('ol-b-text').value = ''; document.getElementById('ol-bulk-modal').classList.remove('hidden'); document.getElementById('ol-b-text').focus(); }
+        async function olBulkSave() {
+            const btn = document.getElementById('ol-b-btn'); btn.disabled = true;
+            try {
+                const r = await apiCheck({ action: 'online_import_lessons', phan: document.getElementById('ol-b-phan').value, text: document.getElementById('ol-b-text').value });
+                if (r.status === 'success') { olClose('ol-bulk-modal'); feeToast(`Đã thêm ${r.added} bài` + (r.badCount ? `. Bỏ qua ${r.badCount} dòng link sai: ${r.bad.join('; ')}` : '.'), !!r.badCount && !r.added); loadOnlineAdmin(); }
+            } catch (e) { alert('Lỗi kết nối!'); }
+            btn.disabled = false;
+        }
 
         // ================= LỚP THIẾU NHI: ĐIỂM DANH & HỌC PHÍ THEO THÁNG =================
         const K_DAY = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
@@ -2530,7 +2862,7 @@
         // ================= TÍNH NĂNG ADMIN MỞ RỘNG =================
         let chatAdminTimer = null;
 function switchAdminTab(tab) {
-['users', 'stats', 'articles', 'grading', 'exams', 'kids', 'fees', 'certs', 'questions', 'chat', 'notify', 'settings'].forEach(t => {
+['users', 'stats', 'articles', 'grading', 'exams', 'kids', 'fees', 'online', 'certs', 'questions', 'chat', 'notify', 'settings'].forEach(t => {
 document.getElementById(`admin-${t}-section`).classList.add('hidden');
 document.getElementById(`tab-${t}-btn`).className = "bg-transparent text-slate-600 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition";
 });
@@ -2545,6 +2877,7 @@ if(tab === 'grading') loadSubmissions();
 if(tab === 'exams') loadExamResults();
 if(tab === 'certs') loadCertSessions();
 if(tab === 'fees') loadFees();
+if(tab === 'online') loadOnlineAdmin();
 if(tab === 'kids') kidsInit();
 if(tab === 'notify') loadAdminNotifs();
 if(tab === 'chat') { loadChatThreads(); chatAdminTimer = setInterval(() => { if (!document.hidden) loadChatThreads(true); }, 30000); }
