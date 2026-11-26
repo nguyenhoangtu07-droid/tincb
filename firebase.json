@@ -5,7 +5,7 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "Index.html",
+      "index-cu.html",
       "*.md"
     ],
     "cleanUrls": true,
